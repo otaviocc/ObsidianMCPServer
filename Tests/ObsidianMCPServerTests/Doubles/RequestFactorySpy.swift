@@ -2,7 +2,7 @@ import Foundation
 import MicroClient
 import ObsidianNetworking
 
-final class SpyRequestFactory: ObsidianRequestFactoryProtocol {
+final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
     var serverInfoCallCount = 0
     var activeFileCallCount = 0
     var updateActiveFileCallCount = 0

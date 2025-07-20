@@ -1,6 +1,6 @@
 import Foundation
 
-enum MockNetworkError: Error, Equatable {
+enum NetworkErrorMock: Error, Equatable {
     case noMockResponse
     case networkFailure
     case serverError(Int)

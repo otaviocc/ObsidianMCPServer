@@ -10,7 +10,7 @@ struct ObsidianRepositoryTests {
 
     // MARK: - Test Helper
 
-    private func makeMockNetworkClient() -> MockNetworkClient {
+    private func makeMockNetworkClient() -> NetworkClientMock {
         let configuration = NetworkConfiguration(
             session: URLSession.shared,
             defaultDecoder: JSONDecoder(),
@@ -18,7 +18,7 @@ struct ObsidianRepositoryTests {
             baseURL: URL(string: "https://test.com")! // swiftlint:disable:this force_unwrapping
         )
 
-        return MockNetworkClient(configuration: configuration)
+        return NetworkClientMock(configuration: configuration)
     }
 
     // MARK: - Initialization Tests
@@ -35,7 +35,7 @@ struct ObsidianRepositoryTests {
     @Test("It should initialize with custom request factory")
     func testInitializationWithCustomFactory() throws {
         let mockClient = makeMockNetworkClient()
-        let spyFactory = SpyRequestFactory()
+        let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
         #expect(repository != nil)
@@ -76,14 +76,14 @@ struct ObsidianRepositoryTests {
     @Test("It should never make real network calls - server operations")
     func testNetworkIsolationServerOperations() async throws {
         let mockClient = makeMockNetworkClient()
-        let spyFactory = SpyRequestFactory()
+        let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
         do {
             _ = try await repository.getServerInfo()
             #expect(Bool(false), "Should have thrown an error")
         } catch {
-            #expect(error is MockNetworkError)
+            #expect(error is NetworkErrorMock)
         }
 
         #expect(mockClient.verifyNetworkCallMade())
@@ -94,28 +94,28 @@ struct ObsidianRepositoryTests {
     @Test("It should never make real network calls - active note operations")
     func testNetworkIsolationActiveNoteOperations() async throws {
         let mockClient = makeMockNetworkClient()
-        let spyFactory = SpyRequestFactory()
+        let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
         do {
             _ = try await repository.getActiveNote()
             #expect(Bool(false), "Should have thrown an error")
         } catch {
-            #expect(error is MockNetworkError)
+            #expect(error is NetworkErrorMock)
         }
 
         do {
             try await repository.updateActiveNote(content: "test content")
             #expect(Bool(false), "Should have thrown an error")
         } catch {
-            #expect(error is MockNetworkError)
+            #expect(error is NetworkErrorMock)
         }
 
         do {
             try await repository.deleteActiveNote()
             #expect(Bool(false), "Should have thrown an error")
         } catch {
-            #expect(error is MockNetworkError)
+            #expect(error is NetworkErrorMock)
         }
 
         #expect(mockClient.runCallCount >= 3)
@@ -127,7 +127,7 @@ struct ObsidianRepositoryTests {
     @Test("It should never make real network calls - search operations")
     func testNetworkIsolationSearchOperations() async throws {
         let mockClient = makeMockNetworkClient()
-        let spyFactory = SpyRequestFactory()
+        let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
         do {
@@ -139,7 +139,7 @@ struct ObsidianRepositoryTests {
             )
             #expect(Bool(false), "Should have thrown an error")
         } catch {
-            #expect(error is MockNetworkError)
+            #expect(error is NetworkErrorMock)
         }
 
         #expect(mockClient.verifyNetworkCallMade())
@@ -151,7 +151,7 @@ struct ObsidianRepositoryTests {
 
     @Test("It should create proper request paths")
     func testRequestPaths() throws {
-        let spyFactory = SpyRequestFactory()
+        let spyFactory = RequestFactorySpy()
 
         let serverRequest = spyFactory.makeServerInfoRequest()
         #expect(serverRequest.path == "/spy-server-info")
@@ -174,7 +174,7 @@ struct ObsidianRepositoryTests {
 
     @Test("It should track method calls correctly")
     func testMethodCallTracking() throws {
-        let spyFactory = SpyRequestFactory()
+        let spyFactory = RequestFactorySpy()
 
         _ = spyFactory.makeServerInfoRequest()
         #expect(spyFactory.serverInfoCallCount == 1)

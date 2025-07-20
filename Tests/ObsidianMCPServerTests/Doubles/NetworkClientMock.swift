@@ -2,14 +2,14 @@ import Combine
 import Foundation
 import MicroClient
 
-final class MockNetworkClient: NetworkClientProtocol {
+final class NetworkClientMock: NetworkClientProtocol {
 
     // MARK: - Mock State
 
     var runCallCount = 0
     var lastRequestPath: String?
     var lastRequestMethod: String?
-    var mockError: Error = MockNetworkError.noMockResponse
+    var mockError: Error = NetworkErrorMock.noMockResponse
 
     // MARK: - NetworkClientProtocol
 
@@ -42,7 +42,7 @@ final class MockNetworkClient: NetworkClientProtocol {
         runCallCount = 0
         lastRequestPath = nil
         lastRequestMethod = nil
-        mockError = MockNetworkError.noMockResponse
+        mockError = NetworkErrorMock.noMockResponse
     }
 
     func setMockError(_ error: Error) {
