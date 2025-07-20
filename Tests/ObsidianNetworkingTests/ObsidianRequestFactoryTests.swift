@@ -114,7 +114,11 @@ struct ObsidianRequestFactoryTests {
     func testMakeCreateOrUpdateVaultFileRequest() {
         let filename = "new-note.md"
         let content = "# New Note\nThis is new content."
-        let request = factory.makeCreateOrUpdateVaultFileRequest(filename: filename, content: content, headers: testHeaders)
+        let request = factory.makeCreateOrUpdateVaultFileRequest(
+            filename: filename,
+            content: content,
+            headers: testHeaders
+        )
 
         #expect(request.path == "/vault/new-note.md")
         #expect(request.method == .put)
@@ -128,7 +132,11 @@ struct ObsidianRequestFactoryTests {
     func testMakeCreateOrUpdateVaultFileRequestEmptyContent() {
         let filename = "empty-note.md"
         let content = ""
-        let request = factory.makeCreateOrUpdateVaultFileRequest(filename: filename, content: content, headers: testHeaders)
+        let request = factory.makeCreateOrUpdateVaultFileRequest(
+            filename: filename,
+            content: content,
+            headers: testHeaders
+        )
 
         #expect(request.path == "/vault/empty-note.md")
         #expect(request.method == .put)

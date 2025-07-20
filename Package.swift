@@ -47,6 +47,16 @@ let package = Package(
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
+        ),
+        .testTarget(
+            name: "ObsidianMCPServerTests",
+            dependencies: [
+                "ObsidianMCPServer",
+                "ObsidianNetworking"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
         )
     ]
 )
