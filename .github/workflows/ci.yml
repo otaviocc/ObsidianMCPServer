@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test on macOS
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Select Xcode version
+      run: sudo xcode-select -s /Applications/Xcode_16.1.app/Contents/Developer
+
+    - name: Cache Swift Package Manager
+      uses: actions/cache@v4
+      with:
+        path: |
+          .build
+          ~/.cache/org.swift.swiftpm
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
+
+    - name: Build
+      run: swift build
+
+    - name: Run tests
+      run: swift test --enable-code-coverage
+
+    - name: Generate code coverage report
+      run: |
+        xcrun llvm-cov export -format="lcov" \
+          .build/debug/ObsidianMCPServerPackageTests.xctest/Contents/MacOS/ObsidianMCPServerPackageTests \
+          -instr-profile .build/debug/codecov/default.profdata > coverage.lcov
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.lcov
+        fail_ci_if_error: false

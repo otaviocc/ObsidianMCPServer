@@ -51,7 +51,7 @@ opt_in_rules:
   - xct_specific_matcher
   - xctfail_message
   - yoda_condition
-  
+
 private_outlet:
   allow_private_set: true
 
