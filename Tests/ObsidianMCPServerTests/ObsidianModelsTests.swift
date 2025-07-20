@@ -406,6 +406,64 @@ struct ObsidianModelsTests {
         )
     }
 
+    @Test("It should decode PatchParameters from JSON")
+    func testPatchParametersJSONDecoding() throws {
+        // Given
+        let jsonString = """
+        {
+            "operation": "append",
+            "targetType": "heading",
+            "target": "## Tasks"
+        }
+        """
+        let jsonData = Data(jsonString.utf8)
+
+        // When
+        let decodedParameters = try JSONDecoder().decode(PatchParameters.self, from: jsonData)
+
+        // Then
+        #expect(
+            decodedParameters.operation == .append,
+            "It should decode the operation correctly"
+        )
+        #expect(
+            decodedParameters.targetType == .heading,
+            "It should decode the target type correctly"
+        )
+        #expect(
+            decodedParameters.target == "## Tasks",
+            "It should decode the target correctly"
+        )
+    }
+
+    @Test("It should encode PatchParameters to JSON")
+    func testPatchParametersJSONEncoding() throws {
+        // Given
+        let parameters = PatchParameters(
+            operation: .prepend,
+            targetType: .frontmatter,
+            target: "tags: [important]"
+        )
+
+        // When
+        let jsonData = try JSONEncoder().encode(parameters)
+        let jsonString = String(data: jsonData, encoding: .utf8)
+
+        // Then
+        #expect(
+            jsonString?.contains("\"operation\":\"prepend\"") == true,
+            "It should encode the operation correctly"
+        )
+        #expect(
+            jsonString?.contains("\"targetType\":\"frontmatter\"") == true,
+            "It should encode the target type correctly"
+        )
+        #expect(
+            jsonString?.contains("\"target\":\"tags: [important]\"") == true,
+            "It should encode the target correctly"
+        )
+    }
+
     // MARK: - Edge Cases
 
     @Test("It should handle file with only whitespace content")

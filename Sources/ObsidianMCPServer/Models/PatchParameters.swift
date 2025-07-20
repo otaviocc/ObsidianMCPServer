@@ -10,7 +10,7 @@ import SwiftMCP
  Obsidian MCP server.
  */
 @Schema
-struct PatchParameters: Sendable {
+struct PatchParameters: Sendable, Codable {
 
     /**
      Defines the type of patch operation to perform on Obsidian notes.
@@ -18,7 +18,7 @@ struct PatchParameters: Sendable {
      This enum specifies how content should be modified when applying patch
      operations to vault files within the Obsidian MCP server.
      */
-    enum PatchOperation: String, Sendable {
+    enum PatchOperation: String, Sendable, Codable {
         /// Add content to the end of the target
         case append
 
@@ -35,7 +35,7 @@ struct PatchParameters: Sendable {
      This enum specifies what part of an Obsidian note should be targeted
      when performing patch operations within the Obsidian MCP server.
      */
-    enum TargetType: String, Sendable {
+    enum TargetType: String, Sendable, Codable {
         /// Target a specific heading in the note
         case heading
 
