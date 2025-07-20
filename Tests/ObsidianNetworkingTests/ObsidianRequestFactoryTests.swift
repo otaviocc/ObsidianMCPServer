@@ -15,8 +15,10 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a server info request with correct configuration")
     func testMakeServerInfoRequest() {
+        // Given/When
         let request = factory.makeServerInfoRequest()
 
+        // Then
         #expect(
             request.path == "/",
             "It should use root path for server info"
@@ -43,8 +45,10 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a get active file request with correct headers")
     func testMakeGetActiveFileRequest() {
+        // Given/When
         let request = factory.makeGetActiveFileRequest(headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/active/",
             "It should use active file path"
@@ -73,8 +77,10 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a get active file JSON request with correct headers")
     func testMakeGetActiveFileJsonRequest() {
+        // Given/When
         let request = factory.makeGetActiveFileJsonRequest(headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/active/",
             "It should use active file path for JSON request"
@@ -103,9 +109,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create an update active file request with content and headers")
     func testMakeUpdateActiveFileRequest() {
+        // Given
         let content = "# Test Note\nThis is test content."
+
+        // When
         let request = factory.makeUpdateActiveFileRequest(content: content, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/active/",
             "It should use active file path for update"
@@ -134,8 +144,10 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a delete active file request")
     func testMakeDeleteActiveFileRequest() {
+        // Given/When
         let request = factory.makeDeleteActiveFileRequest(headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/active/",
             "It should use active file path for delete"
@@ -160,9 +172,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a patch active file request with content and headers")
     func testMakePatchActiveFileRequest() {
+        // Given
         let content = "Additional content to patch"
+
+        // When
         let request = factory.makePatchActiveFileRequest(content: content, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/active/",
             "It should use active file path for patch"
@@ -193,9 +209,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a get vault file request with correct path")
     func testMakeGetVaultFileRequest() {
+        // Given
         let filename = "folder/test-note.md"
+
+        // When
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/folder/test-note.md",
             "It should construct correct vault file path"
@@ -224,9 +244,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a get vault file request with simple filename")
     func testMakeGetVaultFileRequestSimpleFilename() {
+        // Given
         let filename = "simple-note.md"
+
+        // When
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/simple-note.md",
             "It should construct simple vault file path"
@@ -243,14 +267,18 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a create or update vault file request")
     func testMakeCreateOrUpdateVaultFileRequest() {
+        // Given
         let filename = "new-note.md"
         let content = "# New Note\nThis is new content."
+
+        // When
         let request = factory.makeCreateOrUpdateVaultFileRequest(
             filename: filename,
             content: content,
             headers: testHeaders
         )
 
+        // Then
         #expect(
             request.path == "/vault/new-note.md",
             "It should construct correct vault file path for create/update"
@@ -279,14 +307,18 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should handle empty content in create or update vault file request")
     func testMakeCreateOrUpdateVaultFileRequestEmptyContent() {
+        // Given
         let filename = "empty-note.md"
         let content = ""
+
+        // When
         let request = factory.makeCreateOrUpdateVaultFileRequest(
             filename: filename,
             content: content,
             headers: testHeaders
         )
 
+        // Then
         #expect(
             request.path == "/vault/empty-note.md",
             "It should construct path with empty content"
@@ -307,10 +339,14 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create an append to vault file request")
     func testMakeAppendToVaultFileRequest() {
+        // Given
         let filename = "existing-note.md"
         let content = "\nAppended content"
+
+        // When
         let request = factory.makeAppendToVaultFileRequest(filename: filename, content: content, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/existing-note.md",
             "It should construct correct vault file path for append"
@@ -339,9 +375,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a delete vault file request")
     func testMakeDeleteVaultFileRequest() {
+        // Given
         let filename = "to-delete.md"
+
+        // When
         let request = factory.makeDeleteVaultFileRequest(filename: filename, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/to-delete.md",
             "It should construct correct vault file path for delete"
@@ -366,10 +406,14 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a patch vault file request")
     func testMakePatchVaultFileRequest() {
+        // Given
         let filename = "to-patch.md"
         let content = "Patch content"
+
+        // When
         let request = factory.makePatchVaultFileRequest(filename: filename, content: content, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/to-patch.md",
             "It should construct correct vault file path for patch"
@@ -400,9 +444,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a list vault directory request for root")
     func testMakeListVaultDirectoryRequestRoot() {
+        // Given
         let directory = ""
+
+        // When
         let request = factory.makeListVaultDirectoryRequest(directory: directory, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/",
             "It should construct root vault directory path"
@@ -427,9 +475,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a list vault directory request for subdirectory")
     func testMakeListVaultDirectoryRequestSubdirectory() {
+        // Given
         let directory = "projects/notes"
+
+        // When
         let request = factory.makeListVaultDirectoryRequest(directory: directory, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/projects/notes/",
             "It should construct subdirectory path with trailing slash"
@@ -454,9 +506,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a list vault directory request for simple directory")
     func testMakeListVaultDirectoryRequestSimple() {
+        // Given
         let directory = "templates"
+
+        // When
         let request = factory.makeListVaultDirectoryRequest(directory: directory, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/templates/",
             "It should construct simple directory path"
@@ -471,10 +527,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a search vault request with all parameters")
     func testMakeSearchVaultRequest() {
+        // Given
         let query = "test query"
         let ignoreCase = true
         let wholeWord = false
         let isRegex = true
+
+        // When
         let request = factory.makeSearchVaultRequest(
             query: query,
             ignoreCase: ignoreCase,
@@ -483,6 +542,7 @@ struct ObsidianRequestFactoryTests {
             headers: testHeaders
         )
 
+        // Then
         #expect(
             request.path == "/search/simple/",
             "It should use correct search path"
@@ -525,7 +585,10 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should create a search vault request with special characters in query")
     func testMakeSearchVaultRequestSpecialCharacters() {
+        // Given
         let query = "test & query with spaces"
+
+        // When
         let request = factory.makeSearchVaultRequest(
             query: query,
             ignoreCase: false,
@@ -534,6 +597,7 @@ struct ObsidianRequestFactoryTests {
             headers: testHeaders
         )
 
+        // Then
         #expect(
             request.path == "/search/simple/",
             "It should use correct search path for special characters"
@@ -554,9 +618,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should handle empty headers gracefully")
     func testEmptyHeaders() {
+        // Given
         let emptyHeaders: [String: String] = [:]
+
+        // When
         let request = factory.makeGetActiveFileRequest(headers: emptyHeaders)
 
+        // Then
         #expect(
             request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
             "It should set default Accept header even with empty input headers"
@@ -569,9 +637,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should handle filenames with special characters")
     func testFilenamesWithSpecialCharacters() {
+        // Given
         let filename = "file with spaces & symbols!.md"
+
+        // When
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/file with spaces & symbols!.md",
             "It should construct path with special characters in filename"
@@ -584,9 +656,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should handle nested directory paths correctly")
     func testNestedDirectoryPaths() {
+        // Given
         let filename = "deep/nested/folder/structure/note.md"
+
+        // When
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
+        // Then
         #expect(
             request.path == "/vault/deep/nested/folder/structure/note.md",
             "It should construct deeply nested path correctly"
@@ -599,9 +675,13 @@ struct ObsidianRequestFactoryTests {
 
     @Test("It should handle Unicode content correctly")
     func testUnicodeContent() {
+        // Given
         let content = "# Test 🎉\nUnicode content: café, naïve, 中文"
+
+        // When
         let request = factory.makeUpdateActiveFileRequest(content: content, headers: testHeaders)
 
+        // Then
         #expect(
             request.body == content.data(using: .utf8),
             "It should include Unicode content as body"

@@ -27,9 +27,13 @@ struct ObsidianRepositoryTests {
 
     @Test("It should initialize with default request factory")
     func testInitializationWithDefaults() throws {
+        // Given
         let mockClient = makeMockNetworkClient()
+
+        // When
         let repository = ObsidianRepository(client: mockClient)
 
+        // Then
         #expect(
             repository != nil,
             "It should create a repository instance"
@@ -42,10 +46,14 @@ struct ObsidianRepositoryTests {
 
     @Test("It should initialize with custom request factory")
     func testInitializationWithCustomFactory() throws {
+        // Given
         let mockClient = makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
+
+        // When
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
+        // Then
         #expect(
             repository != nil,
             "It should create a repository instance with custom factory"
@@ -60,9 +68,13 @@ struct ObsidianRepositoryTests {
 
     @Test("It should conform to ObsidianRepositoryProtocol")
     func testProtocolConformance() throws {
+        // Given
         let mockClient = makeMockNetworkClient()
+
+        // When
         let repository: ObsidianRepositoryProtocol = ObsidianRepository(client: mockClient)
 
+        // Then
         #expect(
             repository is ObsidianRepository,
             "It should conform to the protocol"
@@ -71,7 +83,10 @@ struct ObsidianRepositoryTests {
 
     @Test("It should have all required protocol methods available")
     func testProtocolMethods() throws {
+        // Given
         let mockClient = makeMockNetworkClient()
+
+        // When
         let repository = ObsidianRepository(client: mockClient)
 
         // Verify that repository conforms to all sub-protocols
@@ -81,6 +96,7 @@ struct ObsidianRepositoryTests {
         let vaultOps: ObsidianRepositoryVaultOperations? = repository
         let searchOps: ObsidianRepositorySearchOperations? = repository
 
+        // Then
         #expect(
             serverOps != nil,
             "It should conform to server operations protocol"
@@ -107,10 +123,12 @@ struct ObsidianRepositoryTests {
 
     @Test("It should never make real network calls - server operations")
     func testNetworkIsolationServerOperations() async throws {
+        // Given
         let mockClient = makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
+        // When/Then
         do {
             _ = try await repository.getServerInfo()
             #expect(Bool(false), "Should have thrown an error")
@@ -121,6 +139,7 @@ struct ObsidianRepositoryTests {
             )
         }
 
+        // Then
         #expect(
             mockClient.verifyNetworkCallMade(),
             "It should make a network call"
@@ -137,10 +156,12 @@ struct ObsidianRepositoryTests {
 
     @Test("It should never make real network calls - active note operations")
     func testNetworkIsolationActiveNoteOperations() async throws {
+        // Given
         let mockClient = makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
+        // When/Then
         do {
             _ = try await repository.getActiveNote()
             #expect(Bool(false), "Should have thrown an error")
@@ -171,6 +192,7 @@ struct ObsidianRepositoryTests {
             )
         }
 
+        // Then
         #expect(
             mockClient.runCallCount >= 3,
             "It should make at least three network calls"
@@ -191,10 +213,12 @@ struct ObsidianRepositoryTests {
 
     @Test("It should never make real network calls - search operations")
     func testNetworkIsolationSearchOperations() async throws {
+        // Given
         let mockClient = makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
+        // When/Then
         do {
             _ = try await repository.searchVault(
                 query: "test",
@@ -210,6 +234,7 @@ struct ObsidianRepositoryTests {
             )
         }
 
+        // Then
         #expect(
             mockClient.verifyNetworkCallMade(),
             "It should make a network call"
@@ -228,26 +253,13 @@ struct ObsidianRepositoryTests {
 
     @Test("It should create proper request paths")
     func testRequestPaths() throws {
+        // Given
         let spyFactory = RequestFactorySpy()
 
+        // When
         let serverRequest = spyFactory.makeServerInfoRequest()
-        #expect(
-            serverRequest.path == "/spy-server-info",
-            "It should create correct server info request path"
-        )
-
         let activeRequest = spyFactory.makeGetActiveFileRequest(headers: [:])
-        #expect(
-            activeRequest.path == "/spy-active",
-            "It should create correct active file request path"
-        )
-
         let vaultRequest = spyFactory.makeGetVaultFileRequest(filename: "test.md", headers: [:])
-        #expect(
-            vaultRequest.path == "/spy-vault/test.md",
-            "It should create correct vault file request path"
-        )
-
         let searchRequest = spyFactory.makeSearchVaultRequest(
             query: "test",
             ignoreCase: true,
@@ -255,16 +267,34 @@ struct ObsidianRepositoryTests {
             isRegex: false,
             headers: [:]
         )
+
+        // Then
+        #expect(
+            serverRequest.path == "/spy-server-info",
+            "It should create correct server info request path"
+        )
+        #expect(
+            activeRequest.path == "/spy-active",
+            "It should create correct active file request path"
+        )
+        #expect(
+            vaultRequest.path == "/spy-vault/test.md",
+            "It should create correct vault file request path"
+        )
         #expect(
             searchRequest.path == "/spy-search/",
             "It should create correct search vault request path"
         )
     }
 
+    // swiftlint:disable function_body_length
+
     @Test("It should track method calls correctly")
     func testMethodCallTracking() throws {
+        // Given
         let spyFactory = RequestFactorySpy()
 
+        // When/Then - Test each method call individually since spy tracks last values
         _ = spyFactory.makeServerInfoRequest()
         #expect(
             spyFactory.serverInfoCallCount == 1,
@@ -322,10 +352,13 @@ struct ObsidianRepositoryTests {
         )
     }
 
+    // swiftlint:enable function_body_length
+
     // MARK: - Business Logic Tests
 
     @Test("It should handle PatchParameters correctly")
     func testPatchParametersHandling() throws {
+        // Given/When
         let appendParams = PatchParameters(
             operation: .append,
             targetType: .heading,
@@ -344,6 +377,7 @@ struct ObsidianRepositoryTests {
             target: "New content"
         )
 
+        // Then
         #expect(
             appendParams.operation == .append,
             "It should set append operation correctly"
@@ -372,10 +406,12 @@ struct ObsidianRepositoryTests {
 
     @Test("It should handle File objects correctly")
     func testFileHandling() throws {
+        // Given/When
         let file1 = File(filename: "note.md", content: "# Test")
         let file2 = File(filename: "folder/note.md", content: "# Nested")
         let file3 = File(filename: "unicode-🎉.md", content: "Unicode content: café")
 
+        // Then
         #expect(
             file1.filename == "note.md",
             "It should handle simple filename correctly"
@@ -396,9 +432,11 @@ struct ObsidianRepositoryTests {
 
     @Test("It should handle ServerInformation correctly")
     func testServerInformationHandling() throws {
+        // Given/When
         let serverInfo1 = ServerInformation(service: "obsidian-local-rest-api", version: "1.1.0")
         let serverInfo2 = ServerInformation(service: "test-service", version: "2.0.0")
 
+        // Then
         #expect(
             serverInfo1.service == "obsidian-local-rest-api",
             "It should handle obsidian service name correctly"
@@ -419,10 +457,12 @@ struct ObsidianRepositoryTests {
 
     @Test("It should handle SearchResult correctly")
     func testSearchResultHandling() throws {
+        // Given/When
         let result1 = SearchResult(path: "notes/important.md", score: 0.95)
         let result2 = SearchResult(path: "drafts/idea.md", score: 0.3)
         let result3 = SearchResult(path: "archive/old.md", score: 0.0)
 
+        // Then
         #expect(
             result1.score > result2.score,
             "It should handle score comparison correctly"

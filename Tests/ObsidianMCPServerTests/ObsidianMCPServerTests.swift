@@ -19,10 +19,13 @@ struct ObsidianMCPServerTests {
 
     @Test("It should get server information")
     func testGetServerInfo() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
 
+        // When
         let result = try await server.getServerInfo()
 
+        // Then
         #expect(
             mock.getServerInfoCallCount == 1,
             "It should call the repository method once"
@@ -39,9 +42,11 @@ struct ObsidianMCPServerTests {
 
     @Test("It should handle server info errors")
     func testGetServerInfoError() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         mock.serverInfoResult = .failure(MockError.updateFailed)
 
+        // When/Then
         do {
             _ = try await server.getServerInfo()
             #expect(Bool(false), "It should throw an error")
@@ -61,10 +66,13 @@ struct ObsidianMCPServerTests {
 
     @Test("It should get active note")
     func testGetActiveNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
 
+        // When
         let result = try await server.getActiveNote()
 
+        // Then
         #expect(
             mock.getActiveNoteCallCount == 1,
             "It should call the repository method once"
@@ -81,11 +89,14 @@ struct ObsidianMCPServerTests {
 
     @Test("It should update active note")
     func testUpdateActiveNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testContent = "# Updated Content\n\nThis is new content."
 
+        // When
         let result = try await server.updateActiveNote(content: testContent)
 
+        // Then
         #expect(
             mock.updateActiveNoteCallCount == 1,
             "It should call the repository method once"
@@ -102,9 +113,11 @@ struct ObsidianMCPServerTests {
 
     @Test("It should handle update active note errors")
     func testUpdateActiveNoteError() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         mock.shouldThrowErrorOnUpdateActiveNote = true
 
+        // When/Then
         do {
             _ = try await server.updateActiveNote(content: "test")
             #expect(Bool(false), "It should throw an error")
@@ -122,10 +135,13 @@ struct ObsidianMCPServerTests {
 
     @Test("It should delete active note")
     func testDeleteActiveNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
 
+        // When
         let result = try await server.deleteActiveNote()
 
+        // Then
         #expect(
             mock.deleteActiveNoteCallCount == 1,
             "It should call the repository method once"
@@ -138,6 +154,7 @@ struct ObsidianMCPServerTests {
 
     @Test("It should patch active note")
     func testPatchActiveNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testContent = "New section content"
         let testParameters = PatchParameters(
@@ -146,8 +163,10 @@ struct ObsidianMCPServerTests {
             target: "## New Section"
         )
 
+        // When
         let result = try await server.patchActiveNote(content: testContent, parameters: testParameters)
 
+        // Then
         #expect(
             mock.patchActiveNoteCallCount == 1,
             "It should call the repository method once"
@@ -174,11 +193,14 @@ struct ObsidianMCPServerTests {
 
     @Test("It should get vault note")
     func testGetNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "test-note.md"
 
+        // When
         let result = try await server.getNote(filename: testFilename)
 
+        // Then
         #expect(
             mock.getVaultNoteCallCount == 1,
             "It should call the repository method once"
@@ -199,12 +221,15 @@ struct ObsidianMCPServerTests {
 
     @Test("It should create or update note")
     func testCreateOrUpdateNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "new-note.md"
         let testContent = "# New Note\n\nThis is a new note."
 
+        // When
         let result = try await server.createOrUpdateNote(filename: testFilename, content: testContent)
 
+        // Then
         #expect(
             mock.createOrUpdateVaultNoteCallCount == 1,
             "It should call the repository method once"
@@ -225,12 +250,15 @@ struct ObsidianMCPServerTests {
 
     @Test("It should append to note")
     func testAppendToNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "existing-note.md"
         let testContent = "\n\n## Additional Section\n\nAppended content."
 
+        // When
         let result = try await server.appendToNote(filename: testFilename, content: testContent)
 
+        // Then
         #expect(
             mock.appendToVaultNoteCallCount == 1,
             "It should call the repository method once"
@@ -251,11 +279,14 @@ struct ObsidianMCPServerTests {
 
     @Test("It should delete vault note")
     func testDeleteNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "note-to-delete.md"
 
+        // When
         let result = try await server.deleteNote(filename: testFilename)
 
+        // Then
         #expect(
             mock.deleteVaultNoteCallCount == 1,
             "It should call the repository method once"
@@ -272,6 +303,7 @@ struct ObsidianMCPServerTests {
 
     @Test("It should patch vault note")
     func testPatchNote() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "note-to-patch.md"
         let testContent = "Replacement content"
@@ -281,12 +313,14 @@ struct ObsidianMCPServerTests {
             target: "old content"
         )
 
+        // When
         let result = try await server.patchNote(
             filename: testFilename,
             content: testContent,
             parameters: testParameters
         )
 
+        // Then
         #expect(
             mock.patchVaultNoteCallCount == 1,
             "It should call the repository method once"
@@ -313,10 +347,13 @@ struct ObsidianMCPServerTests {
 
     @Test("It should list directory with default path")
     func testListDirectoryDefault() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
 
+        // When
         let result = try await server.listDirectory()
 
+        // Then
         #expect(
             mock.listVaultDirectoryCallCount == 1,
             "It should call the repository method once"
@@ -341,11 +378,14 @@ struct ObsidianMCPServerTests {
 
     @Test("It should list directory with specific path")
     func testListDirectoryWithPath() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testDirectory = "subfolder"
 
+        // When
         let result = try await server.listDirectory(directory: testDirectory)
 
+        // Then
         #expect(
             mock.listVaultDirectoryCallCount == 1,
             "It should call the repository method once"
@@ -364,11 +404,14 @@ struct ObsidianMCPServerTests {
 
     @Test("It should search vault with default parameters")
     func testSearchDefault() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testQuery = "test search"
 
+        // When
         let result = try await server.search(query: testQuery)
 
+        // Then
         #expect(
             mock.searchVaultCallCount == 1,
             "It should call the repository method once"
@@ -405,9 +448,11 @@ struct ObsidianMCPServerTests {
 
     @Test("It should search vault with custom parameters")
     func testSearchWithCustomParameters() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testQuery = "regex.*pattern"
 
+        // When
         let result = try await server.search(
             query: testQuery,
             ignoreCase: false,
@@ -415,6 +460,7 @@ struct ObsidianMCPServerTests {
             isRegex: true
         )
 
+        // Then
         #expect(
             mock.searchVaultCallCount == 1,
             "It should call the repository method once"
@@ -443,12 +489,15 @@ struct ObsidianMCPServerTests {
 
     @Test("It should search in specific path with default parameters")
     func testSearchInPathDefault() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testQuery = "specific search"
         let testPath = "folder"
 
+        // When
         let result = try await server.searchInPath(query: testQuery, inPath: testPath)
 
+        // Then
         #expect(
             mock.searchVaultInPathCallCount == 1,
             "It should call the repository method once"
@@ -485,10 +534,12 @@ struct ObsidianMCPServerTests {
 
     @Test("It should search in specific path with custom parameters")
     func testSearchInPathWithCustomParameters() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         let testQuery = "complex.*search"
         let testPath = "deep/nested/folder"
 
+        // When
         _ = try await server.searchInPath(
             query: testQuery,
             inPath: testPath,
@@ -497,6 +548,7 @@ struct ObsidianMCPServerTests {
             isRegex: true
         )
 
+        // Then
         #expect(
             mock.searchVaultInPathCallCount == 1,
             "It should call the repository method once"
@@ -527,13 +579,14 @@ struct ObsidianMCPServerTests {
 
     @Test("It should handle vault note operation errors")
     func testVaultNoteOperationErrors() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         mock.shouldThrowErrorOnCreateOrUpdateVaultNote = true
         mock.shouldThrowErrorOnAppendToVaultNote = true
         mock.shouldThrowErrorOnDeleteVaultNote = true
         mock.shouldThrowErrorOnPatchVaultNote = true
 
-        // Test create/update error
+        // When/Then - Test create/update error
         do {
             _ = try await server.createOrUpdateNote(filename: "test.md", content: "content")
             #expect(Bool(false), "It should throw an error for create/update")
@@ -544,7 +597,7 @@ struct ObsidianMCPServerTests {
             )
         }
 
-        // Test append error
+        // When/Then - Test append error
         do {
             _ = try await server.appendToNote(filename: "test.md", content: "content")
             #expect(Bool(false), "It should throw an error for append")
@@ -555,7 +608,7 @@ struct ObsidianMCPServerTests {
             )
         }
 
-        // Test delete error
+        // When/Then - Test delete error
         do {
             _ = try await server.deleteNote(filename: "test.md")
             #expect(Bool(false), "It should throw an error for delete")
@@ -566,7 +619,7 @@ struct ObsidianMCPServerTests {
             )
         }
 
-        // Test patch error
+        // When/Then - Test patch error
         do {
             let parameters = PatchParameters(operation: .append, targetType: .document, target: "test")
             _ = try await server.patchNote(filename: "test.md", content: "content", parameters: parameters)
@@ -581,11 +634,12 @@ struct ObsidianMCPServerTests {
 
     @Test("It should handle search operation errors")
     func testSearchOperationErrors() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
         mock.searchVaultResult = .failure(MockError.updateFailed)
         mock.searchVaultInPathResult = .failure(MockError.deleteFailed)
 
-        // Test search vault error
+        // When/Then - Test search vault error
         do {
             _ = try await server.search(query: "test")
             #expect(Bool(false), "It should throw an error for search vault")
@@ -596,7 +650,7 @@ struct ObsidianMCPServerTests {
             )
         }
 
-        // Test search in path error
+        // When/Then - Test search in path error
         do {
             _ = try await server.searchInPath(query: "test", inPath: "folder")
             #expect(Bool(false), "It should throw an error for search in path")
@@ -612,12 +666,15 @@ struct ObsidianMCPServerTests {
 
     @Test("It should maintain repository isolation")
     func testRepositoryIsolation() async throws {
+        // Given
         let (server1, mock1) = makeServerWithMock()
         let (server2, mock2) = makeServerWithMock()
 
+        // When
         _ = try await server1.getServerInfo()
         _ = try await server2.getActiveNote()
 
+        // Then
         #expect(
             mock1.getServerInfoCallCount == 1,
             "It should track calls to first mock"
@@ -638,6 +695,7 @@ struct ObsidianMCPServerTests {
 
     @Test("It should handle complex patch parameters")
     func testComplexPatchParameters() async throws {
+        // Given
         let (server, mock) = makeServerWithMock()
 
         let frontmatterParams = PatchParameters(
@@ -658,10 +716,12 @@ struct ObsidianMCPServerTests {
             target: "entire document content"
         )
 
+        // When
         _ = try await server.patchActiveNote(content: "frontmatter content", parameters: frontmatterParams)
         _ = try await server.patchNote(filename: "test.md", content: "heading content", parameters: headingParams)
         _ = try await server.patchActiveNote(content: "document content", parameters: documentParams)
 
+        // Then
         #expect(
             mock.patchActiveNoteCallCount == 2,
             "It should call patch active note twice"
