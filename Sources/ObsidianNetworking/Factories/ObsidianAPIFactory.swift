@@ -51,14 +51,15 @@ final class InsecureURLSessionDelegate: NSObject, URLSessionDelegate {
 
     /// Handles server trust authentication challenges by accepting self-signed certificates.
     ///
-    /// This method is specifically used to ignore the self-signed certificate of the Obsidian REST API community plugin,
-    /// allowing connections to proceed without standard certificate validation. This is necessary for development or
-    /// community plugin environments where a trusted certificate authority is not used.
+    /// This method is specifically used to ignore the self-signed certificate of the Obsidian REST API community
+    /// plugin, allowing connections to proceed without standard certificate validation. This is necessary for
+    /// development or community plugin environments where a trusted certificate authority is not used.
     ///
     /// - Parameters:
     ///   - session: The URL session containing the task that received the authentication challenge.
     ///   - challenge: The authentication challenge that needs to be handled.
-    ///   - completionHandler: A closure that your handler must call, providing information about how to handle the challenge.
+    ///   - completionHandler: A closure that your handler must call, providing information about how to handle
+    ///     the challenge.
     func urlSession(
         _ session: URLSession,
         didReceive challenge: URLAuthenticationChallenge,
