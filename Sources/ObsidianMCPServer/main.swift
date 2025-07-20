@@ -4,10 +4,14 @@ import ArgumentParser
 
 struct ObsidianMCPCommand: ParsableCommand {
 
+    // MARK: - Properties
+
     static let configuration = CommandConfiguration(
         commandName: "ObsidianMCPServer",
         abstract: "Obsidian MCP Server - access Obsidian via REST API"
     )
+
+    // MARK: - Public
 
     func run() throws {
         guard let baseURLString = ProcessInfo.processInfo.environment["OBSIDIAN_BASE_URL"],
@@ -45,6 +49,8 @@ struct ObsidianMCPCommand: ParsableCommand {
             throw error
         }
     }
+
+    // MARK: - Private
 
     private func logToStderr(_ message: String) {
         guard let data = (message + "\n").data(using: .utf8) else { return }
