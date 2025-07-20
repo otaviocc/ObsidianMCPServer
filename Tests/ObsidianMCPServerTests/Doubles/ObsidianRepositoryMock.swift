@@ -5,84 +5,128 @@ import Foundation
 
 final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
-    // MARK: - Call Tracking
+    // MARK: - Properties
+
+    var serverInfoToReturn: ServerInformation = ServerInformation(service: "mock-obsidian-api", version: "1.0.0")
+    var errorToThrow: Error?
 
     var getServerInfoCallCount = 0
+    var getActiveNoteCalled = false
     var getActiveNoteCallCount = 0
+    var updateActiveNoteCalled = false
     var updateActiveNoteCallCount = 0
+    var deleteActiveNoteCalled = false
     var deleteActiveNoteCallCount = 0
-    var patchActiveNoteCallCount = 0
-    var getVaultNoteCallCount = 0
-    var createOrUpdateVaultNoteCallCount = 0
-    var appendToVaultNoteCallCount = 0
-    var deleteVaultNoteCallCount = 0
-    var patchVaultNoteCallCount = 0
-    var listVaultDirectoryCallCount = 0
-    var searchVaultCallCount = 0
-    var searchVaultInPathCallCount = 0
-
-    // MARK: - Parameter Tracking
 
     var lastUpdateActiveNoteContent: String?
-    var lastPatchActiveNoteContent: String?
-    var lastPatchActiveNoteParameters: PatchParameters?
+
+    var getVaultNoteCalled = false
+    var getVaultNoteCallCount = 0
     var lastGetVaultNoteFilename: String?
+    var createOrUpdateVaultNoteCalled = false
+    var createOrUpdateVaultNoteCallCount = 0
+    var appendToVaultNoteCalled = false
+    var appendToVaultNoteCallCount = 0
+    var deleteVaultNoteCalled = false
+    var deleteVaultNoteCallCount = 0
+
     var lastCreateOrUpdateVaultNoteFile: File?
     var lastAppendToVaultNoteFile: File?
     var lastDeleteVaultNoteFilename: String?
-    var lastPatchVaultNoteFile: File?
-    var lastPatchVaultNoteParameters: PatchParameters?
+
+    var listVaultDirectoryCalled = false
+    var listVaultDirectoryCallCount = 0
     var lastListVaultDirectoryPath: String?
-    var lastSearchVaultQuery: String?
-    var lastSearchVaultIgnoreCase: Bool?
-    var lastSearchVaultWholeWord: Bool?
-    var lastSearchVaultIsRegex: Bool?
-    var lastSearchVaultInPathQuery: String?
-    var lastSearchVaultInPathPath: String?
-    var lastSearchVaultInPathIgnoreCase: Bool?
-    var lastSearchVaultInPathWholeWord: Bool?
-    var lastSearchVaultInPathIsRegex: Bool?
-
-    // MARK: - Response Configuration
-
-    var serverInfoResult: Result<ServerInformation, Error> = .success(
-        ServerInformation(service: "mock-obsidian-api", version: "1.0.0")
-    )
-
-    var activeNoteResult: Result<File, Error> = .success(
-        File(filename: "MockNote.md", content: "# Mock Note Content")
-    )
-
-    var vaultNoteResult: Result<File, Error> = .success(
-        File(filename: "MockVaultNote.md", content: "# Mock Vault Note Content")
-    )
-
-    var vaultDirectoryResult: Result<[URL], Error> = .success([
+    var urlsToReturn: [URL] = [
         URL(fileURLWithPath: "/vault/note1.md"),
         URL(fileURLWithPath: "/vault/note2.md"),
         URL(fileURLWithPath: "/vault/folder/note3.md")
-    ])
+    ]
 
-    var searchVaultResult: Result<[SearchResult], Error> = .success([
+    var searchVaultCalled = false
+    var searchVaultCallCount = 0
+    var lastSearchQuery: String?
+    var lastSearchVaultQuery: String?
+    var lastSearchIgnoreCase: Bool?
+    var lastSearchVaultIgnoreCase: Bool?
+    var lastSearchWholeWord: Bool?
+    var lastSearchVaultWholeWord: Bool?
+    var lastSearchIsRegex: Bool?
+    var lastSearchVaultIsRegex: Bool?
+    var searchResultsToReturn: [SearchResult] = [
         SearchResult(path: "note1.md", score: 0.95),
-        SearchResult(path: "note2.md", score: 0.80),
-        SearchResult(path: "folder/note3.md", score: 0.60)
-    ])
+        SearchResult(path: "note2.md", score: 0.85),
+        SearchResult(path: "note3.md", score: 0.75)
+    ]
 
-    var searchVaultInPathResult: Result<[SearchResult], Error> = .success([
-        SearchResult(path: "folder/note3.md", score: 0.85),
-        SearchResult(path: "folder/note4.md", score: 0.70)
-    ])
+    var lastSearchPath: String?
+
+    // Frontmatter tracking
+    var setActiveNoteFrontmatterCalled = false
+    var appendToActiveNoteFrontmatterCalled = false
+    var setVaultNoteFrontmatterCalled = false
+    var appendToVaultNoteFrontmatterCalled = false
+
+    var lastActiveNoteFrontmatterKey: String?
+    var lastActiveNoteFrontmatterValue: String?
+    var lastVaultNoteFrontmatterFilename: String?
+    var lastVaultNoteFrontmatterKey: String?
+    var lastVaultNoteFrontmatterValue: String?
+
+    // MARK: - Response Configuration
+
+    var searchVaultResult: Result<[SearchResult], Error> = .success([])
+
+    private var serverInfoResult: Result<ServerInformation, Error> {
+        if let error = errorToThrow {
+            return .failure(error)
+        }
+        return .success(serverInfoToReturn)
+    }
+
+    private var activeNoteResult: Result<File, Error> {
+        if let error = errorToThrow {
+            return .failure(error)
+        }
+        return .success(File(filename: "MockNote.md", content: "# Mock Note Content"))
+    }
+
+    private var vaultNoteResult: Result<File, Error> {
+        if let error = errorToThrow {
+            return .failure(error)
+        }
+        return .success(File(filename: "MockVaultNote.md", content: "# Mock Vault Note Content"))
+    }
+
+    private var vaultDirectoryResult: Result<[URL], Error> {
+        if let error = errorToThrow {
+            return .failure(error)
+        }
+        return .success(urlsToReturn)
+    }
+
+    private var searchVaultResultComputed: Result<[SearchResult], Error> {
+        // If searchVaultResult was explicitly set, use it, otherwise fall back to default behavior
+        if case .success(let results) = searchVaultResult, !results.isEmpty {
+            return searchVaultResult
+        }
+        if case .failure = searchVaultResult {
+            return searchVaultResult
+        }
+
+        if let error = errorToThrow {
+            return .failure(error)
+        }
+        return .success(searchResultsToReturn)
+    }
 
     // MARK: - Error Configuration
 
     var shouldThrowErrorOnUpdateActiveNote = false
     var shouldThrowErrorOnDeleteActiveNote = false
-    var shouldThrowErrorOnPatchActiveNote = false
     var shouldThrowErrorOnCreateOrUpdateVaultNote = false
     var shouldThrowErrorOnAppendToVaultNote = false
     var shouldThrowErrorOnDeleteVaultNote = false
-    var shouldThrowErrorOnPatchVaultNote = false
 
     // MARK: - ObsidianRepositoryServerOperations
 
@@ -94,11 +138,13 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     // MARK: - ObsidianRepositoryActiveNoteOperations
 
     func getActiveNote() async throws -> File {
+        getActiveNoteCalled = true
         getActiveNoteCallCount += 1
         return try activeNoteResult.get()
     }
 
     func updateActiveNote(content: String) async throws {
+        updateActiveNoteCalled = true
         updateActiveNoteCallCount += 1
         lastUpdateActiveNoteContent = content
 
@@ -108,35 +154,48 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     }
 
     func deleteActiveNote() async throws {
+        deleteActiveNoteCalled = true
         deleteActiveNoteCallCount += 1
-
-        if shouldThrowErrorOnDeleteActiveNote {
-            throw MockError.deleteFailed
+        if let error = errorToThrow {
+            throw error
         }
     }
 
-    func patchActiveNote(
-        content: String,
-        parameters: PatchParameters
+    func setActiveNoteFrontmatterField(
+        key: String,
+        value: String
     ) async throws {
-        patchActiveNoteCallCount += 1
-        lastPatchActiveNoteContent = content
-        lastPatchActiveNoteParameters = parameters
+        setActiveNoteFrontmatterCalled = true
+        lastActiveNoteFrontmatterKey = key
+        lastActiveNoteFrontmatterValue = value
+        if let error = errorToThrow {
+            throw error
+        }
+    }
 
-        if shouldThrowErrorOnPatchActiveNote {
-            throw MockError.patchFailed
+    func appendToActiveNoteFrontmatterField(
+        key: String,
+        value: String
+    ) async throws {
+        appendToActiveNoteFrontmatterCalled = true
+        lastActiveNoteFrontmatterKey = key
+        lastActiveNoteFrontmatterValue = value
+        if let error = errorToThrow {
+            throw error
         }
     }
 
     // MARK: - ObsidianRepositoryVaultNoteOperations
 
     func getVaultNote(filename: String) async throws -> File {
+        getVaultNoteCalled = true
         getVaultNoteCallCount += 1
         lastGetVaultNoteFilename = filename
         return try vaultNoteResult.get()
     }
 
     func createOrUpdateVaultNote(file: File) async throws {
+        createOrUpdateVaultNoteCalled = true
         createOrUpdateVaultNoteCallCount += 1
         lastCreateOrUpdateVaultNoteFile = file
 
@@ -146,6 +205,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     }
 
     func appendToVaultNote(file: File) async throws {
+        appendToVaultNoteCalled = true
         appendToVaultNoteCallCount += 1
         lastAppendToVaultNoteFile = file
 
@@ -155,30 +215,46 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     }
 
     func deleteVaultNote(filename: String) async throws {
+        deleteVaultNoteCalled = true
         deleteVaultNoteCallCount += 1
         lastDeleteVaultNoteFilename = filename
-
-        if shouldThrowErrorOnDeleteVaultNote {
-            throw MockError.deleteFailed
+        if shouldThrowErrorOnDeleteVaultNote || errorToThrow != nil {
+            throw errorToThrow ?? MockError.deleteFailed
         }
     }
 
-    func patchVaultNote(
-        file: File,
-        parameters: PatchParameters
+    func setVaultNoteFrontmatterField(
+        filename: String,
+        key: String,
+        value: String
     ) async throws {
-        patchVaultNoteCallCount += 1
-        lastPatchVaultNoteFile = file
-        lastPatchVaultNoteParameters = parameters
+        setVaultNoteFrontmatterCalled = true
+        lastVaultNoteFrontmatterFilename = filename
+        lastVaultNoteFrontmatterKey = key
+        lastVaultNoteFrontmatterValue = value
+        if let error = errorToThrow {
+            throw error
+        }
+    }
 
-        if shouldThrowErrorOnPatchVaultNote {
-            throw MockError.patchFailed
+    func appendToVaultNoteFrontmatterField(
+        filename: String,
+        key: String,
+        value: String
+    ) async throws {
+        appendToVaultNoteFrontmatterCalled = true
+        lastVaultNoteFrontmatterFilename = filename
+        lastVaultNoteFrontmatterKey = key
+        lastVaultNoteFrontmatterValue = value
+        if let error = errorToThrow {
+            throw error
         }
     }
 
     // MARK: - ObsidianRepositoryVaultOperations
 
     func listVaultDirectory(directory: String) async throws -> [URL] {
+        listVaultDirectoryCalled = true
         listVaultDirectoryCallCount += 1
         lastListVaultDirectoryPath = directory
         return try vaultDirectoryResult.get()
@@ -192,74 +268,17 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         wholeWord: Bool,
         isRegex: Bool
     ) async throws -> [SearchResult] {
+        searchVaultCalled = true
         searchVaultCallCount += 1
+        lastSearchQuery = query
         lastSearchVaultQuery = query
+        lastSearchIgnoreCase = ignoreCase
         lastSearchVaultIgnoreCase = ignoreCase
+        lastSearchWholeWord = wholeWord
         lastSearchVaultWholeWord = wholeWord
+        lastSearchIsRegex = isRegex
         lastSearchVaultIsRegex = isRegex
-        return try searchVaultResult.get()
-    }
-
-    func searchVaultInPath(
-        query: String,
-        path: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
-    ) async throws -> [SearchResult] {
-        searchVaultInPathCallCount += 1
-        lastSearchVaultInPathQuery = query
-        lastSearchVaultInPathPath = path
-        lastSearchVaultInPathIgnoreCase = ignoreCase
-        lastSearchVaultInPathWholeWord = wholeWord
-        lastSearchVaultInPathIsRegex = isRegex
-        return try searchVaultInPathResult.get()
-    }
-
-    // MARK: - Helper Methods
-
-    func reset() {
-        getServerInfoCallCount = 0
-        getActiveNoteCallCount = 0
-        updateActiveNoteCallCount = 0
-        deleteActiveNoteCallCount = 0
-        patchActiveNoteCallCount = 0
-        getVaultNoteCallCount = 0
-        createOrUpdateVaultNoteCallCount = 0
-        appendToVaultNoteCallCount = 0
-        deleteVaultNoteCallCount = 0
-        patchVaultNoteCallCount = 0
-        listVaultDirectoryCallCount = 0
-        searchVaultCallCount = 0
-        searchVaultInPathCallCount = 0
-
-        lastUpdateActiveNoteContent = nil
-        lastPatchActiveNoteContent = nil
-        lastPatchActiveNoteParameters = nil
-        lastGetVaultNoteFilename = nil
-        lastCreateOrUpdateVaultNoteFile = nil
-        lastAppendToVaultNoteFile = nil
-        lastDeleteVaultNoteFilename = nil
-        lastPatchVaultNoteFile = nil
-        lastPatchVaultNoteParameters = nil
-        lastListVaultDirectoryPath = nil
-        lastSearchVaultQuery = nil
-        lastSearchVaultIgnoreCase = nil
-        lastSearchVaultWholeWord = nil
-        lastSearchVaultIsRegex = nil
-        lastSearchVaultInPathQuery = nil
-        lastSearchVaultInPathPath = nil
-        lastSearchVaultInPathIgnoreCase = nil
-        lastSearchVaultInPathWholeWord = nil
-        lastSearchVaultInPathIsRegex = nil
-
-        shouldThrowErrorOnUpdateActiveNote = false
-        shouldThrowErrorOnDeleteActiveNote = false
-        shouldThrowErrorOnPatchActiveNote = false
-        shouldThrowErrorOnCreateOrUpdateVaultNote = false
-        shouldThrowErrorOnAppendToVaultNote = false
-        shouldThrowErrorOnDeleteVaultNote = false
-        shouldThrowErrorOnPatchVaultNote = false
+        return try searchVaultResultComputed.get()
     }
 }
 

@@ -44,7 +44,7 @@ struct ObsidianMCPServerTests {
     func testGetServerInfoError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
-        mock.serverInfoResult = .failure(MockError.updateFailed)
+        mock.errorToThrow = MockError.updateFailed
 
         // When/Then
         do {
@@ -148,43 +148,6 @@ struct ObsidianMCPServerTests {
         )
         #expect(
             result == "Active note deleted successfully.",
-            "It should return success message"
-        )
-    }
-
-    @Test("It should patch active note")
-    func testPatchActiveNote() async throws {
-        // Given
-        let (server, mock) = makeServerWithMock()
-        let testContent = "New section content"
-        let testParameters = PatchParameters(
-            operation: .append,
-            targetType: .heading,
-            target: "## New Section"
-        )
-
-        // When
-        let result = try await server.patchActiveNote(content: testContent, parameters: testParameters)
-
-        // Then
-        #expect(
-            mock.patchActiveNoteCallCount == 1,
-            "It should call the repository method once"
-        )
-        #expect(
-            mock.lastPatchActiveNoteContent == testContent,
-            "It should pass the correct content"
-        )
-        #expect(
-            mock.lastPatchActiveNoteParameters?.operation == .append,
-            "It should pass the correct operation"
-        )
-        #expect(
-            mock.lastPatchActiveNoteParameters?.targetType == .heading,
-            "It should pass the correct target type"
-        )
-        #expect(
-            result == "Active note patched successfully.",
             "It should return success message"
         )
     }
@@ -301,48 +264,6 @@ struct ObsidianMCPServerTests {
         )
     }
 
-    @Test("It should patch vault note")
-    func testPatchNote() async throws {
-        // Given
-        let (server, mock) = makeServerWithMock()
-        let testFilename = "note-to-patch.md"
-        let testContent = "Replacement content"
-        let testParameters = PatchParameters(
-            operation: .replace,
-            targetType: .document,
-            target: "old content"
-        )
-
-        // When
-        let result = try await server.patchNote(
-            filename: testFilename,
-            content: testContent,
-            parameters: testParameters
-        )
-
-        // Then
-        #expect(
-            mock.patchVaultNoteCallCount == 1,
-            "It should call the repository method once"
-        )
-        #expect(
-            mock.lastPatchVaultNoteFile?.filename == testFilename,
-            "It should pass the correct filename"
-        )
-        #expect(
-            mock.lastPatchVaultNoteFile?.content == testContent,
-            "It should pass the correct content"
-        )
-        #expect(
-            mock.lastPatchVaultNoteParameters?.operation == .replace,
-            "It should pass the correct operation"
-        )
-        #expect(
-            result == "Note 'note-to-patch.md' patched successfully.",
-            "It should return success message with filename"
-        )
-    }
-
     // MARK: - Vault Operations Tests
 
     @Test("It should list directory with default path")
@@ -398,6 +319,156 @@ struct ObsidianMCPServerTests {
             result.contains("\n"),
             "It should join paths with newlines"
         )
+    }
+
+    // MARK: - Frontmatter Tests
+
+    @Test("It should set active note frontmatter")
+    func testSetActiveNoteFrontmatter() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testKey = "tags"
+        let testValue = "important"
+
+        // When
+        let result = try await server.setActiveNoteFrontmatter(key: testKey, value: testValue)
+
+        // Then
+        #expect(
+            mock.setActiveNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterValue == testValue,
+            "It should pass the correct value"
+        )
+        #expect(
+            result == "Active note frontmatter field 'tags' set successfully.",
+            "It should return success message with key"
+        )
+    }
+
+    @Test("It should append to active note frontmatter")
+    func testAppendToActiveNoteFrontmatter() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testKey = "categories"
+        let testValue = "project"
+
+        // When
+        let result = try await server.appendToActiveNoteFrontmatter(key: testKey, value: testValue)
+
+        // Then
+        #expect(
+            mock.appendToActiveNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterValue == testValue,
+            "It should pass the correct value"
+        )
+        #expect(
+            result == "Value appended to active note frontmatter field 'categories' successfully.",
+            "It should return success message with key"
+        )
+    }
+
+    @Test("It should set vault note frontmatter")
+    func testSetNoteFrontmatter() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "project-notes.md"
+        let testKey = "status"
+        let testValue = "completed"
+
+        // When
+        let result = try await server.setNoteFrontmatter(filename: testFilename, key: testKey, value: testValue)
+
+        // Then
+        #expect(
+            mock.setVaultNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterValue == testValue,
+            "It should pass the correct value"
+        )
+        #expect(
+            result == "Note 'project-notes.md' frontmatter field 'status' set successfully.",
+            "It should return success message with filename and key"
+        )
+    }
+
+    @Test("It should append to vault note frontmatter")
+    func testAppendToNoteFrontmatter() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "research.md"
+        let testKey = "tags"
+        let testValue = "literature-review"
+
+        // When
+        let result = try await server.appendToNoteFrontmatter(filename: testFilename, key: testKey, value: testValue)
+
+        // Then
+        #expect(
+            mock.appendToVaultNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterValue == testValue,
+            "It should pass the correct value"
+        )
+        #expect(
+            result == "Value appended to note 'research.md' frontmatter field 'tags' successfully.",
+            "It should return success message with filename and key"
+        )
+    }
+
+    @Test("It should handle frontmatter errors")
+    func testSetActiveNoteFrontmatterError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.setActiveNoteFrontmatter(key: "test", value: "value")
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.setActiveNoteFrontmatterCalled == true,
+                "It should call the repository method"
+            )
+        }
     }
 
     // MARK: - Search Tests
@@ -487,94 +558,6 @@ struct ObsidianMCPServerTests {
         )
     }
 
-    @Test("It should search in specific path with default parameters")
-    func testSearchInPathDefault() async throws {
-        // Given
-        let (server, mock) = makeServerWithMock()
-        let testQuery = "specific search"
-        let testPath = "folder"
-
-        // When
-        let result = try await server.searchInPath(query: testQuery, inPath: testPath)
-
-        // Then
-        #expect(
-            mock.searchVaultInPathCallCount == 1,
-            "It should call the repository method once"
-        )
-        #expect(
-            mock.lastSearchVaultInPathQuery == testQuery,
-            "It should pass the correct query"
-        )
-        #expect(
-            mock.lastSearchVaultInPathPath == testPath,
-            "It should pass the correct path"
-        )
-        #expect(
-            mock.lastSearchVaultInPathIgnoreCase == true,
-            "It should use default ignoreCase value"
-        )
-        #expect(
-            mock.lastSearchVaultInPathWholeWord == false,
-            "It should use default wholeWord value"
-        )
-        #expect(
-            mock.lastSearchVaultInPathIsRegex == false,
-            "It should use default isRegex value"
-        )
-        #expect(
-            result.count == 2,
-            "It should return the mock search in path results"
-        )
-        #expect(
-            result.first?.path == "folder/note3.md",
-            "It should return the first mock result"
-        )
-    }
-
-    @Test("It should search in specific path with custom parameters")
-    func testSearchInPathWithCustomParameters() async throws {
-        // Given
-        let (server, mock) = makeServerWithMock()
-        let testQuery = "complex.*search"
-        let testPath = "deep/nested/folder"
-
-        // When
-        _ = try await server.searchInPath(
-            query: testQuery,
-            inPath: testPath,
-            ignoreCase: false,
-            wholeWord: true,
-            isRegex: true
-        )
-
-        // Then
-        #expect(
-            mock.searchVaultInPathCallCount == 1,
-            "It should call the repository method once"
-        )
-        #expect(
-            mock.lastSearchVaultInPathQuery == testQuery,
-            "It should pass the correct query"
-        )
-        #expect(
-            mock.lastSearchVaultInPathPath == testPath,
-            "It should pass the correct path"
-        )
-        #expect(
-            mock.lastSearchVaultInPathIgnoreCase == false,
-            "It should pass the correct ignoreCase value"
-        )
-        #expect(
-            mock.lastSearchVaultInPathWholeWord == true,
-            "It should pass the correct wholeWord value"
-        )
-        #expect(
-            mock.lastSearchVaultInPathIsRegex == true,
-            "It should pass the correct isRegex value"
-        )
-    }
-
     // MARK: - Error Handling Tests
 
     @Test("It should handle vault note operation errors")
@@ -584,7 +567,6 @@ struct ObsidianMCPServerTests {
         mock.shouldThrowErrorOnCreateOrUpdateVaultNote = true
         mock.shouldThrowErrorOnAppendToVaultNote = true
         mock.shouldThrowErrorOnDeleteVaultNote = true
-        mock.shouldThrowErrorOnPatchVaultNote = true
 
         // When/Then - Test create/update error
         do {
@@ -618,18 +600,6 @@ struct ObsidianMCPServerTests {
                 "It should throw the mock error"
             )
         }
-
-        // When/Then - Test patch error
-        do {
-            let parameters = PatchParameters(operation: .append, targetType: .document, target: "test")
-            _ = try await server.patchNote(filename: "test.md", content: "content", parameters: parameters)
-            #expect(Bool(false), "It should throw an error for patch")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-        }
     }
 
     @Test("It should handle search operation errors")
@@ -637,23 +607,11 @@ struct ObsidianMCPServerTests {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.searchVaultResult = .failure(MockError.updateFailed)
-        mock.searchVaultInPathResult = .failure(MockError.deleteFailed)
 
         // When/Then - Test search vault error
         do {
             _ = try await server.search(query: "test")
             #expect(Bool(false), "It should throw an error for search vault")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-        }
-
-        // When/Then - Test search in path error
-        do {
-            _ = try await server.searchInPath(query: "test", inPath: "folder")
-            #expect(Bool(false), "It should throw an error for search in path")
         } catch {
             #expect(
                 error is MockError,
@@ -690,53 +648,6 @@ struct ObsidianMCPServerTests {
         #expect(
             mock2.getActiveNoteCallCount == 1,
             "It should track calls to second mock"
-        )
-    }
-
-    @Test("It should handle complex patch parameters")
-    func testComplexPatchParameters() async throws {
-        // Given
-        let (server, mock) = makeServerWithMock()
-
-        let frontmatterParams = PatchParameters(
-            operation: .prepend,
-            targetType: .frontmatter,
-            target: "tags: [important]"
-        )
-
-        let headingParams = PatchParameters(
-            operation: .append,
-            targetType: .heading,
-            target: "## Summary"
-        )
-
-        let documentParams = PatchParameters(
-            operation: .replace,
-            targetType: .document,
-            target: "entire document content"
-        )
-
-        // When
-        _ = try await server.patchActiveNote(content: "frontmatter content", parameters: frontmatterParams)
-        _ = try await server.patchNote(filename: "test.md", content: "heading content", parameters: headingParams)
-        _ = try await server.patchActiveNote(content: "document content", parameters: documentParams)
-
-        // Then
-        #expect(
-            mock.patchActiveNoteCallCount == 2,
-            "It should call patch active note twice"
-        )
-        #expect(
-            mock.patchVaultNoteCallCount == 1,
-            "It should call patch vault note once"
-        )
-        #expect(
-            mock.lastPatchActiveNoteParameters?.operation == .replace,
-            "It should track the last operation"
-        )
-        #expect(
-            mock.lastPatchActiveNoteParameters?.targetType == .document,
-            "It should track the last target type"
         )
     }
 }

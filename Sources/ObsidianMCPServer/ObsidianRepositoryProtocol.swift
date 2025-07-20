@@ -35,14 +35,24 @@ protocol ObsidianRepositoryActiveNoteOperations {
     /// - Throws: An error if no note is active or the deletion fails
     func deleteActiveNote() async throws
 
-    /// Applies a patch to the currently active note with specific parameters.
+    /// Sets a frontmatter field in the currently active note.
     /// - Parameters:
-    ///   - content: The content to be patched into the note
-    ///   - parameters: Configuration parameters for the patch operation
-    /// - Throws: An error if no note is active or the patch operation fails
-    func patchActiveNote(
-        content: String,
-        parameters: PatchParameters
+    ///   - key: The frontmatter field key to set
+    ///   - value: The value to set for the field (will be JSON encoded)
+    /// - Throws: An error if no note is active or the operation fails
+    func setActiveNoteFrontmatterField(
+        key: String,
+        value: String
+    ) async throws
+
+    /// Appends a value to a frontmatter field array in the currently active note.
+    /// - Parameters:
+    ///   - key: The frontmatter field key to append to
+    ///   - value: The value to append to the field array (will be JSON encoded)
+    /// - Throws: An error if no note is active or the operation fails
+    func appendToActiveNoteFrontmatterField(
+        key: String,
+        value: String
     ) async throws
 }
 
@@ -71,14 +81,28 @@ protocol ObsidianRepositoryVaultNoteOperations {
     /// - Throws: An error if the file doesn't exist or cannot be deleted
     func deleteVaultNote(filename: String) async throws
 
-    /// Applies a patch to a specific note in the vault with configuration parameters.
+    /// Sets a frontmatter field in a specific vault note.
     /// - Parameters:
-    ///   - file: The `File` object containing the patch content and target information
-    ///   - parameters: Configuration parameters for the patch operation
-    /// - Throws: An error if the target file doesn't exist or the patch operation fails
-    func patchVaultNote(
-        file: File,
-        parameters: PatchParameters
+    ///   - filename: The name of the note to modify
+    ///   - key: The frontmatter field key to set
+    ///   - value: The value to set for the field (will be JSON encoded)
+    /// - Throws: An error if the file doesn't exist or the operation fails
+    func setVaultNoteFrontmatterField(
+        filename: String,
+        key: String,
+        value: String
+    ) async throws
+
+    /// Appends a value to a frontmatter field array in a specific vault note.
+    /// - Parameters:
+    ///   - filename: The name of the note to modify
+    ///   - key: The frontmatter field key to append to
+    ///   - value: The value to append to the field array (will be JSON encoded)
+    /// - Throws: An error if the file doesn't exist or the operation fails
+    func appendToVaultNoteFrontmatterField(
+        filename: String,
+        key: String,
+        value: String
     ) async throws
 }
 
@@ -107,23 +131,6 @@ protocol ObsidianRepositorySearchOperations {
     /// - Throws: An error if the search operation fails
     func searchVault(
         query: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
-    ) async throws -> [SearchResult]
-
-    /// Searches within a specific path in the vault for content matching the query and options.
-    /// - Parameters:
-    ///   - query: The search term or pattern to find
-    ///   - path: The specific path within the vault to search
-    ///   - ignoreCase: Whether to perform a case-insensitive search
-    ///   - wholeWord: Whether to match only whole words
-    ///   - isRegex: Whether the query should be interpreted as a regular expression
-    /// - Returns: An array of `SearchResult` objects containing matching content within the specified path
-    /// - Throws: An error if the path doesn't exist or the search operation fails
-    func searchVaultInPath(
-        query: String,
-        path: String,
         ignoreCase: Bool,
         wholeWord: Bool,
         isRegex: Bool

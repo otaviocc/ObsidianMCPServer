@@ -10,9 +10,9 @@ public struct DirectoryListingResponse: Decodable {
         files.map { file in
             if file.hasSuffix("/") {
                 let directoryName = String(file.dropLast())
-                return URL(fileURLWithPath: directoryName, isDirectory: true)
+                return .init(fileURLWithPath: directoryName, isDirectory: true)
             } else {
-                return URL(fileURLWithPath: file)
+                return .init(fileURLWithPath: file)
             }
         }
     }

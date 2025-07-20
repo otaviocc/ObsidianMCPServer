@@ -108,23 +108,43 @@ final class ObsidianMCPServer {
     }
 
     /**
-     Applies a targeted patch to the currently active note.
+     Sets a frontmatter field in the currently active note.
 
-     This tool allows precise modifications to specific parts of the active note
-     using patch operations. Useful for inserting, appending, or replacing content
-     at specific locations within the note.
+     This tool allows you to set or replace a specific frontmatter field in the active note.
+     The value will be properly JSON-encoded and the field will be created if it doesn't exist.
+     Useful for setting metadata like tags, dates, categories, or any custom frontmatter properties.
 
-     - Parameter content: The content to insert/append/replace
-     - Parameter configuration: Patch configuration specifying operation type, target, and behavior
+     - Parameter key: The frontmatter field name to set
+     - Parameter value: The value to set (will be JSON-encoded automatically)
      - Returns: Success confirmation message
      */
-    @MCPTool(description: "Patch the active note with specific content at target")
-    func patchActiveNote(
-        content: String,
-        parameters: PatchParameters
+    @MCPTool(description: "Set a frontmatter field in the active note")
+    func setActiveNoteFrontmatter(
+        key: String,
+        value: String
     ) async throws -> String {
-        try await repository.patchActiveNote(content: content, parameters: parameters)
-        return "Active note patched successfully."
+        try await repository.setActiveNoteFrontmatterField(key: key, value: value)
+        return "Active note frontmatter field '\(key)' set successfully."
+    }
+
+    /**
+     Appends a value to a frontmatter field array in the currently active note.
+
+     This tool allows you to add values to existing frontmatter arrays (like tags lists)
+     or create a new array if the field doesn't exist. The value will be properly
+     JSON-encoded and appended to the array.
+
+     - Parameter key: The frontmatter field name to append to
+     - Parameter value: The value to append to the array (will be JSON-encoded automatically)
+     - Returns: Success confirmation message
+     */
+    @MCPTool(description: "Append a value to a frontmatter field array in the active note")
+    func appendToActiveNoteFrontmatter(
+        key: String,
+        value: String
+    ) async throws -> String {
+        try await repository.appendToActiveNoteFrontmatterField(key: key, value: value)
+        return "Value appended to active note frontmatter field '\(key)' successfully."
     }
 
     /**
@@ -201,26 +221,48 @@ final class ObsidianMCPServer {
     }
 
     /**
-     Applies a targeted patch to a specific vault note.
+     Sets a frontmatter field in a specific vault note.
 
-     This tool allows precise modifications to specific parts of any note in the vault
-     using patch operations. Useful for inserting, appending, or replacing content
-     at specific locations within the target note.
+     This tool allows you to set or replace a specific frontmatter field in any note
+     in the vault. The value will be properly JSON-encoded and the field will be
+     created if it doesn't exist. Useful for setting metadata like tags, dates,
+     categories, or any custom frontmatter properties.
 
-     - Parameter filename: The filename or path of the note to patch
-     - Parameter content: The content to insert/append/replace
-     - Parameter configuration: Patch configuration specifying operation type, target, and behavior
+     - Parameter filename: The filename or path of the note to modify
+     - Parameter key: The frontmatter field name to set
+     - Parameter value: The value to set (will be JSON-encoded automatically)
      - Returns: Success confirmation message
      */
-    @MCPTool(description: "Patch a specific vault note with content at target")
-    func patchNote(
+    @MCPTool(description: "Set a frontmatter field in a specific vault note")
+    func setNoteFrontmatter(
         filename: String,
-        content: String,
-        parameters: PatchParameters
+        key: String,
+        value: String
     ) async throws -> String {
-        let file = File(filename: filename, content: content)
-        try await repository.patchVaultNote(file: file, parameters: parameters)
-        return "Note '\(filename)' patched successfully."
+        try await repository.setVaultNoteFrontmatterField(filename: filename, key: key, value: value)
+        return "Note '\(filename)' frontmatter field '\(key)' set successfully."
+    }
+
+    /**
+     Appends a value to a frontmatter field array in a specific vault note.
+
+     This tool allows you to add values to existing frontmatter arrays (like tags lists)
+     in any vault note, or create a new array if the field doesn't exist. The value
+     will be properly JSON-encoded and appended to the array.
+
+     - Parameter filename: The filename or path of the note to modify
+     - Parameter key: The frontmatter field name to append to
+     - Parameter value: The value to append to the array (will be JSON-encoded automatically)
+     - Returns: Success confirmation message
+     */
+    @MCPTool(description: "Append a value to a frontmatter field array in a specific vault note")
+    func appendToNoteFrontmatter(
+        filename: String,
+        key: String,
+        value: String
+    ) async throws -> String {
+        try await repository.appendToVaultNoteFrontmatterField(filename: filename, key: key, value: value)
+        return "Value appended to note '\(filename)' frontmatter field '\(key)' successfully."
     }
 
     /**
@@ -264,38 +306,6 @@ final class ObsidianMCPServer {
     ) async throws -> [SearchResult] {
         try await repository.searchVault(
             query: query,
-            ignoreCase: ignoreCase,
-            wholeWord: wholeWord,
-            isRegex: isRegex
-        )
-    }
-
-    /**
-     Searches for text within a specific path in the Obsidian vault.
-
-     This tool provides targeted search capabilities within a specific directory or path
-     in the vault. It supports the same search options as the general search but limits
-     results to the specified path, making it useful for focused searches within particular
-     sections or folders of the vault.
-
-     - Parameter query: The text or pattern to search for
-     - Parameter path: The specific path within the vault to search in
-     - Parameter ignoreCase: Whether to perform case-insensitive search
-     - Parameter wholeWord: Whether to match whole words only
-     - Parameter isRegex: Whether to treat the query as a regular expression
-     - Returns: Array of search results with file paths and relevance scores within the specified path
-     */
-    @MCPTool(description: "Search for text within a specific path in the vault with various options")
-    func searchInPath(
-        query: String,
-        inPath path: String,
-        ignoreCase: Bool = true,
-        wholeWord: Bool = false,
-        isRegex: Bool = false
-    ) async throws -> [SearchResult] {
-        try await repository.searchVaultInPath(
-            query: query,
-            path: path,
             ignoreCase: ignoreCase,
             wholeWord: wholeWord,
             isRegex: isRegex

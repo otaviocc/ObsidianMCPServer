@@ -10,174 +10,164 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
     // MARK: - Server Info
 
     public func makeServerInfoRequest() -> NetworkRequest<VoidRequest, ServerInfoResponse> {
-        NetworkRequest<VoidRequest, ServerInfoResponse>(
+        .init(
             path: "/",
-            method: .get,
-            additionalHeaders: [:]
+            method: .get
         )
     }
 
     // MARK: - Active File
 
-    public func makeGetActiveFileRequest(
-        headers: [String: String]
-    ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
-        var requestHeaders = headers
-        requestHeaders["Accept"] = "application/vnd.olrapi.note+json"
-
-        return NetworkRequest<VoidRequest, NoteJSONResponse>(
+    public func makeGetActiveFileRequest() -> NetworkRequest<VoidRequest, NoteJSONResponse> {
+        .init(
             path: "/active/",
             method: .get,
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Accept": "application/vnd.olrapi.note+json"
+            ]
         )
     }
 
-    public func makeGetActiveFileJsonRequest(
-        headers: [String: String]
-    ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
-        var requestHeaders = headers
-        requestHeaders["Accept"] = "application/vnd.olrapi.note+json"
-
-        return NetworkRequest<VoidRequest, NoteJSONResponse>(
+    public func makeGetActiveFileJsonRequest() -> NetworkRequest<VoidRequest, NoteJSONResponse> {
+        .init(
             path: "/active/",
             method: .get,
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Accept": "application/vnd.olrapi.note+json"
+            ]
         )
     }
 
     public func makeUpdateActiveFileRequest(
-        content: String,
-        headers: [String: String]
+        content: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        var requestHeaders = headers
-        requestHeaders["Content-Type"] = "text/markdown; charset=utf-8"
-
-        return NetworkRequest<Data, VoidResponse>(
+        .init(
             path: "/active/",
             method: .put,
             body: content.data(using: .utf8),
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Content-Type": "text/markdown; charset=utf-8"
+            ]
         )
     }
 
-    public func makeDeleteActiveFileRequest(
-        headers: [String: String]
-    ) -> NetworkRequest<VoidRequest, VoidResponse> {
-        NetworkRequest<VoidRequest, VoidResponse>(
+    public func makeDeleteActiveFileRequest() -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
             path: "/active/",
-            method: .delete,
-            additionalHeaders: headers
+            method: .delete
         )
     }
 
-    public func makePatchActiveFileRequest(
+    public func makeSetActiveFrontmatterRequest(
         content: String,
-        headers: [String: String]
+        operation: String,
+        key: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        var requestHeaders = headers
-        requestHeaders["Content-Type"] = "text/markdown; charset=utf-8"
-
-        return NetworkRequest<Data, VoidResponse>(
+        .init(
             path: "/active/",
             method: .patch,
             body: content.data(using: .utf8),
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Content-Type": "application/json",
+                "Operation": operation,
+                "Target-Type": "frontmatter",
+                "Create-Target-If-Missing": "true",
+                "Target": key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
+            ]
         )
     }
 
     // MARK: - Vault Files
 
     public func makeGetVaultFileRequest(
-        filename: String,
-        headers: [String: String]
+        filename: String
     ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         let filePath = buildVaultPath(for: filename)
-        var requestHeaders = headers
-        requestHeaders["Accept"] = "application/vnd.olrapi.note+json"
 
-        return NetworkRequest<VoidRequest, NoteJSONResponse>(
+        return .init(
             path: filePath,
             method: .get,
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Accept": "application/vnd.olrapi.note+json"
+            ]
         )
     }
 
     public func makeCreateOrUpdateVaultFileRequest(
         filename: String,
-        content: String,
-        headers: [String: String]
+        content: String
     ) -> NetworkRequest<Data, VoidResponse> {
         let filePath = buildVaultPath(for: filename)
-        var requestHeaders = headers
-        requestHeaders["Content-Type"] = "text/markdown"
 
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: filePath,
             method: .put,
             body: content.data(using: .utf8) ?? Data(),
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
         )
     }
 
     public func makeAppendToVaultFileRequest(
         filename: String,
-        content: String,
-        headers: [String: String]
+        content: String
     ) -> NetworkRequest<Data, VoidResponse> {
         let filePath = buildVaultPath(for: filename)
-        var requestHeaders = headers
-        requestHeaders["Content-Type"] = "text/markdown"
 
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: filePath,
             method: .post,
             body: content.data(using: .utf8) ?? Data(),
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
         )
     }
 
     public func makeDeleteVaultFileRequest(
-        filename: String,
-        headers: [String: String]
+        filename: String
     ) -> NetworkRequest<VoidRequest, VoidResponse> {
         let filePath = buildVaultPath(for: filename)
 
-        return NetworkRequest<VoidRequest, VoidResponse>(
+        return .init(
             path: filePath,
-            method: .delete,
-            additionalHeaders: headers
+            method: .delete
         )
     }
 
-    public func makePatchVaultFileRequest(
+    public func makeSetVaultFrontmatterRequest(
         filename: String,
         content: String,
-        headers: [String: String]
+        operation: String,
+        key: String
     ) -> NetworkRequest<Data, VoidResponse> {
         let filePath = buildVaultPath(for: filename)
-        var requestHeaders = headers
-        requestHeaders["Content-Type"] = "text/markdown"
 
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: filePath,
             method: .patch,
             body: content.data(using: .utf8) ?? Data(),
-            additionalHeaders: requestHeaders
+            additionalHeaders: [
+                "Content-Type": "application/json",
+                "Operation": operation,
+                "Target-Type": "frontmatter",
+                "Create-Target-If-Missing": "true",
+                "Target": key.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? key
+            ]
         )
     }
 
     // MARK: - Directory Listing
 
     public func makeListVaultDirectoryRequest(
-        directory: String,
-        headers: [String: String]
+        directory: String
     ) -> NetworkRequest<VoidRequest, DirectoryListingResponse> {
         let directoryPath = buildVaultDirectoryPath(for: directory)
 
-        return NetworkRequest<VoidRequest, DirectoryListingResponse>(
+        return .init(
             path: directoryPath,
-            method: .get,
-            additionalHeaders: headers
+            method: .get
         )
     }
 
@@ -187,22 +177,18 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         query: String,
         ignoreCase: Bool,
         wholeWord: Bool,
-        isRegex: Bool,
-        headers: [String: String]
+        isRegex: Bool
     ) -> NetworkRequest<VoidRequest, [SimpleSearchResponse]> {
-        var requestHeaders = headers
-        requestHeaders["Accept"] = "application/json"
-
-        let queryItems: [URLQueryItem] = [
-            URLQueryItem(name: "query", value: query),
-            URLQueryItem(name: "contextLength", value: "100")
-        ]
-
-        return NetworkRequest<VoidRequest, [SimpleSearchResponse]>(
+        .init(
             path: "/search/simple/",
             method: .post,
-            queryItems: queryItems,
-            additionalHeaders: requestHeaders
+            queryItems: [
+                .init(name: "query", value: query),
+                .init(name: "contextLength", value: "100")
+            ],
+            additionalHeaders: [
+                "Accept": "application/json"
+            ]
         )
     }
 

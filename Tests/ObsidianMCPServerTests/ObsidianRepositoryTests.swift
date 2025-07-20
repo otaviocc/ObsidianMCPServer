@@ -258,14 +258,13 @@ struct ObsidianRepositoryTests {
 
         // When
         let serverRequest = spyFactory.makeServerInfoRequest()
-        let activeRequest = spyFactory.makeGetActiveFileRequest(headers: [:])
-        let vaultRequest = spyFactory.makeGetVaultFileRequest(filename: "test.md", headers: [:])
+        let activeRequest = spyFactory.makeGetActiveFileRequest()
+        let vaultRequest = spyFactory.makeGetVaultFileRequest(filename: "test.md")
         let searchRequest = spyFactory.makeSearchVaultRequest(
             query: "test",
             ignoreCase: true,
             wholeWord: false,
-            isRegex: false,
-            headers: [:]
+            isRegex: false
         )
 
         // Then
@@ -287,8 +286,6 @@ struct ObsidianRepositoryTests {
         )
     }
 
-    // swiftlint:disable function_body_length
-
     @Test("It should track method calls correctly")
     func testMethodCallTracking() throws {
         // Given
@@ -301,17 +298,14 @@ struct ObsidianRepositoryTests {
             "It should track server info request calls"
         )
 
-        _ = spyFactory.makeGetActiveFileRequest(headers: ["test": "value"])
+        _ = spyFactory.makeGetActiveFileRequest()
         #expect(
             spyFactory.activeFileCallCount == 1,
             "It should track active file request calls"
         )
-        #expect(
-            spyFactory.lastHeaders["test"] == "value",
-            "It should track headers correctly"
-        )
+        // Headers removed - no longer tracked
 
-        _ = spyFactory.makeUpdateActiveFileRequest(content: "new content", headers: ["auth": "token"])
+        _ = spyFactory.makeUpdateActiveFileRequest(content: "new content")
         #expect(
             spyFactory.updateActiveFileCallCount == 1,
             "It should track update active file request calls"
@@ -320,12 +314,9 @@ struct ObsidianRepositoryTests {
             spyFactory.lastContent == "new content",
             "It should track content correctly"
         )
-        #expect(
-            spyFactory.lastHeaders["auth"] == "token",
-            "It should track auth headers correctly"
-        )
+        // Headers removed - no longer tracked
 
-        _ = spyFactory.makeGetVaultFileRequest(filename: "test.md", headers: [:])
+        _ = spyFactory.makeGetVaultFileRequest(filename: "test.md")
         #expect(
             spyFactory.vaultFileCallCount == 1,
             "It should track vault file request calls"
@@ -339,8 +330,7 @@ struct ObsidianRepositoryTests {
             query: "search term",
             ignoreCase: true,
             wholeWord: false,
-            isRegex: false,
-            headers: [:]
+            isRegex: false
         )
         #expect(
             spyFactory.searchVaultCallCount == 1,
@@ -352,57 +342,277 @@ struct ObsidianRepositoryTests {
         )
     }
 
-    // swiftlint:enable function_body_length
+    // MARK: - Repository Method Tests
 
-    // MARK: - Business Logic Tests
+    @Test("It should call request factory for getServerInfo")
+    func testGetServerInfo() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
-    @Test("It should handle PatchParameters correctly")
-    func testPatchParametersHandling() throws {
-        // Given/When
-        let appendParams = PatchParameters(
-            operation: .append,
-            targetType: .heading,
-            target: "## New Section"
-        )
-
-        let prependParams = PatchParameters(
-            operation: .prepend,
-            targetType: .frontmatter,
-            target: "tags: [test]"
-        )
-
-        let replaceParams = PatchParameters(
-            operation: .replace,
-            targetType: .document,
-            target: "New content"
-        )
+        // When/Then
+        do {
+            _ = try await repository.getServerInfo()
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
 
         // Then
         #expect(
-            appendParams.operation == .append,
-            "It should set append operation correctly"
+            spyFactory.serverInfoCallCount == 1,
+            "It should call server info request factory"
         )
         #expect(
-            appendParams.targetType == .heading,
-            "It should set heading target type correctly"
+            mockClient.lastRequestPath == "/spy-server-info",
+            "It should use correct request path"
         )
         #expect(
-            prependParams.operation == .prepend,
-            "It should set prepend operation correctly"
-        )
-        #expect(
-            prependParams.targetType == .frontmatter,
-            "It should set frontmatter target type correctly"
-        )
-        #expect(
-            replaceParams.operation == .replace,
-            "It should set replace operation correctly"
-        )
-        #expect(
-            replaceParams.targetType == .document,
-            "It should set document target type correctly"
+            mockClient.lastRequestMethod == "GET",
+            "It should use GET method"
         )
     }
+
+    @Test("It should call request factory for getActiveNote")
+    func testGetActiveNote() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+
+        // When/Then
+        do {
+            _ = try await repository.getActiveNote()
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.activeFileCallCount == 1,
+            "It should call active file request factory"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/spy-active",
+            "It should use correct request path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "GET",
+            "It should use GET method"
+        )
+    }
+
+    @Test("It should call request factory for updateActiveNote")
+    func testUpdateActiveNote() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+        let testContent = "# Updated Content"
+
+        // When/Then
+        do {
+            try await repository.updateActiveNote(content: testContent)
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.updateActiveFileCallCount == 1,
+            "It should call update active file request factory"
+        )
+        #expect(
+            spyFactory.lastContent == testContent,
+            "It should pass the correct content"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "PUT",
+            "It should use PUT method"
+        )
+    }
+
+    @Test("It should call request factory for deleteActiveNote")
+    func testDeleteActiveNote() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+
+        // When/Then
+        do {
+            try await repository.deleteActiveNote()
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.deleteActiveFileCallCount == 1,
+            "It should call delete active file request factory"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "DELETE",
+            "It should use DELETE method"
+        )
+    }
+
+    @Test("It should call request factory for setActiveNoteFrontmatterField")
+    func testSetActiveNoteFrontmatterField() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+
+        // When/Then
+        do {
+            try await repository.setActiveNoteFrontmatterField(key: "tags", value: "important")
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.frontmatterCallCount == 1,
+            "It should call frontmatter request factory"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "PATCH",
+            "It should use PATCH method"
+        )
+    }
+
+    @Test("It should call request factory for getVaultNote")
+    func testGetVaultNote() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+        let testFilename = "test-note.md"
+
+        // When/Then
+        do {
+            _ = try await repository.getVaultNote(filename: testFilename)
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.vaultFileCallCount == 1,
+            "It should call vault file request factory"
+        )
+        #expect(
+            spyFactory.lastFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/spy-vault/\(testFilename)",
+            "It should use correct vault path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "GET",
+            "It should use GET method"
+        )
+    }
+
+    @Test("It should call request factory for createOrUpdateVaultNote")
+    func testCreateOrUpdateVaultNote() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+        let testFile = File(filename: "new-note.md", content: "# New Note")
+
+        // When/Then
+        do {
+            try await repository.createOrUpdateVaultNote(file: testFile)
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.vaultFileCallCount == 1,
+            "It should call vault file request factory"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "PUT",
+            "It should use PUT method"
+        )
+    }
+
+    @Test("It should call request factory for searchVault")
+    func testSearchVault() async throws {
+        // Given
+        let mockClient = makeMockNetworkClient()
+        let spyFactory = RequestFactorySpy()
+        let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
+
+        // When/Then
+        do {
+            _ = try await repository.searchVault(
+                query: "test search",
+                ignoreCase: true,
+                wholeWord: false,
+                isRegex: false
+            )
+            #expect(Bool(false), "Should have thrown an error")
+        } catch {
+            #expect(
+                error is NetworkErrorMock,
+                "It should throw a network error"
+            )
+        }
+
+        // Then
+        #expect(
+            spyFactory.searchVaultCallCount == 1,
+            "It should call search vault request factory"
+        )
+        #expect(
+            spyFactory.lastQuery == "test search",
+            "It should pass the correct query"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/spy-search/",
+            "It should use correct search path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == "POST",
+            "It should use POST method"
+        )
+    }
+
+    // MARK: - Business Logic Tests
 
     @Test("It should handle File objects correctly")
     func testFileHandling() throws {

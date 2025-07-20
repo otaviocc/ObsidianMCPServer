@@ -26,7 +26,7 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
         let response = try await client.run(request)
         let serverInfo = response.value
 
-        return ServerInformation(
+        return .init(
             service: serverInfo.service,
             version: serverInfo.versions.`self`
         )
@@ -35,45 +35,59 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
     // MARK: - Active Note Operations
 
     func getActiveNote() async throws -> File {
-        let request = requestFactory.makeGetActiveFileRequest(headers: [:])
+        let request = requestFactory.makeGetActiveFileRequest()
         let response = try await client.run(request)
 
-        return File(filename: response.value.path, content: response.value.content)
+        return .init(filename: response.value.path, content: response.value.content)
     }
 
     func updateActiveNote(content: String) async throws {
-        let request = requestFactory.makeUpdateActiveFileRequest(content: content, headers: [:])
+        let request = requestFactory.makeUpdateActiveFileRequest(content: content)
         _ = try await client.run(request)
     }
 
     func deleteActiveNote() async throws {
-        let request = requestFactory.makeDeleteActiveFileRequest(headers: [:])
+        let request = requestFactory.makeDeleteActiveFileRequest()
         _ = try await client.run(request)
     }
 
-    func patchActiveNote(
-        content: String,
-        parameters: PatchParameters
+    func setActiveNoteFrontmatterField(
+        key: String,
+        value: String
     ) async throws {
-        let headers = buildPatchHeaders(for: parameters)
-        let request = requestFactory.makePatchActiveFileRequest(content: content, headers: headers)
+        let request = requestFactory.makeSetActiveFrontmatterRequest(
+            content: value,
+            operation: "replace",
+            key: key
+        )
+        _ = try await client.run(request)
+    }
+
+    func appendToActiveNoteFrontmatterField(
+        key: String,
+        value: String
+    ) async throws {
+        let request = requestFactory.makeSetActiveFrontmatterRequest(
+            content: value,
+            operation: "append",
+            key: key
+        )
         _ = try await client.run(request)
     }
 
     // MARK: - Note Operations
 
     func getVaultNote(filename: String) async throws -> File {
-        let request = requestFactory.makeGetVaultFileRequest(filename: filename, headers: [:])
+        let request = requestFactory.makeGetVaultFileRequest(filename: filename)
         let response = try await client.run(request)
 
-        return File(filename: response.value.path, content: response.value.content)
+        return .init(filename: response.value.path, content: response.value.content)
     }
 
     func createOrUpdateVaultNote(file: File) async throws {
         let request = requestFactory.makeCreateOrUpdateVaultFileRequest(
             filename: file.filename,
-            content: file.content,
-            headers: [:]
+            content: file.content
         )
         _ = try await client.run(request)
     }
@@ -81,26 +95,40 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
     func appendToVaultNote(file: File) async throws {
         let request = requestFactory.makeAppendToVaultFileRequest(
             filename: file.filename,
-            content: file.content,
-            headers: [:]
+            content: file.content
         )
         _ = try await client.run(request)
     }
 
     func deleteVaultNote(filename: String) async throws {
-        let request = requestFactory.makeDeleteVaultFileRequest(filename: filename, headers: [:])
+        let request = requestFactory.makeDeleteVaultFileRequest(filename: filename)
         _ = try await client.run(request)
     }
 
-    func patchVaultNote(
-        file: File,
-        parameters: PatchParameters
+    func setVaultNoteFrontmatterField(
+        filename: String,
+        key: String,
+        value: String
     ) async throws {
-        let headers = buildPatchHeaders(for: parameters)
-        let request = requestFactory.makePatchVaultFileRequest(
-            filename: file.filename,
-            content: file.content,
-            headers: headers
+        let request = requestFactory.makeSetVaultFrontmatterRequest(
+            filename: filename,
+            content: value,
+            operation: "replace",
+            key: key
+        )
+        _ = try await client.run(request)
+    }
+
+    func appendToVaultNoteFrontmatterField(
+        filename: String,
+        key: String,
+        value: String
+    ) async throws {
+        let request = requestFactory.makeSetVaultFrontmatterRequest(
+            filename: filename,
+            content: value,
+            operation: "append",
+            key: key
         )
         _ = try await client.run(request)
     }
@@ -116,7 +144,7 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
         currentDepth: Int,
         maxDepth: Int
     ) async throws -> [URL] {
-        let request = requestFactory.makeListVaultDirectoryRequest(directory: directory, headers: [:])
+        let request = requestFactory.makeListVaultDirectoryRequest(directory: directory)
         let response = try await client.run(request)
         let files = response.value.files
 
@@ -159,8 +187,7 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
             query: query,
             ignoreCase: ignoreCase,
             wholeWord: wholeWord,
-            isRegex: isRegex,
-            headers: [:]
+            isRegex: isRegex
         )
 
         let searchResponse = try await client.run(request).value
@@ -170,45 +197,7 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
         }
     }
 
-    func searchVaultInPath(
-        query: String,
-        path: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
-    ) async throws -> [SearchResult] {
-        let queryInPath = "path:\"\(path)\" \(query)"
-
-        return try await searchVault(
-            query: queryInPath,
-            ignoreCase: ignoreCase,
-            wholeWord: wholeWord,
-            isRegex: isRegex
-        )
-    }
-
     // MARK: - Private
-
-    private func buildPatchHeaders(
-        for params: PatchParameters,
-        additionalHeaders: [String: String] = [:]
-    ) -> [String: String] {
-        var headers: [String: String] = [:]
-        headers["Operation"] = params.operation.rawValue
-        headers["Target-Type"] = params.targetType.rawValue
-        headers["Target-Delimiter"] = "::"
-        headers["Trim-Target-Whitespace"] = "true"
-        headers["Create-Target-If-Missing"] = "true"
-        headers["Target"] = params.target.addingPercentEncoding(
-            withAllowedCharacters: .urlQueryAllowed
-        ) ?? params.target
-
-        for (key, value) in additionalHeaders {
-            headers[key] = value
-        }
-
-        return headers
-    }
 
     private func buildDirectoryPath(
         base: String,

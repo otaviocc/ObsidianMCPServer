@@ -7,20 +7,15 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
     var activeFileCallCount = 0
     var updateActiveFileCallCount = 0
     var deleteActiveFileCallCount = 0
-    var patchActiveFileCallCount = 0
     var vaultFileCallCount = 0
-    var createOrUpdateVaultFileCallCount = 0
-    var appendToVaultFileCallCount = 0
-    var deleteVaultFileCallCount = 0
-    var patchVaultFileCallCount = 0
-    var listVaultDirectoryCallCount = 0
+    var frontmatterCallCount = 0
     var searchVaultCallCount = 0
 
+    // Tracking properties for method arguments
+    var lastQuery: String?
+    var lastContent: String?
+    var lastFilename: String?
     var lastHeaders: [String: String] = [:]
-    var lastContent: String = ""
-    var lastFilename: String = ""
-    var lastDirectory: String = ""
-    var lastQuery: String = ""
 
     func makeServerInfoRequest() -> NetworkRequest<VoidRequest, ServerInfoResponse> {
         serverInfoCallCount += 1
@@ -31,156 +26,133 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         )
     }
 
-    func makeGetActiveFileRequest(headers: [String: String]) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
+    func makeGetActiveFileRequest() -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         activeFileCallCount += 1
-        lastHeaders = headers
         return NetworkRequest<VoidRequest, NoteJSONResponse>(
             path: "/spy-active",
             method: .get,
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
-    func makeGetActiveFileJsonRequest(headers: [String: String]) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
+    func makeGetActiveFileJsonRequest() -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         activeFileCallCount += 1
-        lastHeaders = headers
         return NetworkRequest<VoidRequest, NoteJSONResponse>(
             path: "/spy-active-json",
             method: .get,
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
     func makeUpdateActiveFileRequest(
-        content: String,
-        headers: [String: String]
+        content: String
     ) -> NetworkRequest<Data, VoidResponse> {
+        activeFileCallCount += 1
         updateActiveFileCallCount += 1
         lastContent = content
-        lastHeaders = headers
         return NetworkRequest<Data, VoidResponse>(
-            path: "/spy-update-active",
+            path: "/spy-active-update",
             method: .put,
             body: content.data(using: .utf8),
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
-    func makeDeleteActiveFileRequest(headers: [String: String]) -> NetworkRequest<VoidRequest, VoidResponse> {
+    func makeDeleteActiveFileRequest() -> NetworkRequest<VoidRequest, VoidResponse> {
+        activeFileCallCount += 1
         deleteActiveFileCallCount += 1
-        lastHeaders = headers
         return NetworkRequest<VoidRequest, VoidResponse>(
-            path: "/spy-delete-active",
+            path: "/spy-active-delete",
             method: .delete,
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
-    func makePatchActiveFileRequest(
+    func makeSetActiveFrontmatterRequest(
         content: String,
-        headers: [String: String]
+        operation: String,
+        key: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        patchActiveFileCallCount += 1
-        lastContent = content
-        lastHeaders = headers
+        frontmatterCallCount += 1
         return NetworkRequest<Data, VoidResponse>(
-            path: "/spy-patch-active",
+            path: "/spy-active-frontmatter",
             method: .patch,
             body: content.data(using: .utf8),
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
     func makeGetVaultFileRequest(
-        filename: String,
-        headers: [String: String]
+        filename: String
     ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         vaultFileCallCount += 1
         lastFilename = filename
-        lastHeaders = headers
         return NetworkRequest<VoidRequest, NoteJSONResponse>(
             path: "/spy-vault/\(filename)",
             method: .get,
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
     func makeCreateOrUpdateVaultFileRequest(
         filename: String,
-        content: String,
-        headers: [String: String]
+        content: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        createOrUpdateVaultFileCallCount += 1
-        lastFilename = filename
-        lastContent = content
-        lastHeaders = headers
+        vaultFileCallCount += 1
         return NetworkRequest<Data, VoidResponse>(
             path: "/spy-vault/\(filename)",
             method: .put,
             body: content.data(using: .utf8),
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
     func makeAppendToVaultFileRequest(
         filename: String,
-        content: String,
-        headers: [String: String]
+        content: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        appendToVaultFileCallCount += 1
-        lastFilename = filename
-        lastContent = content
-        lastHeaders = headers
+        vaultFileCallCount += 1
         return NetworkRequest<Data, VoidResponse>(
-            path: "/spy-vault/\(filename)",
+            path: "/spy-vault-append/\(filename)",
             method: .post,
             body: content.data(using: .utf8),
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
     func makeDeleteVaultFileRequest(
-        filename: String,
-        headers: [String: String]
+        filename: String
     ) -> NetworkRequest<VoidRequest, VoidResponse> {
-        deleteVaultFileCallCount += 1
-        lastFilename = filename
-        lastHeaders = headers
+        vaultFileCallCount += 1
         return NetworkRequest<VoidRequest, VoidResponse>(
-            path: "/spy-vault/\(filename)",
+            path: "/spy-vault-delete/\(filename)",
             method: .delete,
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
-    func makePatchVaultFileRequest(
+    func makeSetVaultFrontmatterRequest(
         filename: String,
         content: String,
-        headers: [String: String]
+        operation: String,
+        key: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        patchVaultFileCallCount += 1
-        lastFilename = filename
-        lastContent = content
-        lastHeaders = headers
+        frontmatterCallCount += 1
         return NetworkRequest<Data, VoidResponse>(
-            path: "/spy-vault/\(filename)",
+            path: "/spy-vault-frontmatter/\(filename)",
             method: .patch,
             body: content.data(using: .utf8),
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
     func makeListVaultDirectoryRequest(
-        directory: String,
-        headers: [String: String]
+        directory: String
     ) -> NetworkRequest<VoidRequest, DirectoryListingResponse> {
-        listVaultDirectoryCallCount += 1
-        lastDirectory = directory
-        lastHeaders = headers
-        return NetworkRequest<VoidRequest, DirectoryListingResponse>(
-            path: "/spy-vault/\(directory)/",
+        NetworkRequest<VoidRequest, DirectoryListingResponse>(
+            path: "/spy-directory",
             method: .get,
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
     }
 
@@ -188,37 +160,14 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         query: String,
         ignoreCase: Bool,
         wholeWord: Bool,
-        isRegex: Bool,
-        headers: [String: String]
+        isRegex: Bool
     ) -> NetworkRequest<VoidRequest, [SimpleSearchResponse]> {
         searchVaultCallCount += 1
         lastQuery = query
-        lastHeaders = headers
         return NetworkRequest<VoidRequest, [SimpleSearchResponse]>(
             path: "/spy-search/",
             method: .post,
-            queryItems: [URLQueryItem(name: "query", value: query)],
-            additionalHeaders: headers
+            additionalHeaders: [:]
         )
-    }
-
-    func reset() {
-        serverInfoCallCount = 0
-        activeFileCallCount = 0
-        updateActiveFileCallCount = 0
-        deleteActiveFileCallCount = 0
-        patchActiveFileCallCount = 0
-        vaultFileCallCount = 0
-        createOrUpdateVaultFileCallCount = 0
-        appendToVaultFileCallCount = 0
-        deleteVaultFileCallCount = 0
-        patchVaultFileCallCount = 0
-        listVaultDirectoryCallCount = 0
-        searchVaultCallCount = 0
-        lastHeaders = [:]
-        lastContent = ""
-        lastFilename = ""
-        lastDirectory = ""
-        lastQuery = ""
     }
 }

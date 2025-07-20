@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import MicroClient
+import ObsidianNetworking
 
 final class NetworkClientMock: NetworkClientProtocol {
 
@@ -9,7 +10,8 @@ final class NetworkClientMock: NetworkClientProtocol {
     var runCallCount = 0
     var lastRequestPath: String?
     var lastRequestMethod: String?
-    var mockError: Error = NetworkErrorMock.noMockResponse
+    var mockError: Error?
+    var mockResponses: [String: Any] = [:]
 
     // MARK: - NetworkClientProtocol
 
@@ -22,7 +24,14 @@ final class NetworkClientMock: NetworkClientProtocol {
         lastRequestPath = request.path
         lastRequestMethod = request.method.rawValue
 
-        throw mockError
+        // If mockError is set, throw it
+        if let error = mockError {
+            throw error
+        }
+
+        // For now, always throw error since NetworkResponse initializer is internal
+        // This allows us to test request construction and error handling
+        throw NetworkErrorMock.noMockResponse
     }
 
     var status: AsyncStream<NetworkClientStatus> {
@@ -43,10 +52,19 @@ final class NetworkClientMock: NetworkClientProtocol {
         lastRequestPath = nil
         lastRequestMethod = nil
         mockError = NetworkErrorMock.noMockResponse
+        mockResponses.removeAll()
     }
 
     func setMockError(_ error: Error) {
         mockError = error
+    }
+
+    func setMockResponse<T>(
+        for path: String,
+        response: T
+    ) {
+        mockResponses[path] = response
+        mockError = nil // Clear error when setting successful response
     }
 
     func verifyNoNetworkCalls() -> Bool {

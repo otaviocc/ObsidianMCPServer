@@ -185,7 +185,6 @@ For any MCP-compatible tool, use the same configuration pattern:
 
 ### Search Operations
 - `search(query, ignoreCase, wholeWord, isRegex)` - Search entire vault
-- `searchInPath(query, path, ignoreCase, wholeWord, isRegex)` - Search within specific path
 
 ### Patch Parameters
 
