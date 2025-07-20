@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ObsidianMCPServer}",
+            "name": "Debug ObsidianMCPServer",
+            "program": "${workspaceFolder:ObsidianMCPServer}/.build/debug/ObsidianMCPServer",
+            "preLaunchTask": "swift: Build Debug ObsidianMCPServer"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:ObsidianMCPServer}",
+            "name": "Release ObsidianMCPServer",
+            "program": "${workspaceFolder:ObsidianMCPServer}/.build/release/ObsidianMCPServer",
+            "preLaunchTask": "swift: Build Release ObsidianMCPServer"
+        }
+    ]
+}

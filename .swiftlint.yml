@@ -1,0 +1,59 @@
+opt_in_rules:
+  - array_init
+  - block_based_kvo
+  - closure_end_indentation
+  - closure_spacing
+  - contains_over_first_not_nil
+  - convenience_type
+  - discouraged_assert
+  - discouraged_object_literal
+  - discouraged_optional_boolean
+  - empty_count
+  - empty_string
+  - empty_xctest_method
+  - explicit_init
+  - extension_access_modifier
+  - fatal_error_message
+  - file_header
+  - file_length
+  - first_where
+  - force_cast
+  - force_try
+  - force_unwrapping
+  - implicit_return
+  - joined_default_parameter
+  - last_where
+  - legacy_random
+  - lower_acl_than_parent
+  - modifier_order
+  - multiline_function_chains
+  - multiline_parameters
+  - multiline_parameters_brackets
+  - no_fallthrough_only
+  - operator_usage_whitespace
+  - overridden_super_call
+  - private_action
+  - private_outlet
+  - private_unit_test
+  - prohibited_super_call
+  - redundant_nil_coalescing
+  - single_test_class
+  - sorted_first_last
+  - static_operator
+  - strong_iboutlet
+  - switch_case_alignment
+  - trailing_closure
+  - unavailable_function
+  - unneeded_parentheses_in_closure_argument
+  - unused_control_flow_label
+  - vertical_parameter_alignment_on_call
+  - vertical_whitespace_closing_braces
+  - xct_specific_matcher
+  - xctfail_message
+  - yoda_condition
+  
+private_outlet:
+  allow_private_set: true
+
+multiline_parameters:
+  allows_single_line: false
