@@ -21,7 +21,10 @@ struct ObsidianAPIFactoryTests {
             userToken: tokenProvider
         )
 
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should create a NetworkClient instance"
+        )
     }
 
     @Test("It should create different client instances for each call")
@@ -44,7 +47,10 @@ struct ObsidianAPIFactoryTests {
             return
         }
 
-        #expect(networkClient1 !== networkClient2)
+        #expect(
+            networkClient1 !== networkClient2,
+            "It should create different instances each time"
+        )
     }
 
     @Test("It should handle different base URLs")
@@ -62,7 +68,10 @@ struct ObsidianAPIFactoryTests {
             return
         }
 
-        #expect(httpsNetworkClient !== httpNetworkClient)
+        #expect(
+            httpsNetworkClient !== httpNetworkClient,
+            "It should create different instances for different URLs"
+        )
     }
 
     @Test("It should handle base URLs with paths and query parameters")
@@ -76,7 +85,10 @@ struct ObsidianAPIFactoryTests {
             userToken: tokenProvider
         )
 
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should handle complex base URLs"
+        )
     }
 
     // MARK: - Token Provider Tests
@@ -90,7 +102,10 @@ struct ObsidianAPIFactoryTests {
             userToken: tokenProvider
         )
 
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should create client with valid token provider"
+        )
     }
 
     @Test("It should accept token provider that returns nil")
@@ -102,7 +117,10 @@ struct ObsidianAPIFactoryTests {
             userToken: tokenProvider
         )
 
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should create client with nil token provider"
+        )
     }
 
     @Test("It should accept token provider that returns empty string")
@@ -114,7 +132,10 @@ struct ObsidianAPIFactoryTests {
             userToken: tokenProvider
         )
 
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should create client with empty token provider"
+        )
     }
 
     @Test("It should handle dynamic token changes")
@@ -127,12 +148,21 @@ struct ObsidianAPIFactoryTests {
             userToken: tokenProvider
         )
 
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should create client with initial token"
+        )
 
         currentToken = "updated-token"
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should handle token updates"
+        )
 
         currentToken = nil
-        #expect(client is NetworkClient)
+        #expect(
+            client is NetworkClient,
+            "It should handle token removal"
+        )
     }
 }

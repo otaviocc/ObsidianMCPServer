@@ -3,6 +3,8 @@ import Foundation
 import MicroClient
 @testable import ObsidianNetworking
 
+// swiftlint:disable type_body_length file_length
+
 @Suite("ObsidianRequestFactory Tests")
 struct ObsidianRequestFactoryTests {
 
@@ -15,11 +17,26 @@ struct ObsidianRequestFactoryTests {
     func testMakeServerInfoRequest() {
         let request = factory.makeServerInfoRequest()
 
-        #expect(request.path == "/")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?.isEmpty == true)
-        #expect(request.body == nil)
-        #expect(request.queryItems.isEmpty == true)
+        #expect(
+            request.path == "/",
+            "It should use root path for server info"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for server info"
+        )
+        #expect(
+            request.additionalHeaders?.isEmpty == true,
+            "It should have no additional headers by default"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for server info request"
+        )
+        #expect(
+            request.queryItems.isEmpty == true,
+            "It should have no query items for server info"
+        )
     }
 
     // MARK: - Active File Tests
@@ -28,24 +45,60 @@ struct ObsidianRequestFactoryTests {
     func testMakeGetActiveFileRequest() {
         let request = factory.makeGetActiveFileRequest(headers: testHeaders)
 
-        #expect(request.path == "/active/")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/active/",
+            "It should use active file path"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method"
+        )
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
+            "It should set correct Accept header"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for GET request"
+        )
     }
 
     @Test("It should create a get active file JSON request with correct headers")
     func testMakeGetActiveFileJsonRequest() {
         let request = factory.makeGetActiveFileJsonRequest(headers: testHeaders)
 
-        #expect(request.path == "/active/")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/active/",
+            "It should use active file path for JSON request"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for JSON request"
+        )
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
+            "It should set correct JSON Accept header"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for JSON GET request"
+        )
     }
 
     @Test("It should create an update active file request with content and headers")
@@ -53,23 +106,56 @@ struct ObsidianRequestFactoryTests {
         let content = "# Test Note\nThis is test content."
         let request = factory.makeUpdateActiveFileRequest(content: content, headers: testHeaders)
 
-        #expect(request.path == "/active/")
-        #expect(request.method == .put)
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown; charset=utf-8")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == content.data(using: .utf8))
+        #expect(
+            request.path == "/active/",
+            "It should use active file path for update"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method for update"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown; charset=utf-8",
+            "It should set correct markdown Content-Type"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should include content as UTF-8 encoded body"
+        )
     }
 
     @Test("It should create a delete active file request")
     func testMakeDeleteActiveFileRequest() {
         let request = factory.makeDeleteActiveFileRequest(headers: testHeaders)
 
-        #expect(request.path == "/active/")
-        #expect(request.method == .delete)
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/active/",
+            "It should use active file path for delete"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for DELETE request"
+        )
     }
 
     @Test("It should create a patch active file request with content and headers")
@@ -77,12 +163,30 @@ struct ObsidianRequestFactoryTests {
         let content = "Additional content to patch"
         let request = factory.makePatchActiveFileRequest(content: content, headers: testHeaders)
 
-        #expect(request.path == "/active/")
-        #expect(request.method == .patch)
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown; charset=utf-8")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == content.data(using: .utf8))
+        #expect(
+            request.path == "/active/",
+            "It should use active file path for patch"
+        )
+        #expect(
+            request.method == .patch,
+            "It should use PATCH method"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown; charset=utf-8",
+            "It should set correct markdown Content-Type"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should include content as body"
+        )
     }
 
     // MARK: - Vault File Tests
@@ -92,12 +196,30 @@ struct ObsidianRequestFactoryTests {
         let filename = "folder/test-note.md"
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
-        #expect(request.path == "/vault/folder/test-note.md")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/vault/folder/test-note.md",
+            "It should construct correct vault file path"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for vault file"
+        )
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
+            "It should set correct Accept header"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for GET request"
+        )
     }
 
     @Test("It should create a get vault file request with simple filename")
@@ -105,9 +227,18 @@ struct ObsidianRequestFactoryTests {
         let filename = "simple-note.md"
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
-        #expect(request.path == "/vault/simple-note.md")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json")
+        #expect(
+            request.path == "/vault/simple-note.md",
+            "It should construct simple vault file path"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for simple filename"
+        )
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
+            "It should set correct Accept header"
+        )
     }
 
     @Test("It should create a create or update vault file request")
@@ -120,12 +251,30 @@ struct ObsidianRequestFactoryTests {
             headers: testHeaders
         )
 
-        #expect(request.path == "/vault/new-note.md")
-        #expect(request.method == .put)
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == content.data(using: .utf8))
+        #expect(
+            request.path == "/vault/new-note.md",
+            "It should construct correct vault file path for create/update"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method for create/update"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set markdown Content-Type"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should include content as UTF-8 body"
+        )
     }
 
     @Test("It should handle empty content in create or update vault file request")
@@ -138,10 +287,22 @@ struct ObsidianRequestFactoryTests {
             headers: testHeaders
         )
 
-        #expect(request.path == "/vault/empty-note.md")
-        #expect(request.method == .put)
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown")
-        #expect(request.body == Data())
+        #expect(
+            request.path == "/vault/empty-note.md",
+            "It should construct path with empty content"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method for empty content"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set markdown Content-Type for empty content"
+        )
+        #expect(
+            request.body == Data(),
+            "It should have empty Data body for empty content"
+        )
     }
 
     @Test("It should create an append to vault file request")
@@ -150,12 +311,30 @@ struct ObsidianRequestFactoryTests {
         let content = "\nAppended content"
         let request = factory.makeAppendToVaultFileRequest(filename: filename, content: content, headers: testHeaders)
 
-        #expect(request.path == "/vault/existing-note.md")
-        #expect(request.method == .post)
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == content.data(using: .utf8))
+        #expect(
+            request.path == "/vault/existing-note.md",
+            "It should construct correct vault file path for append"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method for append"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set markdown Content-Type for append"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should include append content as body"
+        )
     }
 
     @Test("It should create a delete vault file request")
@@ -163,11 +342,26 @@ struct ObsidianRequestFactoryTests {
         let filename = "to-delete.md"
         let request = factory.makeDeleteVaultFileRequest(filename: filename, headers: testHeaders)
 
-        #expect(request.path == "/vault/to-delete.md")
-        #expect(request.method == .delete)
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/vault/to-delete.md",
+            "It should construct correct vault file path for delete"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method for vault file"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for DELETE request"
+        )
     }
 
     @Test("It should create a patch vault file request")
@@ -176,12 +370,30 @@ struct ObsidianRequestFactoryTests {
         let content = "Patch content"
         let request = factory.makePatchVaultFileRequest(filename: filename, content: content, headers: testHeaders)
 
-        #expect(request.path == "/vault/to-patch.md")
-        #expect(request.method == .patch)
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == content.data(using: .utf8))
+        #expect(
+            request.path == "/vault/to-patch.md",
+            "It should construct correct vault file path for patch"
+        )
+        #expect(
+            request.method == .patch,
+            "It should use PATCH method for vault file"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set markdown Content-Type for patch"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should include patch content as body"
+        )
     }
 
     // MARK: - Directory Listing Tests
@@ -191,11 +403,26 @@ struct ObsidianRequestFactoryTests {
         let directory = ""
         let request = factory.makeListVaultDirectoryRequest(directory: directory, headers: testHeaders)
 
-        #expect(request.path == "/vault/")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/vault/",
+            "It should construct root vault directory path"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for directory listing"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for directory listing"
+        )
     }
 
     @Test("It should create a list vault directory request for subdirectory")
@@ -203,11 +430,26 @@ struct ObsidianRequestFactoryTests {
         let directory = "projects/notes"
         let request = factory.makeListVaultDirectoryRequest(directory: directory, headers: testHeaders)
 
-        #expect(request.path == "/vault/projects/notes/")
-        #expect(request.method == .get)
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/vault/projects/notes/",
+            "It should construct subdirectory path with trailing slash"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for subdirectory listing"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for subdirectory listing"
+        )
     }
 
     @Test("It should create a list vault directory request for simple directory")
@@ -215,8 +457,14 @@ struct ObsidianRequestFactoryTests {
         let directory = "templates"
         let request = factory.makeListVaultDirectoryRequest(directory: directory, headers: testHeaders)
 
-        #expect(request.path == "/vault/templates/")
-        #expect(request.method == .get)
+        #expect(
+            request.path == "/vault/templates/",
+            "It should construct simple directory path"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for simple directory"
+        )
     }
 
     // MARK: - Search Tests
@@ -235,17 +483,44 @@ struct ObsidianRequestFactoryTests {
             headers: testHeaders
         )
 
-        #expect(request.path == "/search/simple/")
-        #expect(request.method == .post)
-        #expect(request.additionalHeaders?["Accept"] == "application/json")
-        #expect(request.additionalHeaders?["Authorization"] == "Bearer test-token")
-        #expect(request.additionalHeaders?["Custom-Header"] == "test-value")
-        #expect(request.body == nil)
+        #expect(
+            request.path == "/search/simple/",
+            "It should use correct search path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method for search"
+        )
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/json",
+            "It should set JSON Accept header"
+        )
+        #expect(
+            request.additionalHeaders?["Authorization"] == "Bearer test-token",
+            "It should pass through Authorization header"
+        )
+        #expect(
+            request.additionalHeaders?["Custom-Header"] == "test-value",
+            "It should pass through custom headers"
+        )
+        #expect(
+            request.body == nil,
+            "It should have no body for search request"
+        )
 
         let queryItems = request.queryItems
-        #expect(queryItems.count == 2)
-        #expect(queryItems.contains { $0.name == "query" && $0.value == query })
-        #expect(queryItems.contains { $0.name == "contextLength" && $0.value == "100" })
+        #expect(
+            queryItems.count == 2,
+            "It should have correct number of query items"
+        )
+        #expect(
+            queryItems.contains { $0.name == "query" && $0.value == query },
+            "It should include query parameter"
+        )
+        #expect(
+            queryItems.contains { $0.name == "contextLength" && $0.value == "100" },
+            "It should include contextLength parameter"
+        )
     }
 
     @Test("It should create a search vault request with special characters in query")
@@ -259,11 +534,20 @@ struct ObsidianRequestFactoryTests {
             headers: testHeaders
         )
 
-        #expect(request.path == "/search/simple/")
-        #expect(request.method == .post)
+        #expect(
+            request.path == "/search/simple/",
+            "It should use correct search path for special characters"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method for special character search"
+        )
 
         let queryItems = request.queryItems
-        #expect(queryItems.contains { $0.name == "query" && $0.value == query })
+        #expect(
+            queryItems.contains { $0.name == "query" && $0.value == query },
+            "It should include query with special characters"
+        )
     }
 
     // MARK: - Edge Cases and Error Conditions
@@ -273,8 +557,14 @@ struct ObsidianRequestFactoryTests {
         let emptyHeaders: [String: String] = [:]
         let request = factory.makeGetActiveFileRequest(headers: emptyHeaders)
 
-        #expect(request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json")
-        #expect(request.additionalHeaders?.count == 1)
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
+            "It should set default Accept header even with empty input headers"
+        )
+        #expect(
+            request.additionalHeaders?.count == 1,
+            "It should only have the default Accept header"
+        )
     }
 
     @Test("It should handle filenames with special characters")
@@ -282,8 +572,14 @@ struct ObsidianRequestFactoryTests {
         let filename = "file with spaces & symbols!.md"
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
-        #expect(request.path == "/vault/file with spaces & symbols!.md")
-        #expect(request.method == .get)
+        #expect(
+            request.path == "/vault/file with spaces & symbols!.md",
+            "It should construct path with special characters in filename"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for special character filename"
+        )
     }
 
     @Test("It should handle nested directory paths correctly")
@@ -291,8 +587,14 @@ struct ObsidianRequestFactoryTests {
         let filename = "deep/nested/folder/structure/note.md"
         let request = factory.makeGetVaultFileRequest(filename: filename, headers: testHeaders)
 
-        #expect(request.path == "/vault/deep/nested/folder/structure/note.md")
-        #expect(request.method == .get)
+        #expect(
+            request.path == "/vault/deep/nested/folder/structure/note.md",
+            "It should construct deeply nested path correctly"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method for nested path"
+        )
     }
 
     @Test("It should handle Unicode content correctly")
@@ -300,7 +602,15 @@ struct ObsidianRequestFactoryTests {
         let content = "# Test 🎉\nUnicode content: café, naïve, 中文"
         let request = factory.makeUpdateActiveFileRequest(content: content, headers: testHeaders)
 
-        #expect(request.body == content.data(using: .utf8))
-        #expect(request.additionalHeaders?["Content-Type"] == "text/markdown; charset=utf-8")
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should include Unicode content as body"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown; charset=utf-8",
+            "It should set UTF-8 Content-Type for Unicode content"
+        )
     }
 }
+
+// swiftlint:enable type_body_length file_length

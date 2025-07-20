@@ -2,6 +2,8 @@ import Testing
 import Foundation
 @testable import ObsidianMCPServer
 
+// swiftlint:disable type_body_length
+
 @Suite("Obsidian Models Tests")
 struct ObsidianModelsTests {
 
@@ -11,32 +13,56 @@ struct ObsidianModelsTests {
     func testFileModel() throws {
         let file = File(filename: "test-note.md", content: "# Test\nContent")
 
-        #expect(file.filename == "test-note.md")
-        #expect(file.content == "# Test\nContent")
+        #expect(
+            file.filename == "test-note.md",
+            "It should set the filename correctly"
+        )
+        #expect(
+            file.content == "# Test\nContent",
+            "It should set the content correctly"
+        )
     }
 
     @Test("It should handle empty filename")
     func testEmptyFileName() throws {
         let file = File(filename: "", content: "Content")
 
-        #expect(file.filename.isEmpty)
-        #expect(file.content == "Content")
+        #expect(
+            file.filename.isEmpty,
+            "It should handle empty filename"
+        )
+        #expect(
+            file.content == "Content",
+            "It should preserve content with empty filename"
+        )
     }
 
     @Test("It should handle empty content")
     func testEmptyContent() throws {
         let file = File(filename: "empty.md", content: "")
 
-        #expect(file.filename == "empty.md")
-        #expect(file.content.isEmpty)
+        #expect(
+            file.filename == "empty.md",
+            "It should preserve filename with empty content"
+        )
+        #expect(
+            file.content.isEmpty,
+            "It should handle empty content"
+        )
     }
 
     @Test("It should handle special characters in filename")
     func testSpecialCharactersInFilename() throws {
         let file = File(filename: "file with spaces & symbols!.md", content: "Content")
 
-        #expect(file.filename == "file with spaces & symbols!.md")
-        #expect(file.content == "Content")
+        #expect(
+            file.filename == "file with spaces & symbols!.md",
+            "It should handle special characters in filename"
+        )
+        #expect(
+            file.content == "Content",
+            "It should preserve content with special filename"
+        )
     }
 
     @Test("It should handle Unicode content")
@@ -46,8 +72,14 @@ struct ObsidianModelsTests {
             content: "Unicode: 🎉 café naïve 中文"
         )
 
-        #expect(file.filename == "unicode.md")
-        #expect(file.content == "Unicode: 🎉 café naïve 中文")
+        #expect(
+            file.filename == "unicode.md",
+            "It should handle Unicode filename correctly"
+        )
+        #expect(
+            file.content == "Unicode: 🎉 café naïve 中文",
+            "It should handle Unicode content correctly"
+        )
     }
 
     @Test("It should handle very long content")
@@ -55,8 +87,14 @@ struct ObsidianModelsTests {
         let longContent = String(repeating: "A", count: 10000)
         let file = File(filename: "long.md", content: longContent)
 
-        #expect(file.filename == "long.md")
-        #expect(file.content.count == 10000)
+        #expect(
+            file.filename == "long.md",
+            "It should handle filename with long content"
+        )
+        #expect(
+            file.content.count == 10000,
+            "It should handle very long content correctly"
+        )
     }
 
     // MARK: - ServerInformation Model Tests
@@ -65,24 +103,42 @@ struct ObsidianModelsTests {
     func testServerInformationModel() throws {
         let serverInfo = ServerInformation(service: "obsidian-api", version: "1.0.0")
 
-        #expect(serverInfo.service == "obsidian-api")
-        #expect(serverInfo.version == "1.0.0")
+        #expect(
+            serverInfo.service == "obsidian-api",
+            "It should set the service name correctly"
+        )
+        #expect(
+            serverInfo.version == "1.0.0",
+            "It should set the version correctly"
+        )
     }
 
     @Test("It should handle empty service name")
     func testEmptyServiceName() throws {
         let serverInfo = ServerInformation(service: "", version: "1.0.0")
 
-        #expect(serverInfo.service.isEmpty)
-        #expect(serverInfo.version == "1.0.0")
+        #expect(
+            serverInfo.service.isEmpty,
+            "It should handle empty service name"
+        )
+        #expect(
+            serverInfo.version == "1.0.0",
+            "It should preserve version with empty service"
+        )
     }
 
     @Test("It should handle empty version")
     func testEmptyVersion() throws {
         let serverInfo = ServerInformation(service: "obsidian-api", version: "")
 
-        #expect(serverInfo.service == "obsidian-api")
-        #expect(serverInfo.version.isEmpty)
+        #expect(
+            serverInfo.service == "obsidian-api",
+            "It should preserve service with empty version"
+        )
+        #expect(
+            serverInfo.version.isEmpty,
+            "It should handle empty version"
+        )
     }
 
     // MARK: - SearchResult Model Tests
@@ -91,40 +147,70 @@ struct ObsidianModelsTests {
     func testSearchResultModel() throws {
         let searchResult = SearchResult(path: "notes/test.md", score: 0.85)
 
-        #expect(searchResult.path == "notes/test.md")
-        #expect(searchResult.score == 0.85)
+        #expect(
+            searchResult.path == "notes/test.md",
+            "It should set the path correctly"
+        )
+        #expect(
+            searchResult.score == 0.85,
+            "It should set the score correctly"
+        )
     }
 
     @Test("It should handle zero search score")
     func testZeroSearchScore() throws {
         let searchResult = SearchResult(path: "low-relevance.md", score: 0.0)
 
-        #expect(searchResult.path == "low-relevance.md")
-        #expect(searchResult.score == 0.0)
+        #expect(
+            searchResult.path == "low-relevance.md",
+            "It should handle path with zero score"
+        )
+        #expect(
+            searchResult.score == 0.0,
+            "It should handle zero score correctly"
+        )
     }
 
     @Test("It should handle maximum search score")
     func testMaxSearchScore() throws {
         let searchResult = SearchResult(path: "perfect-match.md", score: 1.0)
 
-        #expect(searchResult.path == "perfect-match.md")
-        #expect(searchResult.score == 1.0)
+        #expect(
+            searchResult.path == "perfect-match.md",
+            "It should handle path with maximum score"
+        )
+        #expect(
+            searchResult.score == 1.0,
+            "It should handle maximum score correctly"
+        )
     }
 
     @Test("It should handle negative search score")
     func testNegativeSearchScore() throws {
         let searchResult = SearchResult(path: "negative.md", score: -0.5)
 
-        #expect(searchResult.path == "negative.md")
-        #expect(searchResult.score == -0.5)
+        #expect(
+            searchResult.path == "negative.md",
+            "It should handle path with negative score"
+        )
+        #expect(
+            searchResult.score == -0.5,
+            "It should handle negative score correctly"
+        )
     }
 
     @Test("It should handle very high search score")
     func testVeryHighSearchScore() throws {
         let searchResult = SearchResult(path: "high.md", score: 999.99)
 
-        #expect(searchResult.path == "high.md")
-        #expect(searchResult.score == 999.99)
+        #expect(
+            searchResult.path == "high.md",
+            "It should handle path with very high score"
+        )
+        #expect(
+            searchResult.score == 999.99,
+            "It should handle very high score correctly"
+        )
     }
 
     // MARK: - PatchParameters Model Tests
@@ -137,9 +223,18 @@ struct ObsidianModelsTests {
             target: "## New Section"
         )
 
-        #expect(params.operation == .append)
-        #expect(params.targetType == .heading)
-        #expect(params.target == "## New Section")
+        #expect(
+            params.operation == .append,
+            "It should set append operation correctly"
+        )
+        #expect(
+            params.targetType == .heading,
+            "It should set heading target type correctly"
+        )
+        #expect(
+            params.target == "## New Section",
+            "It should set target string correctly"
+        )
     }
 
     @Test("It should create PatchParameters with replace operation")
@@ -150,9 +245,18 @@ struct ObsidianModelsTests {
             target: "target-block-id"
         )
 
-        #expect(params.operation == .replace)
-        #expect(params.targetType == .block)
-        #expect(params.target == "target-block-id")
+        #expect(
+            params.operation == .replace,
+            "It should set replace operation correctly"
+        )
+        #expect(
+            params.targetType == .block,
+            "It should set block target type correctly"
+        )
+        #expect(
+            params.target == "target-block-id",
+            "It should set block target string correctly"
+        )
     }
 
     @Test("It should create PatchParameters with prepend operation")
@@ -163,9 +267,18 @@ struct ObsidianModelsTests {
             target: ""
         )
 
-        #expect(params.operation == .prepend)
-        #expect(params.targetType == .document)
-        #expect(params.target.isEmpty)
+        #expect(
+            params.operation == .prepend,
+            "It should set prepend operation correctly"
+        )
+        #expect(
+            params.targetType == .document,
+            "It should set document target type correctly"
+        )
+        #expect(
+            params.target.isEmpty,
+            "It should handle empty target string"
+        )
     }
 
     @Test("It should handle all operation types")
@@ -174,9 +287,18 @@ struct ObsidianModelsTests {
         let prependParams = PatchParameters(operation: .prepend, targetType: .heading, target: "test")
         let replaceParams = PatchParameters(operation: .replace, targetType: .heading, target: "test")
 
-        #expect(appendParams.operation == .append)
-        #expect(prependParams.operation == .prepend)
-        #expect(replaceParams.operation == .replace)
+        #expect(
+            appendParams.operation == .append,
+            "It should handle append operation type"
+        )
+        #expect(
+            prependParams.operation == .prepend,
+            "It should handle prepend operation type"
+        )
+        #expect(
+            replaceParams.operation == .replace,
+            "It should handle replace operation type"
+        )
     }
 
     @Test("It should handle all target types")
@@ -187,11 +309,26 @@ struct ObsidianModelsTests {
         let blockParams = PatchParameters(operation: .append, targetType: .block, target: "test")
         let lineParams = PatchParameters(operation: .append, targetType: .line, target: "test")
 
-        #expect(headingParams.targetType == .heading)
-        #expect(frontmatterParams.targetType == .frontmatter)
-        #expect(documentParams.targetType == .document)
-        #expect(blockParams.targetType == .block)
-        #expect(lineParams.targetType == .line)
+        #expect(
+            headingParams.targetType == .heading,
+            "It should handle heading target type"
+        )
+        #expect(
+            frontmatterParams.targetType == .frontmatter,
+            "It should handle frontmatter target type"
+        )
+        #expect(
+            documentParams.targetType == .document,
+            "It should handle document target type"
+        )
+        #expect(
+            blockParams.targetType == .block,
+            "It should handle block target type"
+        )
+        #expect(
+            lineParams.targetType == .line,
+            "It should handle line target type"
+        )
     }
 
     @Test("It should handle empty target")
@@ -202,7 +339,10 @@ struct ObsidianModelsTests {
             target: ""
         )
 
-        #expect(params.target.isEmpty)
+        #expect(
+            params.target.isEmpty,
+            "It should handle empty target string"
+        )
     }
 
     @Test("It should handle complex target strings")
@@ -214,7 +354,10 @@ struct ObsidianModelsTests {
             target: complexTarget
         )
 
-        #expect(params.target == complexTarget)
+        #expect(
+            params.target == complexTarget,
+            "It should handle complex target strings with special characters"
+        )
     }
 
     // MARK: - Edge Cases
@@ -223,23 +366,43 @@ struct ObsidianModelsTests {
     func testWhitespaceContent() throws {
         let file = File(filename: "whitespace.md", content: "   \n\t\r  ")
 
-        #expect(file.filename == "whitespace.md")
-        #expect(file.content == "   \n\t\r  ")
+        #expect(
+            file.filename == "whitespace.md",
+            "It should handle filename with whitespace content"
+        )
+        #expect(
+            file.content == "   \n\t\r  ",
+            "It should preserve whitespace content exactly"
+        )
     }
 
     @Test("It should handle filename with path separators")
     func testFilenameWithPaths() throws {
         let file = File(filename: "folder/subfolder/note.md", content: "Content")
 
-        #expect(file.filename == "folder/subfolder/note.md")
-        #expect(file.content == "Content")
+        #expect(
+            file.filename == "folder/subfolder/note.md",
+            "It should handle nested path filenames"
+        )
+        #expect(
+            file.content == "Content",
+            "It should preserve content with nested path filename"
+        )
     }
 
     @Test("It should handle search path with directories")
     func testSearchPathWithDirectories() throws {
         let searchResult = SearchResult(path: "deep/nested/folders/note.md", score: 0.75)
 
-        #expect(searchResult.path == "deep/nested/folders/note.md")
-        #expect(searchResult.score == 0.75)
+        #expect(
+            searchResult.path == "deep/nested/folders/note.md",
+            "It should handle deeply nested search result paths"
+        )
+        #expect(
+            searchResult.score == 0.75,
+            "It should handle score with nested path"
+        )
     }
 }
+
+// swiftlint:enable type_body_length
