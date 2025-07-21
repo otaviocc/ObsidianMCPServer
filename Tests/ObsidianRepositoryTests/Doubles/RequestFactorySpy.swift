@@ -19,7 +19,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
 
     func makeServerInfoRequest() -> NetworkRequest<VoidRequest, ServerInfoResponse> {
         serverInfoCallCount += 1
-        return NetworkRequest<VoidRequest, ServerInfoResponse>(
+        return .init(
             path: "/spy-server-info",
             method: .get,
             additionalHeaders: [:]
@@ -28,7 +28,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
 
     func makeGetActiveFileRequest() -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         activeFileCallCount += 1
-        return NetworkRequest<VoidRequest, NoteJSONResponse>(
+        return .init(
             path: "/spy-active",
             method: .get,
             additionalHeaders: [:]
@@ -37,7 +37,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
 
     func makeGetActiveFileJsonRequest() -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         activeFileCallCount += 1
-        return NetworkRequest<VoidRequest, NoteJSONResponse>(
+        return .init(
             path: "/spy-active-json",
             method: .get,
             additionalHeaders: [:]
@@ -50,7 +50,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         activeFileCallCount += 1
         updateActiveFileCallCount += 1
         lastContent = content
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: "/spy-active-update",
             method: .put,
             body: content.data(using: .utf8),
@@ -61,7 +61,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
     func makeDeleteActiveFileRequest() -> NetworkRequest<VoidRequest, VoidResponse> {
         activeFileCallCount += 1
         deleteActiveFileCallCount += 1
-        return NetworkRequest<VoidRequest, VoidResponse>(
+        return .init(
             path: "/spy-active-delete",
             method: .delete,
             additionalHeaders: [:]
@@ -74,7 +74,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         key: String
     ) -> NetworkRequest<Data, VoidResponse> {
         frontmatterCallCount += 1
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: "/spy-active-frontmatter",
             method: .patch,
             body: content.data(using: .utf8),
@@ -87,7 +87,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
     ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
         vaultFileCallCount += 1
         lastFilename = filename
-        return NetworkRequest<VoidRequest, NoteJSONResponse>(
+        return .init(
             path: "/spy-vault/\(filename)",
             method: .get,
             additionalHeaders: [:]
@@ -99,7 +99,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         content: String
     ) -> NetworkRequest<Data, VoidResponse> {
         vaultFileCallCount += 1
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: "/spy-vault/\(filename)",
             method: .put,
             body: content.data(using: .utf8),
@@ -112,7 +112,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         content: String
     ) -> NetworkRequest<Data, VoidResponse> {
         vaultFileCallCount += 1
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: "/spy-vault-append/\(filename)",
             method: .post,
             body: content.data(using: .utf8),
@@ -124,7 +124,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         filename: String
     ) -> NetworkRequest<VoidRequest, VoidResponse> {
         vaultFileCallCount += 1
-        return NetworkRequest<VoidRequest, VoidResponse>(
+        return .init(
             path: "/spy-vault-delete/\(filename)",
             method: .delete,
             additionalHeaders: [:]
@@ -138,7 +138,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
         key: String
     ) -> NetworkRequest<Data, VoidResponse> {
         frontmatterCallCount += 1
-        return NetworkRequest<Data, VoidResponse>(
+        return .init(
             path: "/spy-vault-frontmatter/\(filename)",
             method: .patch,
             body: content.data(using: .utf8),
@@ -149,7 +149,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
     func makeListVaultDirectoryRequest(
         directory: String
     ) -> NetworkRequest<VoidRequest, DirectoryListingResponse> {
-        NetworkRequest<VoidRequest, DirectoryListingResponse>(
+        .init(
             path: "/spy-directory",
             method: .get,
             additionalHeaders: [:]
@@ -164,7 +164,7 @@ final class RequestFactorySpy: ObsidianRequestFactoryProtocol {
     ) -> NetworkRequest<VoidRequest, [SimpleSearchResponse]> {
         searchVaultCallCount += 1
         lastQuery = query
-        return NetworkRequest<VoidRequest, [SimpleSearchResponse]>(
+        return .init(
             path: "/spy-search/",
             method: .post,
             additionalHeaders: [:]

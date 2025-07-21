@@ -193,7 +193,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         let searchResponse = try await client.run(request).value
 
         return searchResponse.map { response in
-            SearchResult(path: response.filename, score: response.score)
+            .init(path: response.filename, score: response.score)
         }
     }
 

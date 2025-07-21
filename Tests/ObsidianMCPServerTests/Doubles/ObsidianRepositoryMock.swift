@@ -54,9 +54,9 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var lastSearchIsRegex: Bool?
     var lastSearchVaultIsRegex: Bool?
     var searchResultsToReturn: [SearchResult] = [
-        SearchResult(path: "note1.md", score: 0.95),
-        SearchResult(path: "note2.md", score: 0.85),
-        SearchResult(path: "note3.md", score: 0.75)
+        .init(path: "note1.md", score: 0.95),
+        .init(path: "note2.md", score: 0.85),
+        .init(path: "note3.md", score: 0.75)
     ]
 
     var lastSearchPath: String?
