@@ -9,11 +9,19 @@ import SwiftMCP
  vault search operations within the Obsidian MCP server.
  */
 @Schema
-struct SearchResult: Encodable {
+public struct SearchResult: Encodable {
 
     /// The file path of the search result
-    let path: String
+    public let path: String
 
     /// The relevance score of the search result (higher values indicate better matches)
-    let score: Double
+    public let score: Double
+
+    public init(
+        path: String,
+        score: Double
+    ) {
+        self.path = path
+        self.score = score
+    }
 }

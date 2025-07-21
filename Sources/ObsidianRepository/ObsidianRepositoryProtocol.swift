@@ -1,15 +1,15 @@
 import Foundation
 import ObsidianNetworking
 
-protocol ObsidianRepositoryProtocol: ObsidianRepositoryServerOperations,
-                                     ObsidianRepositoryActiveNoteOperations,
-                                     ObsidianRepositoryVaultNoteOperations,
-                                     ObsidianRepositoryVaultOperations,
-                                     ObsidianRepositorySearchOperations {}
+public protocol ObsidianRepositoryProtocol: ObsidianRepositoryServerOperations,
+                                            ObsidianRepositoryActiveNoteOperations,
+                                            ObsidianRepositoryVaultNoteOperations,
+                                            ObsidianRepositoryVaultOperations,
+                                            ObsidianRepositorySearchOperations {}
 
 // MARK: - Server Operations
 
-protocol ObsidianRepositoryServerOperations {
+public protocol ObsidianRepositoryServerOperations {
 
     /// Retrieves server information from the Obsidian instance.
     /// - Returns: A `ServerInformation` object containing details about the server
@@ -19,7 +19,7 @@ protocol ObsidianRepositoryServerOperations {
 
 // MARK: - Active Note Operations
 
-protocol ObsidianRepositoryActiveNoteOperations {
+public protocol ObsidianRepositoryActiveNoteOperations {
 
     /// Retrieves the currently active note in Obsidian.
     /// - Returns: A `File` object representing the active note
@@ -58,7 +58,7 @@ protocol ObsidianRepositoryActiveNoteOperations {
 
 // MARK: - Vault Note Operations
 
-protocol ObsidianRepositoryVaultNoteOperations {
+public protocol ObsidianRepositoryVaultNoteOperations {
 
     /// Retrieves a specific note from the vault by filename.
     /// - Parameter filename: The name of the file to retrieve
@@ -108,7 +108,7 @@ protocol ObsidianRepositoryVaultNoteOperations {
 
 // MARK: - Vault Operations
 
-protocol ObsidianRepositoryVaultOperations {
+public protocol ObsidianRepositoryVaultOperations {
 
     /// Lists all files and subdirectories in a specified vault directory.
     /// - Parameter directory: The directory path to list contents for
@@ -119,7 +119,7 @@ protocol ObsidianRepositoryVaultOperations {
 
 // MARK: - Search Operations
 
-protocol ObsidianRepositorySearchOperations {
+public protocol ObsidianRepositorySearchOperations {
 
     /// Searches the entire vault for content matching the specified query and options.
     /// - Parameters:

@@ -9,11 +9,19 @@ import SwiftMCP
  within the Obsidian MCP server.
  */
 @Schema
-struct ServerInformation: Encodable {
+public struct ServerInformation: Encodable {
 
     /// The name of the service (e.g., "obsidian-local-rest-api")
-    let service: String
+    public let service: String
 
     /// The version of the service
-    let version: String
+    public let version: String
+
+    public init(
+        service: String,
+        version: String
+    ) {
+        self.service = service
+        self.version = version
+    }
 }

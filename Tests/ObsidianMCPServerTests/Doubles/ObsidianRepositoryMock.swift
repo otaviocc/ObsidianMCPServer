@@ -1,5 +1,5 @@
 import Foundation
-@testable import ObsidianMCPServer
+@testable import ObsidianRepository
 
 // swiftlint:disable discouraged_optional_boolean identifier_name
 

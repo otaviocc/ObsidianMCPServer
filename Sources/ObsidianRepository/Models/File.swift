@@ -8,11 +8,19 @@ import SwiftMCP
  representation for file operations within the Obsidian MCP server.
  */
 @Schema
-struct File: Encodable {
+public struct File: Encodable {
 
     /// The name of the file including its path
-    let filename: String
+    public let filename: String
 
     /// The textual content of the file
-    let content: String
+    public let content: String
+
+    public init(
+        filename: String,
+        content: String
+    ) {
+        self.filename = filename
+        self.content = content
+    }
 }

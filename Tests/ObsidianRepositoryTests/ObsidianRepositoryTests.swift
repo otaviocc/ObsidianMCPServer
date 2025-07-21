@@ -3,7 +3,7 @@ import Foundation
 import Combine
 import MicroClient
 import ObsidianNetworking
-@testable import ObsidianMCPServer
+@testable import ObsidianRepository
 
 // swiftlint:disable type_body_length file_length
 

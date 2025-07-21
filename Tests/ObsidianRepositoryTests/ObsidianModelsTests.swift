@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import ObsidianMCPServer
+@testable import ObsidianRepository
 
 @Suite("Obsidian Models Tests")
 struct ObsidianModelsTests {
