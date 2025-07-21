@@ -30,14 +30,14 @@ struct ObsidianMCPCommand: ParsableCommand {
         logToStderr("Base URL: \(baseURL.absoluteString)")
 
         let semaphore = DispatchSemaphore(value: 0)
-        var thrownError: Error?
+        let errorBox = ThreadSafeBox<Error?>(nil)
 
         Task {
             do {
                 let transport = StdioTransport(server: server)
                 try await transport.run()
             } catch {
-                thrownError = error
+                errorBox.setValue(error)
                 logToStderr("Error: \(error)")
             }
             semaphore.signal()
@@ -45,7 +45,7 @@ struct ObsidianMCPCommand: ParsableCommand {
 
         semaphore.wait()
 
-        if let error = thrownError {
+        if let error = errorBox.value {
             throw error
         }
     }
