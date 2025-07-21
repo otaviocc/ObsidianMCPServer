@@ -12,12 +12,12 @@ struct ObsidianRepositoryTests {
 
     // MARK: - Test Helper
 
-    private func makeMockNetworkClient() -> NetworkClientMock {
+    private func makeMockNetworkClient() throws -> NetworkClientMock {
         let configuration = NetworkConfiguration(
             session: URLSession.shared,
             defaultDecoder: JSONDecoder(),
             defaultEncoder: JSONEncoder(),
-            baseURL: URL(string: "https://test.com")! // swiftlint:disable:this force_unwrapping
+            baseURL: try #require(URL(string: "https://test.com"))
         )
 
         return NetworkClientMock(configuration: configuration)
@@ -28,7 +28,7 @@ struct ObsidianRepositoryTests {
     @Test("It should initialize with default request factory")
     func testInitializationWithDefaults() throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
 
         // When
         let repository = ObsidianRepository(client: mockClient)
@@ -47,7 +47,7 @@ struct ObsidianRepositoryTests {
     @Test("It should initialize with custom request factory")
     func testInitializationWithCustomFactory() throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
 
         // When
@@ -69,7 +69,7 @@ struct ObsidianRepositoryTests {
     @Test("It should conform to ObsidianRepositoryProtocol")
     func testProtocolConformance() throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
 
         // When
         let repository: ObsidianRepositoryProtocol = ObsidianRepository(client: mockClient)
@@ -84,7 +84,7 @@ struct ObsidianRepositoryTests {
     @Test("It should have all required protocol methods available")
     func testProtocolMethods() throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
 
         // When
         let repository = ObsidianRepository(client: mockClient)
@@ -124,7 +124,7 @@ struct ObsidianRepositoryTests {
     @Test("It should never make real network calls - server operations")
     func testNetworkIsolationServerOperations() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -157,7 +157,7 @@ struct ObsidianRepositoryTests {
     @Test("It should never make real network calls - active note operations")
     func testNetworkIsolationActiveNoteOperations() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -214,7 +214,7 @@ struct ObsidianRepositoryTests {
     @Test("It should never make real network calls - search operations")
     func testNetworkIsolationSearchOperations() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -347,7 +347,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for getServerInfo")
     func testGetServerInfo() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -380,7 +380,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for getActiveNote")
     func testGetActiveNote() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -413,7 +413,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for updateActiveNote")
     func testUpdateActiveNote() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
         let testContent = "# Updated Content"
@@ -447,7 +447,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for deleteActiveNote")
     func testDeleteActiveNote() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -476,7 +476,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for setActiveNoteFrontmatterField")
     func testSetActiveNoteFrontmatterField() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
@@ -505,7 +505,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for getVaultNote")
     func testGetVaultNote() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
         let testFilename = "test-note.md"
@@ -543,7 +543,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for createOrUpdateVaultNote")
     func testCreateOrUpdateVaultNote() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
         let testFile = File(filename: "new-note.md", content: "# New Note")
@@ -573,7 +573,7 @@ struct ObsidianRepositoryTests {
     @Test("It should call request factory for searchVault")
     func testSearchVault() async throws {
         // Given
-        let mockClient = makeMockNetworkClient()
+        let mockClient = try makeMockNetworkClient()
         let spyFactory = RequestFactorySpy()
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 

@@ -60,9 +60,9 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should handle different base URLs")
-    func testMakeObsidianAPIClientWithDifferentBaseURLs() {
-        let httpsURL = URL(string: "https://secure.obsidian.test")! // swiftlint:disable:this force_unwrapping
-        let httpURL = URL(string: "http://local.obsidian.test:8080")! // swiftlint:disable:this force_unwrapping
+    func testMakeObsidianAPIClientWithDifferentBaseURLs() throws {
+        let httpsURL = try #require(URL(string: "https://secure.obsidian.test"))
+        let httpURL = try #require(URL(string: "http://local.obsidian.test:8080"))
         let tokenProvider: () -> String? = { self.testToken }
 
         let httpsClient = factory.makeObsidianAPIClient(baseURL: httpsURL, userToken: tokenProvider)
@@ -81,10 +81,9 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should handle base URLs with paths and query parameters")
-    func testMakeObsidianAPIClientWithComplexBaseURL() {
+    func testMakeObsidianAPIClientWithComplexBaseURL() throws {
         // Given
-        // swiftlint:disable:next force_unwrapping
-        let complexURL = URL(string: "https://api.obsidian.test/v1/vault?version=2")!
+        let complexURL = try #require(URL(string: "https://api.obsidian.test/v1/vault?version=2"))
         let tokenProvider: () -> String? = { self.testToken }
 
         // When
