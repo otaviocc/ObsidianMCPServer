@@ -35,10 +35,6 @@ struct ObsidianRepositoryTests {
 
         // Then
         #expect(
-            repository != nil,
-            "It should create a repository instance"
-        )
-        #expect(
             mockClient.verifyNoNetworkCalls(),
             "It should not make any network calls during initialization"
         )
@@ -54,10 +50,6 @@ struct ObsidianRepositoryTests {
         let repository = ObsidianRepository(client: mockClient, requestFactory: spyFactory)
 
         // Then
-        #expect(
-            repository != nil,
-            "It should create a repository instance with custom factory"
-        )
         #expect(
             mockClient.verifyNoNetworkCalls(),
             "It should not make any network calls during initialization"
