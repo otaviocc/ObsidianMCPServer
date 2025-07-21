@@ -10,7 +10,7 @@ This MCP server provides AI assistants with powerful capabilities to:
 - ✍️ **Create and update** notes with new content
 - 🔍 **Search across** your entire vault
 - 📁 **Navigate** your vault structure
-- 🔧 **Perform precise edits** using patch operations
+- 🔧 **Manage frontmatter** fields and arrays
 - 🗑️ **Manage files** (create, update, delete)
 
 Perfect for AI-assisted note-taking, knowledge management, research workflows, and content generation directly within your Obsidian vault.
@@ -18,21 +18,20 @@ Perfect for AI-assisted note-taking, knowledge management, research workflows, a
 ## ✨ Features
 
 ### 📝 Note Management
-- **Active Note Operations**: Get, update, delete, and patch the currently active note
+- **Active Note Operations**: Get, update, delete the currently active note
 - **Vault Note Operations**: Full CRUD operations on any note in your vault
-- **Flexible Content Updates**: Complete replacement, appending, or targeted patches
-- **Metadata Support**: Access creation/modification times, tags, and frontmatter
+- **Flexible Content Updates**: Complete replacement or appending content
+- **Frontmatter Support**: Set and append to frontmatter fields and arrays
 
 ### 🔍 Search & Discovery
 - **Full-Text Search**: Search across all notes with customizable options
-- **Path-Specific Search**: Target searches within specific directories
 - **Advanced Options**: Case sensitivity, whole word matching, regex support
 - **Directory Browsing**: List files and folders to understand vault structure
 
-### ⚡ Patch Operations
-- **Targeted Editing**: Modify specific headings, blocks, or lines
-- **Multiple Operations**: Append, prepend, or replace content
-- **Smart Targeting**: Support for headings, frontmatter, documents, blocks, and lines
+### 🏷️ Metadata Management
+- **Frontmatter Fields**: Set individual frontmatter properties
+- **Frontmatter Arrays**: Append to frontmatter arrays (like tags)
+- **Active & Vault Notes**: Manage frontmatter for any note
 
 ## 🔧 Prerequisites
 
@@ -48,7 +47,9 @@ Install and configure the [Obsidian Local REST API](https://github.com/coddingto
 2. **Configure the plugin**:
    - Go to plugin settings
    - Set a secure API key
-   - Note the server URL (typically `http://127.0.0.1:27123`)
+   - Note the server URLs:
+     - **HTTP**: `http://127.0.0.1:27123` (default)
+     - **HTTPS**: `https://127.0.0.1:27124` (if enabled)
 
 3. **Start the server**:
    - Use the command palette: "Local REST API: Start"
@@ -86,7 +87,12 @@ Download the latest release from the [Releases page](https://github.com/youruser
 The server requires two environment variables:
 
 ```bash
+# For HTTP (default)
 export OBSIDIAN_BASE_URL="http://127.0.0.1:27123"
+export OBSIDIAN_API_KEY="your-api-key-here"
+
+# For HTTPS (if enabled in plugin)
+export OBSIDIAN_BASE_URL="https://127.0.0.1:27124"
 export OBSIDIAN_API_KEY="your-api-key-here"
 ```
 
@@ -171,14 +177,16 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `getActiveNote()` - Retrieve the currently active note
 - `updateActiveNote(content)` - Replace active note content entirely
 - `deleteActiveNote()` - Delete the active note
-- `patchActiveNote(content, parameters)` - Apply targeted edits to active note
+- `setActiveNoteFrontmatter(key, value)` - Set a frontmatter field in the active note
+- `appendToActiveNoteFrontmatter(key, value)` - Append a value to a frontmatter field array in the active note
 
 ### Vault Note Operations
 - `getNote(filename)` - Get any note by filename/path
 - `createOrUpdateNote(filename, content)` - Create new or update existing note
 - `appendToNote(filename, content)` - Append content to existing note
 - `deleteNote(filename)` - Delete a specific note
-- `patchNote(filename, content, parameters)` - Apply targeted edits to any note
+- `setNoteFrontmatter(filename, key, value)` - Set a frontmatter field in a specific vault note
+- `appendToNoteFrontmatter(filename, key, value)` - Append a value to a frontmatter field array in a specific vault note
 
 ### Directory Operations
 - `listDirectory(directory)` - List files and folders in vault directories
@@ -186,22 +194,11 @@ For any MCP-compatible tool, use the same configuration pattern:
 ### Search Operations
 - `search(query, ignoreCase, wholeWord, isRegex)` - Search entire vault
 
-### Patch Parameters
-
-For patch operations, use these parameters:
-
-```json
-{
-  "operation": "append|prepend|replace",
-  "targetType": "heading|frontmatter|document|block|line",
-  "target": "target-identifier"
-}
-```
-
-**Examples**:
-- Target heading: `{"operation": "append", "targetType": "heading", "target": "## My Heading"}`
-- Target frontmatter: `{"operation": "replace", "targetType": "frontmatter", "target": "tags"}`
-- Target line: `{"operation": "replace", "targetType": "line", "target": "5"}`
+**Search Parameters**:
+- `query` (required): The text or pattern to search for
+- `ignoreCase` (optional): Whether to perform case-insensitive search (default: true)
+- `wholeWord` (optional): Whether to match whole words only (default: false)
+- `isRegex` (optional): Whether to treat the query as a regular expression (default: false)
 
 ## 💡 Usage Examples
 
@@ -217,13 +214,19 @@ For patch operations, use these parameters:
 → Uses createOrUpdateNote() to create the note
 
 "Add a new section to my 'Project Ideas' note with today's brainstorming"
-→ Uses patchNote() to append to specific heading
+→ Uses appendToNote() to add content to the note
 
 "What's in my currently active note?"
 → Uses getActiveNote() to read current content
 
 "List all files in my 'Research' folder"
 → Uses listDirectory() to browse folder contents
+
+"Set the 'status' frontmatter field to 'completed' in my active note"
+→ Uses setActiveNoteFrontmatter() to update metadata
+
+"Add 'project-alpha' to the tags array in my 'Project Ideas' note"
+→ Uses appendToNoteFrontmatter() to add tags
 ```
 
 ### Advanced Workflows
@@ -242,7 +245,12 @@ For patch operations, use these parameters:
 # Content Organization:
 1. "Find all untagged notes in my vault"
 2. "Suggest appropriate tags based on content"
-3. "Update frontmatter with recommended tags"
+3. "Update frontmatter with recommended tags using setNoteFrontmatter"
+
+# Project Management:
+1. "List all notes in my 'Projects' directory"
+2. "Update project status in frontmatter fields"
+3. "Add new project phases to existing project notes"
 ```
 
 ## 🏗️ Development
@@ -255,7 +263,7 @@ ObsidianMCPServer/
 │   ├── ObsidianMCPServer/           # MCP server implementation
 │   │   ├── Models/                  # Data models (File, SearchResult, etc.)
 │   │   ├── ObsidianMCPServer.swift  # Main MCP server with @MCPTool methods
-│   │   └── ObsidianRepository.swift # Business logic layer
+│   └── ObsidianRepository.swift # Business logic layer
 │   └── ObsidianNetworking/          # HTTP client and API models
 │       ├── Factories/               # Request and client factories
 │       └── Models/                  # Network response models
@@ -312,7 +320,7 @@ swift test --enable-code-coverage
 
 - **API Key**: Keep your Obsidian API key secure and never commit it to version control
 - **Network**: The Local REST API runs on localhost by default (secure)
-- **HTTPS**: Enable HTTPS in the Obsidian plugin for encrypted communication
+- **HTTPS**: Enable HTTPS in the Obsidian plugin for encrypted communication (port 27124)
 - **Access**: The server can read/write your entire vault - use with trusted AI tools only
 
 ## 🐛 Troubleshooting
@@ -321,7 +329,7 @@ swift test --enable-code-coverage
 
 **Connection Failed**:
 - Verify Obsidian Local REST API plugin is installed and running
-- Check the base URL matches your plugin settings
+- Check the base URL matches your plugin settings (HTTP: 27123, HTTPS: 27124)
 - Ensure API key is correct
 
 **Permission Denied**:
