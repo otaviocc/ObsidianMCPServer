@@ -43,7 +43,6 @@ final class ObsidianMCPServer {
         )
     }
 
-    /// Test-specific initializer that allows direct repository injection
     init(repository: ObsidianRepositoryProtocol) {
         self.repository = repository
     }
