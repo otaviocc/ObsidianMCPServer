@@ -17,8 +17,4 @@ public struct NoteJSONResponse: Decodable {
     public let path: String
     public let stat: FileStat
     public let tags: [String]
-
-    public var pathURL: URL {
-        .init(fileURLWithPath: path)
-    }
 }

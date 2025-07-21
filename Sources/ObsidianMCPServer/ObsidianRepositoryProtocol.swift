@@ -112,9 +112,9 @@ protocol ObsidianRepositoryVaultOperations {
 
     /// Lists all files and subdirectories in a specified vault directory.
     /// - Parameter directory: The directory path to list contents for
-    /// - Returns: An array of `URL` objects representing the directory contents
+    /// - Returns: An array of `String` objects representing the directory contents
     /// - Throws: An error if the directory doesn't exist or cannot be accessed
-    func listVaultDirectory(directory: String) async throws -> [URL]
+    func listVaultDirectory(directory: String) async throws -> [String]
 }
 
 // MARK: - Search Operations

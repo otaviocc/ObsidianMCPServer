@@ -135,7 +135,7 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
 
     // MARK: - Directory Operations
 
-    func listVaultDirectory(directory: String = "") async throws -> [URL] {
+    func listVaultDirectory(directory: String = "") async throws -> [String] {
         try await listVaultDirectoryRecursive(directory: directory, currentDepth: 0, maxDepth: 2)
     }
 
@@ -143,12 +143,12 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
         directory: String,
         currentDepth: Int,
         maxDepth: Int
-    ) async throws -> [URL] {
+    ) async throws -> [String] {
         let request = requestFactory.makeListVaultDirectoryRequest(directory: directory)
         let response = try await client.run(request)
         let files = response.value.files
 
-        var allFiles: [URL] = []
+        var allFiles: [String] = []
 
         for file in files {
             let filePath = buildFilePath(directory: directory, filename: file)
@@ -202,24 +202,25 @@ final class ObsidianRepository: ObsidianRepositoryProtocol {
     private func buildDirectoryPath(
         base: String,
         component: String
-    ) -> URL {
+    ) -> String {
         if base.isEmpty {
-            return URL(fileURLWithPath: component, isDirectory: true)
+            return component.hasSuffix("/") ? component : "\(component)/"
         }
 
-        let baseURL = URL(fileURLWithPath: base, isDirectory: true)
-        return baseURL.appendingPathComponent(component, isDirectory: true)
+        let basePath = base.hasSuffix("/") ? base : "\(base)/"
+        let componentPath = component.hasSuffix("/") ? component : "\(component)/"
+        return "\(basePath)\(componentPath)"
     }
 
     private func buildFilePath(
         directory: String,
         filename: String
-    ) -> URL {
+    ) -> String {
         if directory.isEmpty {
-            return URL(fileURLWithPath: filename)
+            return filename
         }
 
-        let directoryURL = URL(fileURLWithPath: directory, isDirectory: true)
-        return directoryURL.appendingPathComponent(filename)
+        let directoryPath = directory.hasSuffix("/") ? directory : "\(directory)/"
+        return "\(directoryPath)\(filename)"
     }
 }

@@ -37,10 +37,10 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var listVaultDirectoryCalled = false
     var listVaultDirectoryCallCount = 0
     var lastListVaultDirectoryPath: String?
-    var urlsToReturn: [URL] = [
-        URL(fileURLWithPath: "/vault/note1.md"),
-        URL(fileURLWithPath: "/vault/note2.md"),
-        URL(fileURLWithPath: "/vault/folder/note3.md")
+    var pathsToReturn: [String] = [
+        "/vault/note1.md",
+        "/vault/note2.md",
+        "/vault/folder/note3.md"
     ]
 
     var searchVaultCalled = false
@@ -98,11 +98,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         return .success(File(filename: "MockVaultNote.md", content: "# Mock Vault Note Content"))
     }
 
-    private var vaultDirectoryResult: Result<[URL], Error> {
+    private var vaultDirectoryResult: Result<[String], Error> {
         if let error = errorToThrow {
             return .failure(error)
         }
-        return .success(urlsToReturn)
+        return .success(pathsToReturn)
     }
 
     private var searchVaultResultComputed: Result<[SearchResult], Error> {
@@ -253,10 +253,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - ObsidianRepositoryVaultOperations
 
-    func listVaultDirectory(directory: String) async throws -> [URL] {
+    func listVaultDirectory(directory: String) async throws -> [String] {
         listVaultDirectoryCalled = true
         listVaultDirectoryCallCount += 1
         lastListVaultDirectoryPath = directory
+
         return try vaultDirectoryResult.get()
     }
 

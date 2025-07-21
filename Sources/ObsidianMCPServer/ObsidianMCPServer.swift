@@ -276,8 +276,7 @@ final class ObsidianMCPServer {
      */
     @MCPTool(description: "List files and directories in a vault directory")
     func listDirectory(directory: String = "") async throws -> String {
-        let urls = try await repository.listVaultDirectory(directory: directory)
-        let paths = urls.map { $0.path }
+        let paths = try await repository.listVaultDirectory(directory: directory)
         return paths.joined(separator: "\n")
     }
 
