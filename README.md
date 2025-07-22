@@ -70,7 +70,7 @@ Install and configure the [Obsidian Local REST API](https://github.com/coddingto
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ObsidianMCPServer.git
+git clone https://github.com/otaviocc/ObsidianMCPServer.git
 cd ObsidianMCPServer
 
 # Build the project
@@ -290,7 +290,7 @@ ObsidianMCPServer/
 
 ```bash
 # Clone and setup
-git clone https://github.com/yourusername/ObsidianMCPServer.git
+git clone https://github.com/otaviocc/ObsidianMCPServer.git
 cd ObsidianMCPServer
 
 # Run tests
@@ -380,7 +380,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/ObsidianMCPServer/issues)
+- **Issues**: [GitHub Issues](https://github.com/otaviocc/ObsidianMCPServer/issues)
 - **Documentation**: This README and inline code documentation
 
 ---
