@@ -5,6 +5,12 @@ import ObsidianNetworking
 
 final class NetworkClientMock: NetworkClientProtocol {
 
+    // MARK: - Nested types
+
+    enum NetworkClientMockError: Error {
+        case stubMissingForRun
+    }
+
     // MARK: - Properties
 
     private(set) var runCallCount = 0
@@ -30,7 +36,7 @@ final class NetworkClientMock: NetworkClientProtocol {
             return stubbedResponse
         }
 
-        throw NetworkErrorMock.noMockResponse
+        throw NetworkClientMockError.stubMissingForRun
     }
 
     func statusPublisher() -> AnyPublisher<NetworkClientStatus, Never> {
