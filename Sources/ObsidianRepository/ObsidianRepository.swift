@@ -178,16 +178,10 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
     // MARK: - Search Operations
 
     public func searchVault(
-        query: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
+        query: String
     ) async throws -> [SearchResult] {
         let request = requestFactory.makeSearchVaultRequest(
-            query: query,
-            ignoreCase: ignoreCase,
-            wholeWord: wholeWord,
-            isRegex: isRegex
+            query: query
         )
 
         let searchResponse = try await client.run(request).value

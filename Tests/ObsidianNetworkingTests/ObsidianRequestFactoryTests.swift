@@ -433,10 +433,7 @@ struct ObsidianRequestFactoryTests {
 
         // When
         let request = factory.makeSearchVaultRequest(
-            query: query,
-            ignoreCase: true,
-            wholeWord: false,
-            isRegex: false
+            query: query
         )
 
         // Then
@@ -469,10 +466,7 @@ struct ObsidianRequestFactoryTests {
 
         // When
         let request = factory.makeSearchVaultRequest(
-            query: query,
-            ignoreCase: false,
-            wholeWord: true,
-            isRegex: true
+            query: query
         )
 
         // Then

@@ -124,15 +124,9 @@ public protocol ObsidianRepositorySearchOperations {
     /// Searches the entire vault for content matching the specified query and options.
     /// - Parameters:
     ///   - query: The search term or pattern to find
-    ///   - ignoreCase: Whether to perform a case-insensitive search
-    ///   - wholeWord: Whether to match only whole words
-    ///   - isRegex: Whether the query should be interpreted as a regular expression
     /// - Returns: An array of `SearchResult` objects containing matching content
     /// - Throws: An error if the search operation fails
     func searchVault(
-        query: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
+        query: String
     ) async throws -> [SearchResult]
 }

@@ -110,14 +110,8 @@ public protocol ObsidianRequestFactoryProtocol {
     /// Creates a network request to search the vault for content matching specified criteria.
     /// - Parameters:
     ///   - query: The search term or pattern to find
-    ///   - ignoreCase: Whether to perform a case-insensitive search
-    ///   - wholeWord: Whether to match only whole words
-    ///   - isRegex: Whether the query should be interpreted as a regular expression
     /// - Returns: A `NetworkRequest` that performs the vault search and returns matching results
     func makeSearchVaultRequest(
-        query: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
+        query: String
     ) -> NetworkRequest<VoidRequest, [SimpleSearchResponse]>
 }

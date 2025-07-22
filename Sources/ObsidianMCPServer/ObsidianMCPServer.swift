@@ -291,23 +291,14 @@ final class ObsidianMCPServer {
      and regular expression patterns. Results include file paths and relevance scores.
 
      - Parameter query: The text or pattern to search for
-     - Parameter ignoreCase: Whether to perform case-insensitive search
-     - Parameter wholeWord: Whether to match whole words only
-     - Parameter isRegex: Whether to treat the query as a regular expression
      - Returns: Array of search results with file paths and relevance scores
      */
     @MCPTool(description: "Search for text across all notes in the vault with various options")
     func search(
-        query: String,
-        ignoreCase: Bool = true,
-        wholeWord: Bool = false,
-        isRegex: Bool = false
+        query: String
     ) async throws -> [SearchResult] {
         try await repository.searchVault(
-            query: query,
-            ignoreCase: ignoreCase,
-            wholeWord: wholeWord,
-            isRegex: isRegex
+            query: query
         )
     }
 }

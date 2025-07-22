@@ -25,10 +25,7 @@ struct ObsidianRepositorySearchOperationsTests {
 
         // When
         let searchResults = try await repository.searchVault(
-            query: "test search",
-            ignoreCase: true,
-            wholeWord: false,
-            isRegex: false
+            query: "test search"
         )
 
         // Then

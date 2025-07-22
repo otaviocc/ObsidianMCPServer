@@ -174,10 +174,7 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
     // MARK: - Search Operations
 
     public func makeSearchVaultRequest(
-        query: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
+        query: String
     ) -> NetworkRequest<VoidRequest, [SimpleSearchResponse]> {
         .init(
             path: "/search/simple/",

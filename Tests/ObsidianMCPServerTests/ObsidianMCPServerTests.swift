@@ -486,20 +486,8 @@ struct ObsidianMCPServerTests {
             "It should call the repository method once"
         )
         #expect(
-            mock.lastSearchVaultQuery == testQuery,
+            mock.lastSearchQuery == testQuery,
             "It should pass the correct query"
-        )
-        #expect(
-            mock.lastSearchVaultIgnoreCase == true,
-            "It should use default ignoreCase value"
-        )
-        #expect(
-            mock.lastSearchVaultWholeWord == false,
-            "It should use default wholeWord value"
-        )
-        #expect(
-            mock.lastSearchVaultIsRegex == false,
-            "It should use default isRegex value"
         )
         #expect(
             result.count == 3,
@@ -523,10 +511,7 @@ struct ObsidianMCPServerTests {
 
         // When
         let result = try await server.search(
-            query: testQuery,
-            ignoreCase: false,
-            wholeWord: true,
-            isRegex: true
+            query: testQuery
         )
 
         // Then
@@ -535,20 +520,8 @@ struct ObsidianMCPServerTests {
             "It should call the repository method once"
         )
         #expect(
-            mock.lastSearchVaultQuery == testQuery,
+            mock.lastSearchQuery == testQuery,
             "It should pass the correct query"
-        )
-        #expect(
-            mock.lastSearchVaultIgnoreCase == false,
-            "It should pass the correct ignoreCase value"
-        )
-        #expect(
-            mock.lastSearchVaultWholeWord == true,
-            "It should pass the correct wholeWord value"
-        )
-        #expect(
-            mock.lastSearchVaultIsRegex == true,
-            "It should pass the correct isRegex value"
         )
         #expect(
             result.count == 3,

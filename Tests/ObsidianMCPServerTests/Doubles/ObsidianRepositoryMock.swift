@@ -44,13 +44,6 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var searchVaultCalled = false
     var searchVaultCallCount = 0
     var lastSearchQuery: String?
-    var lastSearchVaultQuery: String?
-    var lastSearchIgnoreCase: Bool?
-    var lastSearchVaultIgnoreCase: Bool?
-    var lastSearchWholeWord: Bool?
-    var lastSearchVaultWholeWord: Bool?
-    var lastSearchIsRegex: Bool?
-    var lastSearchVaultIsRegex: Bool?
     var searchResultsToReturn: [SearchResult] = [
         .init(path: "note1.md", score: 0.95),
         .init(path: "note2.md", score: 0.85),
@@ -262,21 +255,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     // MARK: - ObsidianRepositorySearchOperations
 
     func searchVault(
-        query: String,
-        ignoreCase: Bool,
-        wholeWord: Bool,
-        isRegex: Bool
+        query: String
     ) async throws -> [SearchResult] {
         searchVaultCalled = true
         searchVaultCallCount += 1
         lastSearchQuery = query
-        lastSearchVaultQuery = query
-        lastSearchIgnoreCase = ignoreCase
-        lastSearchVaultIgnoreCase = ignoreCase
-        lastSearchWholeWord = wholeWord
-        lastSearchVaultWholeWord = wholeWord
-        lastSearchIsRegex = isRegex
-        lastSearchVaultIsRegex = isRegex
         return try searchVaultResultComputed.get()
     }
 }
