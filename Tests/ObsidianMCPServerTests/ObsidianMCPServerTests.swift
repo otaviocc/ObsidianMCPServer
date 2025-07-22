@@ -2,8 +2,6 @@ import Testing
 import Foundation
 @testable import ObsidianMCPServer
 
-// swiftlint:disable type_body_length file_length
-
 @Suite("ObsidianMCPServer Tests")
 struct ObsidianMCPServerTests {
 
@@ -651,5 +649,3 @@ struct ObsidianMCPServerTests {
         )
     }
 }
-
-// swiftlint:enable type_body_length file_length

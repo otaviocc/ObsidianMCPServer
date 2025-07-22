@@ -5,8 +5,6 @@ import MicroClient
 import ObsidianNetworking
 @testable import ObsidianRepository
 
-// swiftlint:disable function_body_length
-
 @Suite("ObsidianRepository Search Operations Tests")
 struct ObsidianRepositorySearchOperationsTests {
 
@@ -76,5 +74,3 @@ struct ObsidianRepositorySearchOperationsTests {
         )
     }
 }
-
-// swiftlint:enable function_body_length

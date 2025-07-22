@@ -1,8 +1,6 @@
 import Foundation
 @testable import ObsidianRepository
 
-// swiftlint:disable discouraged_optional_boolean identifier_name
-
 final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -290,5 +288,3 @@ enum MockError: Error {
     case createOrUpdateFailed
     case appendFailed
 }
-
-// swiftlint:enable discouraged_optional_boolean identifier_name

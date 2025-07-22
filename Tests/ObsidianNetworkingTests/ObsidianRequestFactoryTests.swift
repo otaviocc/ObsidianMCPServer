@@ -3,8 +3,6 @@ import Foundation
 import MicroClient
 @testable import ObsidianNetworking
 
-// swiftlint:disable file_length type_body_length
-
 @Suite("ObsidianRequestFactory Tests")
 struct ObsidianRequestFactoryTests {
 
@@ -506,5 +504,3 @@ struct ObsidianRequestFactoryTests {
         )
     }
 }
-
-// swiftlint:enable file_length type_body_length

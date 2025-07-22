@@ -6,7 +6,6 @@ import ObsidianNetworking
 @testable import ObsidianRepository
 
 @Suite("ObsidianRepository Vault Note Operations Tests")
-// swiftlint:disable:next type_name
 struct ObsidianRepositoryVaultNoteOperationsTests {
 
     @Test("It should get vault note and return mapped File")
