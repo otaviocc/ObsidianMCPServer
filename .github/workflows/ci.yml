@@ -47,8 +47,8 @@ jobs:
           .build/debug/ObsidianMCPServerPackageTests.xctest/Contents/MacOS/ObsidianMCPServerPackageTests \
           -instr-profile .build/debug/codecov/default.profdata > coverage.lcov
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
       with:
-        file: ./coverage.lcov
-        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: otaviocc/ObsidianMCPServer
