@@ -1,5 +1,5 @@
 {
-  "originHash" : "dcd4ef69ea6d90e91fa2fc8bc10fde6238a3edab10ea884aacdb6abe5e5e1dea",
+  "originHash" : "37921803947141e1c0aa523e0e10dd111ce8a078196613b623ca49a8431cd1eb",
   "pins" : [
     {
       "identity" : "anycodable",
@@ -16,7 +16,7 @@
       "location" : "https://github.com/otaviocc/MicroClient",
       "state" : {
         "branch" : "main",
-        "revision" : "515f00a3b01920b456c19e0c4d20c7ea1fed6f5b"
+        "revision" : "4605195fe57d5e4fe5bffedc21c85d3e12e9984f"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-crypto.git",
       "state" : {
-        "revision" : "e8d6eba1fef23ae5b359c46b03f7d94be2f41fed",
-        "version" : "3.12.3"
+        "revision" : "75475b8063d738195819012407f055f4493795ef",
+        "version" : "3.13.0"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-nio.git",
       "state" : {
-        "revision" : "ad6b5f17270a7008f60d35ec5378e6144a575162",
-        "version" : "2.84.0"
+        "revision" : "a5fea865badcb1c993c85b0f0e8d05a4bd2270fb",
+        "version" : "2.85.0"
       }
     },
     {
@@ -124,7 +124,7 @@
       "location" : "https://github.com/Cocoanetics/SwiftMCP",
       "state" : {
         "branch" : "main",
-        "revision" : "dd03a3d54753456f16682296d0cc8cf2feca5ed2"
+        "revision" : "c04317998ba1903b4bde9cb52a5ef3762ff99e0d"
       }
     }
   ],

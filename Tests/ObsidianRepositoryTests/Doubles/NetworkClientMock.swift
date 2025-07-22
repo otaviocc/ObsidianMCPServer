@@ -5,76 +5,52 @@ import ObsidianNetworking
 
 final class NetworkClientMock: NetworkClientProtocol {
 
-    // MARK: - Mock State
+    // MARK: - Properties
 
-    var runCallCount = 0
-    var lastRequestPath: String?
-    var lastRequestMethod: String?
-    var mockError: Error?
-    var mockResponses: [String: Any] = [:]
+    private(set) var runCallCount = 0
+    private(set) var lastRequestPath: String?
+    private(set) var lastRequestMethod: HTTPMethod?
+    private(set) var stubbedNetworkResponse: Any?
+    private(set) var stubbedStatus: NetworkClientStatus?
 
-    // MARK: - NetworkClientProtocol
+    // MARK: - Life cycle
 
-    required init(configuration: NetworkConfiguration) {}
+    init(configuration: NetworkConfiguration) {}
 
-    func run<Input: Encodable, Output: Decodable>(
-        _ request: NetworkRequest<Input, Output>
-    ) async throws -> NetworkResponse<Output> {
+    // MARK: - Public
+
+    func run<RequestModel, ResponseModel>(
+        _ networkRequest: NetworkRequest<RequestModel, ResponseModel>
+    ) async throws -> NetworkResponse<ResponseModel> {
         runCallCount += 1
-        lastRequestPath = request.path
-        lastRequestMethod = request.method.rawValue
+        lastRequestPath = networkRequest.path
+        lastRequestMethod = networkRequest.method
 
-        // If mockError is set, throw it
-        if let error = mockError {
-            throw error
+        if let stubbedResponse = stubbedNetworkResponse as? NetworkResponse<ResponseModel> {
+            return stubbedResponse
         }
 
-        // For now, always throw error since NetworkResponse initializer is internal
-        // This allows us to test request construction and error handling
         throw NetworkErrorMock.noMockResponse
     }
 
-    var status: AsyncStream<NetworkClientStatus> {
-        AsyncStream { continuation in
-            continuation.yield(.idle)
-            continuation.finish()
-        }
-    }
-
     func statusPublisher() -> AnyPublisher<NetworkClientStatus, Never> {
-        Just(.idle).eraseToAnyPublisher()
+        Just(stubbedStatus ?? .idle).eraseToAnyPublisher()
     }
+}
 
-    // MARK: - Mock Helpers
+extension NetworkClientMock {
 
-    func reset() {
-        runCallCount = 0
-        lastRequestPath = nil
-        lastRequestMethod = nil
-        mockError = NetworkErrorMock.noMockResponse
-        mockResponses.removeAll()
-    }
+    // MARK: - Stubs
 
-    func setMockError(_ error: Error) {
-        mockError = error
-    }
-
-    func setMockResponse<T>(
-        for path: String,
-        response: T
+    func stubStatus(
+        toReturn status: NetworkClientStatus
     ) {
-        mockResponses[path] = response
-        mockError = nil // Clear error when setting successful response
+        stubbedStatus = status
     }
 
-    func verifyNoNetworkCalls() -> Bool {
-        runCallCount == 0
-    }
-
-    func verifyNetworkCallMade(to path: String? = nil) -> Bool {
-        if let expectedPath = path {
-            return runCallCount > 0 && lastRequestPath == expectedPath
-        }
-        return runCallCount > 0
+    func stubNetworkResponse<ResponseModel: Decodable>(
+        toReturn networkResponse: NetworkResponse<ResponseModel>
+    ) {
+        stubbedNetworkResponse = networkResponse
     }
 }

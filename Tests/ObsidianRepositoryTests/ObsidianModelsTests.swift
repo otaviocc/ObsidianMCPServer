@@ -1,5 +1,6 @@
 import Testing
 import Foundation
+
 @testable import ObsidianRepository
 
 @Suite("Obsidian Models Tests")

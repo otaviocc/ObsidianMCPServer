@@ -199,19 +199,6 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
     // MARK: - Private
 
-    private func buildDirectoryPath(
-        base: String,
-        component: String
-    ) -> String {
-        if base.isEmpty {
-            return component.hasSuffix("/") ? component : "\(component)/"
-        }
-
-        let basePath = base.hasSuffix("/") ? base : "\(base)/"
-        let componentPath = component.hasSuffix("/") ? component : "\(component)/"
-        return "\(basePath)\(componentPath)"
-    }
-
     private func buildFilePath(
         directory: String,
         filename: String
