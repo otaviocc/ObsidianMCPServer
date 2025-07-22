@@ -27,6 +27,7 @@ Perfect for AI-assisted note-taking, knowledge management, research workflows, a
 - **Full-Text Search**: Search across all notes with customizable options
 - **Advanced Options**: Case sensitivity, whole word matching, regex support
 - **Directory Browsing**: List files and folders to understand vault structure
+- **Structured Results**: Search returns relevance scores and file paths
 
 ### 🏷️ Metadata Management
 - **Frontmatter Fields**: Set individual frontmatter properties
@@ -63,7 +64,7 @@ Install and configure the [Obsidian Local REST API](https://github.com/coddingto
 
 ## 🚀 Installation
 
-### Option 1: Build from Source
+### Build from Source
 
 ```bash
 # Clone the repository
@@ -75,10 +76,6 @@ swift build -c release
 
 # The executable will be at: .build/release/ObsidianMCPServer
 ```
-
-### Option 2: Download Release
-
-Download the latest release from the [Releases page](https://github.com/yourusername/ObsidianMCPServer/releases) and extract the binary.
 
 ## ⚙️ Configuration
 
@@ -171,17 +168,17 @@ For any MCP-compatible tool, use the same configuration pattern:
 ## 🛠️ Available MCP Tools
 
 ### Server Information
-- `getServerInfo()` - Get Obsidian server details and version
+- `getServerInfo()` - Get Obsidian server details and version, returns ServerInformation object with service name and version
 
 ### Active Note Operations
-- `getActiveNote()` - Retrieve the currently active note
+- `getActiveNote()` - Retrieve the currently active note, returns File object with filename and content
 - `updateActiveNote(content)` - Replace active note content entirely
 - `deleteActiveNote()` - Delete the active note
 - `setActiveNoteFrontmatter(key, value)` - Set a frontmatter field in the active note
 - `appendToActiveNoteFrontmatter(key, value)` - Append a value to a frontmatter field array in the active note
 
 ### Vault Note Operations
-- `getNote(filename)` - Get any note by filename/path
+- `getNote(filename)` - Get any note by filename/path, returns File object with filename and content
 - `createOrUpdateNote(filename, content)` - Create new or update existing note
 - `appendToNote(filename, content)` - Append content to existing note
 - `deleteNote(filename)` - Delete a specific note
@@ -189,16 +186,21 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `appendToNoteFrontmatter(filename, key, value)` - Append a value to a frontmatter field array in a specific vault note
 
 ### Directory Operations
-- `listDirectory(directory)` - List files and folders in vault directories
+- `listDirectory(directory)` - List files and folders in vault directories, returns newline-separated list of paths
 
 ### Search Operations
-- `search(query, ignoreCase, wholeWord, isRegex)` - Search entire vault
+- `search(query, ignoreCase, wholeWord, isRegex)` - Search entire vault, returns array of SearchResult objects with path and relevance score
 
 **Search Parameters**:
 - `query` (required): The text or pattern to search for
 - `ignoreCase` (optional): Whether to perform case-insensitive search (default: true)
 - `wholeWord` (optional): Whether to match whole words only (default: false)
 - `isRegex` (optional): Whether to treat the query as a regular expression (default: false)
+
+**Return Types**:
+- `File`: Object with `filename` (string) and `content` (string) properties
+- `SearchResult`: Object with `path` (string) and `score` (double) properties
+- `ServerInformation`: Object with `service` (string) and `version` (string) properties
 
 ## 💡 Usage Examples
 
@@ -208,7 +210,7 @@ For any MCP-compatible tool, use the same configuration pattern:
 # Ask your AI assistant:
 
 "Show me all my notes about machine learning"
-→ Uses search() to find ML-related notes
+→ Uses search() to find ML-related notes with relevance scores
 
 "Create a new note called 'Daily Standup 2024-01-15' with today's agenda"
 → Uses createOrUpdateNote() to create the note
@@ -217,7 +219,7 @@ For any MCP-compatible tool, use the same configuration pattern:
 → Uses appendToNote() to add content to the note
 
 "What's in my currently active note?"
-→ Uses getActiveNote() to read current content
+→ Uses getActiveNote() to read current content and filename
 
 "List all files in my 'Research' folder"
 → Uses listDirectory() to browse folder contents
@@ -260,15 +262,19 @@ For any MCP-compatible tool, use the same configuration pattern:
 ```
 ObsidianMCPServer/
 ├── Sources/
-│   ├── ObsidianMCPServer/           # MCP server implementation
-│   │   ├── Models/                  # Data models (File, SearchResult, etc.)
-│   │   ├── ObsidianMCPServer.swift  # Main MCP server with @MCPTool methods
-│   └── ObsidianRepository.swift # Business logic layer
-│   └── ObsidianNetworking/          # HTTP client and API models
-│       ├── Factories/               # Request and client factories
-│       └── Models/                  # Network response models
-├── Tests/                           # Comprehensive test suite
-└── Package.swift                    # Swift Package Manager configuration
+│   ├── ObsidianMCPServer/                    # Main MCP server executable
+│   │   ├── Models/                           # ThreadSafeBox utility
+│   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool methods
+│   │   └── main.swift                        # Command-line entry point
+│   ├── ObsidianRepository/                   # Business logic layer
+│   │   ├── Models/                           # Domain models (File, SearchResult, ServerInformation)
+│   │   ├── ObsidianRepository.swift          # Repository implementation
+│   │   └── ObsidianRepositoryProtocol.swift  # Repository protocols
+│   └── ObsidianNetworking/                   # HTTP client and API models
+│       ├── Factories/                        # Request and client factories
+│       └── Models/                           # Network response models
+├── Tests/                                    # Comprehensive test suite
+└── Package.swift                             # Swift Package Manager configuration
 ```
 
 ### Key Dependencies
@@ -311,6 +317,7 @@ swift test
 # Run specific test targets
 swift test --filter ObsidianMCPServerTests
 swift test --filter ObsidianNetworkingTests
+swift test --filter ObsidianRepositoryTests
 
 # Generate test coverage
 swift test --enable-code-coverage
@@ -333,23 +340,11 @@ swift test --enable-code-coverage
 - Ensure API key is correct
 
 **Permission Denied**:
-- Verify the API key has the required permissions
 - Check Obsidian is running and vault is open
 
 **Build Errors**:
 - Ensure you have Swift 6.0+ and Xcode 15.0+
 - Try `swift package clean` and rebuild
-
-### Debug Mode
-
-Run with verbose logging:
-
-```bash
-export OBSIDIAN_BASE_URL="http://127.0.0.1:27123"
-export OBSIDIAN_API_KEY="your-key"
-export DEBUG=1
-./ObsidianMCPServer
-```
 
 ## 🤝 Contributing
 
@@ -384,7 +379,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Issues**: [GitHub Issues](https://github.com/yourusername/ObsidianMCPServer/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ObsidianMCPServer/discussions)
 - **Documentation**: This README and inline code documentation
 
 ---
