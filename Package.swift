@@ -15,9 +15,10 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/Cocoanetics/SwiftMCP", branch: "main"),
+        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
         .package(url: "https://github.com/otaviocc/MicroClient", branch: "main"),
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", branch: "main")
+        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", branch: "main"),
     ],
     targets: [
         .target(
@@ -54,7 +55,8 @@ let package = Package(
         .testTarget(
             name: "ObsidianNetworkingTests",
             dependencies: [
-                "ObsidianNetworking"
+                "ObsidianNetworking",
+                "AnyCodable"
             ],
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
