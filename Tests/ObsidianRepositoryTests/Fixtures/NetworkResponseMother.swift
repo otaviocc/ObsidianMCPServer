@@ -3,8 +3,6 @@ import MicroClient
 import ObsidianNetworking
 import ObsidianRepository
 
-// swiftlint:disable force_unwrapping
-
 enum NetworkResponseMother {
 
     static func makeNoteJSONResponse(
@@ -27,13 +25,7 @@ enum NetworkResponseMother {
         let data = Data(jsonString.utf8)
         let decoder = JSONDecoder()
         let noteResponse = try decoder.decode(NoteJSONResponse.self, from: data)
-
-        let httpResponse = HTTPURLResponse(
-            url: URL(string: "https://test.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )!
+        let httpResponse = HTTPURLResponseMother.makeHTTPURLResponse()
 
         return .init(value: noteResponse, response: httpResponse)
     }
@@ -42,13 +34,7 @@ enum NetworkResponseMother {
         let data = Data("{}".utf8)
         let decoder = JSONDecoder()
         let voidResponse = try decoder.decode(VoidResponse.self, from: data)
-
-        let httpResponse = HTTPURLResponse(
-            url: URL(string: "https://test.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )!
+        let httpResponse = HTTPURLResponseMother.makeHTTPURLResponse()
 
         return .init(value: voidResponse, response: httpResponse)
     }
@@ -72,13 +58,7 @@ enum NetworkResponseMother {
         let data = Data(jsonString.utf8)
         let decoder = JSONDecoder()
         let searchResponse = try decoder.decode([SimpleSearchResponse].self, from: data)
-
-        let httpResponse = HTTPURLResponse(
-            url: URL(string: "https://test.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )!
+        let httpResponse = HTTPURLResponseMother.makeHTTPURLResponse()
 
         return .init(value: searchResponse, response: httpResponse)
     }
@@ -111,19 +91,13 @@ enum NetworkResponseMother {
         let data = Data(jsonString.utf8)
         let decoder = JSONDecoder()
         let serverInfoResponse = try decoder.decode(ServerInfoResponse.self, from: data)
-
-        let httpResponse = HTTPURLResponse(
-            url: URL(string: "https://test.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )!
+        let httpResponse = HTTPURLResponseMother.makeHTTPURLResponse()
 
         return .init(value: serverInfoResponse, response: httpResponse)
     }
 
     static func makeDirectoryListingResponse(
-        files: [String] = ["note1.md", "note2.md", "note3.md"]
+        files: [String] = ["note1.md", "note2.md", "note3.md", "directory1/"]
     ) throws -> NetworkResponse<DirectoryListingResponse> {
         let jsonString = """
         {
@@ -133,16 +107,8 @@ enum NetworkResponseMother {
         let data = Data(jsonString.utf8)
         let decoder = JSONDecoder()
         let directoryResponse = try decoder.decode(DirectoryListingResponse.self, from: data)
-
-        let httpResponse = HTTPURLResponse(
-            url: URL(string: "https://test.com")!,
-            statusCode: 200,
-            httpVersion: nil,
-            headerFields: nil
-        )!
+        let httpResponse = HTTPURLResponseMother.makeHTTPURLResponse()
 
         return .init(value: directoryResponse, response: httpResponse)
     }
 }
-
-// swiftlint:enable force_unwrapping
