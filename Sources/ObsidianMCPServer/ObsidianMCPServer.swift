@@ -325,4 +325,36 @@ final class ObsidianMCPServer {
     ) async throws -> String {
         try await prompt.summarizeNote(filename: filename, focus: focus)
     }
+
+    /**
+     Generate a prompt to analyze the currently active note in Obsidian with various focus types.
+
+     This prompt provides analysis of the note currently open in Obsidian without requiring
+     the user to specify a filename, making it convenient for quick analysis workflows.
+
+     - Parameter focus: The type of analysis to perform (default: .general)
+     - Returns: A formatted prompt for active note analysis
+     */
+    @MCPPrompt(description: "Generate a structured prompt to analyze the currently active Obsidian note")
+    func analyzeActiveNote(focus: AnalysisFocus = .general) async throws -> String {
+        try await prompt.analyzeActiveNote(focus: focus)
+    }
+
+    /**
+     Generate thought-provoking follow-up questions based on note content.
+
+     This prompt creates engaging questions that encourage deeper thinking and exploration
+     of the topics discussed in the note, perfect for research and learning workflows.
+
+     - Parameter filename: The filename of the note to analyze
+     - Parameter questionCount: The number of questions to generate (default: 5)
+     - Returns: A formatted prompt with follow-up questions
+     */
+    @MCPPrompt(description: "Generate thought-provoking follow-up questions based on note content")
+    func generateFollowUpQuestions(
+        filename: String,
+        questionCount: Int = 5
+    ) async throws -> String {
+        try await prompt.generateFollowUpQuestions(filename: filename, questionCount: questionCount)
+    }
 }

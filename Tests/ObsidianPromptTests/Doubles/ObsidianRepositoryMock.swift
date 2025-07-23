@@ -27,14 +27,26 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         return getVaultNoteReturnValue
     }
 
+    // MARK: - getActiveNote
+
+    var getActiveNoteCallsCount = 0
+    var getActiveNoteReturnValue: File!
+    var getActiveNoteThrowableError: Error?
+
+    func getActiveNote() async throws -> File {
+        getActiveNoteCallsCount += 1
+
+        if let error = getActiveNoteThrowableError {
+            throw error
+        }
+
+        return getActiveNoteReturnValue
+    }
+
     // MARK: - Unused Protocol Methods
 
     // swiftlint:disable unavailable_function
     func getServerInfo() async throws -> ServerInformation {
-        fatalError("Not implemented for prompt tests")
-    }
-
-    func getActiveNote() async throws -> File {
         fatalError("Not implemented for prompt tests")
     }
 

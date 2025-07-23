@@ -211,10 +211,19 @@ For any MCP-compatible tool, use the same configuration pattern:
 
 ### MCP Prompts
 - `summarizeNote(filename, focus)` - Generate structured prompts for analyzing Obsidian notes with comprehensive focus options
+- `analyzeActiveNote(focus)` - Generate structured prompts for analyzing the currently active note in Obsidian
+- `generateFollowUpQuestions(filename, questionCount)` - Generate thought-provoking follow-up questions based on note content
 
 **Note Analysis Prompt Parameters**:
 - `filename` (required): The filename or path of the note to analyze
 - `focus` (optional): The type of analysis to perform (default: `.general`)
+
+**Active Note Analysis Prompt Parameters**:
+- `focus` (optional): The type of analysis to perform (default: `.general`)
+
+**Follow-Up Questions Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+- `questionCount` (optional): The number of questions to generate (default: 5)
 
 **Available Focus Types** (AnalysisFocus `enum`):
 - `.general`: Comprehensive analysis including summary, themes, and actionable insights
@@ -261,11 +270,17 @@ For any MCP-compatible tool, use the same configuration pattern:
 "Generate a summary prompt for my 'Meeting Notes 2024-01-15' file"
 → Uses summarizeNote() prompt to create structured analysis
 
-"Create an action-items focused prompt for my project planning note"
-→ Uses summarizeNote() with focus=.actionItems to extract tasks
+"Analyze my currently active note for action items"
+→ Uses analyzeActiveNote() with focus=.actionItems for the note currently open in Obsidian
 
-"Analyze the tone and mood of my journal entry"
-→ Uses summarizeNote() with focus=.tone to understand emotional context
+"Create follow-up questions for my research paper"
+→ Uses generateFollowUpQuestions() to create 5 thought-provoking questions
+
+"Generate 10 questions based on my philosophy notes"
+→ Uses generateFollowUpQuestions() with questionCount=10 for deeper exploration
+
+"Analyze the tone and mood of my currently open journal entry"
+→ Uses analyzeActiveNote() with focus=.tone to understand emotional context
 
 "Check grammar and style in my research draft"
 → Uses summarizeNote() with focus=.grammar for writing improvements
@@ -309,6 +324,18 @@ For any MCP-compatible tool, use the same configuration pattern:
 6. "Extract .keywords from my brainstorming sessions for better organization"
 7. "Use .insights focus to capture key learnings from conference notes"
 8. "Apply .structure analysis to improve note organization and flow"
+
+# Active Note Workflows:
+1. "Analyze my current note for action items without specifying filename"
+2. "Get insights from whatever note I'm currently viewing"
+3. "Generate follow-up questions for my active research note"
+4. "Apply tone analysis to my currently open journal entry"
+
+# Knowledge Exploration:
+1. "Generate 10 follow-up questions for my philosophy paper"
+2. "Create thought-provoking questions based on my research findings"
+3. "Generate questions that encourage deeper thinking about my project"
+4. "Create follow-up questions focusing on practical applications"
 ```
 
 ## 🏗️ Development
