@@ -24,7 +24,8 @@ let package = Package(
         .target(
             name: "ObsidianNetworking",
             dependencies: [
-                .product(name: "MicroClient", package: "MicroClient")
+                .product(name: "MicroClient", package: "MicroClient"),
+                "AnyCodable"
             ],
             plugins: [
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
