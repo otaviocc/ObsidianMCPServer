@@ -38,6 +38,9 @@ Perfect for AI-assisted note-taking, knowledge management, research workflows, a
 - **Frontmatter Arrays**: Append to frontmatter arrays (like tags)
 - **Active & Vault Notes**: Manage frontmatter for any note
 
+### 🎯 Intelligent Analysis
+- **MCP Prompts**: Generate structured analysis prompts with 12 different focus types
+
 ## 🔧 Prerequisites
 
 ### 1. Obsidian Local REST API Plugin
@@ -213,7 +216,7 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `filename` (required): The filename or path of the note to analyze
 - `focus` (optional): The type of analysis to perform (default: `.general`)
 
-**Available Focus Types** (AnalysisFocus enum):
+**Available Focus Types** (AnalysisFocus `enum`):
 - `.general`: Comprehensive analysis including summary, themes, and actionable insights
 - `.summarize`: Clear, concise summary of main content without detailed analysis
 - `.themes`: Focus on identifying main themes, concepts, and topics discussed
@@ -317,9 +320,13 @@ ObsidianMCPServer/
 ├── Sources/
 │   ├── ObsidianMCPServer/                    # Main MCP server executable
 │   │   ├── Models/                           # ThreadSafeBox utility
-│   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool methods
+│   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool and @MCPPrompt methods
 │   │   └── main.swift                        # Command-line entry point
-│   ├── ObsidianRepository/                   # Business logic layer
+│   ├── ObsidianPrompt/                       # Prompt business logic layer
+│   │   ├── Models/                           # AnalysisFocus enum and prompt models
+│   │   ├── ObsidianPrompt.swift              # Prompt generation implementation
+│   │   └── ObsidianPromptProtocol.swift      # Prompt protocols
+│   ├── ObsidianRepository/                   # Data access layer
 │   │   ├── Models/                           # Domain models (File, SearchResult, ServerInformation)
 │   │   ├── ObsidianRepository.swift          # Repository implementation
 │   │   └── ObsidianRepositoryProtocol.swift  # Repository protocols
@@ -327,6 +334,10 @@ ObsidianMCPServer/
 │       ├── Factories/                        # Request and client factories
 │       └── Models/                           # Network response models
 ├── Tests/                                    # Comprehensive test suite
+│   ├── ObsidianMCPServerTests/               # MCP server tests
+│   ├── ObsidianPromptTests/                  # Prompt generation tests
+│   ├── ObsidianRepositoryTests/              # Repository layer tests
+│   └── ObsidianNetworkingTests/              # Network layer tests
 └── Package.swift                             # Swift Package Manager configuration
 ```
 
@@ -369,8 +380,9 @@ swift test
 
 # Run specific test targets
 swift test --filter ObsidianMCPServerTests
-swift test --filter ObsidianNetworkingTests
+swift test --filter ObsidianPromptTests
 swift test --filter ObsidianRepositoryTests
+swift test --filter ObsidianNetworkingTests
 
 # Generate test coverage
 swift test --enable-code-coverage
