@@ -4,6 +4,8 @@ import ObsidianRepository
 import ObsidianNetworking
 import ObsidianPrompt
 
+// swiftlint:disable file_length
+
 /**
  An Obsidian MCP Server for accessing Obsidian vault operations via REST API.
 
@@ -357,4 +359,67 @@ final class ObsidianMCPServer {
     ) async throws -> String {
         try await prompt.generateFollowUpQuestions(filename: filename, questionCount: questionCount)
     }
+
+    /**
+     Analyze note content and suggest relevant tags for frontmatter.
+
+     This prompt examines the note content to identify key topics, themes, and concepts,
+     then suggests appropriate tags that would be useful for organization and discovery.
+
+     - Parameter filename: The filename of the note to analyze
+     - Parameter maxTags: The maximum number of tags to suggest (default: 8)
+     - Returns: A formatted prompt with tag suggestions and MCP commands to apply them
+     */
+    @MCPPrompt(description: "Analyze note content and suggest relevant tags for frontmatter")
+    func suggestTags(
+        filename: String,
+        maxTags: Int = 8
+    ) async throws -> String {
+        try await prompt.suggestTags(filename: filename, maxTags: maxTags)
+    }
+
+    /**
+     Generate a complete frontmatter structure based on note content.
+
+     This prompt analyzes the note content to suggest a comprehensive frontmatter structure
+     including tags, status, category, dates, and other relevant metadata fields.
+
+     - Parameter filename: The filename of the note to analyze
+     - Returns: A formatted prompt with complete frontmatter suggestions
+     */
+    @MCPPrompt(description: "Generate a complete frontmatter structure based on note content")
+    func generateFrontmatter(filename: String) async throws -> String {
+        try await prompt.generateFrontmatter(filename: filename)
+    }
+
+    /**
+     Suggest tags for the currently active note in Obsidian.
+
+     This prompt provides tag suggestions for the note currently open in Obsidian without
+     requiring the user to specify a filename, making it convenient for quick tagging workflows.
+
+     - Parameter maxTags: The maximum number of tags to suggest (default: 8)
+     - Returns: A formatted prompt with tag suggestions and MCP commands to apply them
+     */
+    @MCPPrompt(description: "Suggest tags for the currently active note in Obsidian")
+    func suggestActiveNoteTags(maxTags: Int = 8) async throws -> String {
+        try await prompt.suggestActiveNoteTags(maxTags: maxTags)
+    }
+
+    /**
+     Extract key metadata from note content for frontmatter usage.
+
+     This prompt analyzes the note content to identify important metadata such as dates,
+     people, projects, locations, and other structured information that would be valuable
+     in frontmatter fields for organization and querying.
+
+     - Parameter filename: The filename of the note to analyze
+     - Returns: A formatted prompt with extracted metadata suggestions
+     */
+    @MCPPrompt(description: "Extract key metadata from note content for frontmatter usage")
+    func extractMetadata(filename: String) async throws -> String {
+        try await prompt.extractMetadata(filename: filename)
+    }
 }
+
+// swiftlint:enable file_length

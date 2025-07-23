@@ -213,6 +213,10 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `summarizeNote(filename, focus)` - Generate structured prompts for analyzing Obsidian notes with comprehensive focus options
 - `analyzeActiveNote(focus)` - Generate structured prompts for analyzing the currently active note in Obsidian
 - `generateFollowUpQuestions(filename, questionCount)` - Generate thought-provoking follow-up questions based on note content
+- `suggestTags(filename, maxTags)` - Analyze note content and suggest relevant tags for frontmatter
+- `generateFrontmatter(filename)` - Generate complete frontmatter structure based on note content
+- `suggestActiveNoteTags(maxTags)` - Suggest tags for the currently active note in Obsidian
+- `extractMetadata(filename)` - Extract key metadata from note content for frontmatter usage
 
 **Note Analysis Prompt Parameters**:
 - `filename` (required): The filename or path of the note to analyze
@@ -224,6 +228,19 @@ For any MCP-compatible tool, use the same configuration pattern:
 **Follow-Up Questions Prompt Parameters**:
 - `filename` (required): The filename or path of the note to analyze
 - `questionCount` (optional): The number of questions to generate (default: 5)
+
+**Tag Suggestion Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+- `maxTags` (optional): The maximum number of tags to suggest (default: 8)
+
+**Frontmatter Generation Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+
+**Active Note Tag Suggestion Prompt Parameters**:
+- `maxTags` (optional): The maximum number of tags to suggest (default: 8)
+
+**Metadata Extraction Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
 
 **Available Focus Types** (AnalysisFocus `enum`):
 - `.general`: Comprehensive analysis including summary, themes, and actionable insights
@@ -282,6 +299,19 @@ For any MCP-compatible tool, use the same configuration pattern:
 "Analyze the tone and mood of my currently open journal entry"
 → Uses analyzeActiveNote() with focus=.tone to understand emotional context
 
+"Suggest tags for my research paper"
+→ Uses suggestTags() to analyze content and suggest relevant tags
+
+"Generate frontmatter for my meeting notes"
+→ Uses generateFrontmatter() to create complete YAML frontmatter structure
+
+"Suggest tags for my currently active note"
+→ Uses suggestActiveNoteTags() for quick tagging of the note currently open in Obsidian
+
+"Extract metadata from my project planning document"
+→ Uses extractMetadata() to identify dates, people, projects, and other structured information
+→ Returns: `setNoteFrontmatterField(filename: "planning.md", key: "attendees", value: "[[John Smith]],[[Sarah Wilson]]")`
+
 "Check grammar and style in my research draft"
 → Uses summarizeNote() with focus=.grammar for writing improvements
 
@@ -336,6 +366,15 @@ For any MCP-compatible tool, use the same configuration pattern:
 2. "Create thought-provoking questions based on my research findings"
 3. "Generate questions that encourage deeper thinking about my project"
 4. "Create follow-up questions focusing on practical applications"
+
+# Frontmatter & Organization:
+1. "Suggest tags for my project notes and apply the most relevant ones"
+2. "Generate complete frontmatter for my meeting notes with tags, attendees, and dates"
+3. "Extract metadata from my conference notes to organize with proper frontmatter"
+4. "Suggest tags for my currently active note without switching files"
+5. "Auto-organize my notes by generating consistent frontmatter structures"
+
+**Obsidian Integration**: Frontmatter prompts automatically format people's names with `[[Name]]` syntax to create clickable links to their notes in your vault, making attendees, authors, and other people references fully interactive.
 ```
 
 ## 🏗️ Development
