@@ -19,6 +19,7 @@ struct ObsidianMCPCommand: ParsableCommand {
               let baseURL = URL(string: baseURLString)
         else {
             logToStderr("MCP Server ObsidianMCPServer failed to start")
+            logToStderr("Check environment variables OBSIDIAN_BASE_URL and OBSIDIAN_API_KEY")
             throw ExitCode.failure
         }
 
@@ -26,7 +27,7 @@ struct ObsidianMCPCommand: ParsableCommand {
             apiKey
         }
 
-        logToStderr("MCP Server ObsidianMCPServer (1.0.0) started with stdio transport")
+        logToStderr("MCP Server ObsidianMCPServer started with stdio transport")
         logToStderr("Base URL: \(baseURL.absoluteString)")
 
         let semaphore = DispatchSemaphore(value: 0)

@@ -211,10 +211,52 @@ For any MCP-compatible tool, use the same configuration pattern:
 
 ### MCP Prompts
 - `summarizeNote(filename, focus)` - Generate structured prompts for analyzing Obsidian notes with comprehensive focus options
+- `analyzeActiveNote(focus)` - Generate structured prompts for analyzing the currently active note in Obsidian
+- `generateFollowUpQuestions(filename, questionCount)` - Generate thought-provoking follow-up questions based on note content
+- `suggestTags(filename, maxTags)` - Analyze note content and suggest relevant tags for frontmatter
+- `generateFrontmatter(filename)` - Generate complete frontmatter structure based on note content
+- `suggestActiveNoteTags(maxTags)` - Suggest tags for the currently active note in Obsidian
+- `extractMetadata(filename)` - Extract key metadata from note content for frontmatter usage
+- `rewriteActiveNote(style: WritingStyle)` - Rewrite the active note in different writing styles
+
+### Writing Styles
+
+The `rewriteActiveNote` prompt supports 10 different writing styles:
+
+- `formal` - Formal and professional tone with complete sentences and proper grammar
+- `informal` - Casual and relaxed tone with contractions and everyday language
+- `technical` - Technical and precise language with industry-specific terminology
+- `scientific` - Scientific and research-oriented with objective, evidence-based tone
+- `emoji` - Fun and expressive writing with relevant emojis throughout
+- `eli5` - "Explain Like I'm 5" with simple words and familiar analogies
+- `creative` - Creative and imaginative with metaphors and vivid imagery
+- `professional` - Business and workplace appropriate with action-oriented language
+- `academic` - Scholarly and educational tone with well-structured arguments
+- `conversational` - Natural conversation style with direct reader engagement
 
 **Note Analysis Prompt Parameters**:
 - `filename` (required): The filename or path of the note to analyze
 - `focus` (optional): The type of analysis to perform (default: `.general`)
+
+**Active Note Analysis Prompt Parameters**:
+- `focus` (optional): The type of analysis to perform (default: `.general`)
+
+**Follow-Up Questions Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+- `questionCount` (optional): The number of questions to generate (default: 5)
+
+**Tag Suggestion Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+- `maxTags` (optional): The maximum number of tags to suggest (default: 8)
+
+**Frontmatter Generation Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+
+**Active Note Tag Suggestion Prompt Parameters**:
+- `maxTags` (optional): The maximum number of tags to suggest (default: 8)
+
+**Metadata Extraction Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
 
 **Available Focus Types** (AnalysisFocus `enum`):
 - `.general`: Comprehensive analysis including summary, themes, and actionable insights
@@ -261,11 +303,38 @@ For any MCP-compatible tool, use the same configuration pattern:
 "Generate a summary prompt for my 'Meeting Notes 2024-01-15' file"
 → Uses summarizeNote() prompt to create structured analysis
 
-"Create an action-items focused prompt for my project planning note"
-→ Uses summarizeNote() with focus=.actionItems to extract tasks
+"Analyze my currently active note for action items"
+→ Uses analyzeActiveNote() with focus=.actionItems for the note currently open in Obsidian
 
-"Analyze the tone and mood of my journal entry"
-→ Uses summarizeNote() with focus=.tone to understand emotional context
+"Create follow-up questions for my research paper"
+→ Uses generateFollowUpQuestions() to create 5 thought-provoking questions
+
+"Generate 10 questions based on my philosophy notes"
+→ Uses generateFollowUpQuestions() with questionCount=10 for deeper exploration
+
+"Analyze the tone and mood of my currently open journal entry"
+→ Uses analyzeActiveNote() with focus=.tone to understand emotional context
+
+"Suggest tags for my research paper"
+→ Uses suggestTags() to analyze content and suggest relevant tags
+
+"Generate frontmatter for my meeting notes"
+→ Uses generateFrontmatter() to create complete YAML frontmatter structure
+
+"Suggest tags for my currently active note"
+→ Uses suggestActiveNoteTags() for quick tagging of the note currently open in Obsidian
+
+"Extract metadata from my project planning document"
+→ Uses extractMetadata() to identify dates, people, projects, and other structured information
+→ Returns: `setNoteFrontmatterField(filename: "planning.md", key: "attendees", value: "[[John Smith]],[[Sarah Wilson]]")`
+
+"Rewrite my active note in ELI5 style"
+→ Uses rewriteActiveNote(style: .eli5) to transform content into simple, child-friendly language
+→ Returns: Complete rewritten content with simple words, analogies, and engaging explanations
+
+"Transform my technical docs to conversational style"
+→ Uses rewriteActiveNote(style: .conversational) to make technical content more approachable
+→ Returns: Natural, engaging version while preserving technical accuracy
 
 "Check grammar and style in my research draft"
 → Uses summarizeNote() with focus=.grammar for writing improvements
@@ -309,6 +378,35 @@ For any MCP-compatible tool, use the same configuration pattern:
 6. "Extract .keywords from my brainstorming sessions for better organization"
 7. "Use .insights focus to capture key learnings from conference notes"
 8. "Apply .structure analysis to improve note organization and flow"
+
+# Active Note Workflows:
+1. "Analyze my current note for action items without specifying filename"
+2. "Get insights from whatever note I'm currently viewing"
+3. "Generate follow-up questions for my active research note"
+4. "Apply tone analysis to my currently open journal entry"
+
+# Knowledge Exploration:
+1. "Generate 10 follow-up questions for my philosophy paper"
+2. "Create thought-provoking questions based on my research findings"
+3. "Generate questions that encourage deeper thinking about my project"
+4. "Create follow-up questions focusing on practical applications"
+
+# Frontmatter & Organization:
+1. "Suggest tags for my project notes and apply the most relevant ones"
+2. "Generate complete frontmatter for my meeting notes with tags, attendees, and dates"
+3. "Extract metadata from my conference notes to organize with proper frontmatter"
+4. "Suggest tags for my currently active note without switching files"
+5. "Auto-organize my notes by generating consistent frontmatter structures"
+
+**Obsidian Integration**: Frontmatter prompts automatically format people's names with `[[Name]]` syntax to create clickable links to their notes in your vault, making attendees, authors, and other people references fully interactive.
+
+# Content Transformation:
+1. "Rewrite my technical documentation in simple, ELI5 language for new team members"
+2. "Transform my casual meeting notes into formal project documentation"
+3. "Convert my research notes into engaging, emoji-filled social media content"
+4. "Rewrite my draft in academic style for publication submission"
+5. "Make my complex technical guide more conversational and approachable"
+6. "Transform my informal brainstorming notes into professional business proposals"
 ```
 
 ## 🏗️ Development
