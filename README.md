@@ -217,6 +217,22 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `generateFrontmatter(filename)` - Generate complete frontmatter structure based on note content
 - `suggestActiveNoteTags(maxTags)` - Suggest tags for the currently active note in Obsidian
 - `extractMetadata(filename)` - Extract key metadata from note content for frontmatter usage
+- `rewriteActiveNote(style: WritingStyle)` - Rewrite the active note in different writing styles
+
+### Writing Styles
+
+The `rewriteActiveNote` prompt supports 10 different writing styles:
+
+- `formal` - Formal and professional tone with complete sentences and proper grammar
+- `informal` - Casual and relaxed tone with contractions and everyday language
+- `technical` - Technical and precise language with industry-specific terminology
+- `scientific` - Scientific and research-oriented with objective, evidence-based tone
+- `emoji` - Fun and expressive writing with relevant emojis throughout
+- `eli5` - "Explain Like I'm 5" with simple words and familiar analogies
+- `creative` - Creative and imaginative with metaphors and vivid imagery
+- `professional` - Business and workplace appropriate with action-oriented language
+- `academic` - Scholarly and educational tone with well-structured arguments
+- `conversational` - Natural conversation style with direct reader engagement
 
 **Note Analysis Prompt Parameters**:
 - `filename` (required): The filename or path of the note to analyze
@@ -312,6 +328,14 @@ For any MCP-compatible tool, use the same configuration pattern:
 → Uses extractMetadata() to identify dates, people, projects, and other structured information
 → Returns: `setNoteFrontmatterField(filename: "planning.md", key: "attendees", value: "[[John Smith]],[[Sarah Wilson]]")`
 
+"Rewrite my active note in ELI5 style"
+→ Uses rewriteActiveNote(style: .eli5) to transform content into simple, child-friendly language
+→ Returns: Complete rewritten content with simple words, analogies, and engaging explanations
+
+"Transform my technical docs to conversational style"
+→ Uses rewriteActiveNote(style: .conversational) to make technical content more approachable
+→ Returns: Natural, engaging version while preserving technical accuracy
+
 "Check grammar and style in my research draft"
 → Uses summarizeNote() with focus=.grammar for writing improvements
 
@@ -375,6 +399,14 @@ For any MCP-compatible tool, use the same configuration pattern:
 5. "Auto-organize my notes by generating consistent frontmatter structures"
 
 **Obsidian Integration**: Frontmatter prompts automatically format people's names with `[[Name]]` syntax to create clickable links to their notes in your vault, making attendees, authors, and other people references fully interactive.
+
+# Content Transformation:
+1. "Rewrite my technical documentation in simple, ELI5 language for new team members"
+2. "Transform my casual meeting notes into formal project documentation"
+3. "Convert my research notes into engaging, emoji-filled social media content"
+4. "Rewrite my draft in academic style for publication submission"
+5. "Make my complex technical guide more conversational and approachable"
+6. "Transform my informal brainstorming notes into professional business proposals"
 ```
 
 ## 🏗️ Development

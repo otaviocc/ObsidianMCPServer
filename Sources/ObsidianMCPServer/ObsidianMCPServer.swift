@@ -420,6 +420,22 @@ final class ObsidianMCPServer {
     func extractMetadata(filename: String) async throws -> String {
         try await prompt.extractMetadata(filename: filename)
     }
+
+    /**
+     Rewrite the currently active note in a specific writing style.
+
+     This prompt allows the user to transform the note currently open in Obsidian
+     into different writing styles such as formal, informal, technical, scientific,
+     emoji-filled, or "explain like I'm 5" format while preserving the core content
+     and Obsidian formatting.
+
+     - Parameter style: The desired writing style for the note
+     - Returns: A formatted prompt to rewrite the active note in the specified style
+     */
+    @MCPPrompt(description: "Rewrite the currently active note in a specific writing style")
+    func rewriteActiveNote(style: WritingStyle) async throws -> String {
+        try await prompt.rewriteActiveNote(style: style)
+    }
 }
 
 // swiftlint:enable file_length

@@ -87,4 +87,14 @@ public protocol ObsidianPromptProtocol {
     /// - Returns: A formatted prompt with extracted metadata suggestions
     /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
     func extractMetadata(filename: String) async throws -> String
+
+    /// Rewrite the currently active note in Obsidian with a specified writing style.
+    ///
+    /// This method allows the user to rewrite the note currently open in Obsidian
+    /// with a specific writing style, such as formal, informal, or technical.
+    ///
+    /// - Parameter style: The desired writing style for the note.
+    /// - Returns: A formatted prompt for rewriting the active note.
+    /// - Throws: An error if no note is active or the note cannot be retrieved.
+    func rewriteActiveNote(style: WritingStyle) async throws -> String
 }

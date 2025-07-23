@@ -118,7 +118,10 @@ struct ObsidianPromptTests {
         // When/Then
         do {
             _ = try await prompt.summarizeNote(filename: filename, focus: .general)
-            #expect(Bool(false), "It should throw an error when repository fails")
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
         } catch {
             #expect(
                 error.localizedDescription == expectedError.localizedDescription,
@@ -201,7 +204,10 @@ struct ObsidianPromptTests {
         // When/Then
         do {
             _ = try await prompt.analyzeActiveNote(focus: .general)
-            #expect(Bool(false), "It should throw an error when repository fails")
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
         } catch {
             #expect(
                 error.localizedDescription == expectedError.localizedDescription,
@@ -301,7 +307,10 @@ struct ObsidianPromptTests {
         // When/Then
         do {
             _ = try await prompt.generateFollowUpQuestions(filename: filename, questionCount: 3)
-            #expect(Bool(false), "It should throw an error when repository fails")
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
         } catch {
             #expect(
                 error.localizedDescription == expectedError.localizedDescription,
@@ -544,57 +553,141 @@ struct ObsidianPromptTests {
         )
     }
 
-    @Test("It should propagate errors for suggest tags")
-    func testSuggestTagsWithRepositoryError() async {
+    @Test("It should rewrite active note with formal style")
+    func rewriteActiveNoteWithFormalStyle() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
-        let filename = "missing-file.md"
-        let expectedError = ObsidianRepositoryMock.MockError.someMockError
-        mockRepository.getVaultNoteThrowableError = expectedError
+        let activeNote = File(
+            filename: "active-note.md",
+            content: "This is the currently active note content."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let style = WritingStyle.formal
 
-        // When/Then
-        do {
-            _ = try await prompt.suggestTags(filename: filename, maxTags: 5)
-            #expect(Bool(false), "It should throw an error when repository fails")
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
-        }
+        // When
+        let result = try await prompt.rewriteActiveNote(style: style)
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("Rewrite Active Note"),
+            "It should include the rewrite prompt title"
+        )
+
+        #expect(
+            result.contains("Formal and professional tone"),
+            "It should include the formal style description"
+        )
+
+        #expect(
+            result.contains("active-note.md"),
+            "It should include the active note filename"
+        )
+
+        #expect(
+            result.contains("This is the currently active note content."),
+            "It should include the note content"
+        )
+
+        #expect(
+            result.contains("Complete sentences and proper grammar"),
+            "It should include formal style instructions"
+        )
     }
 
-    @Test("It should propagate errors for generate frontmatter")
-    func testGenerateFrontmatterWithRepositoryError() async {
+    @Test("It should rewrite active note with emoji style")
+    func rewriteActiveNoteWithEmojiStyle() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
-        let filename = "missing-file.md"
-        let expectedError = ObsidianRepositoryMock.MockError.someMockError
-        mockRepository.getVaultNoteThrowableError = expectedError
+        let activeNote = File(
+            filename: "active-note.md",
+            content: "This is the currently active note content."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let style = WritingStyle.emoji
 
-        // When/Then
-        do {
-            _ = try await prompt.generateFrontmatter(filename: filename)
-            #expect(Bool(false), "It should throw an error when repository fails")
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
-        }
+        // When
+        let result = try await prompt.rewriteActiveNote(style: style)
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("Rewrite Active Note"),
+            "It should include the rewrite prompt title"
+        )
+
+        #expect(
+            result.contains("Fun and expressive with emojis"),
+            "It should include the emoji style description"
+        )
+
+        #expect(
+            result.contains("Add relevant emojis throughout"),
+            "It should include emoji style instructions"
+        )
     }
 
-    @Test("It should propagate errors for suggest active note tags")
-    func testSuggestActiveNoteTagsWithRepositoryError() async {
+    @Test("It should rewrite active note with ELI5 style")
+    func rewriteActiveNoteWithELI5Style() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "active-note.md",
+            content: "This is the currently active note content."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let style = WritingStyle.eli5
+
+        // When
+        let result = try await prompt.rewriteActiveNote(style: style)
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("Rewrite Active Note"),
+            "It should include the rewrite prompt title"
+        )
+
+        #expect(
+            result.contains("Explain Like I'm 5"),
+            "It should include the ELI5 style description"
+        )
+
+        #expect(
+            result.contains("Use very simple words"),
+            "It should include ELI5 style instructions"
+        )
+
+        #expect(
+            result.contains("toys, animals, food"),
+            "It should include ELI5 familiar examples"
+        )
+    }
+
+    @Test("It should propagate errors for rewrite active note")
+    func propagateErrorsForRewriteActiveNote() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError
         mockRepository.getActiveNoteThrowableError = expectedError
+        let style = WritingStyle.formal
 
-        // When/Then
+        // When & Then
         do {
-            _ = try await prompt.suggestActiveNoteTags(maxTags: 5)
-            #expect(Bool(false), "It should throw an error when repository fails")
+            _ = try await prompt.rewriteActiveNote(style: style)
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
         } catch {
             #expect(
                 error.localizedDescription == expectedError.localizedDescription,
@@ -614,7 +707,10 @@ struct ObsidianPromptTests {
         // When/Then
         do {
             _ = try await prompt.extractMetadata(filename: filename)
-            #expect(Bool(false), "It should throw an error when repository fails")
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
         } catch {
             #expect(
                 error.localizedDescription == expectedError.localizedDescription,

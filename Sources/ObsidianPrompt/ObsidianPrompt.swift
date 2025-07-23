@@ -1,7 +1,7 @@
 import Foundation
 import ObsidianRepository
 
-// swiftlint:disable type_body_length
+// swiftlint:disable type_body_length file_length
 
 public final class ObsidianPrompt: ObsidianPromptProtocol {
 
@@ -359,6 +359,47 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         return prompt
     }
     // swiftlint:enable line_length function_body_length
+
+    // swiftlint:disable line_length
+    public func rewriteActiveNote(style: WritingStyle) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Rewrite Active Note: \(style.description)
+
+        You are an expert writer and editor. Please rewrite the following note content using the specified writing style.
+
+        **Writing Style**: \(style.description)
+
+        **Style Guidelines**:
+        \(style.instructions)
+
+        **Original Note**: \(activeNote.filename)
+        **Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Rewriting Instructions**:
+        1. **Preserve Core Information**: Keep all important facts, data, and key points
+        2. **Maintain Structure**: Preserve headings, lists, and logical organization where appropriate
+        3. **Apply Style Consistently**: Transform the language and tone throughout
+        4. **Preserve Formatting**: Keep Obsidian-specific formatting like [[links]], #tags, and markdown
+        5. **Enhance Clarity**: Make the content clearer and more engaging in the target style
+
+        **Output Requirements**:
+        - Provide the complete rewritten content
+        - Maintain the same information density
+        - Preserve any Obsidian links ([[Page Name]]) and hashtags (#tag)
+        - Keep code blocks, tables, and special formatting intact
+        - Ensure the rewritten version is ready to replace the original
+
+        **Rewritten Content**:
+        """
+
+        return prompt
+    }
+    // swiftlint:enable line_length
 }
 
-// swiftlint:enable type_body_length
+// swiftlint:enable type_body_length file_length
