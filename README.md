@@ -38,6 +38,9 @@ Perfect for AI-assisted note-taking, knowledge management, research workflows, a
 - **Frontmatter Arrays**: Append to frontmatter arrays (like tags)
 - **Active & Vault Notes**: Manage frontmatter for any note
 
+### 🎯 Intelligent Analysis
+- **MCP Prompts**: Generate structured analysis prompts with 12 different focus types
+
 ## 🔧 Prerequisites
 
 ### 1. Obsidian Local REST API Plugin
@@ -206,6 +209,27 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `SearchResult`: Object with `path` (string) and `score` (double) properties
 - `ServerInformation`: Object with `service` (string) and `version` (string) properties
 
+### MCP Prompts
+- `summarizeNote(filename, focus)` - Generate structured prompts for analyzing Obsidian notes with comprehensive focus options
+
+**Note Analysis Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+- `focus` (optional): The type of analysis to perform (default: `.general`)
+
+**Available Focus Types** (AnalysisFocus `enum`):
+- `.general`: Comprehensive analysis including summary, themes, and actionable insights
+- `.summarize`: Clear, concise summary of main content without detailed analysis
+- `.themes`: Focus on identifying main themes, concepts, and topics discussed
+- `.actionItems`: Extract all action items, tasks, deadlines, and next steps
+- `.connections`: Suggest potential connections to other notes, topics, or concepts for linking
+- `.tone`: Analyze mood, attitude, and emotional context of the writing
+- `.grammar`: Review grammar, spelling, style, and clarity improvements with specific suggestions
+- `.structure`: Analyze organization and suggest improvements to flow and layout
+- `.questions`: Identify key questions raised and suggest follow-up questions for deeper exploration
+- `.keywords`: Extract important keywords, terms, and concepts for tagging and searchability
+- `.insights`: Focus on extracting key insights, learnings, and "aha moments"
+- `.review`: Comprehensive review including strengths, weaknesses, and improvement suggestions
+
 ## 💡 Usage Examples
 
 ### Basic Operations
@@ -233,6 +257,24 @@ For any MCP-compatible tool, use the same configuration pattern:
 
 "Add 'project-alpha' to the tags array in my 'Project Ideas' note"
 → Uses appendToNoteFrontmatter() to add tags
+
+"Generate a summary prompt for my 'Meeting Notes 2024-01-15' file"
+→ Uses summarizeNote() prompt to create structured analysis
+
+"Create an action-items focused prompt for my project planning note"
+→ Uses summarizeNote() with focus=.actionItems to extract tasks
+
+"Analyze the tone and mood of my journal entry"
+→ Uses summarizeNote() with focus=.tone to understand emotional context
+
+"Check grammar and style in my research draft"
+→ Uses summarizeNote() with focus=.grammar for writing improvements
+
+"Extract keywords from my brainstorming session notes"
+→ Uses summarizeNote() with focus=.keywords for better tagging
+
+"Get key insights from my conference attendance notes"
+→ Uses summarizeNote() with focus=.insights to extract learnings
 ```
 
 ### Advanced Workflows
@@ -257,6 +299,16 @@ For any MCP-compatible tool, use the same configuration pattern:
 1. "List all notes in my 'Projects' directory"
 2. "Update project status in frontmatter fields"
 3. "Add new project phases to existing project notes"
+
+# Smart Analysis with Prompts:
+1. "Use .summarize focus on my research paper for a quick overview"
+2. "Apply .themes analysis to identify main concepts in my reading notes"
+3. "Generate .actionItems analysis for my meeting notes"
+4. "Use .tone analysis on my journal entries to understand emotional patterns"
+5. "Apply .grammar focus to polish my writing drafts"
+6. "Extract .keywords from my brainstorming sessions for better organization"
+7. "Use .insights focus to capture key learnings from conference notes"
+8. "Apply .structure analysis to improve note organization and flow"
 ```
 
 ## 🏗️ Development
@@ -268,9 +320,13 @@ ObsidianMCPServer/
 ├── Sources/
 │   ├── ObsidianMCPServer/                    # Main MCP server executable
 │   │   ├── Models/                           # ThreadSafeBox utility
-│   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool methods
+│   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool and @MCPPrompt methods
 │   │   └── main.swift                        # Command-line entry point
-│   ├── ObsidianRepository/                   # Business logic layer
+│   ├── ObsidianPrompt/                       # Prompt business logic layer
+│   │   ├── Models/                           # AnalysisFocus enum and prompt models
+│   │   ├── ObsidianPrompt.swift              # Prompt generation implementation
+│   │   └── ObsidianPromptProtocol.swift      # Prompt protocols
+│   ├── ObsidianRepository/                   # Data access layer
 │   │   ├── Models/                           # Domain models (File, SearchResult, ServerInformation)
 │   │   ├── ObsidianRepository.swift          # Repository implementation
 │   │   └── ObsidianRepositoryProtocol.swift  # Repository protocols
@@ -278,6 +334,10 @@ ObsidianMCPServer/
 │       ├── Factories/                        # Request and client factories
 │       └── Models/                           # Network response models
 ├── Tests/                                    # Comprehensive test suite
+│   ├── ObsidianMCPServerTests/               # MCP server tests
+│   ├── ObsidianPromptTests/                  # Prompt generation tests
+│   ├── ObsidianRepositoryTests/              # Repository layer tests
+│   └── ObsidianNetworkingTests/              # Network layer tests
 └── Package.swift                             # Swift Package Manager configuration
 ```
 
@@ -320,8 +380,9 @@ swift test
 
 # Run specific test targets
 swift test --filter ObsidianMCPServerTests
-swift test --filter ObsidianNetworkingTests
+swift test --filter ObsidianPromptTests
 swift test --filter ObsidianRepositoryTests
+swift test --filter ObsidianNetworkingTests
 
 # Generate test coverage
 swift test --enable-code-coverage

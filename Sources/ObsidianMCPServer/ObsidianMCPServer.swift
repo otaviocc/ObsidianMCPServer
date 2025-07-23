@@ -2,6 +2,7 @@ import Foundation
 import SwiftMCP
 import ObsidianRepository
 import ObsidianNetworking
+import ObsidianPrompt
 
 /**
  An Obsidian MCP Server for accessing Obsidian vault operations via REST API.
@@ -25,6 +26,7 @@ final class ObsidianMCPServer {
     // MARK: - Properties
 
     private let repository: ObsidianRepositoryProtocol
+    private let prompt: ObsidianPromptProtocol
 
     // MARK: - Life cycle
 
@@ -42,10 +44,12 @@ final class ObsidianMCPServer {
             client: client,
             requestFactory: requestFactory
         )
+        self.prompt = ObsidianPrompt(repository: self.repository)
     }
 
     init(repository: ObsidianRepositoryProtocol) {
         self.repository = repository
+        self.prompt = ObsidianPrompt(repository: repository)
     }
 
     // MARK: - MCP Tools
@@ -300,5 +304,25 @@ final class ObsidianMCPServer {
         try await repository.searchVault(
             query: query
         )
+    }
+
+    // MARK: - MCP Prompts
+
+    /**
+     Generate a prompt to analyze and summarize an Obsidian note with various focus types.
+
+     This prompt provides a structured template for analyzing Obsidian note content,
+     making it easy for LLMs to provide consistent and useful analysis based on specific needs.
+
+     - Parameter filename: The filename of the note to analyze
+     - Parameter focus: The type of analysis to perform (default: .general)
+     - Returns: A formatted prompt for note analysis
+     */
+    @MCPPrompt(description: "Generate a structured prompt to analyze and summarize an Obsidian note")
+    func summarizeNote(
+        filename: String,
+        focus: AnalysisFocus = .general
+    ) async throws -> String {
+        try await prompt.summarizeNote(filename: filename, focus: focus)
     }
 }

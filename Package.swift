@@ -6,19 +6,20 @@ import PackageDescription
 let package = Package(
     name: "ObsidianMCPServer",
     platforms: [
-        .macOS(.v12),
+        .macOS(.v12)
     ],
     products: [
         .executable(name: "ObsidianMCPServer", targets: ["ObsidianMCPServer"]),
         .library(name: "ObsidianNetworking", targets: ["ObsidianNetworking"]),
         .library(name: "ObsidianRepository", targets: ["ObsidianRepository"]),
+        .library(name: "ObsidianPrompt", targets: ["ObsidianPrompt"])
     ],
     dependencies: [
         .package(url: "https://github.com/Cocoanetics/SwiftMCP", branch: "main"),
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
         .package(url: "https://github.com/otaviocc/MicroClient", branch: "main"),
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", branch: "main"),
+        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", branch: "main")
     ],
     targets: [
         .target(
@@ -42,9 +43,19 @@ let package = Package(
                 .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
+        .target(
+            name: "ObsidianPrompt",
+            dependencies: [
+                "ObsidianRepository"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
         .executableTarget(
             name: "ObsidianMCPServer",
             dependencies: [
+                "ObsidianPrompt",
                 "ObsidianRepository",
                 .product(name: "SwiftMCP", package: "SwiftMCP"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser")
@@ -74,9 +85,20 @@ let package = Package(
             ]
         ),
         .testTarget(
+            name: "ObsidianPromptTests",
+            dependencies: [
+                "ObsidianPrompt",
+                "ObsidianRepository"
+            ],
+            plugins: [
+                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
+            ]
+        ),
+        .testTarget(
             name: "ObsidianMCPServerTests",
             dependencies: [
                 "ObsidianMCPServer",
+                "ObsidianPrompt",
                 "ObsidianRepository"
             ],
             plugins: [
