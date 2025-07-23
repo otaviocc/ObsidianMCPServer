@@ -206,6 +206,27 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `SearchResult`: Object with `path` (string) and `score` (double) properties
 - `ServerInformation`: Object with `service` (string) and `version` (string) properties
 
+### MCP Prompts
+- `summarizeNote(filename, focus)` - Generate structured prompts for analyzing Obsidian notes with comprehensive focus options
+
+**Note Analysis Prompt Parameters**:
+- `filename` (required): The filename or path of the note to analyze
+- `focus` (optional): The type of analysis to perform (default: `.general`)
+
+**Available Focus Types** (AnalysisFocus enum):
+- `.general`: Comprehensive analysis including summary, themes, and actionable insights
+- `.summarize`: Clear, concise summary of main content without detailed analysis
+- `.themes`: Focus on identifying main themes, concepts, and topics discussed
+- `.actionItems`: Extract all action items, tasks, deadlines, and next steps
+- `.connections`: Suggest potential connections to other notes, topics, or concepts for linking
+- `.tone`: Analyze mood, attitude, and emotional context of the writing
+- `.grammar`: Review grammar, spelling, style, and clarity improvements with specific suggestions
+- `.structure`: Analyze organization and suggest improvements to flow and layout
+- `.questions`: Identify key questions raised and suggest follow-up questions for deeper exploration
+- `.keywords`: Extract important keywords, terms, and concepts for tagging and searchability
+- `.insights`: Focus on extracting key insights, learnings, and "aha moments"
+- `.review`: Comprehensive review including strengths, weaknesses, and improvement suggestions
+
 ## 💡 Usage Examples
 
 ### Basic Operations
@@ -233,6 +254,24 @@ For any MCP-compatible tool, use the same configuration pattern:
 
 "Add 'project-alpha' to the tags array in my 'Project Ideas' note"
 → Uses appendToNoteFrontmatter() to add tags
+
+"Generate a summary prompt for my 'Meeting Notes 2024-01-15' file"
+→ Uses summarizeNote() prompt to create structured analysis
+
+"Create an action-items focused prompt for my project planning note"
+→ Uses summarizeNote() with focus=.actionItems to extract tasks
+
+"Analyze the tone and mood of my journal entry"
+→ Uses summarizeNote() with focus=.tone to understand emotional context
+
+"Check grammar and style in my research draft"
+→ Uses summarizeNote() with focus=.grammar for writing improvements
+
+"Extract keywords from my brainstorming session notes"
+→ Uses summarizeNote() with focus=.keywords for better tagging
+
+"Get key insights from my conference attendance notes"
+→ Uses summarizeNote() with focus=.insights to extract learnings
 ```
 
 ### Advanced Workflows
@@ -257,6 +296,16 @@ For any MCP-compatible tool, use the same configuration pattern:
 1. "List all notes in my 'Projects' directory"
 2. "Update project status in frontmatter fields"
 3. "Add new project phases to existing project notes"
+
+# Smart Analysis with Prompts:
+1. "Use .summarize focus on my research paper for a quick overview"
+2. "Apply .themes analysis to identify main concepts in my reading notes"
+3. "Generate .actionItems analysis for my meeting notes"
+4. "Use .tone analysis on my journal entries to understand emotional patterns"
+5. "Apply .grammar focus to polish my writing drafts"
+6. "Extract .keywords from my brainstorming sessions for better organization"
+7. "Use .insights focus to capture key learnings from conference notes"
+8. "Apply .structure analysis to improve note organization and flow"
 ```
 
 ## 🏗️ Development
