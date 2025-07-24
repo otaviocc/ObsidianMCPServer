@@ -49,7 +49,7 @@ public protocol ObsidianPromptProtocol {
     ///
     /// - Parameters:
     ///   - filename: The filename of the note to analyze
-    ///   - maxTags: The maximum number of tags to suggest (default: 8)
+    ///   - maxTags: The maximum number of tags to suggest
     /// - Returns: A formatted prompt with tag suggestions and MCP commands to apply them
     /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
     func suggestTags(
