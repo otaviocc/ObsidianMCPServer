@@ -128,7 +128,7 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
     }
 
     @Test("It should set vault note frontmatter field")
-    func testSetVaultNoteFrontmatterField() async throws {
+    func testSetVaultNoteFrontmatterStringField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -137,7 +137,7 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         mockClient.stubNetworkResponse(toReturn: stubbedResponse)
 
         // When
-        try await repository.setVaultNoteFrontmatterField(
+        try await repository.setVaultNoteFrontmatterStringField(
             filename: testFilename,
             key: "category",
             value: "work"
@@ -159,7 +159,7 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
     }
 
     @Test("It should append to vault note frontmatter field")
-    func testAppendToVaultNoteFrontmatterField() async throws {
+    func testAppendToVaultNoteFrontmatterStringField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -168,7 +168,7 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         mockClient.stubNetworkResponse(toReturn: stubbedResponse)
 
         // When
-        try await repository.appendToVaultNoteFrontmatterField(
+        try await repository.appendToVaultNoteFrontmatterStringField(
             filename: testFilename,
             key: "tags",
             value: "important"

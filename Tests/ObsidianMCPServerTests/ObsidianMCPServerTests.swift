@@ -329,7 +329,7 @@ struct ObsidianMCPServerTests {
         let testValue = "important"
 
         // When
-        let result = try await server.setActiveNoteFrontmatter(key: testKey, value: testValue)
+        let result = try await server.setActiveNoteFrontmatterString(key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -345,7 +345,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Active note frontmatter field 'tags' set successfully.",
+            result == "Active note frontmatter string field 'tags' set successfully.",
             "It should return success message with key"
         )
     }
@@ -358,7 +358,7 @@ struct ObsidianMCPServerTests {
         let testValue = "project"
 
         // When
-        let result = try await server.appendToActiveNoteFrontmatter(key: testKey, value: testValue)
+        let result = try await server.appendToActiveNoteFrontmatterString(key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -374,7 +374,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Value appended to active note frontmatter field 'categories' successfully.",
+            result == "String value appended to active note frontmatter field 'categories' successfully.",
             "It should return success message with key"
         )
     }
@@ -388,7 +388,7 @@ struct ObsidianMCPServerTests {
         let testValue = "completed"
 
         // When
-        let result = try await server.setNoteFrontmatter(filename: testFilename, key: testKey, value: testValue)
+        let result = try await server.setNoteFrontmatterString(filename: testFilename, key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -408,7 +408,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Note 'project-notes.md' frontmatter field 'status' set successfully.",
+            result == "Note 'project-notes.md' frontmatter string field 'status' set successfully.",
             "It should return success message with filename and key"
         )
     }
@@ -422,7 +422,7 @@ struct ObsidianMCPServerTests {
         let testValue = "literature-review"
 
         // When
-        let result = try await server.appendToNoteFrontmatter(filename: testFilename, key: testKey, value: testValue)
+        let result = try await server.appendToNoteFrontmatterString(filename: testFilename, key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -442,7 +442,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Value appended to note 'research.md' frontmatter field 'tags' successfully.",
+            result == "String value appended to note 'research.md' frontmatter field 'tags' successfully.",
             "It should return success message with filename and key"
         )
     }
@@ -455,7 +455,7 @@ struct ObsidianMCPServerTests {
 
         // When/Then
         do {
-            _ = try await server.setActiveNoteFrontmatter(key: "test", value: "value")
+            _ = try await server.setActiveNoteFrontmatterString(key: "test", value: "value")
             #expect(Bool(false), "It should throw an error")
         } catch {
             #expect(
@@ -467,6 +467,132 @@ struct ObsidianMCPServerTests {
                 "It should call the repository method"
             )
         }
+    }
+
+    @Test("It should set active note frontmatter array")
+    func testSetActiveNoteFrontmatterArray() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testKey = "tags"
+        let testValues = ["important", "work", "urgent"]
+
+        // When
+        let result = try await server.setActiveNoteFrontmatterArray(key: testKey, values: testValues)
+
+        // Then
+        #expect(
+            mock.setActiveNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterValue == testValues.joined(separator: ","),
+            "It should pass the correct values"
+        )
+        #expect(
+            result == "Active note frontmatter array field 'tags' set successfully with 3 values.",
+            "It should return success message with key and count"
+        )
+    }
+
+    @Test("It should append to active note frontmatter array")
+    func testAppendToActiveNoteFrontmatterArray() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testKey = "categories"
+        let testValues = ["development", "testing"]
+
+        // When
+        let result = try await server.appendToActiveNoteFrontmatterArray(key: testKey, values: testValues)
+
+        // Then
+        #expect(
+            mock.appendToActiveNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastActiveNoteFrontmatterValue == testValues.joined(separator: ","),
+            "It should pass the correct values"
+        )
+        #expect(
+            result == "2 values appended to active note frontmatter field 'categories' successfully.",
+            "It should return success message with count and key"
+        )
+    }
+
+    @Test("It should set vault note frontmatter array")
+    func testSetNoteFrontmatterArray() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "project-notes.md"
+        let testKey = "status"
+        let testValues = ["in-progress", "high-priority"]
+
+        // When
+        let result = try await server.setNoteFrontmatterArray(filename: testFilename, key: testKey, values: testValues)
+
+        // Then
+        #expect(
+            mock.setVaultNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterValue == testValues.joined(separator: ","),
+            "It should pass the correct values"
+        )
+        #expect(
+            result == "Note 'project-notes.md' frontmatter array field 'status' set successfully with 2 values.",
+            "It should return success message with filename, key, and count"
+        )
+    }
+
+    @Test("It should append to vault note frontmatter array")
+    func testAppendToNoteFrontmatterArray() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "research.md"
+        let testKey = "tags"
+        let testValues = ["review", "published", "peer-reviewed"]
+
+        // When
+        let result = try await server.appendToNoteFrontmatterArray(filename: testFilename, key: testKey, values: testValues)
+
+        // Then
+        #expect(
+            mock.appendToVaultNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastVaultNoteFrontmatterValue == testValues.joined(separator: ","),
+            "It should pass the correct values"
+        )
+        #expect(
+            result == "3 values appended to note 'research.md' frontmatter field 'tags' successfully.",
+            "It should return success message with count, filename, and key"
+        )
     }
 
     // MARK: - Search Tests

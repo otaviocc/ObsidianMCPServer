@@ -98,7 +98,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should set active note frontmatter field")
-    func testSetActiveNoteFrontmatterField() async throws {
+    func testSetActiveNoteFrontmatterStringField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -106,7 +106,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
         mockClient.stubNetworkResponse(toReturn: stubbedResponse)
 
         // When
-        try await repository.setActiveNoteFrontmatterField(key: "tags", value: "important")
+        try await repository.setActiveNoteFrontmatterStringField(key: "tags", value: "important")
 
         // Then
         #expect(
@@ -124,7 +124,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should append to active note frontmatter field")
-    func testAppendToActiveNoteFrontmatterField() async throws {
+    func testAppendToActiveNoteFrontmatterStringField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -132,7 +132,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
         mockClient.stubNetworkResponse(toReturn: stubbedResponse)
 
         // When
-        try await repository.appendToActiveNoteFrontmatterField(key: "tags", value: "urgent")
+        try await repository.appendToActiveNoteFrontmatterStringField(key: "tags", value: "urgent")
 
         // Then
         #expect(

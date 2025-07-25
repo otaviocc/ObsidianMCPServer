@@ -53,12 +53,12 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func setActiveNoteFrontmatterField(
+    public func setActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
         let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: value,
+            content: try value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -66,12 +66,38 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func appendToActiveNoteFrontmatterField(
+    public func setActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        let request = requestFactory.makeSetActiveFrontmatterRequest(
+            content: try value.toJSONString(),
+            operation: "replace",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
+    }
+
+    public func appendToActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
         let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: value,
+            content: try value.toJSONString(),
+            operation: "append",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
+    }
+
+    public func appendToActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        let request = requestFactory.makeSetActiveFrontmatterRequest(
+            content: try value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -112,14 +138,14 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func setVaultNoteFrontmatterField(
+    public func setVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
     ) async throws {
         let request = requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: value,
+            content: try value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -127,14 +153,44 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func appendToVaultNoteFrontmatterField(
+    public func setVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        let request = requestFactory.makeSetVaultFrontmatterRequest(
+            filename: filename,
+            content: try value.toJSONString(),
+            operation: "replace",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
+    }
+
+    public func appendToVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
     ) async throws {
         let request = requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: value,
+            content: try value.toJSONString(),
+            operation: "append",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
+    }
+
+    public func appendToVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        let request = requestFactory.makeSetVaultFrontmatterRequest(
+            filename: filename,
+            content: try value.toJSONString(),
             operation: "append",
             key: key
         )

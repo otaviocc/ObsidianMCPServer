@@ -357,7 +357,7 @@ struct ObsidianPromptTests {
             "It should include the note content"
         )
         #expect(
-            result.contains("appendToNoteFrontmatterField"),
+            result.contains("appendToNoteFrontmatterArray"),
             "It should include MCP commands"
         )
         #expect(
@@ -423,8 +423,8 @@ struct ObsidianPromptTests {
             "It should mention YAML format"
         )
         #expect(
-            result.contains("setNoteFrontmatterField"),
-            "It should include MCP commands"
+            result.contains("setNoteFrontmatterArray") && result.contains("setNoteFrontmatterString"),
+            "It should include MCP commands for both string and array fields"
         )
         #expect(
             result.contains("tags"),
@@ -471,7 +471,7 @@ struct ObsidianPromptTests {
             "It should mention the number of tags"
         )
         #expect(
-            result.contains("appendToActiveNoteFrontmatterField"),
+            result.contains("appendToActiveNoteFrontmatterArray"),
             "It should include active note MCP commands"
         )
         #expect(
@@ -544,8 +544,8 @@ struct ObsidianPromptTests {
             "It should include location category"
         )
         #expect(
-            result.contains("setNoteFrontmatterField"),
-            "It should include MCP commands"
+            result.contains("setNoteFrontmatterArray") && result.contains("setNoteFrontmatterString"),
+            "It should include MCP commands for both string and array fields"
         )
         #expect(
             result.contains("John Smith"),

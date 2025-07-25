@@ -104,6 +104,7 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
     }
     // swiftlint:enable line_length
 
+    // swiftlint:disable line_length
     public func suggestTags(
         filename: String,
         maxTags: Int = 8
@@ -146,12 +147,14 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         **MCP Commands to Apply Tags:**
         ```
-        appendToNoteFrontmatterField(filename: "\(noteContent.filename)", key: "tags", value: "tag-name")
+        appendToNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "tags", values: ["tag-name"])
+        appendToNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "tags", values: ["tag-name", "another-tag"])
         ```
         """
 
         return prompt
     }
+    // swiftlint:enable line_length
 
     // swiftlint:disable line_length function_body_length
     public func generateFrontmatter(filename: String) async throws -> String {
@@ -216,9 +219,9 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         **MCP Commands:**
         ```
-        setNoteFrontmatterField(filename: "\(noteContent.filename)", key: "tags", value: "tag1,tag2,tag3")
-        setNoteFrontmatterField(filename: "\(noteContent.filename)", key: "attendees", value: "[[John Smith]],[[Sarah Wilson]]")
-        setNoteFrontmatterField(filename: "\(noteContent.filename)", key: "author", value: "[[John Smith]]")
+        setNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "tags", values: ["tag1", "tag2", "tag3"])
+        setNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "attendees", values: ["[[John Smith]]", "[[Sarah Wilson]]"])
+        setNoteFrontmatterString(filename: "\(noteContent.filename)", key: "author", value: "[[John Smith]]")
         ```
         """
 
@@ -265,7 +268,8 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         **MCP Commands to Apply Tags to Active Note:**
         ```
-        appendToActiveNoteFrontmatterField(key: "tags", value: "tag-name")
+        appendToActiveNoteFrontmatterArray(key: "tags", values: ["tag-name"])
+                appendToActiveNoteFrontmatterArray(key: "tags", values: ["tag-name", "another-tag"])
         ```
 
         **Note:** These commands will directly update the currently active note in Obsidian.
@@ -343,17 +347,17 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         1. **Field**: attendees
            **Value**: ["[[John Smith]]", "[[Sarah Wilson]]", "[[Mike Chen]]"]
            **Reasoning**: People mentioned as meeting participants, formatted as Obsidian links
-           **Command**: `setNoteFrontmatterField(filename: "\(noteContent.filename)", key: "attendees", value: "[[John Smith]],[[Sarah Wilson]],[[Mike Chen]]")`
+           **Command**: `setNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "attendees", values: ["[[John Smith]]", "[[Sarah Wilson]]", "[[Mike Chen]]"])`
 
         2. **Field**: author
            **Value**: "[[John Smith]]"
            **Reasoning**: Person identified as the author or note creator, formatted as Obsidian link
-           **Command**: `setNoteFrontmatterField(filename: "\(noteContent.filename)", key: "author", value: "[[John Smith]]")`
+           **Command**: `setNoteFrontmatterString(filename: "\(noteContent.filename)", key: "author", value: "[[John Smith]]")`
 
         3. **Field**: due_date
            **Value**: "2024-02-15"
            **Reasoning**: Deadline mentioned for project completion
-           **Command**: `setNoteFrontmatterField(filename: "\(noteContent.filename)", key: "due_date", value: "2024-02-15")`
+           **Command**: `setNoteFrontmatterString(filename: "\(noteContent.filename)", key: "due_date", value: "2024-02-15")`
         """
 
         return prompt
