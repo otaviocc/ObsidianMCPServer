@@ -265,7 +265,7 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         **MCP Commands to Apply Tags to Active Note:**
         ```
-        appendToActiveNoteFrontmatterField(key: "tags", value: "tag-name")
+        appendToActiveNoteFrontmatterStringField(key: "tags", value: "tag-name")
         ```
 
         **Note:** These commands will directly update the currently active note in Obsidian.

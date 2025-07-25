@@ -152,7 +152,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         }
     }
 
-    func setActiveNoteFrontmatterField(
+    func setActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
@@ -164,13 +164,37 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         }
     }
 
-    func appendToActiveNoteFrontmatterField(
+    func setActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        setActiveNoteFrontmatterCalled = true
+        lastActiveNoteFrontmatterKey = key
+        lastActiveNoteFrontmatterValue = value.joined(separator: ",")
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+
+    func appendToActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
         appendToActiveNoteFrontmatterCalled = true
         lastActiveNoteFrontmatterKey = key
         lastActiveNoteFrontmatterValue = value
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+
+    func appendToActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        appendToActiveNoteFrontmatterCalled = true
+        lastActiveNoteFrontmatterKey = key
+        lastActiveNoteFrontmatterValue = value.joined(separator: ",")
         if let error = errorToThrow {
             throw error
         }
@@ -214,7 +238,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         }
     }
 
-    func setVaultNoteFrontmatterField(
+    func setVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
@@ -228,7 +252,21 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         }
     }
 
-    func appendToVaultNoteFrontmatterField(
+    func setVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        setVaultNoteFrontmatterCalled = true
+        lastVaultNoteFrontmatterFilename = filename
+        lastVaultNoteFrontmatterKey = key
+        lastVaultNoteFrontmatterValue = value.joined(separator: ",")
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+
+    func appendToVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
@@ -237,6 +275,20 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastVaultNoteFrontmatterFilename = filename
         lastVaultNoteFrontmatterKey = key
         lastVaultNoteFrontmatterValue = value
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+
+    func appendToVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        appendToVaultNoteFrontmatterCalled = true
+        lastVaultNoteFrontmatterFilename = filename
+        lastVaultNoteFrontmatterKey = key
+        lastVaultNoteFrontmatterValue = value.joined(separator: ",")
         if let error = errorToThrow {
             throw error
         }

@@ -58,16 +58,30 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         fatalError("Not implemented for prompt tests")
     }
 
-    func setActiveNoteFrontmatterField(
+    func setActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
-    func appendToActiveNoteFrontmatterField(
+    func setActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToActiveNoteFrontmatterStringField(
         key: String,
         value: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
@@ -84,7 +98,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         fatalError("Not implemented for prompt tests")
     }
 
-    func setVaultNoteFrontmatterField(
+    func setVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
@@ -92,10 +106,26 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         fatalError("Not implemented for prompt tests")
     }
 
-    func appendToVaultNoteFrontmatterField(
+    func setVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }

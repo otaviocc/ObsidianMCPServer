@@ -129,7 +129,7 @@ final class ObsidianMCPServer {
         key: String,
         value: String
     ) async throws -> String {
-        try await repository.setActiveNoteFrontmatterField(key: key, value: value)
+        try await repository.setActiveNoteFrontmatterStringField(key: key, value: value)
         return "Active note frontmatter field '\(key)' set successfully."
     }
 
@@ -149,7 +149,7 @@ final class ObsidianMCPServer {
         key: String,
         value: String
     ) async throws -> String {
-        try await repository.appendToActiveNoteFrontmatterField(key: key, value: value)
+        try await repository.appendToActiveNoteFrontmatterStringField(key: key, value: value)
         return "Value appended to active note frontmatter field '\(key)' successfully."
     }
 
@@ -245,7 +245,7 @@ final class ObsidianMCPServer {
         key: String,
         value: String
     ) async throws -> String {
-        try await repository.setVaultNoteFrontmatterField(filename: filename, key: key, value: value)
+        try await repository.setVaultNoteFrontmatterStringField(filename: filename, key: key, value: value)
         return "Note '\(filename)' frontmatter field '\(key)' set successfully."
     }
 
@@ -267,7 +267,7 @@ final class ObsidianMCPServer {
         key: String,
         value: String
     ) async throws -> String {
-        try await repository.appendToVaultNoteFrontmatterField(filename: filename, key: key, value: value)
+        try await repository.appendToVaultNoteFrontmatterStringField(filename: filename, key: key, value: value)
         return "Value appended to note '\(filename)' frontmatter field '\(key)' successfully."
     }
 

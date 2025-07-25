@@ -53,7 +53,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func setActiveNoteFrontmatterField(
+    public func setActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
@@ -66,7 +66,14 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func appendToActiveNoteFrontmatterField(
+    public func setActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        // TODO: Implement array field handling for frontmatter
+    }
+
+    public func appendToActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws {
@@ -77,6 +84,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         )
         let response = try await client.run(request)
         try validateResponse(response)
+    }
+
+    public func appendToActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws {
+        // TODO: Implement array field appending for frontmatter
     }
 
     // MARK: - Note Operations
@@ -112,7 +126,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func setVaultNoteFrontmatterField(
+    public func setVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
@@ -127,7 +141,15 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         try validateResponse(response)
     }
 
-    public func appendToVaultNoteFrontmatterField(
+    public func setVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        // TODO: Implement array field handling for vault note frontmatter
+    }
+
+    public func appendToVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
@@ -140,6 +162,14 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         )
         let response = try await client.run(request)
         try validateResponse(response)
+    }
+
+    public func appendToVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws {
+        // TODO: Implement array field appending for vault note frontmatter
     }
 
     // MARK: - Directory Operations

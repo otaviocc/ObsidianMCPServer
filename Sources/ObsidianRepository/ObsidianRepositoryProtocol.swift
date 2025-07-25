@@ -35,24 +35,44 @@ public protocol ObsidianRepositoryActiveNoteOperations {
     /// - Throws: An error if no note is active or the deletion fails
     func deleteActiveNote() async throws
 
-    /// Sets a frontmatter field in the currently active note.
+    /// Sets a frontmatter string field in the currently active note.
     /// - Parameters:
     ///   - key: The frontmatter field key to set
-    ///   - value: The value to set for the field (will be JSON encoded)
+    ///   - value: The string value to set for the field
     /// - Throws: An error if no note is active or the operation fails
-    func setActiveNoteFrontmatterField(
+    func setActiveNoteFrontmatterStringField(
         key: String,
         value: String
     ) async throws
 
-    /// Appends a value to a frontmatter field array in the currently active note.
+    /// Sets a frontmatter array field in the currently active note.
+    /// - Parameters:
+    ///   - key: The frontmatter field key to set
+    ///   - value: The array values to set for the field
+    /// - Throws: An error if no note is active or the operation fails
+    func setActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
+    ) async throws
+
+    /// Appends a string value to a frontmatter field in the currently active note.
     /// - Parameters:
     ///   - key: The frontmatter field key to append to
-    ///   - value: The value to append to the field array (will be JSON encoded)
+    ///   - value: The string value to append to the field
     /// - Throws: An error if no note is active or the operation fails
-    func appendToActiveNoteFrontmatterField(
+    func appendToActiveNoteFrontmatterStringField(
         key: String,
         value: String
+    ) async throws
+
+    /// Appends an array of values to a frontmatter field in the currently active note.
+    /// - Parameters:
+    ///   - key: The frontmatter field key to append to
+    ///   - value: The array values to append to the field
+    /// - Throws: An error if no note is active or the operation fails
+    func appendToActiveNoteFrontmatterArrayField(
+        key: String,
+        value: [String]
     ) async throws
 }
 
@@ -81,28 +101,52 @@ public protocol ObsidianRepositoryVaultNoteOperations {
     /// - Throws: An error if the file doesn't exist or cannot be deleted
     func deleteVaultNote(filename: String) async throws
 
-    /// Sets a frontmatter field in a specific vault note.
+    /// Sets a frontmatter string field in a specific vault note.
     /// - Parameters:
     ///   - filename: The name of the note to modify
     ///   - key: The frontmatter field key to set
-    ///   - value: The value to set for the field (will be JSON encoded)
+    ///   - value: The string value to set for the field
     /// - Throws: An error if the file doesn't exist or the operation fails
-    func setVaultNoteFrontmatterField(
+    func setVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
     ) async throws
 
-    /// Appends a value to a frontmatter field array in a specific vault note.
+    /// Sets a frontmatter array field in a specific vault note.
+    /// - Parameters:
+    ///   - filename: The name of the note to modify
+    ///   - key: The frontmatter field key to set
+    ///   - value: The array values to set for the field
+    /// - Throws: An error if the file doesn't exist or the operation fails
+    func setVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
+    ) async throws
+
+    /// Appends a string value to a frontmatter field in a specific vault note.
     /// - Parameters:
     ///   - filename: The name of the note to modify
     ///   - key: The frontmatter field key to append to
-    ///   - value: The value to append to the field array (will be JSON encoded)
+    ///   - value: The string value to append to the field
     /// - Throws: An error if the file doesn't exist or the operation fails
-    func appendToVaultNoteFrontmatterField(
+    func appendToVaultNoteFrontmatterStringField(
         filename: String,
         key: String,
         value: String
+    ) async throws
+
+    /// Appends an array of values to a frontmatter field in a specific vault note.
+    /// - Parameters:
+    ///   - filename: The name of the note to modify
+    ///   - key: The frontmatter field key to append to
+    ///   - value: The array values to append to the field
+    /// - Throws: An error if the file doesn't exist or the operation fails
+    func appendToVaultNoteFrontmatterArrayField(
+        filename: String,
+        key: String,
+        value: [String]
     ) async throws
 }
 

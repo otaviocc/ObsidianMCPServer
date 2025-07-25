@@ -471,7 +471,7 @@ struct ObsidianPromptTests {
             "It should mention the number of tags"
         )
         #expect(
-            result.contains("appendToActiveNoteFrontmatterField"),
+            result.contains("appendToActiveNoteFrontmatterStringField"),
             "It should include active note MCP commands"
         )
         #expect(
