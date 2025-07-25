@@ -181,28 +181,29 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `getActiveNote()` - Retrieve the currently active note, returns File object with filename and content
 - `updateActiveNote(content)` - Replace active note content entirely
 - `deleteActiveNote()` - Delete the active note
-- `setActiveNoteFrontmatter(key, value)` - Set a frontmatter field in the active note
-- `appendToActiveNoteFrontmatter(key, value)` - Append a value to a frontmatter field array in the active note
+- `setActiveNoteFrontmatterString(key, value)` - Set a frontmatter string field in the active note
+- `appendToActiveNoteFrontmatterString(key, value)` - Append a string value to a frontmatter field in the active note
+- `setActiveNoteFrontmatterArray(key, values)` - Set a frontmatter array field with multiple values in the active note
+- `appendToActiveNoteFrontmatterArray(key, values)` - Append multiple values to a frontmatter array field in the active note
 
 ### Vault Note Operations
 - `getNote(filename)` - Get any note by filename/path, returns File object with filename and content
 - `createOrUpdateNote(filename, content)` - Create new or update existing note
 - `appendToNote(filename, content)` - Append content to existing note
 - `deleteNote(filename)` - Delete a specific note
-- `setNoteFrontmatter(filename, key, value)` - Set a frontmatter field in a specific vault note
-- `appendToNoteFrontmatter(filename, key, value)` - Append a value to a frontmatter field array in a specific vault note
+- `setNoteFrontmatterString(filename, key, value)` - Set a frontmatter string field in a specific vault note
+- `appendToNoteFrontmatterString(filename, key, value)` - Append a string value to a frontmatter field in a specific vault note
+- `setNoteFrontmatterArray(filename, key, values)` - Set a frontmatter array field with multiple values in a specific vault note
+- `appendToNoteFrontmatterArray(filename, key, values)` - Append multiple values to a frontmatter array field in a specific vault note
 
 ### Directory Operations
 - `listDirectory(directory)` - List files and folders in vault directories, returns newline-separated list of paths
 
 ### Search Operations
-- `search(query, ignoreCase, wholeWord, isRegex)` - Search entire vault, returns array of SearchResult objects with path and relevance score
+- `search(query)` - Search entire vault, returns array of SearchResult objects with path and relevance score
 
 **Search Parameters**:
 - `query` (required): The text or pattern to search for
-- `ignoreCase` (optional): Whether to perform case-insensitive search (default: true)
-- `wholeWord` (optional): Whether to match whole words only (default: false)
-- `isRegex` (optional): Whether to treat the query as a regular expression (default: false)
 
 **Return Types**:
 - `File`: Object with `filename` (string) and `content` (string) properties
@@ -295,10 +296,10 @@ The `rewriteActiveNote` prompt supports 10 different writing styles:
 → Uses listDirectory() to browse folder contents
 
 "Set the 'status' frontmatter field to 'completed' in my active note"
-→ Uses setActiveNoteFrontmatter() to update metadata
+→ Uses setActiveNoteFrontmatterString() to update metadata
 
 "Add 'project-alpha' to the tags array in my 'Project Ideas' note"
-→ Uses appendToNoteFrontmatter() to add tags
+→ Uses appendToNoteFrontmatterArray() to add tags
 
 "Generate a summary prompt for my 'Meeting Notes 2024-01-15' file"
 → Uses summarizeNote() prompt to create structured analysis
@@ -326,7 +327,7 @@ The `rewriteActiveNote` prompt supports 10 different writing styles:
 
 "Extract metadata from my project planning document"
 → Uses extractMetadata() to identify dates, people, projects, and other structured information
-→ Returns: `setNoteFrontmatterField(filename: "planning.md", key: "attendees", value: "[[John Smith]],[[Sarah Wilson]]")`
+→ Returns: `setNoteFrontmatterArray(filename: "planning.md", key: "attendees", value: ["[[John Smith]]", "[[Sarah Wilson]]"])`
 
 "Rewrite my active note in ELI5 style"
 → Uses rewriteActiveNote(style: .eli5) to transform content into simple, child-friendly language
@@ -362,7 +363,7 @@ The `rewriteActiveNote` prompt supports 10 different writing styles:
 # Content Organization:
 1. "Find all untagged notes in my vault"
 2. "Suggest appropriate tags based on content"
-3. "Update frontmatter with recommended tags using setNoteFrontmatter"
+3. "Update frontmatter with recommended tags using setNoteFrontmatterArray"
 
 # Project Management:
 1. "List all notes in my 'Projects' directory"
