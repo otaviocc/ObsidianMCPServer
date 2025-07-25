@@ -188,4 +188,66 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
             "It should use PATCH method"
         )
     }
+
+    @Test("It should set vault note frontmatter array field")
+    func testSetVaultNoteFrontmatterArrayField() async throws {
+        // Given
+        let mockClient = NetworkClientMother.makeMockNetworkClient()
+        let repository = ObsidianRepository(client: mockClient)
+        let testFilename = "note-with-frontmatter.md"
+        let stubbedResponse = try NetworkResponseMother.makeVoidResponse()
+        mockClient.stubNetworkResponse(toReturn: stubbedResponse)
+
+        // When
+        try await repository.setVaultNoteFrontmatterArrayField(
+            filename: testFilename,
+            key: "categories",
+            value: ["work", "project", "documentation"]
+        )
+
+        // Then
+        #expect(
+            mockClient.runCallCount == 1,
+            "It should make the network call"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/vault/\(testFilename)",
+            "It should use the correct vault path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == .patch,
+            "It should use PATCH method"
+        )
+    }
+
+    @Test("It should append to vault note frontmatter array field")
+    func testAppendToVaultNoteFrontmatterArrayField() async throws {
+        // Given
+        let mockClient = NetworkClientMother.makeMockNetworkClient()
+        let repository = ObsidianRepository(client: mockClient)
+        let testFilename = "note-with-frontmatter.md"
+        let stubbedResponse = try NetworkResponseMother.makeVoidResponse()
+        mockClient.stubNetworkResponse(toReturn: stubbedResponse)
+
+        // When
+        try await repository.appendToVaultNoteFrontmatterArrayField(
+            filename: testFilename,
+            key: "tags",
+            value: ["urgent", "high-priority"]
+        )
+
+        // Then
+        #expect(
+            mockClient.runCallCount == 1,
+            "It should make the network call"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/vault/\(testFilename)",
+            "It should use the correct vault path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == .patch,
+            "It should use PATCH method"
+        )
+    }
 }
