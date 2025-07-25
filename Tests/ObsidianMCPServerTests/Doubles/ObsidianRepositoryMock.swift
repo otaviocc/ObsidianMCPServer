@@ -8,6 +8,10 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var serverInfoToReturn: ServerInformation = ServerInformation(service: "mock-obsidian-api", version: "1.0.0")
     var errorToThrow: Error?
 
+    // Custom return values for prompts
+    var vaultNoteToReturn: File?
+    var activeNoteToReturn: File?
+
     var getServerInfoCallCount = 0
     var getActiveNoteCalled = false
     var getActiveNoteCallCount = 0
@@ -79,14 +83,14 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         if let error = errorToThrow {
             return .failure(error)
         }
-        return .success(File(filename: "MockNote.md", content: "# Mock Note Content"))
+        return .success(activeNoteToReturn ?? File(filename: "MockNote.md", content: "# Mock Note Content"))
     }
 
     private var vaultNoteResult: Result<File, Error> {
         if let error = errorToThrow {
             return .failure(error)
         }
-        return .success(File(filename: "MockVaultNote.md", content: "# Mock Vault Note Content"))
+        return .success(vaultNoteToReturn ?? File(filename: "MockVaultNote.md", content: "# Mock Vault Note Content"))
     }
 
     private var vaultDirectoryResult: Result<[String], Error> {
