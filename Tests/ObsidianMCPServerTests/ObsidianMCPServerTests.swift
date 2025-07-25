@@ -1,6 +1,8 @@
 import Testing
 import Foundation
 @testable import ObsidianMCPServer
+@testable import ObsidianRepository
+@testable import ObsidianPrompt
 
 @Suite("ObsidianMCPServer Tests")
 struct ObsidianMCPServerTests {
@@ -709,6 +711,569 @@ struct ObsidianMCPServerTests {
         do {
             _ = try await server.search(query: "test")
             #expect(Bool(false), "It should throw an error for search vault")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    // MARK: - MCP Prompt Tests
+
+    @Test("It should summarize note with general focus")
+    func testSummarizeNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "research-notes.md"
+        let testContent = "# Research Notes\n\nThis is important research content."
+        mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
+
+        // When
+        let result = try await server.summarizeNote(filename: testFilename, focus: .general)
+
+        // Then
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
+        #expect(
+            mock.lastGetVaultNoteFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            result.contains(testFilename),
+            "It should include the filename in the prompt"
+        )
+        #expect(
+            result.contains(testContent),
+            "It should include the note content in the prompt"
+        )
+        #expect(
+            result.contains("Comprehensive analysis"),
+            "It should include general analysis instructions"
+        )
+    }
+
+    @Test("It should summarize note with action items focus")
+    func testSummarizeNoteWithActionItemsFocus() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "project-tasks.md"
+        let testContent = "- [ ] Task 1\n- [ ] Task 2\n- [x] Completed task"
+        mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
+
+        // When
+        let result = try await server.summarizeNote(filename: testFilename, focus: .actionItems)
+
+        // Then
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
+        #expect(
+            result.contains("Extract tasks, deadlines, and next steps"),
+            "It should include action items focus instructions"
+        )
+    }
+
+    @Test("It should summarize note with tone focus")
+    func testSummarizeNoteWithToneFocus() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "journal-entry.md"
+        mock.vaultNoteToReturn = File(filename: testFilename, content: "I'm excited about this project!")
+
+        // When
+        let result = try await server.summarizeNote(filename: testFilename, focus: .tone)
+
+        // Then
+        #expect(
+            result.contains("mood, attitude, and emotional context"),
+            "It should include tone analysis instructions"
+        )
+    }
+
+    @Test("It should analyze active note with general focus")
+    func testAnalyzeActiveNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeNoteContent = "# Active Note\n\nThis is the currently active note content."
+        mock.activeNoteToReturn = File(filename: "ActiveNote.md", content: activeNoteContent)
+
+        // When
+        let result = try await server.analyzeActiveNote(focus: .general)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ActiveNote.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeNoteContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("Comprehensive analysis"),
+            "It should include general analysis instructions"
+        )
+    }
+
+    @Test("It should analyze active note with action items focus")
+    func testAnalyzeActiveNoteWithActionItemsFocus() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.activeNoteToReturn = File(filename: "ActiveTasks.md", content: "- [ ] Important task")
+
+        // When
+        let result = try await server.analyzeActiveNote(focus: .actionItems)
+
+        // Then
+        #expect(
+            result.contains("Extract tasks, deadlines, and next steps"),
+            "It should include action items focus instructions"
+        )
+    }
+
+    @Test("It should generate follow-up questions with default count")
+    func testGenerateFollowUpQuestionsDefault() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "discussion-notes.md"
+        let testContent = "We discussed the project requirements and next steps."
+        mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
+
+        // When
+        let result = try await server.generateFollowUpQuestions(filename: testFilename)
+
+        // Then
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
+        #expect(
+            mock.lastGetVaultNoteFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            result.contains("5 thought-provoking"),
+            "It should include default question count of 5"
+        )
+        #expect(
+            result.contains(testContent),
+            "It should include the note content in the prompt"
+        )
+    }
+
+    @Test("It should generate follow-up questions with custom count")
+    func testGenerateFollowUpQuestionsCustomCount() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "brainstorm.md"
+        let customCount = 3
+        mock.vaultNoteToReturn = File(filename: testFilename, content: "Brainstorming session content")
+
+        // When
+        let result = try await server.generateFollowUpQuestions(filename: testFilename, questionCount: customCount)
+
+        // Then
+        #expect(
+            result.contains("3 thought-provoking"),
+            "It should include custom question count of 3"
+        )
+    }
+
+    @Test("It should suggest tags with default count")
+    func testSuggestTagsDefault() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "article.md"
+        let testContent = "This article discusses machine learning and artificial intelligence."
+        mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
+
+        // When
+        let result = try await server.suggestTags(filename: testFilename)
+
+        // Then
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
+        #expect(
+            mock.lastGetVaultNoteFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            result.contains("8 relevant tags"),
+            "It should include default tag count of 8"
+        )
+        #expect(
+            result.contains(testContent),
+            "It should include the note content in the prompt"
+        )
+        #expect(
+            result.contains("appendToNoteFrontmatterArray"),
+            "It should include MCP commands for applying tags"
+        )
+    }
+
+    @Test("It should suggest tags with custom count")
+    func testSuggestTagsCustomCount() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "tutorial.md"
+        let customCount = 5
+        mock.vaultNoteToReturn = File(filename: testFilename, content: "Tutorial content")
+
+        // When
+        let result = try await server.suggestTags(filename: testFilename, maxTags: customCount)
+
+        // Then
+        #expect(
+            result.contains("5 relevant tags"),
+            "It should include custom tag count of 5"
+        )
+    }
+
+    @Test("It should suggest active note tags with default count")
+    func testSuggestActiveNoteTagsDefault() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "This is a project management note with important tasks."
+        mock.activeNoteToReturn = File(filename: "ProjectNotes.md", content: activeContent)
+
+        // When
+        let result = try await server.suggestActiveNoteTags()
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ProjectNotes.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("8 relevant tags"),
+            "It should include default tag count of 8"
+        )
+        #expect(
+            result.contains("appendToActiveNoteFrontmatterArray"),
+            "It should include MCP commands for applying tags to active note"
+        )
+    }
+
+    @Test("It should suggest active note tags with custom count")
+    func testSuggestActiveNoteTagsCustomCount() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let customCount = 6
+        mock.activeNoteToReturn = File(filename: "ActiveNote.md", content: "Active note content")
+
+        // When
+        let result = try await server.suggestActiveNoteTags(maxTags: customCount)
+
+        // Then
+        #expect(
+            result.contains("6 relevant tags"),
+            "It should include custom tag count of 6"
+        )
+    }
+
+    @Test("It should extract metadata from note")
+    func testExtractMetadata() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "meeting-notes.md"
+        let testContent = "Meeting with John Smith on 2024-01-15 about project deadlines."
+        mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
+
+        // When
+        let result = try await server.extractMetadata(filename: testFilename)
+
+        // Then
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
+        #expect(
+            mock.lastGetVaultNoteFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            result.contains(testFilename),
+            "It should include the filename in the prompt"
+        )
+        #expect(
+            result.contains(testContent),
+            "It should include the note content in the prompt"
+        )
+        #expect(
+            result.contains("setNoteFrontmatterString"),
+            "It should include MCP commands for setting metadata"
+        )
+        #expect(
+            result.contains("[[Name]]"),
+            "It should include instructions for Obsidian link formatting"
+        )
+    }
+
+    @Test("It should rewrite active note with emoji style")
+    func testRewriteActiveNoteEmoji() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "This is a serious business document."
+        mock.activeNoteToReturn = File(filename: "BusinessDoc.md", content: activeContent)
+
+        // When
+        let result = try await server.rewriteActiveNote(style: .emoji)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("BusinessDoc.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("emoji") || result.contains("🎯") || result.contains("emojis"),
+            "It should include emoji style instructions"
+        )
+        #expect(
+            result.contains("Rewritten Content"),
+            "It should include instructions for providing rewritten content"
+        )
+    }
+
+    @Test("It should rewrite active note with formal style")
+    func testRewriteActiveNoteFormal() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.activeNoteToReturn = File(filename: "CasualNote.md", content: "Hey, this is pretty cool!")
+
+        // When
+        let result = try await server.rewriteActiveNote(style: .formal)
+
+        // Then
+        #expect(
+            result.contains("formal") || result.contains("professional"),
+            "It should include formal style instructions"
+        )
+    }
+
+    @Test("It should rewrite active note with ELI5 style")
+    func testRewriteActiveNoteELI5() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.activeNoteToReturn = File(filename: "ComplexDoc.md", content: "Complex technical content")
+
+        // When
+        let result = try await server.rewriteActiveNote(style: .eli5)
+
+        // Then
+        #expect(
+            result.contains("explain like I'm 5") || result.contains("simple") || result.contains("easy"),
+            "It should include ELI5 style instructions"
+        )
+    }
+
+    @Test("It should generate frontmatter structure")
+    func testGenerateFrontmatter() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testFilename = "project-plan.md"
+        let testContent = "# Project Plan\n\nThis document outlines the project timeline and requirements."
+        mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
+
+        // When
+        let result = try await server.generateFrontmatter(filename: testFilename)
+
+        // Then
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
+        #expect(
+            mock.lastGetVaultNoteFilename == testFilename,
+            "It should pass the correct filename"
+        )
+        #expect(
+            result.contains(testFilename),
+            "It should include the filename in the prompt"
+        )
+        #expect(
+            result.contains(testContent),
+            "It should include the note content in the prompt"
+        )
+        #expect(
+            result.contains("YAML frontmatter"),
+            "It should include YAML frontmatter instructions"
+        )
+        #expect(
+            result.contains("setNoteFrontmatterString") || result.contains("setNoteFrontmatterArray"),
+            "It should include MCP commands for setting frontmatter"
+        )
+    }
+
+    @Test("It should propagate errors for summarize note")
+    func testSummarizeNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.summarizeNote(filename: "test.md", focus: .general)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.getVaultNoteCallCount == 1,
+                "It should call getVaultNote once"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for analyze active note")
+    func testAnalyzeActiveNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.analyzeActiveNote(focus: .general)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.getActiveNoteCallCount == 1,
+                "It should call getActiveNote once"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for follow-up questions")
+    func testGenerateFollowUpQuestionsError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.generateFollowUpQuestions(filename: "test.md")
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for suggest tags")
+    func testSuggestTagsError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.suggestTags(filename: "test.md")
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for suggest active note tags")
+    func testSuggestActiveNoteTagsError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.suggestActiveNoteTags()
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for extract metadata")
+    func testExtractMetadataError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.extractMetadata(filename: "test.md")
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for rewrite active note")
+    func testRewriteActiveNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.rewriteActiveNote(style: .formal)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for generate frontmatter")
+    func testGenerateFrontmatterError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.generateFrontmatter(filename: "test.md")
+            #expect(Bool(false), "It should throw an error")
         } catch {
             #expect(
                 error is MockError,

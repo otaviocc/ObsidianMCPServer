@@ -148,4 +148,56 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
             "It should use PATCH method"
         )
     }
+
+    @Test("It should set active note frontmatter array field")
+    func testSetActiveNoteFrontmatterArrayField() async throws {
+        // Given
+        let mockClient = NetworkClientMother.makeMockNetworkClient()
+        let repository = ObsidianRepository(client: mockClient)
+        let stubbedResponse = try NetworkResponseMother.makeVoidResponse()
+        mockClient.stubNetworkResponse(toReturn: stubbedResponse)
+
+        // When
+        try await repository.setActiveNoteFrontmatterArrayField(key: "tags", value: ["important", "work", "project"])
+
+        // Then
+        #expect(
+            mockClient.runCallCount == 1,
+            "It should make the network call"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/active/",
+            "It should use the correct request path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == .patch,
+            "It should use PATCH method"
+        )
+    }
+
+    @Test("It should append to active note frontmatter array field")
+    func testAppendToActiveNoteFrontmatterArrayField() async throws {
+        // Given
+        let mockClient = NetworkClientMother.makeMockNetworkClient()
+        let repository = ObsidianRepository(client: mockClient)
+        let stubbedResponse = try NetworkResponseMother.makeVoidResponse()
+        mockClient.stubNetworkResponse(toReturn: stubbedResponse)
+
+        // When
+        try await repository.appendToActiveNoteFrontmatterArrayField(key: "tags", value: ["urgent", "deadline"])
+
+        // Then
+        #expect(
+            mockClient.runCallCount == 1,
+            "It should make the network call"
+        )
+        #expect(
+            mockClient.lastRequestPath == "/active/",
+            "It should use the correct request path"
+        )
+        #expect(
+            mockClient.lastRequestMethod == .patch,
+            "It should use PATCH method"
+        )
+    }
 }
