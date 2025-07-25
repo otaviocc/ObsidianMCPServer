@@ -58,7 +58,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         value: String
     ) async throws {
         let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: value,
+            content: try value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -70,7 +70,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         key: String,
         value: [String]
     ) async throws {
-        // TODO: Implement array field handling for frontmatter
+        let request = requestFactory.makeSetActiveFrontmatterRequest(
+            content: try value.toJSONString(),
+            operation: "replace",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
     }
 
     public func appendToActiveNoteFrontmatterStringField(
@@ -78,7 +84,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         value: String
     ) async throws {
         let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: value,
+            content: try value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -90,7 +96,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         key: String,
         value: [String]
     ) async throws {
-        // TODO: Implement array field appending for frontmatter
+        let request = requestFactory.makeSetActiveFrontmatterRequest(
+            content: try value.toJSONString(),
+            operation: "append",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
     }
 
     // MARK: - Note Operations
@@ -133,7 +145,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
     ) async throws {
         let request = requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: value,
+            content: try value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -146,7 +158,14 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         key: String,
         value: [String]
     ) async throws {
-        // TODO: Implement array field handling for vault note frontmatter
+        let request = requestFactory.makeSetVaultFrontmatterRequest(
+            filename: filename,
+            content: try value.toJSONString(),
+            operation: "replace",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
     }
 
     public func appendToVaultNoteFrontmatterStringField(
@@ -156,7 +175,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
     ) async throws {
         let request = requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: value,
+            content: try value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -169,7 +188,14 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         key: String,
         value: [String]
     ) async throws {
-        // TODO: Implement array field appending for vault note frontmatter
+        let request = requestFactory.makeSetVaultFrontmatterRequest(
+            filename: filename,
+            content: try value.toJSONString(),
+            operation: "append",
+            key: key
+        )
+        let response = try await client.run(request)
+        try validateResponse(response)
     }
 
     // MARK: - Directory Operations
