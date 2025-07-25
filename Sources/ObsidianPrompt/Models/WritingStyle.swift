@@ -1,16 +1,16 @@
 import Foundation
 
 public enum WritingStyle: String, CaseIterable, Sendable {
-    case formal = "formal"
-    case informal = "informal"
-    case technical = "technical"
-    case scientific = "scientific"
-    case emoji = "emoji"
-    case eli5 = "eli5"
-    case creative = "creative"
-    case professional = "professional"
-    case academic = "academic"
-    case conversational = "conversational"
+    case formal
+    case informal
+    case technical
+    case scientific
+    case emoji
+    case eli5
+    case creative
+    case professional
+    case academic
+    case conversational
 
     public var description: String {
         switch self {
