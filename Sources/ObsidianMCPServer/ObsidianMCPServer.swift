@@ -114,43 +114,84 @@ final class ObsidianMCPServer {
     }
 
     /**
-     Sets a frontmatter field in the currently active note.
+     Sets a frontmatter string field in the currently active note.
 
-     This tool allows you to set or replace a specific frontmatter field in the active note.
-     The value will be properly JSON-encoded and the field will be created if it doesn't exist.
-     Useful for setting metadata like tags, dates, categories, or any custom frontmatter properties.
+     This tool allows you to set or replace a specific frontmatter string field in the active note.
+     The string value will be properly handled and the field will be created if it doesn't exist.
+     Useful for setting metadata like titles, dates, categories, or any custom frontmatter string properties.
 
      - Parameter key: The frontmatter field name to set
-     - Parameter value: The value to set (will be JSON-encoded automatically)
+     - Parameter value: The string value to set
      - Returns: Success confirmation message
      */
-    @MCPTool(description: "Set a frontmatter field in the active note")
-    func setActiveNoteFrontmatter(
+    @MCPTool(description: "Set a frontmatter string field in the active note")
+    func setActiveNoteFrontmatterString(
         key: String,
         value: String
     ) async throws -> String {
         try await repository.setActiveNoteFrontmatterStringField(key: key, value: value)
-        return "Active note frontmatter field '\(key)' set successfully."
+        return "Active note frontmatter string field '\(key)' set successfully."
     }
 
     /**
-     Appends a value to a frontmatter field array in the currently active note.
+     Appends a string value to a frontmatter field in the currently active note.
 
-     This tool allows you to add values to existing frontmatter arrays (like tags lists)
-     or create a new array if the field doesn't exist. The value will be properly
-     JSON-encoded and appended to the array.
+     This tool allows you to add a string value to an existing frontmatter field
+     or create a new field if it doesn't exist. The string value will be properly
+     handled and appended to the field.
 
      - Parameter key: The frontmatter field name to append to
-     - Parameter value: The value to append to the array (will be JSON-encoded automatically)
+     - Parameter value: The string value to append to the field
      - Returns: Success confirmation message
      */
-    @MCPTool(description: "Append a value to a frontmatter field array in the active note")
-    func appendToActiveNoteFrontmatter(
+    @MCPTool(description: "Append a string value to a frontmatter field in the active note")
+    func appendToActiveNoteFrontmatterString(
         key: String,
         value: String
     ) async throws -> String {
         try await repository.appendToActiveNoteFrontmatterStringField(key: key, value: value)
-        return "Value appended to active note frontmatter field '\(key)' successfully."
+        return "String value appended to active note frontmatter field '\(key)' successfully."
+    }
+
+    /**
+     Sets a frontmatter array field in the currently active note.
+
+     This tool allows you to set or replace an entire frontmatter array field with
+     multiple values at once. The array values will be properly handled and the field
+     will be created if it doesn't exist. Useful for setting multiple tags, categories,
+     or any custom frontmatter array properties in one operation.
+
+     - Parameter key: The frontmatter field name to set
+     - Parameter values: The array of values to set for the field
+     - Returns: Success confirmation message
+     */
+    @MCPTool(description: "Set a frontmatter array field in the active note")
+    func setActiveNoteFrontmatterArray(
+        key: String,
+        values: [String]
+    ) async throws -> String {
+        try await repository.setActiveNoteFrontmatterArrayField(key: key, value: values)
+        return "Active note frontmatter array field '\(key)' set successfully with \(values.count) values."
+    }
+
+    /**
+     Appends multiple values to a frontmatter field array in the currently active note.
+
+     This tool allows you to add multiple values to existing frontmatter arrays
+     (like tags lists) or create a new array if the field doesn't exist. All values
+     will be properly handled and appended to the array.
+
+     - Parameter key: The frontmatter field name to append to
+     - Parameter values: The array of values to append to the field
+     - Returns: Success confirmation message
+     */
+    @MCPTool(description: "Append multiple values to a frontmatter field array in the active note")
+    func appendToActiveNoteFrontmatterArray(
+        key: String,
+        values: [String]
+    ) async throws -> String {
+        try await repository.appendToActiveNoteFrontmatterArrayField(key: key, value: values)
+        return "\(values.count) values appended to active note frontmatter field '\(key)' successfully."
     }
 
     /**
@@ -227,48 +268,93 @@ final class ObsidianMCPServer {
     }
 
     /**
-     Sets a frontmatter field in a specific vault note.
+     Sets a frontmatter string field in a specific vault note.
 
-     This tool allows you to set or replace a specific frontmatter field in any note
-     in the vault. The value will be properly JSON-encoded and the field will be
-     created if it doesn't exist. Useful for setting metadata like tags, dates,
-     categories, or any custom frontmatter properties.
+     This tool allows you to set or replace a specific frontmatter string field in any note
+     in the vault. The string value will be properly handled and the field will be
+     created if it doesn't exist. Useful for setting metadata like titles, dates,
+     categories, or any custom frontmatter string properties.
 
      - Parameter filename: The filename or path of the note to modify
      - Parameter key: The frontmatter field name to set
-     - Parameter value: The value to set (will be JSON-encoded automatically)
+     - Parameter value: The string value to set
      - Returns: Success confirmation message
      */
-    @MCPTool(description: "Set a frontmatter field in a specific vault note")
-    func setNoteFrontmatter(
+    @MCPTool(description: "Set a frontmatter string field in a specific vault note")
+    func setNoteFrontmatterString(
         filename: String,
         key: String,
         value: String
     ) async throws -> String {
         try await repository.setVaultNoteFrontmatterStringField(filename: filename, key: key, value: value)
-        return "Note '\(filename)' frontmatter field '\(key)' set successfully."
+        return "Note '\(filename)' frontmatter string field '\(key)' set successfully."
     }
 
     /**
-     Appends a value to a frontmatter field array in a specific vault note.
+     Appends a string value to a frontmatter field in a specific vault note.
 
-     This tool allows you to add values to existing frontmatter arrays (like tags lists)
-     in any vault note, or create a new array if the field doesn't exist. The value
-     will be properly JSON-encoded and appended to the array.
+     This tool allows you to add a string value to an existing frontmatter field
+     in any vault note, or create a new field if it doesn't exist. The string
+     value will be properly handled and appended to the field.
 
      - Parameter filename: The filename or path of the note to modify
      - Parameter key: The frontmatter field name to append to
-     - Parameter value: The value to append to the array (will be JSON-encoded automatically)
+     - Parameter value: The string value to append to the field
      - Returns: Success confirmation message
      */
-    @MCPTool(description: "Append a value to a frontmatter field array in a specific vault note")
-    func appendToNoteFrontmatter(
+    @MCPTool(description: "Append a string value to a frontmatter field in a specific vault note")
+    func appendToNoteFrontmatterString(
         filename: String,
         key: String,
         value: String
     ) async throws -> String {
         try await repository.appendToVaultNoteFrontmatterStringField(filename: filename, key: key, value: value)
-        return "Value appended to note '\(filename)' frontmatter field '\(key)' successfully."
+        return "String value appended to note '\(filename)' frontmatter field '\(key)' successfully."
+    }
+
+    /**
+     Sets a frontmatter array field in a specific vault note.
+
+     This tool allows you to set or replace an entire frontmatter array field with
+     multiple values at once in any vault note. The array values will be properly
+     handled and the field will be created if it doesn't exist. Useful for setting
+     multiple tags, categories, or any custom frontmatter array properties in one operation.
+
+     - Parameter filename: The filename or path of the note to modify
+     - Parameter key: The frontmatter field name to set
+     - Parameter values: The array of values to set for the field
+     - Returns: Success confirmation message
+     */
+    @MCPTool(description: "Set a frontmatter array field in a specific vault note")
+    func setNoteFrontmatterArray(
+        filename: String,
+        key: String,
+        values: [String]
+    ) async throws -> String {
+        try await repository.setVaultNoteFrontmatterArrayField(filename: filename, key: key, value: values)
+        return "Note '\(filename)' frontmatter array field '\(key)' set successfully with \(values.count) values."
+    }
+
+    /**
+     Appends multiple values to a frontmatter field array in a specific vault note.
+
+     This tool allows you to add multiple values to existing frontmatter arrays
+     (like tags lists) in any vault note, or create a new array if the field doesn't exist.
+     All values will be properly handled and appended to the array.
+
+     - Parameter filename: The filename or path of the note to modify
+     - Parameter key: The frontmatter field name to append to
+     - Parameter values: The array of values to append to the field
+     - Returns: Success confirmation message
+     */
+    @MCPTool(description: "Append multiple values to a frontmatter field array in a specific vault note")
+    func appendToNoteFrontmatterArray(
+        filename: String,
+        key: String,
+        values: [String]
+    ) async throws -> String {
+        try await repository.appendToVaultNoteFrontmatterArrayField(filename: filename, key: key, value: values)
+        return "\(values.count) values appended to note '\(filename)' frontmatter field '\(key)' successfully."
     }
 
     /**

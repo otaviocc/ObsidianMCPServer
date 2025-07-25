@@ -329,7 +329,7 @@ struct ObsidianMCPServerTests {
         let testValue = "important"
 
         // When
-        let result = try await server.setActiveNoteFrontmatter(key: testKey, value: testValue)
+        let result = try await server.setActiveNoteFrontmatterString(key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -345,7 +345,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Active note frontmatter field 'tags' set successfully.",
+            result == "Active note frontmatter string field 'tags' set successfully.",
             "It should return success message with key"
         )
     }
@@ -358,7 +358,7 @@ struct ObsidianMCPServerTests {
         let testValue = "project"
 
         // When
-        let result = try await server.appendToActiveNoteFrontmatter(key: testKey, value: testValue)
+        let result = try await server.appendToActiveNoteFrontmatterString(key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -374,7 +374,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Value appended to active note frontmatter field 'categories' successfully.",
+            result == "String value appended to active note frontmatter field 'categories' successfully.",
             "It should return success message with key"
         )
     }
@@ -388,7 +388,7 @@ struct ObsidianMCPServerTests {
         let testValue = "completed"
 
         // When
-        let result = try await server.setNoteFrontmatter(filename: testFilename, key: testKey, value: testValue)
+        let result = try await server.setNoteFrontmatterString(filename: testFilename, key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -408,7 +408,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Note 'project-notes.md' frontmatter field 'status' set successfully.",
+            result == "Note 'project-notes.md' frontmatter string field 'status' set successfully.",
             "It should return success message with filename and key"
         )
     }
@@ -422,7 +422,7 @@ struct ObsidianMCPServerTests {
         let testValue = "literature-review"
 
         // When
-        let result = try await server.appendToNoteFrontmatter(filename: testFilename, key: testKey, value: testValue)
+        let result = try await server.appendToNoteFrontmatterString(filename: testFilename, key: testKey, value: testValue)
 
         // Then
         #expect(
@@ -442,7 +442,7 @@ struct ObsidianMCPServerTests {
             "It should pass the correct value"
         )
         #expect(
-            result == "Value appended to note 'research.md' frontmatter field 'tags' successfully.",
+            result == "String value appended to note 'research.md' frontmatter field 'tags' successfully.",
             "It should return success message with filename and key"
         )
     }
@@ -455,7 +455,7 @@ struct ObsidianMCPServerTests {
 
         // When/Then
         do {
-            _ = try await server.setActiveNoteFrontmatter(key: "test", value: "value")
+            _ = try await server.setActiveNoteFrontmatterString(key: "test", value: "value")
             #expect(Bool(false), "It should throw an error")
         } catch {
             #expect(
