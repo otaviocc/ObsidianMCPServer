@@ -17,7 +17,7 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
     // MARK: - Public
 
-    public func summarizeNote(
+    public func analyzeNote(
         filename: String,
         focus: AnalysisFocus = .general
     ) async throws -> String {

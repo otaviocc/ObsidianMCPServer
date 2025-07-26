@@ -14,8 +14,8 @@ struct ObsidianPromptTests {
         return (prompt, mockRepository)
     }
 
-    @Test("It should summarize note with general focus")
-    func testSummarizeNoteWithGeneralFocus() async throws {
+    @Test("It should analyze note with general focus")
+    func testAnalyzeNoteWithGeneralFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "test-note.md"
@@ -26,7 +26,7 @@ struct ObsidianPromptTests {
         mockRepository.getVaultNoteReturnValue = noteContent
 
         // When
-        let result = try await prompt.summarizeNote(filename: filename, focus: .general)
+        let result = try await prompt.analyzeNote(filename: filename, focus: .general)
 
         // Then
         #expect(
@@ -51,8 +51,8 @@ struct ObsidianPromptTests {
         )
     }
 
-    @Test("It should summarize note with action items focus")
-    func testSummarizeNoteWithActionItemsFocus() async throws {
+    @Test("It should analyze note with action items focus")
+    func testAnalyzeNoteWithActionItemsFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "tasks.md"
@@ -63,7 +63,7 @@ struct ObsidianPromptTests {
         mockRepository.getVaultNoteReturnValue = noteContent
 
         // When
-        let result = try await prompt.summarizeNote(
+        let result = try await prompt.analyzeNote(
             filename: filename,
             focus: .actionItems
         )
@@ -79,8 +79,8 @@ struct ObsidianPromptTests {
         )
     }
 
-    @Test("It should summarize note with tone focus")
-    func testSummarizeNoteWithToneFocus() async throws {
+    @Test("It should analyze note with tone focus")
+    func testAnalyzeNoteWithToneFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "journal.md"
@@ -91,7 +91,7 @@ struct ObsidianPromptTests {
         mockRepository.getVaultNoteReturnValue = noteContent
 
         // When
-        let result = try await prompt.summarizeNote(
+        let result = try await prompt.analyzeNote(
             filename: filename,
             focus: .tone
         )
@@ -108,7 +108,7 @@ struct ObsidianPromptTests {
     }
 
     @Test("It should propagate repository errors")
-    func testSummarizeNoteWithRepositoryError() async {
+    func testAnalyzeNoteWithRepositoryError() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "non-existent.md"
@@ -117,7 +117,7 @@ struct ObsidianPromptTests {
 
         // When/Then
         do {
-            _ = try await prompt.summarizeNote(filename: filename, focus: .general)
+            _ = try await prompt.analyzeNote(filename: filename, focus: .general)
             #expect(
                 Bool(false),
                 "It should throw an error when repository fails"

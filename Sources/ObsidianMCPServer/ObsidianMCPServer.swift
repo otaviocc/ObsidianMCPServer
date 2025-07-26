@@ -406,12 +406,12 @@ final class ObsidianMCPServer {
      - Parameter focus: The type of analysis to perform (default: .general)
      - Returns: A formatted prompt for note analysis
      */
-    @MCPPrompt(description: "Generate a structured prompt to analyze and summarize an Obsidian note")
-    func summarizeNote(
+    @MCPPrompt(description: "Generate a structured prompt to analyze an Obsidian note")
+    func analyzeNote(
         filename: String,
         focus: AnalysisFocus = .general
     ) async throws -> String {
-        try await prompt.summarizeNote(filename: filename, focus: focus)
+        try await prompt.analyzeNote(filename: filename, focus: focus)
     }
 
     /**
