@@ -19,14 +19,19 @@ public enum OutlineStyle: String, CaseIterable, Sendable {
             """
             Create a bullet point outline:
             - Use simple bullet points (•, -, *) for all levels
-            - Indent sub-points with additional spaces
+            - CRITICAL: Use exactly 4 spaces (NOT tabs) for each indentation level
+            - Level 1: No indentation
+            - Level 2: 4 spaces from left margin
+            - Level 3: 8 spaces from left margin
+            - Level 4: 12 spaces from left margin
             - Keep formatting clean and readable
             - Maximum 3-4 levels of nesting
             - Focus on clarity over formal structure
             - Example:
-              • Main Topic
+            • Main Topic
                 - Subtopic
-                  • Detail
+                    • Detail
+                        * Sub-detail
             """
         case .numbered:
             """
@@ -34,13 +39,19 @@ public enum OutlineStyle: String, CaseIterable, Sendable {
             - Use numbers for main sections (1, 2, 3...)
             - Use letters for sub-sections (a, b, c...)
             - Use roman numerals for sub-sub-sections (i, ii, iii...)
+            - CRITICAL: Use exactly 4 spaces (NOT tabs) for each indentation level
+            - Level 1: No indentation
+            - Level 2: 4 spaces from left margin
+            - Level 3: 8 spaces from left margin
+            - Level 4: 12 spaces from left margin
             - Maintain consistent numbering throughout
             - Clear progression and logical sequence
             - Example:
-              1. Main Section
-                 a. Subsection
-                 b. Subsection
-              2. Main Section
+            1. Main Section
+                a. Subsection
+                    i. Sub-subsection
+                b. Subsection
+            2. Main Section
             """
         case .hierarchical:
             """
@@ -50,16 +61,21 @@ public enum OutlineStyle: String, CaseIterable, Sendable {
             - Capital letters for main subsections (A, B, C...)
             - Arabic numbers for sub-subsections (1, 2, 3...)
             - Lowercase letters for details (a, b, c...)
+            - CRITICAL: Use exactly 4 spaces (NOT tabs) for each indentation level
+            - Level 1 (I, II, III): No indentation
+            - Level 2 (A, B, C): 4 spaces from left margin
+            - Level 3 (1, 2, 3): 8 spaces from left margin
+            - Level 4 (a, b, c): 12 spaces from left margin
             - Maintain proper indentation and alignment
             - Example:
-              I. Major Section
-                 A. Main Subsection
+            I. Major Section
+                A. Main Subsection
                     1. Detail
                     2. Detail
-                       a. Sub-detail
-                       b. Sub-detail
-                 B. Main Subsection
-              II. Major Section
+                        a. Sub-detail
+                        b. Sub-detail
+                B. Main Subsection
+            II. Major Section
             """
         }
     }

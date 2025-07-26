@@ -153,8 +153,8 @@ struct ObsidianPromptTests {
             "It should include the active note filename"
         )
         #expect(
-            result.contains("currently active Obsidian note"),
-            "It should mention it's the active note"
+            result.contains("Content from the currently active note"),
+            "It should mention it's the active note content"
         )
         #expect(
             result.contains("Comprehensive analysis"),
@@ -463,8 +463,8 @@ struct ObsidianPromptTests {
             "It should include the active note filename"
         )
         #expect(
-            result.contains("currently active Obsidian note"),
-            "It should mention it's the active note"
+            result.contains("Content from the currently active note"),
+            "It should mention it's the active note content"
         )
         #expect(
             result.contains("8 relevant tags"),

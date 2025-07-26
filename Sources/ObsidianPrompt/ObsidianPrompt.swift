@@ -50,9 +50,11 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let instructions = focus.instructions
 
         let prompt = """
-        Analyze the currently active Obsidian note and provide insights based on the requested focus.
+        Analyze the provided note content and provide insights based on the requested focus.
 
-        **Active Note:** \(activeNote.filename)
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File:** \(activeNote.filename)
         **Analysis Type:** \(focus.description)
 
         **Instructions:**
@@ -110,9 +112,11 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let prompt = """
         # Generate Abstract: \(length.description)
 
-        Create an abstract/summary of the following active Obsidian note content using the specified length guidelines.
+        Create an abstract/summary of the provided note content using the specified length guidelines.
 
-        **Active Note**: \(activeNote.filename)
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File**: \(activeNote.filename)
         **Abstract Length**: \(length.description)
 
         **Length Guidelines**:
@@ -157,9 +161,11 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let prompt = """
         # Generate Outline: \(style.description)
 
-        Create a structured outline of the following active Obsidian note content using the specified style format.
+        Create a structured outline of the provided note content using the specified style format.
 
-        **Active Note**: \(activeNote.filename)
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File**: \(activeNote.filename)
         **Outline Style**: \(style.description)
 
         **Style Guidelines**:
@@ -188,11 +194,13 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         **Output Requirements**:
         - Follow the specified outline style exactly
-        - Use proper indentation and formatting
+        - CRITICAL: Use exactly 4 spaces (NOT tabs) for each indentation level
+        - Level 1: No indentation, Level 2: 4 spaces, Level 3: 8 spaces, Level 4: 12 spaces
         - Include all major content areas
         - Maintain logical flow and progression
         - Be suitable for presentation or reorganization purposes
         - Ensure each level adds meaningful structure
+        - Apply consistent spacing throughout the entire outline
 
         **Generated Outline**:
         """
@@ -329,9 +337,11 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let activeNote = try await repository.getActiveNote()
 
         let prompt = """
-        Analyze the currently active Obsidian note and suggest \(maxTags) relevant tags for frontmatter organization.
+        Analyze the provided note content and suggest \(maxTags) relevant tags for frontmatter organization.
 
-        **Active Note:** \(activeNote.filename)
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File:** \(activeNote.filename)
 
         **Note Content:**
         \(activeNote.content)
@@ -465,16 +475,18 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let activeNote = try await repository.getActiveNote()
 
         let prompt = """
-        # Rewrite Active Note: \(style.description)
+        # Rewrite Note Content: \(style.description)
 
-        You are an expert writer and editor. Please rewrite the following note content using the specified writing style.
+        You are an expert writer and editor. Please rewrite the provided note content using the specified writing style.
+
+        (Note: Content from the currently active note in Obsidian is included below)
 
         **Writing Style**: \(style.description)
 
         **Style Guidelines**:
         \(style.instructions)
 
-        **Original Note**: \(activeNote.filename)
+        **Original Note File**: \(activeNote.filename)
         **Content**:
         ```
         \(activeNote.content)
@@ -506,12 +518,14 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let activeNote = try await repository.getActiveNote()
 
         let prompt = """
-        # Translate Active Note: \(language.description)
+        # Translate Note Content: \(language.description)
 
-        You are an expert translator. Please translate the following Obsidian note content to \(language.description) while preserving all formatting and structure.
+        You are an expert translator. Please translate the provided note content to \(language.description) while preserving all formatting and structure.
+
+        (Note: Content from the currently active note in Obsidian is included below)
 
         **Target Language**: \(language.description)
-        **Original Note**: \(activeNote.filename)
+        **Original Note File**: \(activeNote.filename)
 
         **Translation Guidelines**:
         \(language.instructions)
