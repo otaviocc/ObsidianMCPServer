@@ -104,6 +104,28 @@ public protocol ObsidianPromptGenerationOperations {
         filename: String,
         questionCount: Int
     ) async throws -> String
+
+    /// Generate an abstract/summary of the currently active note.
+    ///
+    /// This method creates a concise summary of the active note's content, extracting
+    /// key points and main arguments in a coherent, standalone format suitable for
+    /// quick reference or sharing.
+    ///
+    /// - Parameter length: The desired length of the abstract (default: .standard)
+    /// - Returns: A formatted prompt for generating an abstract
+    /// - Throws: An error if no note is active or the note cannot be retrieved
+    func generateActiveNoteAbstract(length: AbstractLength) async throws -> String
+
+    /// Generate a structured outline of the currently active note.
+    ///
+    /// This method creates a hierarchical outline of the active note's content,
+    /// extracting main topics and subtopics in a logical structure that can be
+    /// used for presentations, reorganization, or understanding content flow.
+    ///
+    /// - Parameter style: The desired outline style (default: .hierarchical)
+    /// - Returns: A formatted prompt for generating an outline
+    /// - Throws: An error if no note is active or the note cannot be retrieved
+    func generateActiveNoteOutline(style: OutlineStyle) async throws -> String
 }
 
 // MARK: - Transformation Operations

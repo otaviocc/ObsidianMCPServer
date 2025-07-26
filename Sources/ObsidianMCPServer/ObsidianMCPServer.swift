@@ -539,6 +539,38 @@ final class ObsidianMCPServer {
     func translateActiveNote(language: Language) async throws -> String {
         try await prompt.translateActiveNote(language: language)
     }
+
+    /**
+     Generate an abstract/summary of the currently active note.
+
+     This prompt creates a concise summary of the active note's content, extracting
+     key points and main arguments in a coherent, standalone format. The abstract
+     can be generated in different lengths (brief, standard, detailed) making it
+     suitable for various use cases from quick reference to comprehensive overviews.
+
+     - Parameter length: The desired length of the abstract (default: .standard)
+     - Returns: A formatted prompt to generate an abstract of the active note
+     */
+    @MCPPrompt(description: "Generate an abstract/summary of the currently active note")
+    func generateActiveNoteAbstract(length: AbstractLength = .standard) async throws -> String {
+        try await prompt.generateActiveNoteAbstract(length: length)
+    }
+
+    /**
+     Generate a structured outline of the currently active note.
+
+     This prompt creates a hierarchical outline of the active note's content,
+     extracting main topics and subtopics in a logical structure. Different
+     outline styles (bullets, numbered, hierarchical) are available to match
+     various presentation needs and organizational preferences.
+
+     - Parameter style: The desired outline style (default: .hierarchical)
+     - Returns: A formatted prompt to generate an outline of the active note
+     */
+    @MCPPrompt(description: "Generate a structured outline of the currently active note")
+    func generateActiveNoteOutline(style: OutlineStyle = .hierarchical) async throws -> String {
+        try await prompt.generateActiveNoteOutline(style: style)
+    }
 }
 
 // swiftlint:enable file_length

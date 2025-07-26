@@ -850,6 +850,262 @@ struct ObsidianPromptTests {
         }
     }
 
+    @Test("It should generate active note abstract with standard length")
+    func testGenerateActiveNoteAbstractStandard() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "research-paper.md",
+            content: "# Research on Machine Learning\n\nThis paper presents findings on neural networks and their applications in natural language processing. Key discoveries include improved accuracy and performance metrics."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let length = AbstractLength.standard
+
+        // When
+        let result = try await prompt.generateActiveNoteAbstract(length: length)
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("Generate Abstract"),
+            "It should include the abstract generation title"
+        )
+        #expect(
+            result.contains("Standard abstract (1 paragraph)"),
+            "It should include the standard length description"
+        )
+        #expect(
+            result.contains("research-paper.md"),
+            "It should include the active note filename"
+        )
+        #expect(
+            result.contains("neural networks"),
+            "It should include the note content"
+        )
+        #expect(
+            result.contains("3-5 sentences or 75-150 words"),
+            "It should include standard length instructions"
+        )
+        #expect(
+            result.contains("Generated Abstract"),
+            "It should include instructions for output"
+        )
+    }
+
+    @Test("It should generate active note abstract with brief length")
+    func testGenerateActiveNoteAbstractBrief() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "quick-notes.md",
+            content: "Meeting summary with action items and next steps."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let length = AbstractLength.brief
+
+        // When
+        let result = try await prompt.generateActiveNoteAbstract(length: length)
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("Brief summary (1-2 sentences)"),
+            "It should include the brief length description"
+        )
+        #expect(
+            result.contains("under 50 words"),
+            "It should include brief length instructions"
+        )
+        #expect(
+            result.contains("most essential point"),
+            "It should include brief-specific instructions"
+        )
+    }
+
+    @Test("It should generate active note abstract with detailed length")
+    func testGenerateActiveNoteAbstractDetailed() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "comprehensive-analysis.md",
+            content: "Detailed analysis of market trends, methodology, findings, and implications for future business strategy."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let length = AbstractLength.detailed
+
+        // When
+        let result = try await prompt.generateActiveNoteAbstract(length: length)
+
+        // Then
+        #expect(
+            result.contains("Detailed summary (2-3 paragraphs)"),
+            "It should include the detailed length description"
+        )
+        #expect(
+            result.contains("150-300 words"),
+            "It should include detailed length instructions"
+        )
+        #expect(
+            result.contains("methodology, findings, and implications"),
+            "It should include detailed-specific instructions"
+        )
+    }
+
+    @Test("It should generate active note outline with hierarchical style")
+    func testGenerateActiveNoteOutlineHierarchical() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "project-plan.md",
+            content: "# Project Plan\n\n## Phase 1: Research\n- Literature review\n- Data collection\n\n## Phase 2: Implementation\n- Development\n- Testing"
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let style = OutlineStyle.hierarchical
+
+        // When
+        let result = try await prompt.generateActiveNoteOutline(style: style)
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("Generate Outline"),
+            "It should include the outline generation title"
+        )
+        #expect(
+            result.contains("Hierarchical academic format"),
+            "It should include the hierarchical style description"
+        )
+        #expect(
+            result.contains("project-plan.md"),
+            "It should include the active note filename"
+        )
+        #expect(
+            result.contains("Phase 1: Research"),
+            "It should include the note content"
+        )
+        #expect(
+            result.contains("Roman numerals for major sections"),
+            "It should include hierarchical style instructions"
+        )
+        #expect(
+            result.contains("Generated Outline"),
+            "It should include instructions for output"
+        )
+    }
+
+    @Test("It should generate active note outline with bullets style")
+    func testGenerateActiveNoteOutlineBullets() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "meeting-agenda.md",
+            content: "Meeting topics and discussion points for weekly review."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let style = OutlineStyle.bullets
+
+        // When
+        let result = try await prompt.generateActiveNoteOutline(style: style)
+
+        // Then
+        #expect(
+            result.contains("Bullet point format"),
+            "It should include the bullets style description"
+        )
+        #expect(
+            result.contains("simple bullet points"),
+            "It should include bullets style instructions"
+        )
+        #expect(
+            result.contains("Maximum 3-4 levels"),
+            "It should include bullets-specific formatting instructions"
+        )
+    }
+
+    @Test("It should generate active note outline with numbered style")
+    func testGenerateActiveNoteOutlineNumbered() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "procedure-doc.md",
+            content: "Step-by-step procedure with multiple sections and subsections."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+        let style = OutlineStyle.numbered
+
+        // When
+        let result = try await prompt.generateActiveNoteOutline(style: style)
+
+        // Then
+        #expect(
+            result.contains("Numbered list format"),
+            "It should include the numbered style description"
+        )
+        #expect(
+            result.contains("numbers for main sections"),
+            "It should include numbered style instructions"
+        )
+        #expect(
+            result.contains("letters for sub-sections"),
+            "It should include numbered formatting details"
+        )
+    }
+
+    @Test("It should propagate errors for generate active note abstract")
+    func testPropagateErrorsForGenerateActiveNoteAbstract() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let expectedError = ObsidianRepositoryMock.MockError.someMockError
+        mockRepository.getActiveNoteThrowableError = expectedError
+        let length = AbstractLength.standard
+
+        // When & Then
+        do {
+            _ = try await prompt.generateActiveNoteAbstract(length: length)
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
+        } catch {
+            #expect(
+                error.localizedDescription == expectedError.localizedDescription,
+                "It should propagate the repository error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for generate active note outline")
+    func testPropagateErrorsForGenerateActiveNoteOutline() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let expectedError = ObsidianRepositoryMock.MockError.someMockError
+        mockRepository.getActiveNoteThrowableError = expectedError
+        let style = OutlineStyle.hierarchical
+
+        // When & Then
+        do {
+            _ = try await prompt.generateActiveNoteOutline(style: style)
+            #expect(
+                Bool(false),
+                "It should throw an error when repository fails"
+            )
+        } catch {
+            #expect(
+                error.localizedDescription == expectedError.localizedDescription,
+                "It should propagate the repository error"
+            )
+        }
+    }
+
     @Test("It should propagate errors for extract metadata")
     func testExtractMetadataWithRepositoryError() async {
         // Given

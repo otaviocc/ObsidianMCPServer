@@ -104,6 +104,102 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
     }
     // swiftlint:enable line_length
 
+    public func generateActiveNoteAbstract(length: AbstractLength = .standard) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Generate Abstract: \(length.description)
+
+        Create an abstract/summary of the following active Obsidian note content using the specified length guidelines.
+
+        **Active Note**: \(activeNote.filename)
+        **Abstract Length**: \(length.description)
+
+        **Length Guidelines**:
+        \(length.instructions)
+
+        **Note Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Abstract Generation Instructions**:
+        1. **Capture Core Message**: Identify and highlight the main purpose and key findings
+        2. **Maintain Accuracy**: Ensure all facts and conclusions are preserved correctly
+        3. **Use Clear Language**: Write in clear, professional language appropriate for the target length
+        4. **Preserve Context**: Include necessary background information within length constraints
+        5. **Logical Flow**: Structure the abstract with logical progression of ideas
+        6. **Action-Oriented**: Include actionable insights or conclusions where applicable
+
+        **Content Focus Areas**:
+        - Main arguments or thesis
+        - Key findings or discoveries
+        - Important methodologies or approaches
+        - Significant conclusions or recommendations
+        - Critical data points or evidence
+
+        **Output Requirements**:
+        - Adhere strictly to the specified length guidelines
+        - Use complete, well-formed sentences
+        - Maintain professional tone and clarity
+        - Be self-contained and understandable without the original note
+        - Focus on value and utility for the reader
+
+        **Generated Abstract**:
+        """
+
+        return prompt
+    }
+
+    public func generateActiveNoteOutline(style: OutlineStyle = .hierarchical) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Generate Outline: \(style.description)
+
+        Create a structured outline of the following active Obsidian note content using the specified style format.
+
+        **Active Note**: \(activeNote.filename)
+        **Outline Style**: \(style.description)
+
+        **Style Guidelines**:
+        \(style.instructions)
+
+        **Note Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Outline Generation Instructions**:
+        1. **Identify Structure**: Analyze the content to extract main topics and subtopics
+        2. **Logical Hierarchy**: Organize information in a clear, logical hierarchy
+        3. **Consistent Formatting**: Apply the specified style consistently throughout
+        4. **Comprehensive Coverage**: Include all significant points and themes
+        5. **Actionable Organization**: Create structure useful for reorganization or presentation
+        6. **Clear Relationships**: Show relationships between different sections and ideas
+
+        **Content Analysis Areas**:
+        - Main themes and topics
+        - Supporting arguments and evidence
+        - Sequential processes or procedures
+        - Categorized information
+        - Key concepts and definitions
+        - Conclusions and recommendations
+
+        **Output Requirements**:
+        - Follow the specified outline style exactly
+        - Use proper indentation and formatting
+        - Include all major content areas
+        - Maintain logical flow and progression
+        - Be suitable for presentation or reorganization purposes
+        - Ensure each level adds meaningful structure
+
+        **Generated Outline**:
+        """
+
+        return prompt
+    }
+
     // swiftlint:disable line_length
     public func suggestTags(
         filename: String,
@@ -403,8 +499,9 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         return prompt
     }
+    // swiftlint:enable line_length
 
-    // swiftlint:disable line_length
+    // swiftlint:disable function_body_length line_length
     public func translateActiveNote(language: Language) async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
@@ -476,7 +573,7 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         return prompt
     }
-    // swiftlint:enable line_length
+    // swiftlint:enable function_body_length line_length
 }
 
 // swiftlint:enable type_body_length file_length
