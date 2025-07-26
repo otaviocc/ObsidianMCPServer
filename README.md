@@ -529,12 +529,18 @@ ObsidianMCPServer/
 │   │   ├── Models/                           # ThreadSafeBox utility
 │   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool and @MCPPrompt methods
 │   │   └── main.swift                        # Command-line entry point
+│   ├── ObsidianModels/                       # Foundation models (no dependencies)
+│   │   ├── AnalysisFocus.swift               # Analysis focus enum with descriptions and instructions
+│   │   ├── Language.swift                    # Translation language enum with localization instructions
+│   │   ├── WritingStyle.swift                # Writing style enum with style descriptions
+│   │   ├── AbstractLength.swift              # Abstract length enum with length guidelines
+│   │   └── OutlineStyle.swift                # Outline style enum with formatting instructions
 │   ├── ObsidianPrompt/                       # Prompt business logic layer
-│   │   ├── Models/                           # Enum models (AnalysisFocus, Language, WritingStyle, AbstractLength, OutlineStyle)
 │   │   ├── ObsidianPrompt.swift              # Prompt generation implementation
-│   │   ├── ObsidianPromptProtocol.swift      # Prompt protocols
-│   │   ├── ObsidianPromptEnums.swift         # Enum discovery implementation
-│   │   └── ObsidianPromptEnumsProtocol.swift # Enum discovery protocols
+│   │   └── ObsidianPromptProtocol.swift      # Modular prompt protocols (Analysis, Enhancement, Generation, Transformation)
+│   ├── ObsidianResource/                     # MCP Resource enum discovery layer
+│   │   ├── ObsidianResource.swift            # Enum discovery implementation for MCP Resources
+│   │   └── ObsidianResourceProtocol.swift    # Enum discovery protocol for auto-discovery
 │   ├── ObsidianRepository/                   # Data access layer
 │   │   ├── Models/                           # Domain models (File, SearchResult, ServerInformation)
 │   │   ├── ObsidianRepository.swift          # Repository implementation
@@ -542,13 +548,35 @@ ObsidianMCPServer/
 │   └── ObsidianNetworking/                   # HTTP client and API models
 │       ├── Factories/                        # Request and client factories
 │       └── Models/                           # Network response models
-├── Tests/                                    # Comprehensive test suite (186+ tests)
+├── Tests/                                    # Comprehensive test suite (190+ tests)
 │   ├── ObsidianMCPServerTests/               # MCP server tests (including MCP Resource tests)
-│   ├── ObsidianPromptTests/                  # Prompt generation tests (including enum discovery tests)
+│   ├── ObsidianModelsTests/                  # Model validation tests for all enum types
+│   ├── ObsidianPromptTests/                  # Prompt generation tests
+│   ├── ObsidianResourceTests/                # Enum discovery and MCP Resource tests
 │   ├── ObsidianRepositoryTests/              # Repository layer tests
 │   └── ObsidianNetworkingTests/              # Network layer tests
 └── Package.swift                             # Swift Package Manager configuration
 ```
+
+### Module Architecture
+
+The project follows a clean layered architecture with 6 modules:
+
+**Dependency Hierarchy:**
+```
+ObsidianModels (foundation, no dependencies)
+     ↓
+ObsidianNetworking → ObsidianRepository → ObsidianPrompt → ObsidianMCPServer
+                                             ↓
+                                      ObsidianResource
+```
+
+**Benefits:**
+- **ObsidianModels**: Foundation enums can be reused across modules
+- **Clean Dependencies**: No circular dependencies, clear separation of concerns
+- **Modular Design**: Each module has a single responsibility
+- **Better Testing**: Dedicated test suites for models, business logic, and resource discovery
+- **Improved Maintainability**: Easier to modify individual components
 
 ### Key Dependencies
 
@@ -581,18 +609,19 @@ swift run ObsidianMCPServer
 
 ### Testing
 
-The project includes comprehensive tests with **186+ test cases** covering all functionality:
+The project includes comprehensive tests with **190+ test cases** covering all functionality:
 
 ```bash
 # Run all tests
 swift test
 
 # Run specific test targets
-swift test --filter ObsidianMCPServerTests
-swift test --filter ObsidianPromptTests
-swift test --filter ObsidianPromptEnumsTests      # New: Enum discovery tests
-swift test --filter ObsidianRepositoryTests
-swift test --filter ObsidianNetworkingTests
+swift test --filter ObsidianMCPServerTests         # MCP server and resource tests
+swift test --filter ObsidianModelsTests            # Enum model validation tests
+swift test --filter ObsidianPromptTests            # Prompt generation tests
+swift test --filter ObsidianResourceTests          # Enum discovery and MCP Resource tests
+swift test --filter ObsidianRepositoryTests        # Repository layer tests
+swift test --filter ObsidianNetworkingTests        # Network layer tests
 
 # Generate test coverage
 swift test --enable-code-coverage

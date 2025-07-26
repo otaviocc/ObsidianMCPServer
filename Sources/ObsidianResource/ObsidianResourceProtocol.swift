@@ -1,6 +1,7 @@
 import Foundation
+import ObsidianModels
 
-public protocol ObsidianPromptEnumsProtocol {
+public protocol ObsidianResourceProtocol {
 
     /// Lists all available enum types used as parameters in prompt methods.
     ///

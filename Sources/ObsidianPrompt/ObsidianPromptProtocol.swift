@@ -1,4 +1,5 @@
 import Foundation
+import ObsidianModels
 
 public protocol ObsidianPromptProtocol: ObsidianPromptAnalysisOperations,
                                         ObsidianPromptEnhancementOperations,

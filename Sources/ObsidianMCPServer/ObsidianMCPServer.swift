@@ -1,7 +1,9 @@
 import Foundation
+import ObsidianModels
 import ObsidianNetworking
 import ObsidianPrompt
 import ObsidianRepository
+import ObsidianResource
 import SwiftMCP
 
 // swiftlint:disable file_length
@@ -29,7 +31,7 @@ final class ObsidianMCPServer {
 
     private let repository: ObsidianRepositoryProtocol
     private let prompt: ObsidianPromptProtocol
-    private let enums: ObsidianPromptEnumsProtocol
+    private let resource: ObsidianResourceProtocol
 
     // MARK: - Life cycle
 
@@ -48,13 +50,13 @@ final class ObsidianMCPServer {
             requestFactory: requestFactory
         )
         self.prompt = ObsidianPrompt(repository: self.repository)
-        self.enums = ObsidianPromptEnums()
+        self.resource = ObsidianResource()
     }
 
     init(repository: ObsidianRepositoryProtocol) {
         self.repository = repository
         self.prompt = ObsidianPrompt(repository: repository)
-        self.enums = ObsidianPromptEnums()
+        self.resource = ObsidianResource()
     }
 
     // MARK: - MCP Tools
@@ -588,7 +590,7 @@ final class ObsidianMCPServer {
      */
     @MCPResource("obsidian://enums", mimeType: "application/json")
     func listEnumTypes() async throws -> String {
-        try await enums.listEnumTypes()
+        try await resource.listEnumTypes()
     }
 
     /**
@@ -601,7 +603,7 @@ final class ObsidianMCPServer {
      */
     @MCPResource("obsidian://enums/language", mimeType: "application/json")
     func getLanguageEnum() async throws -> String {
-        try await enums.getLanguageEnum()
+        try await resource.getLanguageEnum()
     }
 
     /**
@@ -614,7 +616,7 @@ final class ObsidianMCPServer {
      */
     @MCPResource("obsidian://enums/writing-style", mimeType: "application/json")
     func getWritingStyleEnum() async throws -> String {
-        try await enums.getWritingStyleEnum()
+        try await resource.getWritingStyleEnum()
     }
 
     /**
@@ -627,7 +629,7 @@ final class ObsidianMCPServer {
      */
     @MCPResource("obsidian://enums/analysis-focus", mimeType: "application/json")
     func getAnalysisFocusEnum() async throws -> String {
-        try await enums.getAnalysisFocusEnum()
+        try await resource.getAnalysisFocusEnum()
     }
 
     /**
@@ -640,7 +642,7 @@ final class ObsidianMCPServer {
      */
     @MCPResource("obsidian://enums/abstract-length", mimeType: "application/json")
     func getAbstractLengthEnum() async throws -> String {
-        try await enums.getAbstractLengthEnum()
+        try await resource.getAbstractLengthEnum()
     }
 
     /**
@@ -653,7 +655,7 @@ final class ObsidianMCPServer {
      */
     @MCPResource("obsidian://enums/outline-style", mimeType: "application/json")
     func getOutlineStyleEnum() async throws -> String {
-        try await enums.getOutlineStyleEnum()
+        try await resource.getOutlineStyleEnum()
     }
 }
 

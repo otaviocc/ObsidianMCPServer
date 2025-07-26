@@ -1,4 +1,5 @@
 import Foundation
+import ObsidianModels
 import ObsidianRepository
 
 // swiftlint:disable type_body_length file_length

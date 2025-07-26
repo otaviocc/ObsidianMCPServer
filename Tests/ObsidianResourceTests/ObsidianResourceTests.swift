@@ -1,15 +1,16 @@
 import Foundation
+import ObsidianModels
 import Testing
 
-@testable import ObsidianPrompt
+@testable import ObsidianResource
 
-@Suite("ObsidianPromptEnums Tests")
-struct ObsidianPromptEnumsTests {
+@Suite("ObsidianResource Tests")
+struct ObsidianResourceTests {
 
     // MARK: - Helper Methods
 
-    private func makeEnums() -> ObsidianPromptEnums {
-        ObsidianPromptEnums()
+    private func makeResource() -> ObsidianResource {
+        ObsidianResource()
     }
 
     // MARK: - Tests
@@ -17,10 +18,10 @@ struct ObsidianPromptEnumsTests {
     @Test("It should list all enum types with resource URIs")
     func testListEnumTypes() async throws {
         // Given
-        let enums = makeEnums()
+        let resource = makeResource()
 
         // When
-        let result = try await enums.listEnumTypes()
+        let result = try await resource.listEnumTypes()
 
         // Then
         #expect(
@@ -60,10 +61,10 @@ struct ObsidianPromptEnumsTests {
     @Test("It should return Language enum details")
     func testGetLanguageEnum() async throws {
         // Given
-        let enums = makeEnums()
+        let resource = makeResource()
 
         // When
-        let result = try await enums.getLanguageEnum()
+        let result = try await resource.getLanguageEnum()
 
         // Then
         #expect(
@@ -87,10 +88,10 @@ struct ObsidianPromptEnumsTests {
     @Test("It should return WritingStyle enum details")
     func testGetWritingStyleEnum() async throws {
         // Given
-        let enums = makeEnums()
+        let resource = makeResource()
 
         // When
-        let result = try await enums.getWritingStyleEnum()
+        let result = try await resource.getWritingStyleEnum()
 
         // Then
         #expect(
@@ -114,10 +115,10 @@ struct ObsidianPromptEnumsTests {
     @Test("It should return AnalysisFocus enum details")
     func testGetAnalysisFocusEnum() async throws {
         // Given
-        let enums = makeEnums()
+        let resource = makeResource()
 
         // When
-        let result = try await enums.getAnalysisFocusEnum()
+        let result = try await resource.getAnalysisFocusEnum()
 
         // Then
         #expect(
@@ -141,10 +142,10 @@ struct ObsidianPromptEnumsTests {
     @Test("It should return AbstractLength enum details")
     func testGetAbstractLengthEnum() async throws {
         // Given
-        let enums = makeEnums()
+        let resource = makeResource()
 
         // When
-        let result = try await enums.getAbstractLengthEnum()
+        let result = try await resource.getAbstractLengthEnum()
 
         // Then
         #expect(
@@ -172,10 +173,10 @@ struct ObsidianPromptEnumsTests {
     @Test("It should return OutlineStyle enum details")
     func testGetOutlineStyleEnum() async throws {
         // Given
-        let enums = makeEnums()
+        let resource = makeResource()
 
         // When
-        let result = try await enums.getOutlineStyleEnum()
+        let result = try await resource.getOutlineStyleEnum()
 
         // Then
         #expect(

@@ -1,6 +1,7 @@
 import Foundation
+import ObsidianModels
 
-public final class ObsidianPromptEnums: ObsidianPromptEnumsProtocol {
+public final class ObsidianResource: ObsidianResourceProtocol {
 
     // MARK: - Life Cycle
 
