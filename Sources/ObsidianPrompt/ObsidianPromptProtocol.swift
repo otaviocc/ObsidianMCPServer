@@ -1,6 +1,13 @@
 import Foundation
 
-public protocol ObsidianPromptProtocol {
+public protocol ObsidianPromptProtocol: ObsidianPromptAnalysisOperations,
+                                        ObsidianPromptEnhancementOperations,
+                                        ObsidianPromptGenerationOperations,
+                                        ObsidianPromptTransformationOperations {}
+
+// MARK: - Analysis Operations
+
+public protocol ObsidianPromptAnalysisOperations {
 
     /// Generate a prompt to analyze an Obsidian note with various focus types.
     ///
@@ -27,20 +34,21 @@ public protocol ObsidianPromptProtocol {
     /// - Throws: An error if no note is active or the note cannot be retrieved
     func analyzeActiveNote(focus: AnalysisFocus) async throws -> String
 
-    /// Generate thought-provoking follow-up questions based on note content.
+    /// Extract key metadata from note content for frontmatter usage.
     ///
-    /// This method creates engaging questions that encourage deeper thinking and exploration
-    /// of the topics discussed in the note, perfect for research and learning workflows.
+    /// This method analyzes the note content to identify important metadata such as dates,
+    /// people, projects, locations, and other structured information that would be valuable
+    /// in frontmatter fields for organization and querying.
     ///
-    /// - Parameters:
-    ///   - filename: The filename of the note to analyze
-    ///   - questionCount: The number of questions to generate (default: 5)
-    /// - Returns: A formatted prompt with follow-up questions
+    /// - Parameter filename: The filename of the note to analyze
+    /// - Returns: A formatted prompt with extracted metadata suggestions
     /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
-    func generateFollowUpQuestions(
-        filename: String,
-        questionCount: Int
-    ) async throws -> String
+    func extractMetadata(filename: String) async throws -> String
+}
+
+// MARK: - Enhancement Operations
+
+public protocol ObsidianPromptEnhancementOperations {
 
     /// Analyze note content and suggest relevant tags for frontmatter.
     ///
@@ -57,16 +65,6 @@ public protocol ObsidianPromptProtocol {
         maxTags: Int
     ) async throws -> String
 
-    /// Generate a complete frontmatter structure based on note content.
-    ///
-    /// This method analyzes the note content to suggest a comprehensive frontmatter structure
-    /// including tags, status, category, dates, and other relevant metadata fields.
-    ///
-    /// - Parameter filename: The filename of the note to analyze
-    /// - Returns: A formatted prompt with complete frontmatter suggestions
-    /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
-    func generateFrontmatter(filename: String) async throws -> String
-
     /// Suggest tags for the currently active note in Obsidian.
     ///
     /// This method provides tag suggestions for the note currently open in Obsidian without
@@ -77,16 +75,40 @@ public protocol ObsidianPromptProtocol {
     /// - Throws: An error if no note is active or the note cannot be retrieved
     func suggestActiveNoteTags(maxTags: Int) async throws -> String
 
-    /// Extract key metadata from note content for frontmatter usage.
+    /// Generate a complete frontmatter structure based on note content.
     ///
-    /// This method analyzes the note content to identify important metadata such as dates,
-    /// people, projects, locations, and other structured information that would be valuable
-    /// in frontmatter fields for organization and querying.
+    /// This method analyzes the note content to suggest a comprehensive frontmatter structure
+    /// including tags, status, category, dates, and other relevant metadata fields.
     ///
     /// - Parameter filename: The filename of the note to analyze
-    /// - Returns: A formatted prompt with extracted metadata suggestions
+    /// - Returns: A formatted prompt with complete frontmatter suggestions
     /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
-    func extractMetadata(filename: String) async throws -> String
+    func generateFrontmatter(filename: String) async throws -> String
+}
+
+// MARK: - Generation Operations
+
+public protocol ObsidianPromptGenerationOperations {
+
+    /// Generate thought-provoking follow-up questions based on note content.
+    ///
+    /// This method creates engaging questions that encourage deeper thinking and exploration
+    /// of the topics discussed in the note, perfect for research and learning workflows.
+    ///
+    /// - Parameters:
+    ///   - filename: The filename of the note to analyze
+    ///   - questionCount: The number of questions to generate (default: 5)
+    /// - Returns: A formatted prompt with follow-up questions
+    /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
+    func generateFollowUpQuestions(
+        filename: String,
+        questionCount: Int
+    ) async throws -> String
+}
+
+// MARK: - Transformation Operations
+
+public protocol ObsidianPromptTransformationOperations {
 
     /// Rewrite the currently active note in Obsidian with a specified writing style.
     ///
