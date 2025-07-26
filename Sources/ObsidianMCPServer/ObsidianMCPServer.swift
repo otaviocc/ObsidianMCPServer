@@ -29,6 +29,7 @@ final class ObsidianMCPServer {
 
     private let repository: ObsidianRepositoryProtocol
     private let prompt: ObsidianPromptProtocol
+    private let enums: ObsidianPromptEnumsProtocol
 
     // MARK: - Life cycle
 
@@ -47,11 +48,13 @@ final class ObsidianMCPServer {
             requestFactory: requestFactory
         )
         self.prompt = ObsidianPrompt(repository: self.repository)
+        self.enums = ObsidianPromptEnums()
     }
 
     init(repository: ObsidianRepositoryProtocol) {
         self.repository = repository
         self.prompt = ObsidianPrompt(repository: repository)
+        self.enums = ObsidianPromptEnums()
     }
 
     // MARK: - MCP Tools
@@ -570,6 +573,87 @@ final class ObsidianMCPServer {
     @MCPPrompt(description: "Generate a structured outline of the currently active note")
     func generateActiveNoteOutline(style: OutlineStyle = .hierarchical) async throws -> String {
         try await prompt.generateActiveNoteOutline(style: style)
+    }
+
+    // MARK: - MCP Resources for Enum Discovery
+
+    /**
+     Lists all available enum types that are used as parameters in prompt methods.
+
+     This resource allows MCP clients to discover what enum types are available,
+     enabling better user interfaces with dropdowns, autocomplete, and documentation.
+     Each enum type can then be accessed individually through their specific URI endpoints.
+
+     - Returns: JSON string containing available enum types and their descriptions
+     */
+    @MCPResource("obsidian://enums", mimeType: "application/json")
+    func listEnumTypes() async throws -> String {
+        try await enums.listEnumTypes()
+    }
+
+    /**
+     Gets detailed information about the Language enum values.
+
+     Returns all available language options for the translateActiveNote prompt,
+     including raw values, descriptions, and specific language instructions.
+
+     - Returns: JSON string containing Language enum values and details
+     */
+    @MCPResource("obsidian://enums/language", mimeType: "application/json")
+    func getLanguageEnum() async throws -> String {
+        try await enums.getLanguageEnum()
+    }
+
+    /**
+     Gets detailed information about the WritingStyle enum values.
+
+     Returns all available writing style options for the rewriteActiveNote prompt,
+     including raw values, descriptions, and style-specific instructions.
+
+     - Returns: JSON string containing WritingStyle enum values and details
+     */
+    @MCPResource("obsidian://enums/writing-style", mimeType: "application/json")
+    func getWritingStyleEnum() async throws -> String {
+        try await enums.getWritingStyleEnum()
+    }
+
+    /**
+     Gets detailed information about the AnalysisFocus enum values.
+
+     Returns all available analysis focus options for the analyzeNote and analyzeActiveNote prompts,
+     including raw values, descriptions, and focus-specific instructions.
+
+     - Returns: JSON string containing AnalysisFocus enum values and details
+     */
+    @MCPResource("obsidian://enums/analysis-focus", mimeType: "application/json")
+    func getAnalysisFocusEnum() async throws -> String {
+        try await enums.getAnalysisFocusEnum()
+    }
+
+    /**
+     Gets detailed information about the AbstractLength enum values.
+
+     Returns all available length options for the generateActiveNoteAbstract prompt,
+     including raw values, descriptions, and length-specific instructions.
+
+     - Returns: JSON string containing AbstractLength enum values and details
+     */
+    @MCPResource("obsidian://enums/abstract-length", mimeType: "application/json")
+    func getAbstractLengthEnum() async throws -> String {
+        try await enums.getAbstractLengthEnum()
+    }
+
+    /**
+     Gets detailed information about the OutlineStyle enum values.
+
+     Returns all available style options for the generateActiveNoteOutline prompt,
+     including raw values, descriptions, and style-specific instructions.
+
+     - Returns: JSON string containing OutlineStyle enum values and details
+     */
+    @MCPResource("obsidian://enums/outline-style", mimeType: "application/json")
+    func getOutlineStyleEnum() async throws -> String {
+        try await enums.getOutlineStyleEnum()
     }
 }
 

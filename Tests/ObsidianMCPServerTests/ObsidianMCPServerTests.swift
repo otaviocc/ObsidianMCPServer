@@ -1680,4 +1680,124 @@ struct ObsidianMCPServerTests {
             "It should track calls to second mock"
         )
     }
+
+    // MARK: - MCP Resource Tests
+
+    @Test("It should return enum types list from resource")
+    func testListEnumTypesResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.listEnumTypes()
+
+        // Then
+        #expect(
+            result.contains("Language"),
+            "It should include Language enum"
+        )
+        #expect(
+            result.contains("resourceURI"),
+            "It should include resource URIs"
+        )
+        #expect(
+            result.contains("obsidian:\\/\\/enums\\/language"),
+            "It should include language resource URI"
+        )
+    }
+
+    @Test("It should return Language enum details from resource")
+    func testGetLanguageEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getLanguageEnum()
+
+        // Then
+        #expect(
+            result.contains("portuguese"),
+            "It should include portuguese language"
+        )
+        #expect(
+            result.contains("Language") && result.contains("enum"),
+            "It should identify as Language enum"
+        )
+    }
+
+    @Test("It should return WritingStyle enum details from resource")
+    func testGetWritingStyleEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getWritingStyleEnum()
+
+        // Then
+        #expect(
+            result.contains("formal"),
+            "It should include formal style"
+        )
+        #expect(
+            result.contains("WritingStyle") && result.contains("enum"),
+            "It should identify as WritingStyle enum"
+        )
+    }
+
+    @Test("It should return AnalysisFocus enum details from resource")
+    func testGetAnalysisFocusEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getAnalysisFocusEnum()
+
+        // Then
+        #expect(
+            result.contains("summary"),
+            "It should include summary focus"
+        )
+        #expect(
+            result.contains("AnalysisFocus") && result.contains("enum"),
+            "It should identify as AnalysisFocus enum"
+        )
+    }
+
+    @Test("It should return AbstractLength enum details from resource")
+    func testGetAbstractLengthEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getAbstractLengthEnum()
+
+        // Then
+        #expect(
+            result.contains("brief"),
+            "It should include brief length"
+        )
+        #expect(
+            result.contains("AbstractLength") && result.contains("enum"),
+            "It should identify as AbstractLength enum"
+        )
+    }
+
+    @Test("It should return OutlineStyle enum details from resource")
+    func testGetOutlineStyleEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getOutlineStyleEnum()
+
+        // Then
+        #expect(
+            result.contains("bullets"),
+            "It should include bullets style"
+        )
+        #expect(
+            result.contains("OutlineStyle") && result.contains("enum"),
+            "It should identify as OutlineStyle enum"
+        )
+    }
 }
