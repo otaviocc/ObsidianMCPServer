@@ -1,8 +1,9 @@
-import Testing
 import Foundation
+import ObsidianPrompt
+import ObsidianRepository
+import Testing
+
 @testable import ObsidianMCPServer
-@testable import ObsidianRepository
-@testable import ObsidianPrompt
 
 @Suite("ObsidianMCPServer Tests")
 struct ObsidianMCPServerTests {

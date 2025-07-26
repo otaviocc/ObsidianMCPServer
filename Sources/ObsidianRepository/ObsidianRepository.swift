@@ -1,6 +1,6 @@
 import Foundation
-import ObsidianNetworking
 import MicroClient
+import ObsidianNetworking
 
 public final class ObsidianRepository: ObsidianRepositoryProtocol {
 

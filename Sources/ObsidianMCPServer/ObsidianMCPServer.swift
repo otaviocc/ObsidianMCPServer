@@ -1,8 +1,8 @@
 import Foundation
-import SwiftMCP
-import ObsidianRepository
 import ObsidianNetworking
 import ObsidianPrompt
+import ObsidianRepository
+import SwiftMCP
 
 // swiftlint:disable file_length
 

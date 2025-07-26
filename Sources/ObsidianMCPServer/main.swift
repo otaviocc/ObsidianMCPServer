@@ -1,6 +1,6 @@
+import ArgumentParser
 import Foundation
 import SwiftMCP
-import ArgumentParser
 
 struct ObsidianMCPCommand: ParsableCommand {
 

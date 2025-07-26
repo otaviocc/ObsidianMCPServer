@@ -1,7 +1,7 @@
+import ObsidianRepository
 import Testing
-import Foundation
+
 @testable import ObsidianPrompt
-@testable import ObsidianRepository
 
 @Suite("ObsidianPrompt Tests")
 struct ObsidianPromptTests {

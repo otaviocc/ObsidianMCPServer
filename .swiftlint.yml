@@ -39,6 +39,7 @@ opt_in_rules:
   - redundant_nil_coalescing
   - single_test_class
   - sorted_first_last
+  - sorted_imports
   - static_operator
   - strong_iboutlet
   - switch_case_alignment
