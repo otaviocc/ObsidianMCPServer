@@ -1265,6 +1265,373 @@ struct ObsidianMCPServerTests {
         }
     }
 
+    @Test("It should translate active note to Portuguese")
+    func testTranslateActiveNoteToPortuguese() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "This is the active note content that needs translation."
+        mock.activeNoteToReturn = File(filename: "MyNote.md", content: activeContent)
+
+        // When
+        let result = try await server.translateActiveNote(language: .portuguese)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("MyNote.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("Portuguese (Português)"),
+            "It should include the Portuguese language description"
+        )
+        #expect(
+            result.contains("Use Brazilian Portuguese specifically"),
+            "It should include Brazilian Portuguese instructions"
+        )
+        #expect(
+            result.contains("Use \"tu\" for second person"),
+            "It should include the tu instruction"
+        )
+        #expect(
+            result.contains("avoid excessive gerund forms"),
+            "It should include proper verb conjugation instructions"
+        )
+        #expect(
+            result.contains("Translated Content"),
+            "It should include instructions for providing translated content"
+        )
+    }
+
+    @Test("It should translate active note to Spanish")
+    func testTranslateActiveNoteToSpanish() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "# Project Overview\n\nThis document contains [[Related Notes]] and #project-tag."
+        mock.activeNoteToReturn = File(filename: "ProjectDoc.md", content: activeContent)
+
+        // When
+        let result = try await server.translateActiveNote(language: .spanish)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ProjectDoc.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains("# Project Overview"),
+            "It should include the note content with markdown"
+        )
+        #expect(
+            result.contains("Spanish (Español)"),
+            "It should include the Spanish language description"
+        )
+        #expect(
+            result.contains("Use Latin American Spanish"),
+            "It should include Latin American Spanish instructions"
+        )
+        #expect(
+            result.contains("Preserve [[Page Name]]"),
+            "It should include instructions for preserving Obsidian links"
+        )
+        #expect(
+            result.contains("#tag-name"),
+            "It should include instructions for preserving hashtags"
+        )
+    }
+
+    @Test("It should translate active note to Japanese")
+    func testTranslateActiveNoteToJapanese() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Technical documentation with code examples and API references."
+        mock.activeNoteToReturn = File(filename: "TechDoc.md", content: activeContent)
+
+        // When
+        let result = try await server.translateActiveNote(language: .japanese)
+
+        // Then
+        #expect(
+            result.contains("Japanese (日本語)"),
+            "It should include the Japanese language description"
+        )
+        #expect(
+            result.contains("appropriate levels of politeness"),
+            "It should include Japanese politeness instructions"
+        )
+        #expect(
+            result.contains("katakana for foreign technical terms"),
+            "It should include katakana usage instructions"
+        )
+        #expect(
+            result.contains("コンピュータ"),
+            "It should include katakana examples"
+        )
+    }
+
+    @Test("It should translate active note to French")
+    func testTranslateActiveNoteToFrench() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.activeNoteToReturn = File(filename: "BusinessNote.md", content: "Business requirements document.")
+
+        // When
+        let result = try await server.translateActiveNote(language: .french)
+
+        // Then
+        #expect(
+            result.contains("French (Français)"),
+            "It should include the French language description"
+        )
+        #expect(
+            result.contains("appropriate formal/informal register"),
+            "It should include French register instructions"
+        )
+        #expect(
+            result.contains("ordinateur"),
+            "It should include French technical term examples"
+        )
+    }
+
+    @Test("It should propagate errors for translate active note")
+    func testTranslateActiveNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.translateActiveNote(language: .portuguese)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should generate active note abstract with standard length")
+    func testGenerateActiveNoteAbstractStandard() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Research findings on artificial intelligence and machine learning applications in healthcare."
+        mock.activeNoteToReturn = File(filename: "ResearchPaper.md", content: activeContent)
+
+        // When
+        let result = try await server.generateActiveNoteAbstract(length: .standard)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ResearchPaper.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("Standard abstract (1 paragraph)"),
+            "It should include the standard length description"
+        )
+        #expect(
+            result.contains("3-5 sentences or 75-150 words"),
+            "It should include standard length instructions"
+        )
+        #expect(
+            result.contains("Generated Abstract"),
+            "It should include instructions for providing generated content"
+        )
+    }
+
+    @Test("It should generate active note abstract with brief length")
+    func testGenerateActiveNoteAbstractBrief() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Quick summary of the weekly team meeting and action items."
+        mock.activeNoteToReturn = File(filename: "WeeklyMeeting.md", content: activeContent)
+
+        // When
+        let result = try await server.generateActiveNoteAbstract(length: .brief)
+
+        // Then
+        #expect(
+            result.contains("Brief summary (1-2 sentences)"),
+            "It should include the brief length description"
+        )
+        #expect(
+            result.contains("under 50 words"),
+            "It should include brief length instructions"
+        )
+        #expect(
+            result.contains("most essential point"),
+            "It should include brief-specific guidance"
+        )
+    }
+
+    @Test("It should generate active note abstract with detailed length")
+    func testGenerateActiveNoteAbstractDetailed() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Comprehensive analysis of market trends, competitive landscape, and strategic recommendations."
+        mock.activeNoteToReturn = File(filename: "MarketAnalysis.md", content: activeContent)
+
+        // When
+        let result = try await server.generateActiveNoteAbstract(length: .detailed)
+
+        // Then
+        #expect(
+            result.contains("Detailed summary (2-3 paragraphs)"),
+            "It should include the detailed length description"
+        )
+        #expect(
+            result.contains("150-300 words"),
+            "It should include detailed length instructions"
+        )
+        #expect(
+            result.contains("methodology, findings, and implications"),
+            "It should include detailed-specific guidance"
+        )
+    }
+
+    @Test("It should generate active note outline with hierarchical style")
+    func testGenerateActiveNoteOutlineHierarchical() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "# Project Overview\n\n## Phase 1\n- Research\n- Planning\n\n## Phase 2\n- Implementation\n- Testing"
+        mock.activeNoteToReturn = File(filename: "ProjectPlan.md", content: activeContent)
+
+        // When
+        let result = try await server.generateActiveNoteOutline(style: .hierarchical)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ProjectPlan.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains("Phase 1"),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("Hierarchical academic format"),
+            "It should include the hierarchical style description"
+        )
+        #expect(
+            result.contains("Roman numerals for major sections"),
+            "It should include hierarchical style instructions"
+        )
+        #expect(
+            result.contains("Generated Outline"),
+            "It should include instructions for providing generated content"
+        )
+    }
+
+    @Test("It should generate active note outline with bullets style")
+    func testGenerateActiveNoteOutlineBullets() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Meeting agenda with discussion topics and action items for team review."
+        mock.activeNoteToReturn = File(filename: "MeetingAgenda.md", content: activeContent)
+
+        // When
+        let result = try await server.generateActiveNoteOutline(style: .bullets)
+
+        // Then
+        #expect(
+            result.contains("Bullet point format"),
+            "It should include the bullets style description"
+        )
+        #expect(
+            result.contains("simple bullet points"),
+            "It should include bullets style instructions"
+        )
+        #expect(
+            result.contains("Maximum 3-4 levels"),
+            "It should include bullets-specific formatting guidance"
+        )
+    }
+
+    @Test("It should generate active note outline with numbered style")
+    func testGenerateActiveNoteOutlineNumbered() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Step-by-step procedure documentation with multiple sections and detailed instructions."
+        mock.activeNoteToReturn = File(filename: "ProcedureDoc.md", content: activeContent)
+
+        // When
+        let result = try await server.generateActiveNoteOutline(style: .numbered)
+
+        // Then
+        #expect(
+            result.contains("Numbered list format"),
+            "It should include the numbered style description"
+        )
+        #expect(
+            result.contains("numbers for main sections"),
+            "It should include numbered style instructions"
+        )
+        #expect(
+            result.contains("letters for sub-sections"),
+            "It should include numbered formatting details"
+        )
+    }
+
+    @Test("It should propagate errors for generate active note abstract")
+    func testGenerateActiveNoteAbstractError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.generateActiveNoteAbstract(length: .standard)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for generate active note outline")
+    func testGenerateActiveNoteOutlineError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.generateActiveNoteOutline(style: .hierarchical)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
     @Test("It should propagate errors for generate frontmatter")
     func testGenerateFrontmatterError() async throws {
         // Given
@@ -1311,6 +1678,126 @@ struct ObsidianMCPServerTests {
         #expect(
             mock2.getActiveNoteCallCount == 1,
             "It should track calls to second mock"
+        )
+    }
+
+    // MARK: - MCP Resource Tests
+
+    @Test("It should return enum types list from resource")
+    func testListEnumTypesResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.listEnumTypes()
+
+        // Then
+        #expect(
+            result.contains("Language"),
+            "It should include Language enum"
+        )
+        #expect(
+            result.contains("resourceURI"),
+            "It should include resource URIs"
+        )
+        #expect(
+            result.contains("obsidian:\\/\\/enums\\/language"),
+            "It should include language resource URI"
+        )
+    }
+
+    @Test("It should return Language enum details from resource")
+    func testGetLanguageEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getLanguageEnum()
+
+        // Then
+        #expect(
+            result.contains("portuguese"),
+            "It should include portuguese language"
+        )
+        #expect(
+            result.contains("Language") && result.contains("enum"),
+            "It should identify as Language enum"
+        )
+    }
+
+    @Test("It should return WritingStyle enum details from resource")
+    func testGetWritingStyleEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getWritingStyleEnum()
+
+        // Then
+        #expect(
+            result.contains("formal"),
+            "It should include formal style"
+        )
+        #expect(
+            result.contains("WritingStyle") && result.contains("enum"),
+            "It should identify as WritingStyle enum"
+        )
+    }
+
+    @Test("It should return AnalysisFocus enum details from resource")
+    func testGetAnalysisFocusEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getAnalysisFocusEnum()
+
+        // Then
+        #expect(
+            result.contains("summary"),
+            "It should include summary focus"
+        )
+        #expect(
+            result.contains("AnalysisFocus") && result.contains("enum"),
+            "It should identify as AnalysisFocus enum"
+        )
+    }
+
+    @Test("It should return AbstractLength enum details from resource")
+    func testGetAbstractLengthEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getAbstractLengthEnum()
+
+        // Then
+        #expect(
+            result.contains("brief"),
+            "It should include brief length"
+        )
+        #expect(
+            result.contains("AbstractLength") && result.contains("enum"),
+            "It should identify as AbstractLength enum"
+        )
+    }
+
+    @Test("It should return OutlineStyle enum details from resource")
+    func testGetOutlineStyleEnumResource() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.getOutlineStyleEnum()
+
+        // Then
+        #expect(
+            result.contains("bullets"),
+            "It should include bullets style"
+        )
+        #expect(
+            result.contains("OutlineStyle") && result.contains("enum"),
+            "It should identify as OutlineStyle enum"
         )
     }
 }

@@ -38,8 +38,11 @@ Perfect for AI-assisted note-taking, knowledge management, research workflows, a
 - **Frontmatter Arrays**: Append to frontmatter arrays (like tags)
 - **Active & Vault Notes**: Manage frontmatter for any note
 
-### 🎯 Intelligent Analysis
+### 🎯 Intelligent Analysis & Generation
 - **MCP Prompts**: Generate structured analysis prompts with 12 different focus types
+- **Content Generation**: Create abstracts and outlines from note content
+- **Content Transformation**: Translate notes to 12+ languages and rewrite in different styles
+- **Enum Discovery**: Auto-discover available parameters through MCP Resources
 
 ## 🔧 Prerequisites
 
@@ -211,6 +214,8 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `ServerInformation`: Object with `service` (string) and `version` (string) properties
 
 ### MCP Prompts
+
+#### Analysis & Enhancement
 - `summarizeNote(filename, focus)` - Generate structured prompts for analyzing Obsidian notes with comprehensive focus options
 - `analyzeActiveNote(focus)` - Generate structured prompts for analyzing the currently active note in Obsidian
 - `generateFollowUpQuestions(filename, questionCount)` - Generate thought-provoking follow-up questions based on note content
@@ -218,7 +223,60 @@ For any MCP-compatible tool, use the same configuration pattern:
 - `generateFrontmatter(filename)` - Generate complete frontmatter structure based on note content
 - `suggestActiveNoteTags(maxTags)` - Suggest tags for the currently active note in Obsidian
 - `extractMetadata(filename)` - Extract key metadata from note content for frontmatter usage
+
+#### Content Generation
+- `generateActiveNoteAbstract(length: AbstractLength)` - Generate abstracts/summaries of the currently active note with customizable length
+- `generateActiveNoteOutline(style: OutlineStyle)` - Create structured outlines of the currently active note with different formatting styles
+
+#### Content Transformation
 - `rewriteActiveNote(style: WritingStyle)` - Rewrite the active note in different writing styles
+- `translateActiveNote(language: Language)` - Translate the currently active note to different languages with proper localization
+
+### MCP Resources (Enum Discovery)
+
+The server provides MCP Resources for discovering available enum parameters, enabling better user interfaces and autocomplete functionality in MCP clients:
+
+- `obsidian://enums` - List all available enum types with descriptions and resource URIs
+- `obsidian://enums/language` - Get all Language enum values with translation instructions for 12+ languages
+- `obsidian://enums/writing-style` - Get all WritingStyle enum values with style descriptions and instructions
+- `obsidian://enums/analysis-focus` - Get all AnalysisFocus enum values with focus type descriptions
+- `obsidian://enums/abstract-length` - Get all AbstractLength enum values with length guidelines
+- `obsidian://enums/outline-style` - Get all OutlineStyle enum values with formatting instructions
+
+**Benefits**:
+- **Auto-discovery**: MCP clients can automatically discover valid parameter values
+- **Better UX**: Enables dropdowns, autocomplete, and validation in AI tools
+- **Documentation**: Each enum value includes descriptions and usage instructions
+- **Consistency**: Always up-to-date with the latest available options
+
+**Setup**: No additional configuration required - MCP Resources work automatically with any MCP-compatible client that supports the resources specification.
+
+### Enum Parameters
+
+#### Abstract Length Options (AbstractLength)
+- `brief` - Concise summary in 1-2 sentences (under 50 words)
+- `standard` - Standard abstract in 1 paragraph (75-150 words)
+- `detailed` - Comprehensive summary in 2-3 paragraphs (150-300 words)
+
+#### Outline Style Options (OutlineStyle)
+- `bullets` - Simple bullet point format with clean indentation
+- `numbered` - Numbered list format (1, 2, 3... with a, b, c... subsections)
+- `hierarchical` - Formal academic outline format (I, A, 1, a...)
+
+#### Translation Languages (Language)
+Supports 12 languages with proper localization instructions:
+- `portuguese` - Brazilian Portuguese with "tu" form and proper verb conjugation
+- `spanish` - Latin American Spanish with appropriate formality levels
+- `french` - Standard French with proper punctuation and spacing
+- `german` - Standard German with proper capitalization and compound words
+- `italian` - Standard Italian with appropriate formality levels
+- `japanese` - Japanese with proper keigo (politeness levels) and katakana for technical terms
+- `korean` - Korean with proper honorifics and particles
+- `chinese` - Simplified Chinese with proper punctuation and formatting
+- `russian` - Russian Cyrillic with proper case system and grammar
+- `arabic` - Modern Standard Arabic with RTL considerations
+- `hindi` - Hindi in Devanagari script with proper grammar
+- `dutch` - Standard Dutch with proper grammar and word order
 
 ### Writing Styles
 
@@ -258,6 +316,15 @@ The `rewriteActiveNote` prompt supports 10 different writing styles:
 
 **Metadata Extraction Prompt Parameters**:
 - `filename` (required): The filename or path of the note to analyze
+
+**Content Translation Prompt Parameters**:
+- `language` (required): The target language for translation (Language enum)
+
+**Abstract Generation Prompt Parameters**:
+- `length` (optional): The desired length of the abstract (AbstractLength enum, default: `.standard`)
+
+**Outline Generation Prompt Parameters**:
+- `style` (optional): The formatting style for the outline (OutlineStyle enum, default: `.hierarchical`)
 
 **Available Focus Types** (AnalysisFocus `enum`):
 - `.general`: Comprehensive analysis including summary, themes, and actionable insights
@@ -337,6 +404,26 @@ The `rewriteActiveNote` prompt supports 10 different writing styles:
 → Uses rewriteActiveNote(style: .conversational) to make technical content more approachable
 → Returns: Natural, engaging version while preserving technical accuracy
 
+"Translate my active note to Portuguese"
+→ Uses translateActiveNote(language: .portuguese) to translate content to Brazilian Portuguese
+→ Returns: Complete translation with proper "tu" form, Brazilian vocabulary, and localized technical terms
+
+"Generate a brief abstract of my active research note"
+→ Uses generateActiveNoteAbstract(length: .brief) for a 1-2 sentence summary
+→ Returns: Concise abstract perfect for quick reference or sharing
+
+"Create a detailed summary of my meeting notes"
+→ Uses generateActiveNoteAbstract(length: .detailed) for comprehensive 2-3 paragraph summary
+→ Returns: Thorough abstract with context, key points, and implications
+
+"Generate a numbered outline of my active note"
+→ Uses generateActiveNoteOutline(style: .numbered) for structured numbered format
+→ Returns: Professional numbered outline (1, 2, 3... with a, b, c... subsections)
+
+"Create a bullet point outline of my project plan"
+→ Uses generateActiveNoteOutline(style: .bullets) for clean bullet format
+→ Returns: Simple, readable bullet point structure with proper indentation
+
 "Check grammar and style in my research draft"
 → Uses summarizeNote() with focus=.grammar for writing improvements
 
@@ -408,6 +495,27 @@ The `rewriteActiveNote` prompt supports 10 different writing styles:
 4. "Rewrite my draft in academic style for publication submission"
 5. "Make my complex technical guide more conversational and approachable"
 6. "Transform my informal brainstorming notes into professional business proposals"
+
+# Translation Workflows:
+1. "Translate my research paper to Spanish for international collaboration"
+2. "Convert my English notes to Portuguese for Brazilian team members"
+3. "Translate technical documentation to Japanese with proper keigo formality"
+4. "Create German version of project specifications with proper technical terminology"
+
+# Content Generation:
+1. "Generate brief abstracts for all my research papers for quick reference"
+2. "Create detailed summaries of my meeting notes for comprehensive documentation"
+3. "Generate standard abstracts of my project plans for stakeholder updates"
+4. "Create hierarchical outlines of my complex research for academic presentation"
+5. "Generate numbered outlines of my procedures for step-by-step documentation"
+6. "Create bullet point outlines of my brainstorming sessions for easy review"
+
+# Enum Discovery & Better UX:
+1. MCP clients can auto-discover all available languages for translation
+2. AI tools can provide dropdowns for writing styles instead of guessing
+3. Interface builders can offer validated outline style options
+4. Applications can show descriptions and usage instructions for each parameter
+5. Users get consistent, up-to-date parameter options across all MCP clients
 ```
 
 ## 🏗️ Development
@@ -421,10 +529,18 @@ ObsidianMCPServer/
 │   │   ├── Models/                           # ThreadSafeBox utility
 │   │   ├── ObsidianMCPServer.swift           # MCP server implementation with @MCPTool and @MCPPrompt methods
 │   │   └── main.swift                        # Command-line entry point
+│   ├── ObsidianModels/                       # Foundation models (no dependencies)
+│   │   ├── AnalysisFocus.swift               # Analysis focus enum with descriptions and instructions
+│   │   ├── Language.swift                    # Translation language enum with localization instructions
+│   │   ├── WritingStyle.swift                # Writing style enum with style descriptions
+│   │   ├── AbstractLength.swift              # Abstract length enum with length guidelines
+│   │   └── OutlineStyle.swift                # Outline style enum with formatting instructions
 │   ├── ObsidianPrompt/                       # Prompt business logic layer
-│   │   ├── Models/                           # AnalysisFocus enum and prompt models
 │   │   ├── ObsidianPrompt.swift              # Prompt generation implementation
-│   │   └── ObsidianPromptProtocol.swift      # Prompt protocols
+│   │   └── ObsidianPromptProtocol.swift      # Modular prompt protocols (Analysis, Enhancement, Generation, Transformation)
+│   ├── ObsidianResource/                     # MCP Resource enum discovery layer
+│   │   ├── ObsidianResource.swift            # Enum discovery implementation for MCP Resources
+│   │   └── ObsidianResourceProtocol.swift    # Enum discovery protocol for auto-discovery
 │   ├── ObsidianRepository/                   # Data access layer
 │   │   ├── Models/                           # Domain models (File, SearchResult, ServerInformation)
 │   │   ├── ObsidianRepository.swift          # Repository implementation
@@ -432,13 +548,35 @@ ObsidianMCPServer/
 │   └── ObsidianNetworking/                   # HTTP client and API models
 │       ├── Factories/                        # Request and client factories
 │       └── Models/                           # Network response models
-├── Tests/                                    # Comprehensive test suite
-│   ├── ObsidianMCPServerTests/               # MCP server tests
+├── Tests/                                    # Comprehensive test suite (190+ tests)
+│   ├── ObsidianMCPServerTests/               # MCP server tests (including MCP Resource tests)
+│   ├── ObsidianModelsTests/                  # Model validation tests for all enum types
 │   ├── ObsidianPromptTests/                  # Prompt generation tests
+│   ├── ObsidianResourceTests/                # Enum discovery and MCP Resource tests
 │   ├── ObsidianRepositoryTests/              # Repository layer tests
 │   └── ObsidianNetworkingTests/              # Network layer tests
 └── Package.swift                             # Swift Package Manager configuration
 ```
+
+### Module Architecture
+
+The project follows a clean layered architecture with 6 modules:
+
+**Dependency Hierarchy:**
+```
+ObsidianModels (foundation, no dependencies)
+     ↓
+ObsidianNetworking → ObsidianRepository → ObsidianPrompt → ObsidianMCPServer
+                                             ↓
+                                      ObsidianResource
+```
+
+**Benefits:**
+- **ObsidianModels**: Foundation enums can be reused across modules
+- **Clean Dependencies**: No circular dependencies, clear separation of concerns
+- **Modular Design**: Each module has a single responsibility
+- **Better Testing**: Dedicated test suites for models, business logic, and resource discovery
+- **Improved Maintainability**: Easier to modify individual components
 
 ### Key Dependencies
 
@@ -471,17 +609,19 @@ swift run ObsidianMCPServer
 
 ### Testing
 
-The project includes comprehensive tests:
+The project includes comprehensive tests with **190+ test cases** covering all functionality:
 
 ```bash
 # Run all tests
 swift test
 
 # Run specific test targets
-swift test --filter ObsidianMCPServerTests
-swift test --filter ObsidianPromptTests
-swift test --filter ObsidianRepositoryTests
-swift test --filter ObsidianNetworkingTests
+swift test --filter ObsidianMCPServerTests         # MCP server and resource tests
+swift test --filter ObsidianModelsTests            # Enum model validation tests
+swift test --filter ObsidianPromptTests            # Prompt generation tests
+swift test --filter ObsidianResourceTests          # Enum discovery and MCP Resource tests
+swift test --filter ObsidianRepositoryTests        # Repository layer tests
+swift test --filter ObsidianNetworkingTests        # Network layer tests
 
 # Generate test coverage
 swift test --enable-code-coverage

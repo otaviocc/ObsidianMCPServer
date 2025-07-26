@@ -1,4 +1,5 @@
 import Foundation
+import ObsidianModels
 import ObsidianRepository
 
 // swiftlint:disable type_body_length file_length
@@ -50,9 +51,11 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let instructions = focus.instructions
 
         let prompt = """
-        Analyze the currently active Obsidian note and provide insights based on the requested focus.
+        Analyze the provided note content and provide insights based on the requested focus.
 
-        **Active Note:** \(activeNote.filename)
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File:** \(activeNote.filename)
         **Analysis Type:** \(focus.description)
 
         **Instructions:**
@@ -103,6 +106,108 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         return prompt
     }
     // swiftlint:enable line_length
+
+    public func generateActiveNoteAbstract(length: AbstractLength = .standard) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Generate Abstract: \(length.description)
+
+        Create an abstract/summary of the provided note content using the specified length guidelines.
+
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File**: \(activeNote.filename)
+        **Abstract Length**: \(length.description)
+
+        **Length Guidelines**:
+        \(length.instructions)
+
+        **Note Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Abstract Generation Instructions**:
+        1. **Capture Core Message**: Identify and highlight the main purpose and key findings
+        2. **Maintain Accuracy**: Ensure all facts and conclusions are preserved correctly
+        3. **Use Clear Language**: Write in clear, professional language appropriate for the target length
+        4. **Preserve Context**: Include necessary background information within length constraints
+        5. **Logical Flow**: Structure the abstract with logical progression of ideas
+        6. **Action-Oriented**: Include actionable insights or conclusions where applicable
+
+        **Content Focus Areas**:
+        - Main arguments or thesis
+        - Key findings or discoveries
+        - Important methodologies or approaches
+        - Significant conclusions or recommendations
+        - Critical data points or evidence
+
+        **Output Requirements**:
+        - Adhere strictly to the specified length guidelines
+        - Use complete, well-formed sentences
+        - Maintain professional tone and clarity
+        - Be self-contained and understandable without the original note
+        - Focus on value and utility for the reader
+
+        **Generated Abstract**:
+        """
+
+        return prompt
+    }
+
+    public func generateActiveNoteOutline(style: OutlineStyle = .hierarchical) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Generate Outline: \(style.description)
+
+        Create a structured outline of the provided note content using the specified style format.
+
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File**: \(activeNote.filename)
+        **Outline Style**: \(style.description)
+
+        **Style Guidelines**:
+        \(style.instructions)
+
+        **Note Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Outline Generation Instructions**:
+        1. **Identify Structure**: Analyze the content to extract main topics and subtopics
+        2. **Logical Hierarchy**: Organize information in a clear, logical hierarchy
+        3. **Consistent Formatting**: Apply the specified style consistently throughout
+        4. **Comprehensive Coverage**: Include all significant points and themes
+        5. **Actionable Organization**: Create structure useful for reorganization or presentation
+        6. **Clear Relationships**: Show relationships between different sections and ideas
+
+        **Content Analysis Areas**:
+        - Main themes and topics
+        - Supporting arguments and evidence
+        - Sequential processes or procedures
+        - Categorized information
+        - Key concepts and definitions
+        - Conclusions and recommendations
+
+        **Output Requirements**:
+        - Follow the specified outline style exactly
+        - CRITICAL: Use exactly 4 spaces (NOT tabs) for each indentation level
+        - Level 1: No indentation, Level 2: 4 spaces, Level 3: 8 spaces, Level 4: 12 spaces
+        - Include all major content areas
+        - Maintain logical flow and progression
+        - Be suitable for presentation or reorganization purposes
+        - Ensure each level adds meaningful structure
+        - Apply consistent spacing throughout the entire outline
+
+        **Generated Outline**:
+        """
+
+        return prompt
+    }
 
     // swiftlint:disable line_length
     public func suggestTags(
@@ -233,9 +338,11 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
         let activeNote = try await repository.getActiveNote()
 
         let prompt = """
-        Analyze the currently active Obsidian note and suggest \(maxTags) relevant tags for frontmatter organization.
+        Analyze the provided note content and suggest \(maxTags) relevant tags for frontmatter organization.
 
-        **Active Note:** \(activeNote.filename)
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File:** \(activeNote.filename)
 
         **Note Content:**
         \(activeNote.content)
@@ -364,21 +471,22 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
     }
     // swiftlint:enable line_length function_body_length
 
-    // swiftlint:disable line_length
     public func rewriteActiveNote(style: WritingStyle) async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
         let prompt = """
-        # Rewrite Active Note: \(style.description)
+        # Rewrite Note Content: \(style.description)
 
-        You are an expert writer and editor. Please rewrite the following note content using the specified writing style.
+        You are an expert writer and editor. Please rewrite the provided note content using the specified writing style.
+
+        (Note: Content from the currently active note in Obsidian is included below)
 
         **Writing Style**: \(style.description)
 
         **Style Guidelines**:
         \(style.instructions)
 
-        **Original Note**: \(activeNote.filename)
+        **Original Note File**: \(activeNote.filename)
         **Content**:
         ```
         \(activeNote.content)
@@ -403,7 +511,82 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         return prompt
     }
-    // swiftlint:enable line_length
+
+    // swiftlint:disable function_body_length line_length
+    public func translateActiveNote(language: Language) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Translate Note Content: \(language.description)
+
+        You are an expert translator. Please translate the provided note content to \(language.description) while preserving all formatting and structure.
+
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Target Language**: \(language.description)
+        **Original Note File**: \(activeNote.filename)
+
+        **Translation Guidelines**:
+        \(language.instructions)
+
+        **Original Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Translation Instructions**:
+        1. **Preserve Obsidian Formatting**: Keep [[links]], #tags, and markdown intact
+        2. **Frontmatter Handling**: Translate content fields, preserve metadata keys and structure
+        3. **Code Blocks**: Leave code unchanged, translate only comments within code
+        4. **Technical Terms**: Maintain widely-used technical terms in original language when appropriate
+        5. **Links and References**: Preserve [[Page Name]] links as-is for vault consistency
+        6. **Natural Translation**: Ensure fluent, natural language in the target language
+
+        **What to Translate**:
+        - All body text and headings
+        - Frontmatter content values (not the keys themselves)
+        - Comments within code blocks
+        - Alt text in images and captions
+        - List items and table content
+
+        **What NOT to Translate**:
+        - Obsidian internal links: [[Page Name]]
+        - Hashtags: #tag-name (keep as-is)
+        - Code content itself (only translate comments)
+        - Frontmatter field names (title:, tags:, etc.)
+        - URLs and file paths
+        - Mathematical expressions and formulas
+
+        **Frontmatter Example**:
+        ```
+        Original:
+        ---
+        title: "My Project Notes"
+        tags: ["project", "planning"]
+        status: "in-progress"
+        ---
+
+        Translated (for Portuguese):
+        ---
+        title: "Minhas Notas do Projeto"
+        tags: ["project", "planning"]
+        status: "in-progress"
+        ---
+        ```
+
+        **Output Requirements**:
+        - Provide the complete translated content
+        - Maintain exact formatting and structure
+        - Preserve all Obsidian-specific syntax
+        - Ensure natural, fluent translation in the target language
+        - Keep technical accuracy and context
+
+        **Translated Content**:
+        """
+
+        return prompt
+    }
+    // swiftlint:enable function_body_length line_length
 }
 
 // swiftlint:enable type_body_length file_length

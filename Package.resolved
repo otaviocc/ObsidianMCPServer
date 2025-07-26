@@ -1,5 +1,5 @@
 {
-  "originHash" : "37921803947141e1c0aa523e0e10dd111ce8a078196613b623ca49a8431cd1eb",
+  "originHash" : "847057fedd23adef26dd9906562c9b0c4e063c02ddc70e5cc38a9d420526e635",
   "pins" : [
     {
       "identity" : "anycodable",
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-collections.git",
       "state" : {
-        "revision" : "c1805596154bb3a265fd91b8ac0c4433b4348fb0",
-        "version" : "1.2.0"
+        "revision" : "8c0c0a8b49e080e54e5e328cc552821ff07cd341",
+        "version" : "1.2.1"
       }
     },
     {
@@ -78,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "3d8596ed08bd13520157f0355e35caed215ffbfa",
-        "version" : "1.6.3"
+        "revision" : "ce592ae52f982c847a4efc0dd881cc9eb32d29f2",
+        "version" : "1.6.4"
       }
     },
     {
@@ -105,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-system.git",
       "state" : {
-        "revision" : "61e4ca4b81b9e09e2ec863b00c340eb13497dac6",
-        "version" : "1.5.0"
+        "revision" : "41daa93a5d229e1548ec86ab527ce4783ca84dda",
+        "version" : "1.6.0"
       }
     },
     {
