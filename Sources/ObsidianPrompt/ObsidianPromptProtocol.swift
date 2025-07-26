@@ -2,7 +2,7 @@ import Foundation
 
 public protocol ObsidianPromptProtocol {
 
-    /// Generate a prompt to analyze and summarize an Obsidian note with various focus types.
+    /// Generate a prompt to analyze an Obsidian note with various focus types.
     ///
     /// This method provides a structured template for analyzing Obsidian note content,
     /// making it easy for LLMs to provide consistent and useful analysis based on specific needs.
@@ -12,7 +12,7 @@ public protocol ObsidianPromptProtocol {
     ///   - focus: The type of analysis to perform (default: .general)
     /// - Returns: A formatted prompt for note analysis
     /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
-    func summarizeNote(
+    func analyzeNote(
         filename: String,
         focus: AnalysisFocus
     ) async throws -> String

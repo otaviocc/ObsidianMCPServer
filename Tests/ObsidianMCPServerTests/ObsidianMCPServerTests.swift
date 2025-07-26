@@ -1,8 +1,9 @@
-import Testing
 import Foundation
+import ObsidianPrompt
+import ObsidianRepository
+import Testing
+
 @testable import ObsidianMCPServer
-@testable import ObsidianRepository
-@testable import ObsidianPrompt
 
 @Suite("ObsidianMCPServer Tests")
 struct ObsidianMCPServerTests {
@@ -721,8 +722,8 @@ struct ObsidianMCPServerTests {
 
     // MARK: - MCP Prompt Tests
 
-    @Test("It should summarize note with general focus")
-    func testSummarizeNote() async throws {
+    @Test("It should analyze note with general focus")
+    func testAnalyzeNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "research-notes.md"
@@ -730,7 +731,7 @@ struct ObsidianMCPServerTests {
         mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
 
         // When
-        let result = try await server.summarizeNote(filename: testFilename, focus: .general)
+        let result = try await server.analyzeNote(filename: testFilename, focus: .general)
 
         // Then
         #expect(
@@ -755,8 +756,8 @@ struct ObsidianMCPServerTests {
         )
     }
 
-    @Test("It should summarize note with action items focus")
-    func testSummarizeNoteWithActionItemsFocus() async throws {
+    @Test("It should analyze note with action items focus")
+    func testAnalyzeNoteWithActionItemsFocus() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "project-tasks.md"
@@ -764,7 +765,7 @@ struct ObsidianMCPServerTests {
         mock.vaultNoteToReturn = File(filename: testFilename, content: testContent)
 
         // When
-        let result = try await server.summarizeNote(filename: testFilename, focus: .actionItems)
+        let result = try await server.analyzeNote(filename: testFilename, focus: .actionItems)
 
         // Then
         #expect(
@@ -777,15 +778,15 @@ struct ObsidianMCPServerTests {
         )
     }
 
-    @Test("It should summarize note with tone focus")
-    func testSummarizeNoteWithToneFocus() async throws {
+    @Test("It should analyze note with tone focus")
+    func testAnalyzeNoteWithToneFocus() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "journal-entry.md"
         mock.vaultNoteToReturn = File(filename: testFilename, content: "I'm excited about this project!")
 
         // When
-        let result = try await server.summarizeNote(filename: testFilename, focus: .tone)
+        let result = try await server.analyzeNote(filename: testFilename, focus: .tone)
 
         // Then
         #expect(
@@ -1130,15 +1131,15 @@ struct ObsidianMCPServerTests {
         )
     }
 
-    @Test("It should propagate errors for summarize note")
-    func testSummarizeNoteError() async throws {
+    @Test("It should propagate errors for analyze note")
+    func testAnalyzeNoteError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
         do {
-            _ = try await server.summarizeNote(filename: "test.md", focus: .general)
+            _ = try await server.analyzeNote(filename: "test.md", focus: .general)
             #expect(Bool(false), "It should throw an error")
         } catch {
             #expect(

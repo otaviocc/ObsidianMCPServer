@@ -1,6 +1,7 @@
-import Testing
 import Foundation
 import MicroClient
+import Testing
+
 @testable import ObsidianNetworking
 
 @Suite("ObsidianAPIFactory Tests")
