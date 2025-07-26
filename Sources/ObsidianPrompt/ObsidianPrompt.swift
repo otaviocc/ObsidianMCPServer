@@ -470,7 +470,6 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
     }
     // swiftlint:enable line_length function_body_length
 
-    // swiftlint:disable line_length
     public func rewriteActiveNote(style: WritingStyle) async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
@@ -511,7 +510,6 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         return prompt
     }
-    // swiftlint:enable line_length
 
     // swiftlint:disable function_body_length line_length
     public func translateActiveNote(language: Language) async throws -> String {

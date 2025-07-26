@@ -573,7 +573,7 @@ struct ObsidianPromptTests {
             "It should call getActiveNote once"
         )
         #expect(
-            result.contains("Rewrite Active Note"),
+            result.contains("Rewrite Note Content"),
             "It should include the rewrite prompt title"
         )
 
@@ -618,7 +618,7 @@ struct ObsidianPromptTests {
             "It should call getActiveNote once"
         )
         #expect(
-            result.contains("Rewrite Active Note"),
+            result.contains("Rewrite Note Content"),
             "It should include the rewrite prompt title"
         )
 
@@ -653,7 +653,7 @@ struct ObsidianPromptTests {
             "It should call getActiveNote once"
         )
         #expect(
-            result.contains("Rewrite Active Note"),
+            result.contains("Rewrite Note Content"),
             "It should include the rewrite prompt title"
         )
 
@@ -716,7 +716,7 @@ struct ObsidianPromptTests {
             "It should call getActiveNote once"
         )
         #expect(
-            result.contains("Translate Active Note"),
+            result.contains("Translate Note Content"),
             "It should include the translation prompt title"
         )
         #expect(
@@ -765,7 +765,7 @@ struct ObsidianPromptTests {
             "It should call getActiveNote once"
         )
         #expect(
-            result.contains("Translate Active Note"),
+            result.contains("Translate Note Content"),
             "It should include the translation prompt title"
         )
         #expect(
