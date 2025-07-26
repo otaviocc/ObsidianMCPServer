@@ -1265,6 +1265,163 @@ struct ObsidianMCPServerTests {
         }
     }
 
+    @Test("It should translate active note to Portuguese")
+    func testTranslateActiveNoteToPortuguese() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "This is the active note content that needs translation."
+        mock.activeNoteToReturn = File(filename: "MyNote.md", content: activeContent)
+
+        // When
+        let result = try await server.translateActiveNote(language: .portuguese)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("MyNote.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("Portuguese (Português)"),
+            "It should include the Portuguese language description"
+        )
+        #expect(
+            result.contains("Use Brazilian Portuguese specifically"),
+            "It should include Brazilian Portuguese instructions"
+        )
+        #expect(
+            result.contains("Use \"tu\" for second person"),
+            "It should include the tu instruction"
+        )
+        #expect(
+            result.contains("avoid excessive gerund forms"),
+            "It should include proper verb conjugation instructions"
+        )
+        #expect(
+            result.contains("Translated Content"),
+            "It should include instructions for providing translated content"
+        )
+    }
+
+    @Test("It should translate active note to Spanish")
+    func testTranslateActiveNoteToSpanish() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "# Project Overview\n\nThis document contains [[Related Notes]] and #project-tag."
+        mock.activeNoteToReturn = File(filename: "ProjectDoc.md", content: activeContent)
+
+        // When
+        let result = try await server.translateActiveNote(language: .spanish)
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ProjectDoc.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains("# Project Overview"),
+            "It should include the note content with markdown"
+        )
+        #expect(
+            result.contains("Spanish (Español)"),
+            "It should include the Spanish language description"
+        )
+        #expect(
+            result.contains("Use Latin American Spanish"),
+            "It should include Latin American Spanish instructions"
+        )
+        #expect(
+            result.contains("Preserve [[Page Name]]"),
+            "It should include instructions for preserving Obsidian links"
+        )
+        #expect(
+            result.contains("#tag-name"),
+            "It should include instructions for preserving hashtags"
+        )
+    }
+
+    @Test("It should translate active note to Japanese")
+    func testTranslateActiveNoteToJapanese() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "Technical documentation with code examples and API references."
+        mock.activeNoteToReturn = File(filename: "TechDoc.md", content: activeContent)
+
+        // When
+        let result = try await server.translateActiveNote(language: .japanese)
+
+        // Then
+        #expect(
+            result.contains("Japanese (日本語)"),
+            "It should include the Japanese language description"
+        )
+        #expect(
+            result.contains("appropriate levels of politeness"),
+            "It should include Japanese politeness instructions"
+        )
+        #expect(
+            result.contains("katakana for foreign technical terms"),
+            "It should include katakana usage instructions"
+        )
+        #expect(
+            result.contains("コンピュータ"),
+            "It should include katakana examples"
+        )
+    }
+
+    @Test("It should translate active note to French")
+    func testTranslateActiveNoteToFrench() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.activeNoteToReturn = File(filename: "BusinessNote.md", content: "Business requirements document.")
+
+        // When
+        let result = try await server.translateActiveNote(language: .french)
+
+        // Then
+        #expect(
+            result.contains("French (Français)"),
+            "It should include the French language description"
+        )
+        #expect(
+            result.contains("appropriate formal/informal register"),
+            "It should include French register instructions"
+        )
+        #expect(
+            result.contains("ordinateur"),
+            "It should include French technical term examples"
+        )
+    }
+
+    @Test("It should propagate errors for translate active note")
+    func testTranslateActiveNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.translateActiveNote(language: .portuguese)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+        }
+    }
+
     @Test("It should propagate errors for generate frontmatter")
     func testGenerateFrontmatterError() async throws {
         // Given

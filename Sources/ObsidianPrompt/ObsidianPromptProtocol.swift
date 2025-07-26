@@ -119,4 +119,14 @@ public protocol ObsidianPromptTransformationOperations {
     /// - Returns: A formatted prompt for rewriting the active note.
     /// - Throws: An error if no note is active or the note cannot be retrieved.
     func rewriteActiveNote(style: WritingStyle) async throws -> String
+
+    /// Translate the currently active note in Obsidian to a specified language.
+    ///
+    /// This method translates the note currently open in Obsidian while preserving
+    /// Obsidian-specific formatting, structure, and appropriate metadata.
+    ///
+    /// - Parameter language: The target language for translation
+    /// - Returns: A formatted prompt for translating the active note
+    /// - Throws: An error if no note is active or the note cannot be retrieved
+    func translateActiveNote(language: Language) async throws -> String
 }

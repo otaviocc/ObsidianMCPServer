@@ -522,6 +522,23 @@ final class ObsidianMCPServer {
     func rewriteActiveNote(style: WritingStyle) async throws -> String {
         try await prompt.rewriteActiveNote(style: style)
     }
+
+    /**
+     Translate the currently active note to a specified language.
+
+     This prompt allows the user to translate the note currently open in Obsidian
+     into different languages while preserving Obsidian-specific formatting,
+     structure, and maintaining appropriate technical terminology. The translation
+     is designed to be natural and fluent while keeping the original note's
+     organizational structure intact.
+
+     - Parameter language: The target language for translation
+     - Returns: A formatted prompt to translate the active note to the specified language
+     */
+    @MCPPrompt(description: "Translate the currently active note to a specified language")
+    func translateActiveNote(language: Language) async throws -> String {
+        try await prompt.translateActiveNote(language: language)
+    }
 }
 
 // swiftlint:enable file_length

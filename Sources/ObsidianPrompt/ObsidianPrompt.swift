@@ -403,6 +403,79 @@ public final class ObsidianPrompt: ObsidianPromptProtocol {
 
         return prompt
     }
+
+    // swiftlint:disable line_length
+    public func translateActiveNote(language: Language) async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        # Translate Active Note: \(language.description)
+
+        You are an expert translator. Please translate the following Obsidian note content to \(language.description) while preserving all formatting and structure.
+
+        **Target Language**: \(language.description)
+        **Original Note**: \(activeNote.filename)
+
+        **Translation Guidelines**:
+        \(language.instructions)
+
+        **Original Content**:
+        ```
+        \(activeNote.content)
+        ```
+
+        **Translation Instructions**:
+        1. **Preserve Obsidian Formatting**: Keep [[links]], #tags, and markdown intact
+        2. **Frontmatter Handling**: Translate content fields, preserve metadata keys and structure
+        3. **Code Blocks**: Leave code unchanged, translate only comments within code
+        4. **Technical Terms**: Maintain widely-used technical terms in original language when appropriate
+        5. **Links and References**: Preserve [[Page Name]] links as-is for vault consistency
+        6. **Natural Translation**: Ensure fluent, natural language in the target language
+
+        **What to Translate**:
+        - All body text and headings
+        - Frontmatter content values (not the keys themselves)
+        - Comments within code blocks
+        - Alt text in images and captions
+        - List items and table content
+
+        **What NOT to Translate**:
+        - Obsidian internal links: [[Page Name]]
+        - Hashtags: #tag-name (keep as-is)
+        - Code content itself (only translate comments)
+        - Frontmatter field names (title:, tags:, etc.)
+        - URLs and file paths
+        - Mathematical expressions and formulas
+
+        **Frontmatter Example**:
+        ```
+        Original:
+        ---
+        title: "My Project Notes"
+        tags: ["project", "planning"]
+        status: "in-progress"
+        ---
+
+        Translated (for Portuguese):
+        ---
+        title: "Minhas Notas do Projeto"
+        tags: ["project", "planning"]
+        status: "in-progress"
+        ---
+        ```
+
+        **Output Requirements**:
+        - Provide the complete translated content
+        - Maintain exact formatting and structure
+        - Preserve all Obsidian-specific syntax
+        - Ensure natural, fluent translation in the target language
+        - Keep technical accuracy and context
+
+        **Translated Content**:
+        """
+
+        return prompt
+    }
     // swiftlint:enable line_length
 }
 
