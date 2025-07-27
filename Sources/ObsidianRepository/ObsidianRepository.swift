@@ -44,13 +44,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
     public func updateActiveNote(content: String) async throws {
         let request = requestFactory.makeUpdateActiveFileRequest(content: content)
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func deleteActiveNote() async throws {
         let request = requestFactory.makeDeleteActiveFileRequest()
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setActiveNoteFrontmatterStringField(
@@ -63,7 +63,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setActiveNoteFrontmatterArrayField(
@@ -76,7 +76,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToActiveNoteFrontmatterStringField(
@@ -89,7 +89,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToActiveNoteFrontmatterArrayField(
@@ -102,7 +102,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     // MARK: - Note Operations
@@ -120,7 +120,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             content: file.content
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToVaultNote(file: File) async throws {
@@ -129,13 +129,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             content: file.content
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func deleteVaultNote(filename: String) async throws {
         let request = requestFactory.makeDeleteVaultFileRequest(filename: filename)
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setVaultNoteFrontmatterStringField(
@@ -150,7 +150,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setVaultNoteFrontmatterArrayField(
@@ -165,7 +165,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToVaultNoteFrontmatterStringField(
@@ -180,7 +180,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToVaultNoteFrontmatterArrayField(
@@ -195,7 +195,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     // MARK: - Directory Operations
@@ -268,20 +268,5 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
         let directoryPath = directory.hasSuffix("/") ? directory : "\(directory)/"
         return "\(directoryPath)\(filename)"
-    }
-
-    private func validateResponse<T>(
-        _ response: NetworkResponse<T>
-    ) throws(RepositoryError) {
-        guard let httpResponse = response.response as? HTTPURLResponse else {
-            throw .invalidResponse
-        }
-
-        let statusCode = httpResponse.statusCode
-
-        guard 200..<300 ~= statusCode else {
-            let message = HTTPURLResponse.localizedString(forStatusCode: statusCode)
-            throw .operationFailed(statusCode: statusCode, message: message)
-        }
     }
 }
