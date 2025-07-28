@@ -1,0 +1,38 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "swift",
+			"args": [
+				"build",
+				"--build-tests"
+			],
+			"env": {},
+			"cwd": "${workspaceFolder}",
+			"disableTaskQueue": true,
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "Swift: Build All",
+			"detail": "swift build --build-tests"
+		},
+		{
+			"type": "swift",
+			"args": [
+				"test"
+			],
+			"env": {},
+			"cwd": "${workspaceFolder}",
+			"disableTaskQueue": true,
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "Swift: Test All",
+			"detail": "swift test"
+		}
+	]
+}
