@@ -18,8 +18,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         self.client = client
         self.requestFactory = requestFactory
     }
+}
 
-    // MARK: - Server Operations
+// MARK: - ObsidianRepositoryServerOperations
+
+extension ObsidianRepository: ObsidianRepositoryServerOperations {
 
     public func getServerInfo() async throws -> ServerInformation {
         let request = requestFactory.makeServerInfoRequest()
@@ -31,8 +34,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             version: serverInfo.versions.`self`
         )
     }
+}
 
-    // MARK: - Active Note Operations
+// MARK: - ObsidianRepositoryActiveNoteOperations
+
+extension ObsidianRepository: ObsidianRepositoryActiveNoteOperations {
 
     public func getActiveNote() async throws -> File {
         let request = requestFactory.makeGetActiveFileRequest()
@@ -44,13 +50,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
     public func updateActiveNote(content: String) async throws {
         let request = requestFactory.makeUpdateActiveFileRequest(content: content)
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func deleteActiveNote() async throws {
         let request = requestFactory.makeDeleteActiveFileRequest()
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setActiveNoteFrontmatterStringField(
@@ -63,7 +69,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setActiveNoteFrontmatterArrayField(
@@ -76,7 +82,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToActiveNoteFrontmatterStringField(
@@ -89,7 +95,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToActiveNoteFrontmatterArrayField(
@@ -102,10 +108,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
+}
 
-    // MARK: - Note Operations
+// MARK: - ObsidianRepositoryVaultNoteOperations
+
+extension ObsidianRepository: ObsidianRepositoryVaultNoteOperations {
 
     public func getVaultNote(filename: String) async throws -> File {
         let request = requestFactory.makeGetVaultFileRequest(filename: filename)
@@ -120,7 +129,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             content: file.content
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToVaultNote(file: File) async throws {
@@ -129,13 +138,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             content: file.content
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func deleteVaultNote(filename: String) async throws {
         let request = requestFactory.makeDeleteVaultFileRequest(filename: filename)
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setVaultNoteFrontmatterStringField(
@@ -150,7 +159,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func setVaultNoteFrontmatterArrayField(
@@ -165,7 +174,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToVaultNoteFrontmatterStringField(
@@ -180,7 +189,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
 
     public func appendToVaultNoteFrontmatterArrayField(
@@ -195,10 +204,13 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             key: key
         )
         let response = try await client.run(request)
-        try validateResponse(response)
+        try response.validate()
     }
+}
 
-    // MARK: - Directory Operations
+// MARK: - ObsidianRepositoryVaultOperations
+
+extension ObsidianRepository: ObsidianRepositoryVaultOperations {
 
     public func listVaultDirectory(directory: String = "") async throws -> [String] {
         try await listVaultDirectoryRecursive(directory: directory, currentDepth: 0, maxDepth: 2)
@@ -216,7 +228,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         var allFiles: [String] = []
 
         for file in files {
-            let filePath = buildFilePath(directory: directory, filename: file)
+            let filePath = directory.appendingPathComponent(file)
 
             if file.hasSuffix("/") {
                 allFiles.append(filePath)
@@ -239,8 +251,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
         return allFiles
     }
+}
 
-    // MARK: - Search Operations
+// MARK: - ObsidianRepositorySearchOperations
+
+extension ObsidianRepository: ObsidianRepositorySearchOperations {
 
     public func searchVault(
         query: String
@@ -253,35 +268,6 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
         return searchResponse.map { response in
             .init(path: response.filename, score: response.score)
-        }
-    }
-
-    // MARK: - Private
-
-    private func buildFilePath(
-        directory: String,
-        filename: String
-    ) -> String {
-        if directory.isEmpty {
-            return filename
-        }
-
-        let directoryPath = directory.hasSuffix("/") ? directory : "\(directory)/"
-        return "\(directoryPath)\(filename)"
-    }
-
-    private func validateResponse<T>(
-        _ response: NetworkResponse<T>
-    ) throws(RepositoryError) {
-        guard let httpResponse = response.response as? HTTPURLResponse else {
-            throw .invalidResponse
-        }
-
-        let statusCode = httpResponse.statusCode
-
-        guard 200..<300 ~= statusCode else {
-            let message = HTTPURLResponse.localizedString(forStatusCode: statusCode)
-            throw .operationFailed(statusCode: statusCode, message: message)
         }
     }
 }

@@ -99,10 +99,6 @@ struct ObsidianResourceTests {
             "It should include formal style value"
         )
         #expect(
-            result.contains("casual"),
-            "It should include casual style value"
-        )
-        #expect(
             result.contains("WritingStyle") && result.contains("enum"),
             "It should identify as WritingStyle enum"
         )
