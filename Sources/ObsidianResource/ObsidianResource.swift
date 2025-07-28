@@ -57,8 +57,7 @@ public final class ObsidianResource: ObsidianResourceProtocol {
             .map { language in
                 [
                     "value": language.rawValue,
-                    "description": language.description,
-                    "instructions": language.instructions
+                    "description": language.description
                 ]
             }
 
@@ -77,8 +76,7 @@ public final class ObsidianResource: ObsidianResourceProtocol {
             .map { style in
                 [
                     "value": style.rawValue,
-                    "description": style.description,
-                    "instructions": style.instructions
+                    "description": style.description
                 ]
             }
 
@@ -97,8 +95,7 @@ public final class ObsidianResource: ObsidianResourceProtocol {
             .map { focus in
                 [
                     "value": focus.rawValue,
-                    "description": focus.description,
-                    "instructions": focus.instructions
+                    "description": focus.description
                 ]
             }
 
@@ -117,8 +114,7 @@ public final class ObsidianResource: ObsidianResourceProtocol {
             .map { length in
                 [
                     "value": length.rawValue,
-                    "description": length.description,
-                    "instructions": length.instructions
+                    "description": length.description
                 ]
             }
 
@@ -137,8 +133,7 @@ public final class ObsidianResource: ObsidianResourceProtocol {
             .map { style in
                 [
                     "value": style.rawValue,
-                    "description": style.description,
-                    "instructions": style.instructions
+                    "description": style.description
                 ]
             }
 
