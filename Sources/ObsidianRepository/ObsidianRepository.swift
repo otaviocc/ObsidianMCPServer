@@ -18,8 +18,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         self.client = client
         self.requestFactory = requestFactory
     }
+}
 
-    // MARK: - Server Operations
+// MARK: - ObsidianRepositoryServerOperations
+
+extension ObsidianRepository: ObsidianRepositoryServerOperations {
 
     public func getServerInfo() async throws -> ServerInformation {
         let request = requestFactory.makeServerInfoRequest()
@@ -31,8 +34,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
             version: serverInfo.versions.`self`
         )
     }
+}
 
-    // MARK: - Active Note Operations
+// MARK: - ObsidianRepositoryActiveNoteOperations
+
+extension ObsidianRepository: ObsidianRepositoryActiveNoteOperations {
 
     public func getActiveNote() async throws -> File {
         let request = requestFactory.makeGetActiveFileRequest()
@@ -104,8 +110,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         let response = try await client.run(request)
         try response.validate()
     }
+}
 
-    // MARK: - Note Operations
+// MARK: - ObsidianRepositoryVaultNoteOperations
+
+extension ObsidianRepository: ObsidianRepositoryVaultNoteOperations {
 
     public func getVaultNote(filename: String) async throws -> File {
         let request = requestFactory.makeGetVaultFileRequest(filename: filename)
@@ -197,8 +206,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         let response = try await client.run(request)
         try response.validate()
     }
+}
 
-    // MARK: - Directory Operations
+// MARK: - ObsidianRepositoryVaultOperations
+
+extension ObsidianRepository: ObsidianRepositoryVaultOperations {
 
     public func listVaultDirectory(directory: String = "") async throws -> [String] {
         try await listVaultDirectoryRecursive(directory: directory, currentDepth: 0, maxDepth: 2)
@@ -216,7 +228,7 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         var allFiles: [String] = []
 
         for file in files {
-            let filePath = buildFilePath(directory: directory, filename: file)
+            let filePath = directory.appendingPathComponent(file)
 
             if file.hasSuffix("/") {
                 allFiles.append(filePath)
@@ -239,8 +251,11 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
         return allFiles
     }
+}
 
-    // MARK: - Search Operations
+// MARK: - ObsidianRepositorySearchOperations
+
+extension ObsidianRepository: ObsidianRepositorySearchOperations {
 
     public func searchVault(
         query: String
@@ -254,19 +269,5 @@ public final class ObsidianRepository: ObsidianRepositoryProtocol {
         return searchResponse.map { response in
             .init(path: response.filename, score: response.score)
         }
-    }
-
-    // MARK: - Private
-
-    private func buildFilePath(
-        directory: String,
-        filename: String
-    ) -> String {
-        if directory.isEmpty {
-            return filename
-        }
-
-        let directoryPath = directory.hasSuffix("/") ? directory : "\(directory)/"
-        return "\(directoryPath)\(filename)"
     }
 }
