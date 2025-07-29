@@ -7,7 +7,7 @@ import Testing
 struct AnalysisFocusTests {
 
     @Test("It should have all AnalysisFocus cases with descriptions")
-    func testAnalysisFocusCases() {
+    func analysisFocusCases() {
         #expect(
             AnalysisFocus.general.description == "Comprehensive analysis including summary, themes, and actionable insights",
             "It should have correct description for general analysis focus"

@@ -6,7 +6,7 @@ import Testing
 struct ObsidianRepositorySearchOperationsTests {
 
     @Test("It should search vault and return mapped SearchResults")
-    func testSearchVault() async throws {
+    func searchVault() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

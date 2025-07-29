@@ -16,7 +16,7 @@ struct ObsidianPromptEnhancementOperationsTests {
     }
 
     @Test("It should suggest tags with default count")
-    func testSuggestTagsWithDefaultCount() async throws {
+    func suggestTagsWithDefaultCount() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "tech-article.md"
@@ -61,7 +61,7 @@ struct ObsidianPromptEnhancementOperationsTests {
     }
 
     @Test("It should suggest tags with custom count")
-    func testSuggestTagsWithCustomCount() async throws {
+    func suggestTagsWithCustomCount() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "meeting-notes.md"
@@ -86,7 +86,7 @@ struct ObsidianPromptEnhancementOperationsTests {
     }
 
     @Test("It should generate complete frontmatter structure")
-    func testGenerateFrontmatter() async throws {
+    func generateFrontmatter() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "project-proposal.md"
@@ -135,7 +135,7 @@ struct ObsidianPromptEnhancementOperationsTests {
     }
 
     @Test("It should suggest active note tags with default count")
-    func testSuggestActiveNoteTagsWithDefaultCount() async throws {
+    func suggestActiveNoteTagsWithDefaultCount() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -175,7 +175,7 @@ struct ObsidianPromptEnhancementOperationsTests {
     }
 
     @Test("It should suggest active note tags with custom count")
-    func testSuggestActiveNoteTagsWithCustomCount() async throws {
+    func suggestActiveNoteTagsWithCustomCount() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(

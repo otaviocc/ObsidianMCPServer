@@ -16,7 +16,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should analyze note with general focus")
-    func testAnalyzeNoteWithGeneralFocus() async throws {
+    func analyzeNoteWithGeneralFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "test-note.md"
@@ -53,7 +53,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should analyze note with action items focus")
-    func testAnalyzeNoteWithActionItemsFocus() async throws {
+    func analyzeNoteWithActionItemsFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "tasks.md"
@@ -81,7 +81,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should analyze note with tone focus")
-    func testAnalyzeNoteWithToneFocus() async throws {
+    func analyzeNoteWithToneFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "journal.md"
@@ -109,7 +109,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should propagate repository errors")
-    func testAnalyzeNoteWithRepositoryError() async {
+    func analyzeNoteWithRepositoryError() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "non-existent.md"
@@ -132,7 +132,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should analyze active note with general focus")
-    func testAnalyzeActiveNoteWithGeneralFocus() async throws {
+    func analyzeActiveNoteWithGeneralFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -168,7 +168,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should analyze active note with action items focus")
-    func testAnalyzeActiveNoteWithActionItemsFocus() async throws {
+    func analyzeActiveNoteWithActionItemsFocus() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -196,7 +196,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should propagate active note repository errors")
-    func testAnalyzeActiveNoteWithRepositoryError() async {
+    func analyzeActiveNoteWithRepositoryError() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError
@@ -218,7 +218,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should extract metadata from note content")
-    func testExtractMetadata() async throws {
+    func extractMetadata() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "meeting-minutes.md"
@@ -267,7 +267,7 @@ struct ObsidianPromptAnalysisOperationsTests {
     }
 
     @Test("It should propagate errors for extract metadata")
-    func testExtractMetadataWithRepositoryError() async {
+    func extractMetadataWithRepositoryError() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "missing-file.md"

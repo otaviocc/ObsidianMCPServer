@@ -11,7 +11,7 @@ struct ObsidianRequestFactoryTests {
     // MARK: - Server Info Tests
 
     @Test("It should create server info request")
-    func testMakeServerInfoRequest() {
+    func makeServerInfoRequest() {
         // When
         let request = factory.makeServerInfoRequest()
 
@@ -29,7 +29,7 @@ struct ObsidianRequestFactoryTests {
     // MARK: - Active File Tests
 
     @Test("It should create get active file request")
-    func testMakeGetActiveFileRequest() {
+    func makeGetActiveFileRequest() {
         // When
         let request = factory.makeGetActiveFileRequest()
 
@@ -49,7 +49,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create get active file JSON request")
-    func testMakeGetActiveFileJsonRequest() {
+    func makeGetActiveFileJsonRequest() {
         // When
         let request = factory.makeGetActiveFileJsonRequest()
 
@@ -69,7 +69,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create update active file request")
-    func testMakeUpdateActiveFileRequest() {
+    func makeUpdateActiveFileRequest() {
         // Given
         let content = "# Updated Note Content\nThis is the new content."
 
@@ -92,7 +92,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create delete active file request")
-    func testMakeDeleteActiveFileRequest() {
+    func makeDeleteActiveFileRequest() {
         // When
         let request = factory.makeDeleteActiveFileRequest()
 
@@ -108,7 +108,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create set active frontmatter request with replace operation")
-    func testMakeSetActiveFrontmatterRequestReplace() {
+    func makeSetActiveFrontmatterRequestReplace() {
         // Given
         let content = "important"
         let operation = "replace"
@@ -144,7 +144,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create set active frontmatter request with append operation")
-    func testMakeSetActiveFrontmatterRequestAppend() {
+    func makeSetActiveFrontmatterRequestAppend() {
         // Given
         let content = "project"
         let operation = "append"
@@ -172,7 +172,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create set active frontmatter request with special characters")
-    func testMakeSetActiveFrontmatterRequestWithSpecialCharacters() {
+    func makeSetActiveFrontmatterRequestWithSpecialCharacters() {
         // Given
         let content = "test value"
         let operation = "replace"
@@ -198,7 +198,7 @@ struct ObsidianRequestFactoryTests {
     // MARK: - Vault File Tests
 
     @Test("It should create get vault file request")
-    func testMakeGetVaultFileRequest() {
+    func makeGetVaultFileRequest() {
         // Given
         let filename = "notes/project.md"
 
@@ -221,7 +221,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create or update vault file request")
-    func testMakeCreateOrUpdateVaultFileRequest() {
+    func makeCreateOrUpdateVaultFileRequest() {
         // Given
         let filename = "new-note.md"
         let content = "# New Note\n\nThis is a new note."
@@ -248,7 +248,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create append to vault file request")
-    func testMakeAppendToVaultFileRequest() {
+    func makeAppendToVaultFileRequest() {
         // Given
         let filename = "existing-note.md"
         let content = "\n\n## Additional Section\n\nAppended content."
@@ -275,7 +275,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create delete vault file request")
-    func testMakeDeleteVaultFileRequest() {
+    func makeDeleteVaultFileRequest() {
         // Given
         let filename = "old/deprecated.md"
 
@@ -294,7 +294,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should handle empty filename for vault operations")
-    func testMakeGetVaultFileRequestEmptyFilename() {
+    func makeGetVaultFileRequestEmptyFilename() {
         // Given
         let filename = ""
 
@@ -309,7 +309,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should handle special characters in vault filename")
-    func testMakeGetVaultFileRequestSpecialCharacters() {
+    func makeGetVaultFileRequestSpecialCharacters() {
         // Given
         let filename = "folder with spaces/file & name.md"
 
@@ -324,7 +324,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create set vault frontmatter request")
-    func testMakeSetVaultFrontmatterRequest() {
+    func makeSetVaultFrontmatterRequest() {
         // Given
         let filename = "note.md"
         let content = "completed"
@@ -362,7 +362,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create append vault frontmatter request")
-    func testMakeAppendVaultFrontmatterRequest() {
+    func makeAppendVaultFrontmatterRequest() {
         // Given
         let filename = "research.md"
         let content = "literature-review"
@@ -387,7 +387,7 @@ struct ObsidianRequestFactoryTests {
     // MARK: - Directory Listing Tests
 
     @Test("It should create list vault directory request for root")
-    func testMakeListVaultDirectoryRequestRoot() {
+    func makeListVaultDirectoryRequestRoot() {
         // Given
         let directory = ""
 
@@ -406,7 +406,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create list vault directory request for subdirectory")
-    func testMakeListVaultDirectoryRequestSubdirectory() {
+    func makeListVaultDirectoryRequestSubdirectory() {
         // Given
         let directory = "projects/obsidian"
 
@@ -427,7 +427,7 @@ struct ObsidianRequestFactoryTests {
     // MARK: - Search Tests
 
     @Test("It should create search vault request")
-    func testMakeSearchVaultRequest() {
+    func makeSearchVaultRequest() {
         // Given
         let query = "test query"
 
@@ -460,7 +460,7 @@ struct ObsidianRequestFactoryTests {
     }
 
     @Test("It should create search vault request with special characters")
-    func testMakeSearchVaultRequestSpecialCharacters() {
+    func makeSearchVaultRequestSpecialCharacters() {
         // Given
         let query = "regex.*pattern & test"
 
@@ -479,7 +479,7 @@ struct ObsidianRequestFactoryTests {
     // MARK: - URL Encoding Tests
 
     @Test("It should URL encode frontmatter target key")
-    func testURLEncodeFrontmatterTarget() {
+    func urlEncodeFrontmatterTarget() {
         // Given
         let key = "field with spaces & symbols!"
 

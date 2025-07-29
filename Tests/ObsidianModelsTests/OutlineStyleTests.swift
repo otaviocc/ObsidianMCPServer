@@ -7,7 +7,7 @@ import Testing
 struct OutlineStyleTests {
 
     @Test("It should have all OutlineStyle cases with descriptions")
-    func testOutlineStyleCases() {
+    func outlineStyleCases() {
         #expect(
             OutlineStyle.bullets.description == "Bullet point format",
             "It should have correct description for bullets outline style"

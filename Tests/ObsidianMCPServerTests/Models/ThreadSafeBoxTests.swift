@@ -9,7 +9,7 @@ struct ThreadSafeBoxTests {
     // MARK: - Initialization Tests
 
     @Test("It should initialize with value")
-    func testInitialization() {
+    func initialization() {
         // Given/When
         let box = ThreadSafeBox(42)
         // Then
@@ -29,7 +29,7 @@ struct ThreadSafeBoxTests {
     // MARK: - Value Access Tests
 
     @Test("It should get value")
-    func testValueGetter() {
+    func valueGetter() {
         // Given
         let box = ThreadSafeBox(100)
 
@@ -41,7 +41,7 @@ struct ThreadSafeBoxTests {
     }
 
     @Test("It should set value")
-    func testSetValue() {
+    func setValue() {
         // Given
         let box = ThreadSafeBox(0)
 
@@ -61,7 +61,7 @@ struct ThreadSafeBoxTests {
     // MARK: - Modify Tests
 
     @Test("It should modify with return value")
-    func testModifyWithReturn() {
+    func modifyWithReturn() {
         // Given
         let box = ThreadSafeBox(10)
 
@@ -77,7 +77,7 @@ struct ThreadSafeBoxTests {
     }
 
     @Test("It should modify without return value")
-    func testModifyWithoutReturn() {
+    func modifyWithoutReturn() {
         // Given
         let box = ThreadSafeBox([1, 2, 3])
 
@@ -92,7 +92,7 @@ struct ThreadSafeBoxTests {
     }
 
     @Test("It should modify with complex transformation")
-    func testComplexModify() {
+    func complexModify() {
         struct Counter {
             var count: Int
             var name: String
@@ -119,7 +119,7 @@ struct ThreadSafeBoxTests {
     // MARK: - WithValue Tests
 
     @Test("It should access value with withValue")
-    func testWithValue() {
+    func withValue() {
         // Given
         let box = ThreadSafeBox("Hello World")
 
@@ -138,7 +138,7 @@ struct ThreadSafeBoxTests {
     }
 
     @Test("It should perform withValue with complex operations")
-    func testWithValueComplexOperations() {
+    func withValueComplexOperations() {
         // Given
         let box = ThreadSafeBox([1, 2, 3, 4, 5])
 
@@ -163,7 +163,7 @@ struct ThreadSafeBoxTests {
     // MARK: - Swap Tests
 
     @Test("It should swap values")
-    func testSwap() {
+    func swap() {
         // Given
         let box = ThreadSafeBox(100)
 
@@ -176,7 +176,7 @@ struct ThreadSafeBoxTests {
     }
 
     @Test("It should swap with different types")
-    func testSwapWithDifferentTypes() {
+    func swapWithDifferentTypes() {
         // Given
         let stringBox = ThreadSafeBox("original")
 

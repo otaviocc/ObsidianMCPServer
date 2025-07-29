@@ -6,7 +6,7 @@ import Testing
 struct ObsidianRepositoryServerOperationsTests {
 
     @Test("It should get server info and return mapped ServerInformation")
-    func testGetServerInfo() async throws {
+    func getServerInfo() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

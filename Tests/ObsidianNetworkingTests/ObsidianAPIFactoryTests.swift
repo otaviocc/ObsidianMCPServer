@@ -14,7 +14,7 @@ struct ObsidianAPIFactoryTests {
     // MARK: - Client Creation Tests
 
     @Test("It should create a NetworkClient that conforms to NetworkClientProtocol")
-    func testMakeObsidianAPIClientReturnsCorrectType() {
+    func makeObsidianAPIClientReturnsCorrectType() {
         // Given
         let tokenProvider: () -> String? = { self.testToken }
 
@@ -32,7 +32,7 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should create different client instances for each call")
-    func testMakeObsidianAPIClientCreatesNewInstances() {
+    func makeObsidianAPIClientCreatesNewInstances() {
         // Given
         let tokenProvider: () -> String? = { self.testToken }
 
@@ -61,7 +61,7 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should handle different base URLs")
-    func testMakeObsidianAPIClientWithDifferentBaseURLs() throws {
+    func makeObsidianAPIClientWithDifferentBaseURLs() throws {
         let httpsURL = try #require(URL(string: "https://secure.obsidian.test"))
         let httpURL = try #require(URL(string: "http://local.obsidian.test:8080"))
         let tokenProvider: () -> String? = { self.testToken }
@@ -82,7 +82,7 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should handle base URLs with paths and query parameters")
-    func testMakeObsidianAPIClientWithComplexBaseURL() throws {
+    func makeObsidianAPIClientWithComplexBaseURL() throws {
         // Given
         let complexURL = try #require(URL(string: "https://api.obsidian.test/v1/vault?version=2"))
         let tokenProvider: () -> String? = { self.testToken }
@@ -103,7 +103,7 @@ struct ObsidianAPIFactoryTests {
     // MARK: - Token Provider Tests
 
     @Test("It should accept token provider that returns a valid token")
-    func testMakeObsidianAPIClientWithValidTokenProvider() {
+    func makeObsidianAPIClientWithValidTokenProvider() {
         // Given
         let tokenProvider: () -> String? = { "valid-token-123" }
 
@@ -121,7 +121,7 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should accept token provider that returns nil")
-    func testMakeObsidianAPIClientWithNilTokenProvider() {
+    func makeObsidianAPIClientWithNilTokenProvider() {
         // Given
         let tokenProvider: () -> String? = { nil }
 
@@ -139,7 +139,7 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should accept token provider that returns empty string")
-    func testMakeObsidianAPIClientWithEmptyTokenProvider() {
+    func makeObsidianAPIClientWithEmptyTokenProvider() {
         // Given
         let tokenProvider: () -> String? = { "" }
 
@@ -157,7 +157,7 @@ struct ObsidianAPIFactoryTests {
     }
 
     @Test("It should handle dynamic token changes")
-    func testMakeObsidianAPIClientWithDynamicTokenProvider() {
+    func makeObsidianAPIClientWithDynamicTokenProvider() {
         // Given
         var currentToken: String? = "initial-token"
         let tokenProvider: () -> String? = { currentToken }

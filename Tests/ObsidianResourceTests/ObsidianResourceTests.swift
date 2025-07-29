@@ -16,7 +16,7 @@ struct ObsidianResourceTests {
     // MARK: - Tests
 
     @Test("It should list all enum types with resource URIs")
-    func testListEnumTypes() async throws {
+    func listEnumTypes() async throws {
         // Given
         let resource = makeResource()
 
@@ -59,7 +59,7 @@ struct ObsidianResourceTests {
     }
 
     @Test("It should return Language enum details")
-    func testGetLanguageEnum() async throws {
+    func getLanguageEnum() async throws {
         // Given
         let resource = makeResource()
 
@@ -86,7 +86,7 @@ struct ObsidianResourceTests {
     }
 
     @Test("It should return WritingStyle enum details")
-    func testGetWritingStyleEnum() async throws {
+    func getWritingStyleEnum() async throws {
         // Given
         let resource = makeResource()
 
@@ -109,7 +109,7 @@ struct ObsidianResourceTests {
     }
 
     @Test("It should return AnalysisFocus enum details")
-    func testGetAnalysisFocusEnum() async throws {
+    func getAnalysisFocusEnum() async throws {
         // Given
         let resource = makeResource()
 
@@ -136,7 +136,7 @@ struct ObsidianResourceTests {
     }
 
     @Test("It should return AbstractLength enum details")
-    func testGetAbstractLengthEnum() async throws {
+    func getAbstractLengthEnum() async throws {
         // Given
         let resource = makeResource()
 
@@ -167,7 +167,7 @@ struct ObsidianResourceTests {
     }
 
     @Test("It should return OutlineStyle enum details")
-    func testGetOutlineStyleEnum() async throws {
+    func getOutlineStyleEnum() async throws {
         // Given
         let resource = makeResource()
 

@@ -6,7 +6,7 @@ import Testing
 struct SearchResultTests {
 
     @Test("It should create SearchResult model correctly")
-    func testSearchResultModel() throws {
+    func searchResultModel() throws {
         // Given/When
         let searchResult = SearchResult(path: "notes/test.md", score: 0.85)
 
@@ -22,7 +22,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle zero search score")
-    func testZeroSearchScore() throws {
+    func zeroSearchScore() throws {
         // Given/When
         let searchResult = SearchResult(path: "low-relevance.md", score: 0.0)
 
@@ -38,7 +38,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle maximum search score")
-    func testMaxSearchScore() throws {
+    func maxSearchScore() throws {
         // Given/When
         let searchResult = SearchResult(path: "perfect-match.md", score: 1.0)
 
@@ -54,7 +54,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle negative search score")
-    func testNegativeSearchScore() throws {
+    func negativeSearchScore() throws {
         // Given/When
         let searchResult = SearchResult(path: "negative.md", score: -0.5)
 
@@ -70,7 +70,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle very high search score")
-    func testVeryHighSearchScore() throws {
+    func veryHighSearchScore() throws {
         // Given/When
         let searchResult = SearchResult(path: "high.md", score: 999.99)
 
@@ -86,7 +86,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle search path with directories")
-    func testSearchPathWithDirectories() throws {
+    func searchPathWithDirectories() throws {
         // Given/When
         let searchResult = SearchResult(path: "deep/nested/folders/note.md", score: 0.75)
 

@@ -6,7 +6,7 @@ import Testing
 struct FileTests {
 
     @Test("It should create File model correctly")
-    func testFileModel() throws {
+    func fileModel() throws {
         // Given/When
         let file = File(filename: "test-note.md", content: "# Test\nContent")
 
@@ -22,7 +22,7 @@ struct FileTests {
     }
 
     @Test("It should handle empty filename")
-    func testEmptyFileName() throws {
+    func emptyFileName() throws {
         // Given/When
         let file = File(filename: "", content: "Content")
 
@@ -38,7 +38,7 @@ struct FileTests {
     }
 
     @Test("It should handle empty content")
-    func testEmptyContent() throws {
+    func emptyContent() throws {
         // Given/When
         let file = File(filename: "empty.md", content: "")
 
@@ -54,7 +54,7 @@ struct FileTests {
     }
 
     @Test("It should handle special characters in filename")
-    func testSpecialCharactersInFilename() throws {
+    func specialCharactersInFilename() throws {
         // Given/When
         let file = File(filename: "file with spaces & symbols!.md", content: "Content")
 
@@ -70,7 +70,7 @@ struct FileTests {
     }
 
     @Test("It should handle Unicode content")
-    func testUnicodeContent() throws {
+    func unicodeContent() throws {
         // Given/When
         let file = File(
             filename: "unicode.md",
@@ -89,7 +89,7 @@ struct FileTests {
     }
 
     @Test("It should handle very long content")
-    func testLongContent() throws {
+    func longContent() throws {
         // Given
         let longContent = String(repeating: "A", count: 10000)
 
@@ -108,7 +108,7 @@ struct FileTests {
     }
 
     @Test("It should handle file with only whitespace content")
-    func testWhitespaceContent() throws {
+    func whitespaceContent() throws {
         // Given/When
         let file = File(filename: "whitespace.md", content: "   \n\t\r  ")
 
@@ -124,7 +124,7 @@ struct FileTests {
     }
 
     @Test("It should handle filename with path separators")
-    func testFilenameWithPaths() throws {
+    func filenameWithPaths() throws {
         // Given/When
         let file = File(filename: "folder/subfolder/note.md", content: "Content")
 

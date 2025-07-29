@@ -159,7 +159,7 @@ struct ObsidianPromptTransformationOperationsTests {
     }
 
     @Test("It should translate active note to Portuguese")
-    func testTranslateActiveNoteToPortuguese() async throws {
+    func translateActiveNoteToPortuguese() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -208,7 +208,7 @@ struct ObsidianPromptTransformationOperationsTests {
     }
 
     @Test("It should translate active note to Spanish")
-    func testTranslateActiveNoteToSpanish() async throws {
+    func translateActiveNoteToSpanish() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -257,7 +257,7 @@ struct ObsidianPromptTransformationOperationsTests {
     }
 
     @Test("It should translate active note to Japanese")
-    func testTranslateActiveNoteToJapanese() async throws {
+    func translateActiveNoteToJapanese() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -290,7 +290,7 @@ struct ObsidianPromptTransformationOperationsTests {
     }
 
     @Test("It should propagate errors for translate active note")
-    func testPropagateErrorsForTranslateActiveNote() async throws {
+    func propagateErrorsForTranslateActiveNote() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError

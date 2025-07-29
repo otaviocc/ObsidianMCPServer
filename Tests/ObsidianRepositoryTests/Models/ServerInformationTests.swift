@@ -6,7 +6,7 @@ import Testing
 struct ServerInformationTests {
 
     @Test("It should create ServerInformation model correctly")
-    func testServerInformationModel() throws {
+    func serverInformationModel() throws {
         // Given/When
         let serverInfo = ServerInformation(service: "obsidian-api", version: "1.0.0")
 
@@ -22,7 +22,7 @@ struct ServerInformationTests {
     }
 
     @Test("It should handle empty service name")
-    func testEmptyServiceName() throws {
+    func emptyServiceName() throws {
         // Given/When
         let serverInfo = ServerInformation(service: "", version: "1.0.0")
 
@@ -38,7 +38,7 @@ struct ServerInformationTests {
     }
 
     @Test("It should handle empty version")
-    func testEmptyVersion() throws {
+    func emptyVersion() throws {
         // Given/When
         let serverInfo = ServerInformation(service: "obsidian-api", version: "")
 

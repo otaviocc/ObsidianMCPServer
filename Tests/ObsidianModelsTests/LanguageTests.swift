@@ -7,7 +7,7 @@ import Testing
 struct LanguageTests {
 
     @Test("It should have all Language cases with descriptions")
-    func testLanguageCases() {
+    func languageCases() {
         #expect(
             Language.portuguese.description == "Portuguese (Português)",
             "It should have correct description for Portuguese language"

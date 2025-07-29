@@ -6,7 +6,7 @@ import Testing
 struct RepositoryErrorTests {
 
     @Test("It should provide correct error description for operation failed")
-    func testRepositoryErrorOperationFailed() throws {
+    func repositoryErrorOperationFailed() throws {
         // Given
         let statusCode = 404
         let message = "Not Found"
@@ -22,7 +22,7 @@ struct RepositoryErrorTests {
     }
 
     @Test("It should provide correct error description for operation failed with different status code")
-    func testRepositoryErrorOperationFailedDifferentStatusCode() throws {
+    func repositoryErrorOperationFailedDifferentStatusCode() throws {
         // Given
         let statusCode = 500
         let message = "Internal Server Error"
@@ -38,7 +38,7 @@ struct RepositoryErrorTests {
     }
 
     @Test("It should provide correct error description for invalid response")
-    func testRepositoryErrorInvalidResponse() throws {
+    func repositoryErrorInvalidResponse() throws {
         // Given/When
         let error = RepositoryError.invalidResponse
 
