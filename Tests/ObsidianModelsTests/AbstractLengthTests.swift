@@ -7,7 +7,7 @@ import Testing
 struct AbstractLengthTests {
 
     @Test("It should have all AbstractLength cases with descriptions")
-    func testAbstractLengthCases() {
+    func abstractLengthCases() {
         #expect(
             AbstractLength.brief.description == "Brief summary (1-2 sentences)",
             "It should have correct description for brief abstract length"

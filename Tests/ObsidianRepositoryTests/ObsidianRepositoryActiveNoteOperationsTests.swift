@@ -6,7 +6,7 @@ import Testing
 struct ObsidianRepositoryActiveNoteOperationsTests {
 
     @Test("It should get active note and return mapped File")
-    func testGetActiveNote() async throws {
+    func getActiveNote() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -43,7 +43,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should update active note")
-    func testUpdateActiveNote() async throws {
+    func updateActiveNote() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -69,7 +69,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should delete active note")
-    func testDeleteActiveNote() async throws {
+    func deleteActiveNote() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -95,7 +95,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should set active note frontmatter field")
-    func testSetActiveNoteFrontmatterStringField() async throws {
+    func setActiveNoteFrontmatterStringField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -121,7 +121,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should append to active note frontmatter field")
-    func testAppendToActiveNoteFrontmatterStringField() async throws {
+    func appendToActiveNoteFrontmatterStringField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -147,7 +147,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should set active note frontmatter array field")
-    func testSetActiveNoteFrontmatterArrayField() async throws {
+    func setActiveNoteFrontmatterArrayField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -173,7 +173,7 @@ struct ObsidianRepositoryActiveNoteOperationsTests {
     }
 
     @Test("It should append to active note frontmatter array field")
-    func testAppendToActiveNoteFrontmatterArrayField() async throws {
+    func appendToActiveNoteFrontmatterArrayField() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

@@ -6,7 +6,7 @@ import Testing
 struct ObsidianRepositoryVaultOperationsTests {
 
     @Test("It should list vault directory and return file paths")
-    func testListVaultDirectory() async throws {
+    func listVaultDirectory() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

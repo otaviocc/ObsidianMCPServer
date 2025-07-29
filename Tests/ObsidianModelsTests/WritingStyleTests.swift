@@ -7,7 +7,7 @@ import Testing
 struct WritingStyleTests {
 
     @Test("It should have all WritingStyle cases with descriptions")
-    func testWritingStyleCases() {
+    func writingStyleCases() {
         #expect(
             WritingStyle.formal.description == "Formal and professional tone",
             "It should have correct description for formal writing style"

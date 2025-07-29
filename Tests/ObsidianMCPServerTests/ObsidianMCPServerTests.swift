@@ -19,7 +19,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Server Information Tests
 
     @Test("It should get server information")
-    func testGetServerInfo() async throws {
+    func getServerInfo() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
 
@@ -42,7 +42,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should handle server info errors")
-    func testGetServerInfoError() async throws {
+    func getServerInfoError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -66,7 +66,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Active Note Tests
 
     @Test("It should get active note")
-    func testGetActiveNote() async throws {
+    func getActiveNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
 
@@ -89,7 +89,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should update active note")
-    func testUpdateActiveNote() async throws {
+    func updateActiveNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testContent = "# Updated Content\n\nThis is new content."
@@ -113,7 +113,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should handle update active note errors")
-    func testUpdateActiveNoteError() async throws {
+    func updateActiveNoteError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.shouldThrowErrorOnUpdateActiveNote = true
@@ -135,7 +135,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should delete active note")
-    func testDeleteActiveNote() async throws {
+    func deleteActiveNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
 
@@ -156,7 +156,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Vault Note Tests
 
     @Test("It should get vault note")
-    func testGetNote() async throws {
+    func getNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "test-note.md"
@@ -184,7 +184,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should create or update note")
-    func testCreateOrUpdateNote() async throws {
+    func createOrUpdateNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "new-note.md"
@@ -213,7 +213,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should append to note")
-    func testAppendToNote() async throws {
+    func appendToNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "existing-note.md"
@@ -242,7 +242,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should delete vault note")
-    func testDeleteNote() async throws {
+    func deleteNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "note-to-delete.md"
@@ -268,7 +268,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Vault Operations Tests
 
     @Test("It should list directory with default path")
-    func testListDirectoryDefault() async throws {
+    func listDirectoryDefault() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
 
@@ -299,7 +299,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should list directory with specific path")
-    func testListDirectoryWithPath() async throws {
+    func listDirectoryWithPath() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testDirectory = "subfolder"
@@ -325,7 +325,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Frontmatter Tests
 
     @Test("It should set active note frontmatter")
-    func testSetActiveNoteFrontmatter() async throws {
+    func setActiveNoteFrontmatter() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testKey = "tags"
@@ -354,7 +354,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should append to active note frontmatter")
-    func testAppendToActiveNoteFrontmatter() async throws {
+    func appendToActiveNoteFrontmatter() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testKey = "categories"
@@ -383,7 +383,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should set vault note frontmatter")
-    func testSetNoteFrontmatter() async throws {
+    func setNoteFrontmatter() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "project-notes.md"
@@ -417,7 +417,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should append to vault note frontmatter")
-    func testAppendToNoteFrontmatter() async throws {
+    func appendToNoteFrontmatter() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "research.md"
@@ -451,7 +451,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should handle frontmatter errors")
-    func testSetActiveNoteFrontmatterError() async throws {
+    func setActiveNoteFrontmatterError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -473,7 +473,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should set active note frontmatter array")
-    func testSetActiveNoteFrontmatterArray() async throws {
+    func setActiveNoteFrontmatterArray() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testKey = "tags"
@@ -502,7 +502,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should append to active note frontmatter array")
-    func testAppendToActiveNoteFrontmatterArray() async throws {
+    func appendToActiveNoteFrontmatterArray() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testKey = "categories"
@@ -531,7 +531,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should set vault note frontmatter array")
-    func testSetNoteFrontmatterArray() async throws {
+    func setNoteFrontmatterArray() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "project-notes.md"
@@ -565,7 +565,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should append to vault note frontmatter array")
-    func testAppendToNoteFrontmatterArray() async throws {
+    func appendToNoteFrontmatterArray() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "research.md"
@@ -601,7 +601,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Search Tests
 
     @Test("It should search vault with default parameters")
-    func testSearchDefault() async throws {
+    func searchDefault() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testQuery = "test search"
@@ -633,7 +633,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should search vault with custom parameters")
-    func testSearchWithCustomParameters() async throws {
+    func searchWithCustomParameters() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testQuery = "regex.*pattern"
@@ -661,7 +661,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Error Handling Tests
 
     @Test("It should handle vault note operation errors")
-    func testVaultNoteOperationErrors() async throws {
+    func vaultNoteOperationErrors() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.shouldThrowErrorOnCreateOrUpdateVaultNote = true
@@ -703,7 +703,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should handle search operation errors")
-    func testSearchOperationErrors() async throws {
+    func searchOperationErrors() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.searchVaultResult = .failure(MockError.updateFailed)
@@ -723,7 +723,7 @@ struct ObsidianMCPServerTests {
     // MARK: - MCP Prompt Tests
 
     @Test("It should analyze note with general focus")
-    func testAnalyzeNote() async throws {
+    func analyzeNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "research-notes.md"
@@ -757,7 +757,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should analyze note with action items focus")
-    func testAnalyzeNoteWithActionItemsFocus() async throws {
+    func analyzeNoteWithActionItemsFocus() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "project-tasks.md"
@@ -779,7 +779,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should analyze note with tone focus")
-    func testAnalyzeNoteWithToneFocus() async throws {
+    func analyzeNoteWithToneFocus() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "journal-entry.md"
@@ -796,7 +796,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should analyze active note with general focus")
-    func testAnalyzeActiveNote() async throws {
+    func analyzeActiveNote() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeNoteContent = "# Active Note\n\nThis is the currently active note content."
@@ -825,7 +825,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should analyze active note with action items focus")
-    func testAnalyzeActiveNoteWithActionItemsFocus() async throws {
+    func analyzeActiveNoteWithActionItemsFocus() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.activeNoteToReturn = File(filename: "ActiveTasks.md", content: "- [ ] Important task")
@@ -841,7 +841,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate follow-up questions with default count")
-    func testGenerateFollowUpQuestionsDefault() async throws {
+    func generateFollowUpQuestionsDefault() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "discussion-notes.md"
@@ -871,7 +871,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate follow-up questions with custom count")
-    func testGenerateFollowUpQuestionsCustomCount() async throws {
+    func generateFollowUpQuestionsCustomCount() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "brainstorm.md"
@@ -889,7 +889,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should suggest tags with default count")
-    func testSuggestTagsDefault() async throws {
+    func suggestTagsDefault() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "article.md"
@@ -923,7 +923,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should suggest tags with custom count")
-    func testSuggestTagsCustomCount() async throws {
+    func suggestTagsCustomCount() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "tutorial.md"
@@ -941,7 +941,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should suggest active note tags with default count")
-    func testSuggestActiveNoteTagsDefault() async throws {
+    func suggestActiveNoteTagsDefault() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "This is a project management note with important tasks."
@@ -974,7 +974,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should suggest active note tags with custom count")
-    func testSuggestActiveNoteTagsCustomCount() async throws {
+    func suggestActiveNoteTagsCustomCount() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let customCount = 6
@@ -991,7 +991,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should extract metadata from note")
-    func testExtractMetadata() async throws {
+    func extractMetadata() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "meeting-notes.md"
@@ -1029,7 +1029,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should rewrite active note with emoji style")
-    func testRewriteActiveNoteEmoji() async throws {
+    func rewriteActiveNoteEmoji() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "This is a serious business document."
@@ -1062,7 +1062,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should rewrite active note with formal style")
-    func testRewriteActiveNoteFormal() async throws {
+    func rewriteActiveNoteFormal() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.activeNoteToReturn = File(filename: "CasualNote.md", content: "Hey, this is pretty cool!")
@@ -1078,7 +1078,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should rewrite active note with ELI5 style")
-    func testRewriteActiveNoteELI5() async throws {
+    func rewriteActiveNoteELI5() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.activeNoteToReturn = File(filename: "ComplexDoc.md", content: "Complex technical content")
@@ -1094,7 +1094,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate frontmatter structure")
-    func testGenerateFrontmatter() async throws {
+    func generateFrontmatter() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let testFilename = "project-plan.md"
@@ -1132,7 +1132,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for analyze note")
-    func testAnalyzeNoteError() async throws {
+    func analyzeNoteError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1154,7 +1154,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for analyze active note")
-    func testAnalyzeActiveNoteError() async throws {
+    func analyzeActiveNoteError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1176,7 +1176,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for follow-up questions")
-    func testGenerateFollowUpQuestionsError() async throws {
+    func generateFollowUpQuestionsError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1194,7 +1194,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for suggest tags")
-    func testSuggestTagsError() async throws {
+    func suggestTagsError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1212,7 +1212,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for suggest active note tags")
-    func testSuggestActiveNoteTagsError() async throws {
+    func suggestActiveNoteTagsError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1230,7 +1230,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for extract metadata")
-    func testExtractMetadataError() async throws {
+    func extractMetadataError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1248,7 +1248,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for rewrite active note")
-    func testRewriteActiveNoteError() async throws {
+    func rewriteActiveNoteError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1266,7 +1266,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should translate active note to Portuguese")
-    func testTranslateActiveNoteToPortuguese() async throws {
+    func translateActiveNoteToPortuguese() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "This is the active note content that needs translation."
@@ -1311,7 +1311,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should translate active note to Spanish")
-    func testTranslateActiveNoteToSpanish() async throws {
+    func translateActiveNoteToSpanish() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "# Project Overview\n\nThis document contains [[Related Notes]] and #project-tag."
@@ -1352,7 +1352,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should translate active note to Japanese")
-    func testTranslateActiveNoteToJapanese() async throws {
+    func translateActiveNoteToJapanese() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "Technical documentation with code examples and API references."
@@ -1381,7 +1381,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should translate active note to French")
-    func testTranslateActiveNoteToFrench() async throws {
+    func translateActiveNoteToFrench() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.activeNoteToReturn = File(filename: "BusinessNote.md", content: "Business requirements document.")
@@ -1405,7 +1405,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for translate active note")
-    func testTranslateActiveNoteError() async throws {
+    func translateActiveNoteError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1423,7 +1423,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate active note abstract with standard length")
-    func testGenerateActiveNoteAbstractStandard() async throws {
+    func generateActiveNoteAbstractStandard() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "Research findings on artificial intelligence and machine learning applications in healthcare."
@@ -1460,7 +1460,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate active note abstract with brief length")
-    func testGenerateActiveNoteAbstractBrief() async throws {
+    func generateActiveNoteAbstractBrief() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "Quick summary of the weekly team meeting and action items."
@@ -1485,7 +1485,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate active note abstract with detailed length")
-    func testGenerateActiveNoteAbstractDetailed() async throws {
+    func generateActiveNoteAbstractDetailed() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "Comprehensive analysis of market trends, competitive landscape, and strategic recommendations."
@@ -1510,7 +1510,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate active note outline with hierarchical style")
-    func testGenerateActiveNoteOutlineHierarchical() async throws {
+    func generateActiveNoteOutlineHierarchical() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "# Project Overview\n\n## Phase 1\n- Research\n- Planning\n\n## Phase 2\n- Implementation\n- Testing"
@@ -1547,7 +1547,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate active note outline with bullets style")
-    func testGenerateActiveNoteOutlineBullets() async throws {
+    func generateActiveNoteOutlineBullets() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "Meeting agenda with discussion topics and action items for team review."
@@ -1572,7 +1572,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should generate active note outline with numbered style")
-    func testGenerateActiveNoteOutlineNumbered() async throws {
+    func generateActiveNoteOutlineNumbered() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         let activeContent = "Step-by-step procedure documentation with multiple sections and detailed instructions."
@@ -1597,7 +1597,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for generate active note abstract")
-    func testGenerateActiveNoteAbstractError() async throws {
+    func generateActiveNoteAbstractError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1615,7 +1615,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for generate active note outline")
-    func testGenerateActiveNoteOutlineError() async throws {
+    func generateActiveNoteOutlineError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1633,7 +1633,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should propagate errors for generate frontmatter")
-    func testGenerateFrontmatterError() async throws {
+    func generateFrontmatterError() async throws {
         // Given
         let (server, mock) = makeServerWithMock()
         mock.errorToThrow = MockError.updateFailed
@@ -1653,7 +1653,7 @@ struct ObsidianMCPServerTests {
     // MARK: - Integration Tests
 
     @Test("It should maintain repository isolation")
-    func testRepositoryIsolation() async throws {
+    func repositoryIsolation() async throws {
         // Given
         let (server1, mock1) = makeServerWithMock()
         let (server2, mock2) = makeServerWithMock()
@@ -1684,7 +1684,7 @@ struct ObsidianMCPServerTests {
     // MARK: - MCP Resource Tests
 
     @Test("It should return enum types list from resource")
-    func testListEnumTypesResource() async throws {
+    func listEnumTypesResource() async throws {
         // Given
         let (server, _) = makeServerWithMock()
 
@@ -1707,7 +1707,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should return Language enum details from resource")
-    func testGetLanguageEnumResource() async throws {
+    func getLanguageEnumResource() async throws {
         // Given
         let (server, _) = makeServerWithMock()
 
@@ -1726,7 +1726,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should return WritingStyle enum details from resource")
-    func testGetWritingStyleEnumResource() async throws {
+    func getWritingStyleEnumResource() async throws {
         // Given
         let (server, _) = makeServerWithMock()
 
@@ -1745,7 +1745,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should return AnalysisFocus enum details from resource")
-    func testGetAnalysisFocusEnumResource() async throws {
+    func getAnalysisFocusEnumResource() async throws {
         // Given
         let (server, _) = makeServerWithMock()
 
@@ -1764,7 +1764,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should return AbstractLength enum details from resource")
-    func testGetAbstractLengthEnumResource() async throws {
+    func getAbstractLengthEnumResource() async throws {
         // Given
         let (server, _) = makeServerWithMock()
 
@@ -1783,7 +1783,7 @@ struct ObsidianMCPServerTests {
     }
 
     @Test("It should return OutlineStyle enum details from resource")
-    func testGetOutlineStyleEnumResource() async throws {
+    func getOutlineStyleEnumResource() async throws {
         // Given
         let (server, _) = makeServerWithMock()
 
