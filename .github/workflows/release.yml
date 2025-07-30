@@ -23,6 +23,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
+        ref: ${{ github.ref }}
         fetch-depth: 0
 
     - name: Setup Xcode
