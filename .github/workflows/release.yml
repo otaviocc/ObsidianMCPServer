@@ -1,0 +1,208 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release'
+        required: true
+        type: string
+
+env:
+  PRODUCT_NAME: ObsidianMCPServer
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
+    - name: Cache Swift Package Manager
+      uses: actions/cache@v4
+      with:
+        path: |
+          .build
+          ~/.cache/org.swift.swiftpm
+        key: ${{ runner.os }}-spm-release-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-release-
+          ${{ runner.os }}-spm-
+
+    - name: Determine version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          VERSION="${{ github.event.inputs.tag }}"
+        else
+          VERSION=${GITHUB_REF#refs/tags/}
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Building version: $VERSION"
+
+    - name: Build for Intel (x86_64)
+      run: |
+        swift build -c release --arch x86_64
+        mkdir -p .build/release-x86_64
+        cp .build/release/${{ env.PRODUCT_NAME }} .build/release-x86_64/
+
+    - name: Build for Apple Silicon (arm64)
+      run: |
+        swift build -c release --arch arm64
+        mkdir -p .build/release-arm64
+        cp .build/release/${{ env.PRODUCT_NAME }} .build/release-arm64/
+
+    - name: Create Universal Binary
+      run: |
+        mkdir -p .build/universal
+        lipo -create \
+          .build/release-x86_64/${{ env.PRODUCT_NAME }} \
+          .build/release-arm64/${{ env.PRODUCT_NAME }} \
+          -output .build/universal/${{ env.PRODUCT_NAME }}
+
+        # Verify the universal binary
+        echo "Universal binary architectures:"
+        lipo -info .build/universal/${{ env.PRODUCT_NAME }}
+
+        # Make it executable
+        chmod +x .build/universal/${{ env.PRODUCT_NAME }}
+
+    - name: Code Sign Binary (if certificates available)
+      id: codesign
+      run: |
+        if [ -n "${{ secrets.DEVELOPER_ID_APPLICATION }}" ]; then
+          echo "Code signing certificate found, signing binary..."
+
+          # Import certificate
+          echo "${{ secrets.DEVELOPER_ID_APPLICATION }}" | base64 --decode > certificate.p12
+          security create-keychain -p actions build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p actions build.keychain
+          security import certificate.p12 -k build.keychain -P "${{ secrets.CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k actions build.keychain
+
+          # Sign the binary
+          codesign --force --sign "${{ secrets.SIGNING_IDENTITY }}" \
+            --options runtime \
+            --timestamp \
+            .build/universal/${{ env.PRODUCT_NAME }}
+
+          # Verify signature
+          codesign --verify --verbose .build/universal/${{ env.PRODUCT_NAME }}
+
+          echo "signed=true" >> $GITHUB_OUTPUT
+          echo "✅ Binary signed successfully"
+        else
+          echo "No code signing certificate found, skipping code signing"
+          echo "signed=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Create Archive
+      run: |
+        cd .build/universal
+        if [ "${{ steps.codesign.outputs.signed }}" == "true" ]; then
+          zip -r ../../${{ env.PRODUCT_NAME }}-${{ steps.version.outputs.version }}-macos-signed.zip ${{ env.PRODUCT_NAME }}
+          ARCHIVE_NAME="${{ env.PRODUCT_NAME }}-${{ steps.version.outputs.version }}-macos-signed.zip"
+        else
+          zip -r ../../${{ env.PRODUCT_NAME }}-${{ steps.version.outputs.version }}-macos.zip ${{ env.PRODUCT_NAME }}
+          ARCHIVE_NAME="${{ env.PRODUCT_NAME }}-${{ steps.version.outputs.version }}-macos.zip"
+        fi
+        echo "ARCHIVE_NAME=$ARCHIVE_NAME" >> $GITHUB_ENV
+        cd ../..
+
+        # Generate checksums
+        shasum -a 256 $ARCHIVE_NAME > $ARCHIVE_NAME.sha256
+
+        echo "Created archive: $ARCHIVE_NAME"
+        echo "File size: $(du -h $ARCHIVE_NAME | cut -f1)"
+
+    - name: Generate Release Notes
+      id: release_notes
+      run: |
+        cat > release_notes.md << 'EOF'
+        ## 📦 ObsidianMCPServer ${{ steps.version.outputs.version }}
+
+        ### 🚀 Installation
+
+        1. Download the appropriate binary for your system
+        2. Extract the archive: `unzip ${{ env.ARCHIVE_NAME }}`
+        3. Make executable: `chmod +x ObsidianMCPServer`
+        4. Move to your desired location
+
+        ### 📋 Requirements
+
+        - macOS 12.0 or later
+        - Obsidian with Local REST API plugin
+
+        ### 🔐 Security Note
+
+        EOF
+
+        if [ "${{ steps.codesign.outputs.signed }}" == "true" ]; then
+          echo "✅ This binary is **code signed** with a valid Apple Developer ID certificate." >> release_notes.md
+        else
+          cat >> release_notes.md << 'EOF'
+        ⚠️ This binary is **not code signed**. On first run, you may need to:
+        1. Right-click the binary and select "Open"
+        2. Click "Open" in the security dialog
+        3. Or run: `xattr -d com.apple.quarantine ObsidianMCPServer`
+        EOF
+        fi
+
+        cat >> release_notes.md << 'EOF'
+
+        ### 📊 Build Information
+
+        - **Architecture**: Universal (Intel + Apple Silicon)
+        - **Swift Version**: 6.0+
+        - **Build Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        - **Commit**: ${{ github.sha }}
+
+        ### 🔍 Verification
+
+        **SHA256 Checksum**: See attached `.sha256` file
+
+        ```bash
+        # Verify checksum
+        shasum -a 256 -c ${{ env.ARCHIVE_NAME }}.sha256
+        ```
+        EOF
+
+        echo "Generated release notes"
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        name: "ObsidianMCPServer ${{ steps.version.outputs.version }}"
+        body_path: release_notes.md
+        files: |
+          ${{ env.ARCHIVE_NAME }}
+          ${{ env.ARCHIVE_NAME }}.sha256
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-artifacts-${{ steps.version.outputs.version }}
+        path: |
+          ${{ env.ARCHIVE_NAME }}
+          ${{ env.ARCHIVE_NAME }}.sha256
+          release_notes.md
+        retention-days: 90
