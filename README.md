@@ -40,6 +40,8 @@ Connect your AI assistant to Obsidian! This Model Context Protocol (MCP) server 
 
 ### 2. Install ObsidianMCPServer
 
+**Option A: Install from source code directly**
+
 ```bash
 # Clone and build
 git clone https://github.com/otaviocc/ObsidianMCPServer.git
@@ -47,6 +49,14 @@ cd ObsidianMCPServer
 swift build -c release
 
 # The executable will be at: .build/release/ObsidianMCPServer
+```
+
+**Option B: Install via [Mint](https://github.com/yonaskolb/Mint)**
+
+```bash
+mint install otaviocc/ObsidianMCPServer
+
+# The executable will be at: `$HOME/.mint/bin/ObsidianMCPServer`
 ```
 
 ### 3. Configure Your AI Tool
@@ -68,7 +78,11 @@ swift build -c release
 
 **Cursor**: Add the same configuration in Settings → Tools & Integration
 
-Replace `/path/to/ObsidianMCPServer` with your actual path and `your-api-key-here` with your plugin's API key.
+Replace `/path/to/ObsidianMCPServer` with your actual path:
+- **Source build**: `.build/release/ObsidianMCPServer` (from your build directory)
+- **Mint install**: `$HOME/.mint/bin/ObsidianMCPServer`
+
+Also replace `your-api-key-here` with your plugin's API key.
 
 ## 🛠️ Available Features
 
