@@ -59,8 +59,13 @@ jobs:
         else
           VERSION=${GITHUB_REF#refs/tags/}
         fi
+
+        # Get the actual commit SHA of what we checked out
+        COMMIT_SHA=$(git rev-parse HEAD)
         echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "commit_sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
         echo "Building version: $VERSION"
+        echo "Commit SHA: $COMMIT_SHA"
 
     - name: Build for Intel (x86_64)
       run: |
@@ -181,7 +186,7 @@ jobs:
         - **Architecture**: Universal (Intel + Apple Silicon)
         - **Swift Version**: 6.0+
         - **Build Date**: $BUILD_DATE
-        - **Commit**: ${{ github.sha }}
+        - **Commit**: ${{ steps.version.outputs.commit_sha }}
 
         ### 🔍 Verification
 
