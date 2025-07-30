@@ -131,6 +131,9 @@ jobs:
     - name: Generate Release Notes
       id: release_notes
       run: |
+        # Generate build date
+        BUILD_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
         cat > release_notes.md << 'EOF'
         ## 📦 ObsidianMCPServer ${{ steps.version.outputs.version }}
 
@@ -161,13 +164,13 @@ jobs:
         EOF
         fi
 
-        cat >> release_notes.md << 'EOF'
+        cat >> release_notes.md << EOF
 
         ### 📊 Build Information
 
         - **Architecture**: Universal (Intel + Apple Silicon)
         - **Swift Version**: 6.0+
-        - **Build Date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        - **Build Date**: $BUILD_DATE
         - **Commit**: ${{ github.sha }}
 
         ### 🔍 Verification
