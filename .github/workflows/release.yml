@@ -20,10 +20,19 @@ jobs:
     runs-on: macos-latest
 
     steps:
+    - name: Determine ref to checkout
+      id: ref
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          echo "ref=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+        else
+          echo "ref=${GITHUB_REF}" >> $GITHUB_OUTPUT
+        fi
+
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.ref }}
+        ref: ${{ steps.ref.outputs.ref }}
         fetch-depth: 0
 
     - name: Setup Xcode
