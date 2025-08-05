@@ -318,6 +318,49 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastSearchQuery = query
         return try searchVaultResultComputed.get()
     }
+
+    // MARK: - ObsidianRepositoryBulkOperations
+
+    func bulkApplyTagsFromSearch(
+        query: String,
+        tags: [String]
+    ) async throws -> BulkOperationResult {
+        // Simple mock implementation for testing
+        return BulkOperationResult(
+            successful: ["test1.md", "test2.md"],
+            failed: [],
+            totalProcessed: 2,
+            query: query
+        )
+    }
+
+    func bulkReplaceFrontmatterFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        // Simple mock implementation for testing
+        return BulkOperationResult(
+            successful: ["test1.md"],
+            failed: [],
+            totalProcessed: 1,
+            query: query
+        )
+    }
+
+    func bulkAppendToFrontmatterFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        // Simple mock implementation for testing
+        return BulkOperationResult(
+            successful: ["test1.md"],
+            failed: [],
+            totalProcessed: 1,
+            query: query
+        )
+    }
 }
 
 enum MockError: Error {

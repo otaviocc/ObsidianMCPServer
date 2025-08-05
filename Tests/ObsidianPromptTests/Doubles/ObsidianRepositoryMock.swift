@@ -137,5 +137,28 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     func searchVault(query: String) async throws -> [SearchResult] {
         fatalError("Not implemented for prompt tests")
     }
+
+    func bulkApplyTagsFromSearch(
+        query: String,
+        tags: [String]
+    ) async throws -> BulkOperationResult {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func bulkReplaceFrontmatterFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func bulkAppendToFrontmatterFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        fatalError("Not implemented for prompt tests")
+    }
     // swiftlint:enable unavailable_function
 }

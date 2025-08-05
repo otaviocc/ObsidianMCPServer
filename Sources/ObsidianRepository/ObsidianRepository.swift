@@ -271,3 +271,112 @@ extension ObsidianRepository: ObsidianRepositorySearchOperations {
         }
     }
 }
+
+// MARK: - ObsidianRepositoryBulkOperations
+
+extension ObsidianRepository: ObsidianRepositoryBulkOperations {
+
+    public func bulkApplyTagsFromSearch(
+        query: String,
+        tags: [String]
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+        
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+        
+        for filename in filenames {
+            do {
+                try await appendToVaultNoteFrontmatterArrayField(
+                    filename: filename,
+                    key: "tags",
+                    value: tags
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(BulkOperationFailure(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+        
+        return BulkOperationResult(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkReplaceFrontmatterFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+        
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+        
+        for filename in filenames {
+            do {
+                try await setVaultNoteFrontmatterArrayField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(BulkOperationFailure(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+        
+        return BulkOperationResult(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkAppendToFrontmatterFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+        
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+        
+        for filename in filenames {
+            do {
+                try await appendToVaultNoteFrontmatterArrayField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(BulkOperationFailure(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+        
+        return BulkOperationResult(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+}
