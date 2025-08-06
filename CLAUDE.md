@@ -117,6 +117,45 @@ struct ComponentTests {
 - Follow the Mother pattern: `static func makeObject() -> ObjectType`
 - Example: `NetworkClientMother.makeMockNetworkClient()`
 
+#### Mock Implementation Guidelines
+Mocks in this project follow a consistent pattern for capturing method calls and enabling test expectations:
+
+**Call Tracking Pattern:**
+- Add `methodNameCalled: Bool` property for call verification
+- Add `methodNameCallCount: Int` property for counting calls
+- Add `lastMethodParameterName: Type?` properties to capture method parameters
+- Increment call counters and set call flags at the start of each mock method
+
+**Error Injection:**
+- Check `errorToThrow: Error?` property and throw if set
+- This allows tests to verify error handling behavior
+
+**Return Value Stubbing:**
+- Use dedicated properties like `resultToReturn: ResultType?` for configurable return values
+- Force unwrap (`resultToReturn!`) to crash if not properly stubbed in tests
+- This ensures tests explicitly configure expected return values rather than using fallbacks
+
+**Example Mock Method Pattern:**
+```swift
+func methodName(parameter: String) async throws -> ResultType {
+    methodNameCalled = true
+    methodNameCallCount += 1
+    lastMethodParameter = parameter
+    
+    if let error = errorToThrow {
+        throw error
+    }
+    
+    return resultToReturn!
+}
+```
+
+This pattern enables tests to:
+- Verify methods were called with correct parameters
+- Configure specific return values for test scenarios
+- Test error handling by injecting errors
+- Ensure all return values are explicitly configured (no silent fallbacks)
+
 #### Async Testing
 - Use `async throws` for test methods that test async operations
 - Properly handle errors with do/catch blocks when testing error conditions

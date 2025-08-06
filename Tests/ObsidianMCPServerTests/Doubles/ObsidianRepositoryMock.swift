@@ -68,6 +68,39 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var lastVaultNoteFrontmatterKey: String?
     var lastVaultNoteFrontmatterValue: String?
 
+    // Bulk operations tracking
+    var bulkApplyTagsFromSearchCalled = false
+    var bulkApplyTagsFromSearchCallCount = 0
+    var lastBulkApplyTagsQuery: String?
+    var lastBulkApplyTags: [String]?
+    
+    var bulkReplaceFrontmatterStringFromSearchCalled = false
+    var bulkReplaceFrontmatterStringFromSearchCallCount = 0
+    var lastBulkReplaceFrontmatterStringQuery: String?
+    var lastBulkReplaceFrontmatterStringKey: String?
+    var lastBulkReplaceFrontmatterStringValue: String?
+    
+    var bulkReplaceFrontmatterArrayFromSearchCalled = false
+    var bulkReplaceFrontmatterArrayFromSearchCallCount = 0
+    var lastBulkReplaceFrontmatterArrayQuery: String?
+    var lastBulkReplaceFrontmatterArrayKey: String?
+    var lastBulkReplaceFrontmatterArrayValue: [String]?
+    
+    var bulkAppendToFrontmatterStringFromSearchCalled = false
+    var bulkAppendToFrontmatterStringFromSearchCallCount = 0
+    var lastBulkAppendFrontmatterStringQuery: String?
+    var lastBulkAppendFrontmatterStringKey: String?
+    var lastBulkAppendFrontmatterStringValue: String?
+    
+    var bulkAppendToFrontmatterArrayFromSearchCalled = false
+    var bulkAppendToFrontmatterArrayFromSearchCallCount = 0
+    var lastBulkAppendFrontmatterArrayQuery: String?
+    var lastBulkAppendFrontmatterArrayKey: String?
+    var lastBulkAppendFrontmatterArrayValue: [String]?
+
+    // Bulk operations result configuration
+    var bulkOperationResultToReturn: BulkOperationResult?
+
     // MARK: - Response Configuration
 
     var searchVaultResult: Result<[SearchResult], Error> = .success([])
@@ -325,13 +358,16 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         query: String,
         tags: [String]
     ) async throws -> BulkOperationResult {
-        // Simple mock implementation for testing
-        return BulkOperationResult(
-            successful: ["test1.md", "test2.md"],
-            failed: [],
-            totalProcessed: 2,
-            query: query
-        )
+        bulkApplyTagsFromSearchCalled = true
+        bulkApplyTagsFromSearchCallCount += 1
+        lastBulkApplyTagsQuery = query
+        lastBulkApplyTags = tags
+        
+        if let error = errorToThrow {
+            throw error
+        }
+        
+        return bulkOperationResultToReturn!
     }
 
     func bulkReplaceFrontmatterStringFromSearch(
@@ -339,13 +375,17 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         key: String,
         value: String
     ) async throws -> BulkOperationResult {
-        // Simple mock implementation for testing
-        return BulkOperationResult(
-            successful: ["test1.md"],
-            failed: [],
-            totalProcessed: 1,
-            query: query
-        )
+        bulkReplaceFrontmatterStringFromSearchCalled = true
+        bulkReplaceFrontmatterStringFromSearchCallCount += 1
+        lastBulkReplaceFrontmatterStringQuery = query
+        lastBulkReplaceFrontmatterStringKey = key
+        lastBulkReplaceFrontmatterStringValue = value
+        
+        if let error = errorToThrow {
+            throw error
+        }
+        
+        return bulkOperationResultToReturn!
     }
 
     func bulkReplaceFrontmatterArrayFromSearch(
@@ -353,13 +393,17 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         key: String,
         value: [String]
     ) async throws -> BulkOperationResult {
-        // Simple mock implementation for testing
-        return BulkOperationResult(
-            successful: ["test1.md"],
-            failed: [],
-            totalProcessed: 1,
-            query: query
-        )
+        bulkReplaceFrontmatterArrayFromSearchCalled = true
+        bulkReplaceFrontmatterArrayFromSearchCallCount += 1
+        lastBulkReplaceFrontmatterArrayQuery = query
+        lastBulkReplaceFrontmatterArrayKey = key
+        lastBulkReplaceFrontmatterArrayValue = value
+        
+        if let error = errorToThrow {
+            throw error
+        }
+        
+        return bulkOperationResultToReturn!
     }
 
     func bulkAppendToFrontmatterStringFromSearch(
@@ -367,13 +411,17 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         key: String,
         value: String
     ) async throws -> BulkOperationResult {
-        // Simple mock implementation for testing
-        return BulkOperationResult(
-            successful: ["test1.md"],
-            failed: [],
-            totalProcessed: 1,
-            query: query
-        )
+        bulkAppendToFrontmatterStringFromSearchCalled = true
+        bulkAppendToFrontmatterStringFromSearchCallCount += 1
+        lastBulkAppendFrontmatterStringQuery = query
+        lastBulkAppendFrontmatterStringKey = key
+        lastBulkAppendFrontmatterStringValue = value
+        
+        if let error = errorToThrow {
+            throw error
+        }
+        
+        return bulkOperationResultToReturn!
     }
 
     func bulkAppendToFrontmatterArrayFromSearch(
@@ -381,13 +429,17 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         key: String,
         value: [String]
     ) async throws -> BulkOperationResult {
-        // Simple mock implementation for testing
-        return BulkOperationResult(
-            successful: ["test1.md"],
-            failed: [],
-            totalProcessed: 1,
-            query: query
-        )
+        bulkAppendToFrontmatterArrayFromSearchCalled = true
+        bulkAppendToFrontmatterArrayFromSearchCallCount += 1
+        lastBulkAppendFrontmatterArrayQuery = query
+        lastBulkAppendFrontmatterArrayKey = key
+        lastBulkAppendFrontmatterArrayValue = value
+        
+        if let error = errorToThrow {
+            throw error
+        }
+        
+        return bulkOperationResultToReturn!
     }
 }
 
