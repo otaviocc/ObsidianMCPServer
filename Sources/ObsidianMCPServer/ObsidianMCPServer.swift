@@ -6,7 +6,7 @@ import ObsidianRepository
 import ObsidianResource
 import SwiftMCP
 
-// swiftlint:disable file_length
+// swiftlint:disable file_length type_body_length
 
 /**
  An Obsidian MCP Server for accessing Obsidian vault operations via REST API.
@@ -783,4 +783,4 @@ final class ObsidianMCPServer {
     }
 }
 
-// swiftlint:enable file_length
+// swiftlint:enable file_length type_body_length

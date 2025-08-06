@@ -2,6 +2,8 @@ import Foundation
 import MicroClient
 import ObsidianNetworking
 
+// swiftlint:disable file_length
+
 public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -267,7 +269,7 @@ extension ObsidianRepository: ObsidianRepositorySearchOperations {
         let searchResponse = try await client.run(request).value
 
         return searchResponse.map { response in
-            .init(path: response.filename, score: response.score)
+                .init(path: response.filename, score: response.score)
         }
     }
 }
@@ -282,10 +284,10 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
     ) async throws -> BulkOperationResult {
         let searchResults = try await searchVault(query: query)
         let filenames = searchResults.map(\.path)
-        
+
         var successful: [String] = []
         var failed: [BulkOperationFailure] = []
-        
+
         for filename in filenames {
             do {
                 try await appendToVaultNoteFrontmatterArrayField(
@@ -301,7 +303,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 ))
             }
         }
-        
+
         return BulkOperationResult(
             successful: successful,
             failed: failed,
@@ -317,10 +319,10 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
     ) async throws -> BulkOperationResult {
         let searchResults = try await searchVault(query: query)
         let filenames = searchResults.map(\.path)
-        
+
         var successful: [String] = []
         var failed: [BulkOperationFailure] = []
-        
+
         for filename in filenames {
             do {
                 try await setVaultNoteFrontmatterStringField(
@@ -336,7 +338,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 ))
             }
         }
-        
+
         return BulkOperationResult(
             successful: successful,
             failed: failed,
@@ -352,10 +354,10 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
     ) async throws -> BulkOperationResult {
         let searchResults = try await searchVault(query: query)
         let filenames = searchResults.map(\.path)
-        
+
         var successful: [String] = []
         var failed: [BulkOperationFailure] = []
-        
+
         for filename in filenames {
             do {
                 try await setVaultNoteFrontmatterArrayField(
@@ -371,7 +373,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 ))
             }
         }
-        
+
         return BulkOperationResult(
             successful: successful,
             failed: failed,
@@ -387,10 +389,10 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
     ) async throws -> BulkOperationResult {
         let searchResults = try await searchVault(query: query)
         let filenames = searchResults.map(\.path)
-        
+
         var successful: [String] = []
         var failed: [BulkOperationFailure] = []
-        
+
         for filename in filenames {
             do {
                 try await appendToVaultNoteFrontmatterStringField(
@@ -406,7 +408,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 ))
             }
         }
-        
+
         return BulkOperationResult(
             successful: successful,
             failed: failed,
@@ -422,10 +424,10 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
     ) async throws -> BulkOperationResult {
         let searchResults = try await searchVault(query: query)
         let filenames = searchResults.map(\.path)
-        
+
         var successful: [String] = []
         var failed: [BulkOperationFailure] = []
-        
+
         for filename in filenames {
             do {
                 try await appendToVaultNoteFrontmatterArrayField(
@@ -441,7 +443,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 ))
             }
         }
-        
+
         return BulkOperationResult(
             successful: successful,
             failed: failed,
@@ -450,3 +452,5 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
         )
     }
 }
+
+// swiftlint:enable file_length

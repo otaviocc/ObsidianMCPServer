@@ -1,6 +1,8 @@
 import Foundation
 @testable import ObsidianRepository
 
+// swiftlint:disable force_unwrapping
+
 final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -73,25 +75,25 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var bulkApplyTagsFromSearchCallCount = 0
     var lastBulkApplyTagsQuery: String?
     var lastBulkApplyTags: [String]?
-    
+
     var bulkReplaceFrontmatterStringFromSearchCalled = false
     var bulkReplaceFrontmatterStringFromSearchCallCount = 0
     var lastBulkReplaceFrontmatterStringQuery: String?
     var lastBulkReplaceFrontmatterStringKey: String?
     var lastBulkReplaceFrontmatterStringValue: String?
-    
+
     var bulkReplaceFrontmatterArrayFromSearchCalled = false
     var bulkReplaceFrontmatterArrayFromSearchCallCount = 0
     var lastBulkReplaceFrontmatterArrayQuery: String?
     var lastBulkReplaceFrontmatterArrayKey: String?
     var lastBulkReplaceFrontmatterArrayValue: [String]?
-    
+
     var bulkAppendToFrontmatterStringFromSearchCalled = false
     var bulkAppendToFrontmatterStringFromSearchCallCount = 0
     var lastBulkAppendFrontmatterStringQuery: String?
     var lastBulkAppendFrontmatterStringKey: String?
     var lastBulkAppendFrontmatterStringValue: String?
-    
+
     var bulkAppendToFrontmatterArrayFromSearchCalled = false
     var bulkAppendToFrontmatterArrayFromSearchCallCount = 0
     var lastBulkAppendFrontmatterArrayQuery: String?
@@ -362,11 +364,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         bulkApplyTagsFromSearchCallCount += 1
         lastBulkApplyTagsQuery = query
         lastBulkApplyTags = tags
-        
+
         if let error = errorToThrow {
             throw error
         }
-        
+
         return bulkOperationResultToReturn!
     }
 
@@ -380,11 +382,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastBulkReplaceFrontmatterStringQuery = query
         lastBulkReplaceFrontmatterStringKey = key
         lastBulkReplaceFrontmatterStringValue = value
-        
+
         if let error = errorToThrow {
             throw error
         }
-        
+
         return bulkOperationResultToReturn!
     }
 
@@ -398,11 +400,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastBulkReplaceFrontmatterArrayQuery = query
         lastBulkReplaceFrontmatterArrayKey = key
         lastBulkReplaceFrontmatterArrayValue = value
-        
+
         if let error = errorToThrow {
             throw error
         }
-        
+
         return bulkOperationResultToReturn!
     }
 
@@ -416,11 +418,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastBulkAppendFrontmatterStringQuery = query
         lastBulkAppendFrontmatterStringKey = key
         lastBulkAppendFrontmatterStringValue = value
-        
+
         if let error = errorToThrow {
             throw error
         }
-        
+
         return bulkOperationResultToReturn!
     }
 
@@ -434,11 +436,11 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastBulkAppendFrontmatterArrayQuery = query
         lastBulkAppendFrontmatterArrayKey = key
         lastBulkAppendFrontmatterArrayValue = value
-        
+
         if let error = errorToThrow {
             throw error
         }
-        
+
         return bulkOperationResultToReturn!
     }
 }
@@ -450,3 +452,5 @@ enum MockError: Error {
     case createOrUpdateFailed
     case appendFailed
 }
+
+// swiftlint:enable force_unwrapping

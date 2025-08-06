@@ -10,7 +10,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchResults = [
             ("note1.md", 0.95 as Float),
             ("note2.md", 0.87 as Float)
@@ -18,7 +18,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
         let frontmatterResponse1 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
         let frontmatterResponse2 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
-        
+
         mockClient.addNetworkResponse(toReturn: searchResponse)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse1)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse2)
@@ -65,7 +65,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchResults = [
             ("note1.md", 0.95 as Float),
             ("note2.md", 0.87 as Float)
@@ -73,7 +73,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
         let successResponse = try NetworkResponseMother.makeFrontmatterUpdateResponse()
         let failureResponse = try NetworkResponseMother.makeErrorResponse(statusCode: 404)
-        
+
         mockClient.addNetworkResponse(toReturn: searchResponse)
         mockClient.addNetworkResponse(toReturn: successResponse)
         mockClient.addNetworkResponse(toReturn: failureResponse)
@@ -116,7 +116,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchResults = [
             ("project1.md", 0.95 as Float),
             ("project2.md", 0.87 as Float)
@@ -124,7 +124,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
         let frontmatterResponse1 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
         let frontmatterResponse2 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
-        
+
         mockClient.addNetworkResponse(toReturn: searchResponse)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse1)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse2)
@@ -164,7 +164,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchResults = [
             ("project1.md", 0.95 as Float),
             ("project2.md", 0.87 as Float)
@@ -172,7 +172,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
         let frontmatterResponse1 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
         let frontmatterResponse2 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
-        
+
         mockClient.addNetworkResponse(toReturn: searchResponse)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse1)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse2)
@@ -212,13 +212,13 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchResults = [
             ("meeting1.md", 0.95 as Float)
         ]
         let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
         let frontmatterResponse = try NetworkResponseMother.makeFrontmatterUpdateResponse()
-        
+
         mockClient.addNetworkResponse(toReturn: searchResponse)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse)
 
@@ -257,13 +257,13 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchResults = [
             ("meeting1.md", 0.95 as Float)
         ]
         let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
         let frontmatterResponse = try NetworkResponseMother.makeFrontmatterUpdateResponse()
-        
+
         mockClient.addNetworkResponse(toReturn: searchResponse)
         mockClient.addNetworkResponse(toReturn: frontmatterResponse)
 
@@ -302,7 +302,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let emptySearchResponse = try NetworkResponseMother.makeSearchResponse(results: [])
         mockClient.stubNetworkResponse(toReturn: emptySearchResponse)
 
@@ -340,7 +340,7 @@ struct ObsidianRepositoryBulkOperationsTests {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
-        
+
         let searchErrorResponse = try NetworkResponseMother.makeErrorResponse(statusCode: 500)
         mockClient.stubNetworkResponse(toReturn: searchErrorResponse)
 
@@ -351,7 +351,7 @@ struct ObsidianRepositoryBulkOperationsTests {
                 tags: ["tag"]
             )
         }
-        
+
         #expect(
             mockClient.runCallCount == 1,
             "It should only make the search call before failing"

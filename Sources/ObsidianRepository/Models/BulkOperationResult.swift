@@ -51,7 +51,10 @@ public struct BulkOperationFailure: Encodable {
     /// The error message describing what went wrong
     public let error: String
 
-    public init(filename: String, error: String) {
+    public init(
+        filename: String,
+        error: String
+    ) {
         self.filename = filename
         self.error = error
     }
