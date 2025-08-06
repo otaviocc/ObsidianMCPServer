@@ -297,7 +297,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 )
                 successful.append(filename)
             } catch {
-                failed.append(BulkOperationFailure(
+                failed.append(.init(
                     filename: filename,
                     error: error.localizedDescription
                 ))
@@ -332,7 +332,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 )
                 successful.append(filename)
             } catch {
-                failed.append(BulkOperationFailure(
+                failed.append(.init(
                     filename: filename,
                     error: error.localizedDescription
                 ))
@@ -367,7 +367,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 )
                 successful.append(filename)
             } catch {
-                failed.append(BulkOperationFailure(
+                failed.append(.init(
                     filename: filename,
                     error: error.localizedDescription
                 ))
@@ -402,7 +402,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 )
                 successful.append(filename)
             } catch {
-                failed.append(BulkOperationFailure(
+                failed.append(.init(
                     filename: filename,
                     error: error.localizedDescription
                 ))
@@ -437,7 +437,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
                 )
                 successful.append(filename)
             } catch {
-                failed.append(BulkOperationFailure(
+                failed.append(.init(
                     filename: filename,
                     error: error.localizedDescription
                 ))
