@@ -304,7 +304,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
             }
         }
 
-        return BulkOperationResult(
+        return .init(
             successful: successful,
             failed: failed,
             totalProcessed: filenames.count,
@@ -339,7 +339,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
             }
         }
 
-        return BulkOperationResult(
+        return .init(
             successful: successful,
             failed: failed,
             totalProcessed: filenames.count,
@@ -374,7 +374,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
             }
         }
 
-        return BulkOperationResult(
+        return .init(
             successful: successful,
             failed: failed,
             totalProcessed: filenames.count,
@@ -409,7 +409,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
             }
         }
 
-        return BulkOperationResult(
+        return .init(
             successful: successful,
             failed: failed,
             totalProcessed: filenames.count,
@@ -444,7 +444,7 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
             }
         }
 
-        return BulkOperationResult(
+        return .init(
             successful: successful,
             failed: failed,
             totalProcessed: filenames.count,
