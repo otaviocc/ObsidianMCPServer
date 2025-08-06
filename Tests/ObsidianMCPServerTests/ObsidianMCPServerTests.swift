@@ -1650,6 +1650,378 @@ struct ObsidianMCPServerTests {
         }
     }
 
+    // MARK: - Bulk Operations Tests
+
+    @Test("It should bulk apply tags from search")
+    func bulkApplyTagsFromSearch() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testQuery = "project"
+        let testTags = ["important", "work"]
+        let expectedResult = BulkOperationResult(
+            successful: ["note1.md", "note2.md"],
+            failed: [],
+            totalProcessed: 2,
+            query: testQuery
+        )
+        mock.bulkOperationResultToReturn = expectedResult
+
+        // When
+        let result = try await server.bulkApplyTagsFromSearch(query: testQuery, tags: testTags)
+
+        // Then
+        #expect(
+            mock.bulkApplyTagsFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastBulkApplyTagsQuery == testQuery,
+            "It should pass the correct query"
+        )
+        #expect(
+            mock.lastBulkApplyTags == testTags,
+            "It should pass the correct tags"
+        )
+        #expect(
+            result.successful == ["note1.md", "note2.md"],
+            "It should return the successful operations"
+        )
+        #expect(
+            result.totalProcessed == 2,
+            "It should return the correct total processed count"
+        )
+        #expect(
+            result.query == testQuery,
+            "It should return the original query"
+        )
+    }
+
+    @Test("It should handle bulk apply tags errors")
+    func bulkApplyTagsFromSearchError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.bulkApplyTagsFromSearch(query: "test", tags: ["tag1"])
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.bulkApplyTagsFromSearchCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    @Test("It should bulk replace frontmatter string from search")
+    func bulkReplaceFrontmatterStringFromSearch() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testQuery = "status:draft"
+        let testKey = "status"
+        let testValue = "published"
+        let expectedResult = BulkOperationResult(
+            successful: ["draft1.md", "draft2.md"],
+            failed: [],
+            totalProcessed: 2,
+            query: testQuery
+        )
+        mock.bulkOperationResultToReturn = expectedResult
+
+        // When
+        let result = try await server.bulkReplaceFrontmatterStringFromSearch(
+            query: testQuery,
+            key: testKey,
+            value: testValue
+        )
+
+        // Then
+        #expect(
+            mock.bulkReplaceFrontmatterStringFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastBulkReplaceFrontmatterStringQuery == testQuery,
+            "It should pass the correct query"
+        )
+        #expect(
+            mock.lastBulkReplaceFrontmatterStringKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastBulkReplaceFrontmatterStringValue == testValue,
+            "It should pass the correct value"
+        )
+        #expect(
+            result.successful == ["draft1.md", "draft2.md"],
+            "It should return the successful operations"
+        )
+        #expect(
+            result.query == testQuery,
+            "It should return the original query"
+        )
+    }
+
+    @Test("It should handle bulk replace frontmatter string errors")
+    func bulkReplaceFrontmatterStringFromSearchError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.bulkReplaceFrontmatterStringFromSearch(
+                query: "test",
+                key: "key",
+                value: "value"
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.bulkReplaceFrontmatterStringFromSearchCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    @Test("It should bulk replace frontmatter array from search")
+    func bulkReplaceFrontmatterArrayFromSearch() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testQuery = "type:meeting"
+        let testKey = "attendees"
+        let testValues = ["Alice", "Bob", "Charlie"]
+        let expectedResult = BulkOperationResult(
+            successful: ["meeting1.md", "meeting2.md"],
+            failed: [],
+            totalProcessed: 2,
+            query: testQuery
+        )
+        mock.bulkOperationResultToReturn = expectedResult
+
+        // When
+        let result = try await server.bulkReplaceFrontmatterArrayFromSearch(
+            query: testQuery,
+            key: testKey,
+            value: testValues
+        )
+
+        // Then
+        #expect(
+            mock.bulkReplaceFrontmatterArrayFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastBulkReplaceFrontmatterArrayQuery == testQuery,
+            "It should pass the correct query"
+        )
+        #expect(
+            mock.lastBulkReplaceFrontmatterArrayKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastBulkReplaceFrontmatterArrayValue == testValues,
+            "It should pass the correct values"
+        )
+        #expect(
+            result.successful == ["meeting1.md", "meeting2.md"],
+            "It should return the successful operations"
+        )
+        #expect(
+            result.query == testQuery,
+            "It should return the original query"
+        )
+    }
+
+    @Test("It should handle bulk replace frontmatter array errors")
+    func bulkReplaceFrontmatterArrayFromSearchError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.bulkReplaceFrontmatterArrayFromSearch(
+                query: "test",
+                key: "key",
+                value: ["value1", "value2"]
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.bulkReplaceFrontmatterArrayFromSearchCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    @Test("It should bulk append to frontmatter string from search")
+    func bulkAppendToFrontmatterStringFromSearch() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testQuery = "project:alpha"
+        let testKey = "notes"
+        let testValue = " - Updated with new requirements"
+        let expectedResult = BulkOperationResult(
+            successful: ["alpha-doc1.md", "alpha-doc2.md"],
+            failed: [],
+            totalProcessed: 2,
+            query: testQuery
+        )
+        mock.bulkOperationResultToReturn = expectedResult
+
+        // When
+        let result = try await server.bulkAppendToFrontmatterStringFromSearch(
+            query: testQuery,
+            key: testKey,
+            value: testValue
+        )
+
+        // Then
+        #expect(
+            mock.bulkAppendToFrontmatterStringFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastBulkAppendFrontmatterStringQuery == testQuery,
+            "It should pass the correct query"
+        )
+        #expect(
+            mock.lastBulkAppendFrontmatterStringKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastBulkAppendFrontmatterStringValue == testValue,
+            "It should pass the correct value"
+        )
+        #expect(
+            result.successful == ["alpha-doc1.md", "alpha-doc2.md"],
+            "It should return the successful operations"
+        )
+        #expect(
+            result.query == testQuery,
+            "It should return the original query"
+        )
+    }
+
+    @Test("It should handle bulk append to frontmatter string errors")
+    func bulkAppendToFrontmatterStringFromSearchError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.bulkAppendToFrontmatterStringFromSearch(
+                query: "test",
+                key: "key",
+                value: "value"
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.bulkAppendToFrontmatterStringFromSearchCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    @Test("It should bulk append to frontmatter array from search")
+    func bulkAppendToFrontmatterArrayFromSearch() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let testQuery = "category:research"
+        let testKey = "keywords"
+        let testValues = ["machine-learning", "data-analysis"]
+        let expectedResult = BulkOperationResult(
+            successful: ["research1.md", "research2.md", "research3.md"],
+            failed: [],
+            totalProcessed: 3,
+            query: testQuery
+        )
+        mock.bulkOperationResultToReturn = expectedResult
+
+        // When
+        let result = try await server.bulkAppendToFrontmatterArrayFromSearch(
+            query: testQuery,
+            key: testKey,
+            value: testValues
+        )
+
+        // Then
+        #expect(
+            mock.bulkAppendToFrontmatterArrayFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastBulkAppendFrontmatterArrayQuery == testQuery,
+            "It should pass the correct query"
+        )
+        #expect(
+            mock.lastBulkAppendFrontmatterArrayKey == testKey,
+            "It should pass the correct key"
+        )
+        #expect(
+            mock.lastBulkAppendFrontmatterArrayValue == testValues,
+            "It should pass the correct values"
+        )
+        #expect(
+            result.successful == ["research1.md", "research2.md", "research3.md"],
+            "It should return the successful operations"
+        )
+        #expect(
+            result.totalProcessed == 3,
+            "It should return the correct total processed count"
+        )
+        #expect(
+            result.query == testQuery,
+            "It should return the original query"
+        )
+    }
+
+    @Test("It should handle bulk append to frontmatter array errors")
+    func bulkAppendToFrontmatterArrayFromSearchError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.bulkAppendToFrontmatterArrayFromSearch(
+                query: "test",
+                key: "key",
+                value: ["value1", "value2"]
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.bulkAppendToFrontmatterArrayFromSearchCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
     // MARK: - Integration Tests
 
     @Test("It should maintain repository isolation")
