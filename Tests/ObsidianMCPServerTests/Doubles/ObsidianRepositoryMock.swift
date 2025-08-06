@@ -334,7 +334,21 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         )
     }
 
-    func bulkReplaceFrontmatterFromSearch(
+    func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        // Simple mock implementation for testing
+        return BulkOperationResult(
+            successful: ["test1.md"],
+            failed: [],
+            totalProcessed: 1,
+            query: query
+        )
+    }
+
+    func bulkReplaceFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]
@@ -348,7 +362,21 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         )
     }
 
-    func bulkAppendToFrontmatterFromSearch(
+    func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        // Simple mock implementation for testing
+        return BulkOperationResult(
+            successful: ["test1.md"],
+            failed: [],
+            totalProcessed: 1,
+            query: query
+        )
+    }
+
+    func bulkAppendToFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]

@@ -145,7 +145,15 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         fatalError("Not implemented for prompt tests")
     }
 
-    func bulkReplaceFrontmatterFromSearch(
+    func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func bulkReplaceFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]
@@ -153,7 +161,15 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         fatalError("Not implemented for prompt tests")
     }
 
-    func bulkAppendToFrontmatterFromSearch(
+    func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func bulkAppendToFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]

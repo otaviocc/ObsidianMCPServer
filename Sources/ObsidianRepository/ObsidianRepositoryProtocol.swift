@@ -191,27 +191,53 @@ public protocol ObsidianRepositoryBulkOperations {
         tags: [String]
     ) async throws -> BulkOperationResult
 
-    /// Replaces a frontmatter field for all notes matching the specified search query.
+    /// Replaces a frontmatter field with a string value for all notes matching the specified search query.
+    /// - Parameters:
+    ///   - query: The search query to find target notes
+    ///   - key: The frontmatter field key to replace
+    ///   - value: The string value to set for the field
+    /// - Returns: A `BulkOperationResult` containing success and failure details
+    /// - Throws: An error if the search operation fails
+    func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult
+
+    /// Replaces a frontmatter field with array values for all notes matching the specified search query.
     /// - Parameters:
     ///   - query: The search query to find target notes
     ///   - key: The frontmatter field key to replace
     ///   - value: The array values to set for the field
     /// - Returns: A `BulkOperationResult` containing success and failure details
     /// - Throws: An error if the search operation fails
-    func bulkReplaceFrontmatterFromSearch(
+    func bulkReplaceFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]
     ) async throws -> BulkOperationResult
 
-    /// Appends to a frontmatter field for all notes matching the specified search query.
+    /// Appends to a frontmatter string field for all notes matching the specified search query.
+    /// - Parameters:
+    ///   - query: The search query to find target notes
+    ///   - key: The frontmatter field key to append to
+    ///   - value: The string value to append to the field
+    /// - Returns: A `BulkOperationResult` containing success and failure details
+    /// - Throws: An error if the search operation fails
+    func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult
+
+    /// Appends to a frontmatter array field for all notes matching the specified search query.
     /// - Parameters:
     ///   - query: The search query to find target notes
     ///   - key: The frontmatter field key to append to
     ///   - value: The array values to append to the field
     /// - Returns: A `BulkOperationResult` containing success and failure details
     /// - Throws: An error if the search operation fails
-    func bulkAppendToFrontmatterFromSearch(
+    func bulkAppendToFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]

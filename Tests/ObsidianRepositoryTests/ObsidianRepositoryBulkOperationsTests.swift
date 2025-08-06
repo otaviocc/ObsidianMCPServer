@@ -111,8 +111,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should replace frontmatter field for all files from search results")
-    func bulkReplaceFrontmatterFromSearchSuccess() async throws {
+    @Test("It should replace frontmatter string field for all files from search results")
+    func bulkReplaceFrontmatterStringFromSearchSuccess() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -130,7 +130,55 @@ struct ObsidianRepositoryBulkOperationsTests {
         mockClient.addNetworkResponse(toReturn: frontmatterResponse2)
 
         // When
-        let result = try await repository.bulkReplaceFrontmatterFromSearch(
+        let result = try await repository.bulkReplaceFrontmatterStringFromSearch(
+            query: "project",
+            key: "status",
+            value: "completed"
+        )
+
+        // Then
+        #expect(
+            result.successful.count == 2,
+            "It should successfully process both files"
+        )
+        #expect(
+            result.failed.isEmpty,
+            "It should have no failures"
+        )
+        #expect(
+            result.totalProcessed == 2,
+            "It should process the correct total number of files"
+        )
+        #expect(
+            result.query == "project",
+            "It should preserve the original query"
+        )
+        #expect(
+            mockClient.runCallCount == 3,
+            "It should make one search call and two frontmatter update calls"
+        )
+    }
+
+    @Test("It should replace frontmatter array field for all files from search results")
+    func bulkReplaceFrontmatterArrayFromSearchSuccess() async throws {
+        // Given
+        let mockClient = NetworkClientMother.makeMockNetworkClient()
+        let repository = ObsidianRepository(client: mockClient)
+        
+        let searchResults = [
+            ("project1.md", 0.95 as Float),
+            ("project2.md", 0.87 as Float)
+        ]
+        let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
+        let frontmatterResponse1 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
+        let frontmatterResponse2 = try NetworkResponseMother.makeFrontmatterUpdateResponse()
+        
+        mockClient.addNetworkResponse(toReturn: searchResponse)
+        mockClient.addNetworkResponse(toReturn: frontmatterResponse1)
+        mockClient.addNetworkResponse(toReturn: frontmatterResponse2)
+
+        // When
+        let result = try await repository.bulkReplaceFrontmatterArrayFromSearch(
             query: "project",
             key: "status",
             value: ["completed"]
@@ -159,8 +207,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should append to frontmatter field for all files from search results")
-    func bulkAppendToFrontmatterFromSearchSuccess() async throws {
+    @Test("It should append to frontmatter string field for all files from search results")
+    func bulkAppendToFrontmatterStringFromSearchSuccess() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -175,7 +223,52 @@ struct ObsidianRepositoryBulkOperationsTests {
         mockClient.addNetworkResponse(toReturn: frontmatterResponse)
 
         // When
-        let result = try await repository.bulkAppendToFrontmatterFromSearch(
+        let result = try await repository.bulkAppendToFrontmatterStringFromSearch(
+            query: "meeting",
+            key: "description",
+            value: "Additional notes"
+        )
+
+        // Then
+        #expect(
+            result.successful.count == 1,
+            "It should successfully process the file"
+        )
+        #expect(
+            result.failed.isEmpty,
+            "It should have no failures"
+        )
+        #expect(
+            result.totalProcessed == 1,
+            "It should process the correct total number of files"
+        )
+        #expect(
+            result.successful.first == "meeting1.md",
+            "It should include the meeting note in successful results"
+        )
+        #expect(
+            mockClient.runCallCount == 2,
+            "It should make one search call and one frontmatter update call"
+        )
+    }
+
+    @Test("It should append to frontmatter array field for all files from search results")
+    func bulkAppendToFrontmatterArrayFromSearchSuccess() async throws {
+        // Given
+        let mockClient = NetworkClientMother.makeMockNetworkClient()
+        let repository = ObsidianRepository(client: mockClient)
+        
+        let searchResults = [
+            ("meeting1.md", 0.95 as Float)
+        ]
+        let searchResponse = try NetworkResponseMother.makeSearchResponse(results: searchResults)
+        let frontmatterResponse = try NetworkResponseMother.makeFrontmatterUpdateResponse()
+        
+        mockClient.addNetworkResponse(toReturn: searchResponse)
+        mockClient.addNetworkResponse(toReturn: frontmatterResponse)
+
+        // When
+        let result = try await repository.bulkAppendToFrontmatterArrayFromSearch(
             query: "meeting",
             key: "attendees",
             value: ["john.doe", "jane.smith"]

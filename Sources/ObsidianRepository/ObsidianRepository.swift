@@ -310,7 +310,42 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
         )
     }
 
-    public func bulkReplaceFrontmatterFromSearch(
+    public func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+        
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+        
+        for filename in filenames {
+            do {
+                try await setVaultNoteFrontmatterStringField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(BulkOperationFailure(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+        
+        return BulkOperationResult(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkReplaceFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]
@@ -345,7 +380,42 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
         )
     }
 
-    public func bulkAppendToFrontmatterFromSearch(
+    public func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+        
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+        
+        for filename in filenames {
+            do {
+                try await appendToVaultNoteFrontmatterStringField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(BulkOperationFailure(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+        
+        return BulkOperationResult(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkAppendToFrontmatterArrayFromSearch(
         query: String,
         key: String,
         value: [String]
