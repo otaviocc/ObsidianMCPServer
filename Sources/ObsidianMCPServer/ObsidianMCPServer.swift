@@ -6,7 +6,7 @@ import ObsidianRepository
 import ObsidianResource
 import SwiftMCP
 
-// swiftlint:disable file_length
+// swiftlint:disable file_length type_body_length
 
 /**
  An Obsidian MCP Server for accessing Obsidian vault operations via REST API.
@@ -399,6 +399,130 @@ final class ObsidianMCPServer {
         )
     }
 
+    // MARK: - Bulk Operations Tools
+
+    /**
+     Applies tags to all notes matching a search query.
+
+     This tool performs a vault search and then applies the specified tags to all
+     matching notes' frontmatter. It provides detailed feedback about which operations
+     succeeded and which failed, making it easy to track bulk changes.
+
+     - Parameter query: The search query to find target notes
+     - Parameter tags: Array of tags to apply to matching notes
+     - Returns: Detailed results showing successful and failed operations
+     */
+    @MCPTool(description: "Apply tags to all notes matching a search query")
+    func bulkApplyTagsFromSearch(
+        query: String,
+        tags: [String]
+    ) async throws -> BulkOperationResult {
+        try await repository.bulkApplyTagsFromSearch(
+            query: query,
+            tags: tags
+        )
+    }
+
+    /**
+     Replaces a frontmatter field with a string value for all notes matching a search query.
+
+     This tool performs a vault search and then replaces the specified frontmatter
+     field with a string value across all matching notes. The operation completely
+     replaces existing field values.
+
+     - Parameter query: The search query to find target notes
+     - Parameter key: The frontmatter field key to replace
+     - Parameter value: String value to set for the field
+     - Returns: Detailed results showing successful and failed operations
+     */
+    @MCPTool(description: "Replace frontmatter string field for all notes matching a search query")
+    func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        try await repository.bulkReplaceFrontmatterStringFromSearch(
+            query: query,
+            key: key,
+            value: value
+        )
+    }
+
+    /**
+     Replaces a frontmatter field with array values for all notes matching a search query.
+
+     This tool performs a vault search and then replaces the specified frontmatter
+     field with array values across all matching notes. The operation completely
+     replaces existing field values.
+
+     - Parameter query: The search query to find target notes
+     - Parameter key: The frontmatter field key to replace
+     - Parameter value: Array of values to set for the field
+     - Returns: Detailed results showing successful and failed operations
+     */
+    @MCPTool(description: "Replace frontmatter array field for all notes matching a search query")
+    func bulkReplaceFrontmatterArrayFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        try await repository.bulkReplaceFrontmatterArrayFromSearch(
+            query: query,
+            key: key,
+            value: value
+        )
+    }
+
+    /**
+     Appends to a frontmatter string field for all notes matching a search query.
+
+     This tool performs a vault search and then appends a value to the specified
+     frontmatter string field across all matching notes. The operation adds to existing
+     field values rather than replacing them.
+
+     - Parameter query: The search query to find target notes
+     - Parameter key: The frontmatter field key to append to
+     - Parameter value: String value to append to the field
+     - Returns: Detailed results showing successful and failed operations
+     */
+    @MCPTool(description: "Append to frontmatter string field for all notes matching a search query")
+    func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        try await repository.bulkAppendToFrontmatterStringFromSearch(
+            query: query,
+            key: key,
+            value: value
+        )
+    }
+
+    /**
+     Appends to a frontmatter array field for all notes matching a search query.
+
+     This tool performs a vault search and then appends values to the specified
+     frontmatter array field across all matching notes. The operation adds to existing
+     field values rather than replacing them.
+
+     - Parameter query: The search query to find target notes
+     - Parameter key: The frontmatter field key to append to
+     - Parameter value: Array of values to append to the field
+     - Returns: Detailed results showing successful and failed operations
+     */
+    @MCPTool(description: "Append to frontmatter array field for all notes matching a search query")
+    func bulkAppendToFrontmatterArrayFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        try await repository.bulkAppendToFrontmatterArrayFromSearch(
+            query: query,
+            key: key,
+            value: value
+        )
+    }
+
     // MARK: - MCP Prompts
 
     /**
@@ -659,4 +783,4 @@ final class ObsidianMCPServer {
     }
 }
 
-// swiftlint:enable file_length
+// swiftlint:enable file_length type_body_length

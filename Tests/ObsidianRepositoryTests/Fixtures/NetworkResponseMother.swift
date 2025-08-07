@@ -111,4 +111,17 @@ enum NetworkResponseMother {
 
         return .init(value: directoryResponse, response: httpResponse)
     }
+
+    static func makeFrontmatterUpdateResponse() throws -> NetworkResponse<VoidResponse> {
+        try makeVoidResponse()
+    }
+
+    static func makeErrorResponse(statusCode: Int) throws -> NetworkResponse<VoidResponse> {
+        let data = Data("{}".utf8)
+        let decoder = JSONDecoder()
+        let voidResponse = try decoder.decode(VoidResponse.self, from: data)
+        let httpResponse = HTTPURLResponseMother.makeHTTPURLResponse(statusCode: statusCode)
+
+        return .init(value: voidResponse, response: httpResponse)
+    }
 }

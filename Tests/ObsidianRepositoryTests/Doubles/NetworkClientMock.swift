@@ -18,6 +18,7 @@ final class NetworkClientMock: NetworkClientProtocol {
     private(set) var lastRequestMethod: HTTPMethod?
     private(set) var stubbedNetworkResponse: Any?
     private(set) var stubbedStatus: NetworkClientStatus?
+    private(set) var stubbedNetworkResponses: [Any] = []
 
     // MARK: - Life cycle
 
@@ -32,6 +33,15 @@ final class NetworkClientMock: NetworkClientProtocol {
         lastRequestPath = networkRequest.path
         lastRequestMethod = networkRequest.method
 
+        // Check if we have multiple responses queued
+        if !stubbedNetworkResponses.isEmpty {
+            let nextResponse = stubbedNetworkResponses.removeFirst()
+            if let stubbedResponse = nextResponse as? NetworkResponse<ResponseModel> {
+                return stubbedResponse
+            }
+        }
+
+        // Fall back to single response behavior
         if let stubbedResponse = stubbedNetworkResponse as? NetworkResponse<ResponseModel> {
             return stubbedResponse
         }
@@ -58,5 +68,17 @@ extension NetworkClientMock {
         toReturn networkResponse: NetworkResponse<ResponseModel>
     ) {
         stubbedNetworkResponse = networkResponse
+    }
+
+    func stubNetworkResponses<ResponseModel: Decodable>(
+        toReturn networkResponses: [NetworkResponse<ResponseModel>]
+    ) {
+        stubbedNetworkResponses = networkResponses
+    }
+
+    func addNetworkResponse<ResponseModel: Decodable>(
+        toReturn networkResponse: NetworkResponse<ResponseModel>
+    ) {
+        stubbedNetworkResponses.append(networkResponse)
     }
 }

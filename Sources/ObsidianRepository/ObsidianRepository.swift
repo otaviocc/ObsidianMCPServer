@@ -2,6 +2,8 @@ import Foundation
 import MicroClient
 import ObsidianNetworking
 
+// swiftlint:disable file_length
+
 public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -267,7 +269,188 @@ extension ObsidianRepository: ObsidianRepositorySearchOperations {
         let searchResponse = try await client.run(request).value
 
         return searchResponse.map { response in
-            .init(path: response.filename, score: response.score)
+                .init(path: response.filename, score: response.score)
         }
     }
 }
+
+// MARK: - ObsidianRepositoryBulkOperations
+
+extension ObsidianRepository: ObsidianRepositoryBulkOperations {
+
+    public func bulkApplyTagsFromSearch(
+        query: String,
+        tags: [String]
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+
+        for filename in filenames {
+            do {
+                try await appendToVaultNoteFrontmatterArrayField(
+                    filename: filename,
+                    key: "tags",
+                    value: tags
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(.init(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+
+        return .init(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+
+        for filename in filenames {
+            do {
+                try await setVaultNoteFrontmatterStringField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(.init(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+
+        return .init(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkReplaceFrontmatterArrayFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+
+        for filename in filenames {
+            do {
+                try await setVaultNoteFrontmatterArrayField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(.init(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+
+        return .init(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+
+        for filename in filenames {
+            do {
+                try await appendToVaultNoteFrontmatterStringField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(.init(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+
+        return .init(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+
+    public func bulkAppendToFrontmatterArrayFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        let searchResults = try await searchVault(query: query)
+        let filenames = searchResults.map(\.path)
+
+        var successful: [String] = []
+        var failed: [BulkOperationFailure] = []
+
+        for filename in filenames {
+            do {
+                try await appendToVaultNoteFrontmatterArrayField(
+                    filename: filename,
+                    key: key,
+                    value: value
+                )
+                successful.append(filename)
+            } catch {
+                failed.append(.init(
+                    filename: filename,
+                    error: error.localizedDescription
+                ))
+            }
+        }
+
+        return .init(
+            successful: successful,
+            failed: failed,
+            totalProcessed: filenames.count,
+            query: query
+        )
+    }
+}
+
+// swiftlint:enable file_length

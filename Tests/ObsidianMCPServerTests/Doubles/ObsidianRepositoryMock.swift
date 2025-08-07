@@ -1,6 +1,8 @@
 import Foundation
 @testable import ObsidianRepository
 
+// swiftlint:disable force_unwrapping
+
 final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -67,6 +69,39 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var lastVaultNoteFrontmatterFilename: String?
     var lastVaultNoteFrontmatterKey: String?
     var lastVaultNoteFrontmatterValue: String?
+
+    // Bulk operations tracking
+    var bulkApplyTagsFromSearchCalled = false
+    var bulkApplyTagsFromSearchCallCount = 0
+    var lastBulkApplyTagsQuery: String?
+    var lastBulkApplyTags: [String]?
+
+    var bulkReplaceFrontmatterStringFromSearchCalled = false
+    var bulkReplaceFrontmatterStringFromSearchCallCount = 0
+    var lastBulkReplaceFrontmatterStringQuery: String?
+    var lastBulkReplaceFrontmatterStringKey: String?
+    var lastBulkReplaceFrontmatterStringValue: String?
+
+    var bulkReplaceFrontmatterArrayFromSearchCalled = false
+    var bulkReplaceFrontmatterArrayFromSearchCallCount = 0
+    var lastBulkReplaceFrontmatterArrayQuery: String?
+    var lastBulkReplaceFrontmatterArrayKey: String?
+    var lastBulkReplaceFrontmatterArrayValue: [String]?
+
+    var bulkAppendToFrontmatterStringFromSearchCalled = false
+    var bulkAppendToFrontmatterStringFromSearchCallCount = 0
+    var lastBulkAppendFrontmatterStringQuery: String?
+    var lastBulkAppendFrontmatterStringKey: String?
+    var lastBulkAppendFrontmatterStringValue: String?
+
+    var bulkAppendToFrontmatterArrayFromSearchCalled = false
+    var bulkAppendToFrontmatterArrayFromSearchCallCount = 0
+    var lastBulkAppendFrontmatterArrayQuery: String?
+    var lastBulkAppendFrontmatterArrayKey: String?
+    var lastBulkAppendFrontmatterArrayValue: [String]?
+
+    // Bulk operations result configuration
+    var bulkOperationResultToReturn: BulkOperationResult?
 
     // MARK: - Response Configuration
 
@@ -318,6 +353,96 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         lastSearchQuery = query
         return try searchVaultResultComputed.get()
     }
+
+    // MARK: - ObsidianRepositoryBulkOperations
+
+    func bulkApplyTagsFromSearch(
+        query: String,
+        tags: [String]
+    ) async throws -> BulkOperationResult {
+        bulkApplyTagsFromSearchCalled = true
+        bulkApplyTagsFromSearchCallCount += 1
+        lastBulkApplyTagsQuery = query
+        lastBulkApplyTags = tags
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return bulkOperationResultToReturn!
+    }
+
+    func bulkReplaceFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        bulkReplaceFrontmatterStringFromSearchCalled = true
+        bulkReplaceFrontmatterStringFromSearchCallCount += 1
+        lastBulkReplaceFrontmatterStringQuery = query
+        lastBulkReplaceFrontmatterStringKey = key
+        lastBulkReplaceFrontmatterStringValue = value
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return bulkOperationResultToReturn!
+    }
+
+    func bulkReplaceFrontmatterArrayFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        bulkReplaceFrontmatterArrayFromSearchCalled = true
+        bulkReplaceFrontmatterArrayFromSearchCallCount += 1
+        lastBulkReplaceFrontmatterArrayQuery = query
+        lastBulkReplaceFrontmatterArrayKey = key
+        lastBulkReplaceFrontmatterArrayValue = value
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return bulkOperationResultToReturn!
+    }
+
+    func bulkAppendToFrontmatterStringFromSearch(
+        query: String,
+        key: String,
+        value: String
+    ) async throws -> BulkOperationResult {
+        bulkAppendToFrontmatterStringFromSearchCalled = true
+        bulkAppendToFrontmatterStringFromSearchCallCount += 1
+        lastBulkAppendFrontmatterStringQuery = query
+        lastBulkAppendFrontmatterStringKey = key
+        lastBulkAppendFrontmatterStringValue = value
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return bulkOperationResultToReturn!
+    }
+
+    func bulkAppendToFrontmatterArrayFromSearch(
+        query: String,
+        key: String,
+        value: [String]
+    ) async throws -> BulkOperationResult {
+        bulkAppendToFrontmatterArrayFromSearchCalled = true
+        bulkAppendToFrontmatterArrayFromSearchCallCount += 1
+        lastBulkAppendFrontmatterArrayQuery = query
+        lastBulkAppendFrontmatterArrayKey = key
+        lastBulkAppendFrontmatterArrayValue = value
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return bulkOperationResultToReturn!
+    }
 }
 
 enum MockError: Error {
@@ -327,3 +452,5 @@ enum MockError: Error {
     case createOrUpdateFailed
     case appendFailed
 }
+
+// swiftlint:enable force_unwrapping
