@@ -6,7 +6,8 @@ public protocol ObsidianRepositoryProtocol: ObsidianRepositoryServerOperations,
                                             ObsidianRepositoryVaultNoteOperations,
                                             ObsidianRepositoryVaultOperations,
                                             ObsidianRepositorySearchOperations,
-                                            ObsidianRepositoryBulkOperations {}
+                                            ObsidianRepositoryBulkOperations,
+                                            ObsidianRepositoryPeriodicOperations {}
 
 // MARK: - Server Operations
 
@@ -242,4 +243,42 @@ public protocol ObsidianRepositoryBulkOperations {
         key: String,
         value: [String]
     ) async throws -> BulkOperationResult
+}
+
+// MARK: - Periodic Notes Operations
+
+public protocol ObsidianRepositoryPeriodicOperations {
+
+    /// Retrieves the periodic note for the specified time period.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note (daily, weekly, monthly, quarterly, yearly)
+    /// - Returns: The File object representing the periodic note
+    /// - Throws: An error if the periodic note cannot be retrieved or doesn't exist
+    func getPeriodicNote(period: String) async throws -> File
+
+    /// Creates or updates the periodic note for the specified time period with the given content.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note
+    ///   - content: The complete content to set for the periodic note
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdatePeriodicNote(
+        period: String,
+        content: String
+    ) async throws
+
+    /// Appends content to the existing periodic note for the specified time period.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note
+    ///   - content: The content to append to the existing periodic note
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToPeriodicNote(
+        period: String,
+        content: String
+    ) async throws
+
+    /// Deletes the periodic note for the specified time period.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note to delete
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deletePeriodicNote(period: String) async throws
 }

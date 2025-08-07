@@ -189,6 +189,57 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         )
     }
 
+    // MARK: - Periodic Notes Operations
+
+    public func makeGetPeriodicNoteRequest(
+        period: String
+    ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
+        .init(
+            path: "/periodic/\(period)/",
+            method: .get,
+            additionalHeaders: [
+                "Accept": "application/vnd.olrapi.note+json"
+            ]
+        )
+    }
+
+    public func makeCreateOrUpdatePeriodicNoteRequest(
+        period: String,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/\(period)/",
+            method: .put,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeAppendToPeriodicNoteRequest(
+        period: String,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/\(period)/",
+            method: .post,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeDeletePeriodicNoteRequest(
+        period: String
+    ) -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
+            path: "/periodic/\(period)/",
+            method: .delete
+        )
+    }
+
     // MARK: - Private
 
     private func buildVaultPath(for filename: String) -> String {

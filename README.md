@@ -92,6 +92,8 @@ Also replace `your-api-key-here` with your plugin's API key.
 - **Any Note**: `getNote(filename)`, `createOrUpdateNote()`, `appendToNote()`, `deleteNote()`
 - **Browse**: `listDirectory()` - Navigate vault structure
 - **Frontmatter**: Set and append to metadata fields and arrays
+- **Bulk Operations**: Apply tags, update frontmatter across multiple notes matching search queries
+- **Periodic Notes**: Manage daily, weekly, monthly, quarterly, and yearly notes (requires Periodic Notes plugin)
 
 ### Smart Analysis (12 Focus Types)
 - **General**: Comprehensive overview with themes and insights
@@ -138,6 +140,16 @@ Also replace `your-api-key-here` with your plugin's API key.
 ### Smart Analysis
 ```
 "Analyze my research paper for key themes" → "Generate follow-up questions" → "Create detailed outline for presentation"
+```
+
+### Bulk Management
+```
+"Find all meeting notes" → "Add 'meeting' tag to all results" → "Update status field to 'reviewed'"
+```
+
+### Periodic Notes
+```
+"Get today's daily note" → "Add completed tasks from yesterday" → "Create tomorrow's agenda in weekly note"
 ```
 
 ## 🔧 Requirements
@@ -194,6 +206,35 @@ Also replace `your-api-key-here` with your plugin's API key.
 ### Directory & Search
 - `listDirectory(directory)` - List vault contents
 - `search(query)` - Search entire vault
+
+### Bulk Operations
+- `bulkApplyTagsFromSearch(query, tags)` - Apply tags to all notes matching a search query
+- `bulkReplaceFrontmatterStringFromSearch(query, key, value)` - Replace frontmatter string field for all notes matching search
+- `bulkReplaceFrontmatterArrayFromSearch(query, key, value)` - Replace frontmatter array field for all notes matching search
+- `bulkAppendToFrontmatterStringFromSearch(query, key, value)` - Append to frontmatter string field for all notes matching search
+- `bulkAppendToFrontmatterArrayFromSearch(query, key, value)` - Append to frontmatter array field for all notes matching search
+
+### Periodic Notes Operations
+- `getDailyNote()` - Get the daily periodic note
+- `getWeeklyNote()` - Get the weekly periodic note
+- `getMonthlyNote()` - Get the monthly periodic note
+- `getQuarterlyNote()` - Get the quarterly periodic note
+- `getYearlyNote()` - Get the yearly periodic note
+- `createOrUpdateDailyNote(content)` - Create or update the daily periodic note
+- `createOrUpdateWeeklyNote(content)` - Create or update the weekly periodic note
+- `createOrUpdateMonthlyNote(content)` - Create or update the monthly periodic note
+- `createOrUpdateQuarterlyNote(content)` - Create or update the quarterly periodic note
+- `createOrUpdateYearlyNote(content)` - Create or update the yearly periodic note
+- `appendToDailyNote(content)` - Append content to the daily periodic note
+- `appendToWeeklyNote(content)` - Append content to the weekly periodic note
+- `appendToMonthlyNote(content)` - Append content to the monthly periodic note
+- `appendToQuarterlyNote(content)` - Append content to the quarterly periodic note
+- `appendToYearlyNote(content)` - Append content to the yearly periodic note
+- `deleteDailyNote()` - Delete the daily periodic note
+- `deleteWeeklyNote()` - Delete the weekly periodic note
+- `deleteMonthlyNote()` - Delete the monthly periodic note
+- `deleteQuarterlyNote()` - Delete the quarterly periodic note
+- `deleteYearlyNote()` - Delete the yearly periodic note
 
 ### Analysis & Enhancement Prompts
 - `summarizeNote(filename, focus)` - Analyze with 12 focus types

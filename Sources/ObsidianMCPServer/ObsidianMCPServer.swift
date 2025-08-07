@@ -523,6 +523,313 @@ final class ObsidianMCPServer {
         )
     }
 
+    // MARK: - Periodic Notes Operations
+
+    /**
+     Retrieve the daily periodic note.
+
+     Daily notes are commonly used for journaling, daily task tracking, and daily reflections.
+     This tool requires the Periodic Notes plugin to be installed and configured in Obsidian.
+
+     - Returns: The File object representing the daily periodic note
+     - Throws: An error if the daily note cannot be retrieved or the Periodic Notes plugin is not available
+     */
+    @MCPTool(description: "Get the daily periodic note")
+    func getDailyNote() async throws -> File {
+        try await repository.getPeriodicNote(period: "daily")
+    }
+
+    /**
+     Retrieve the weekly periodic note.
+
+     Weekly notes are commonly used for weekly reviews, planning, and weekly summaries.
+     This tool requires the Periodic Notes plugin to be installed and configured in Obsidian.
+
+     - Returns: The File object representing the weekly periodic note
+     - Throws: An error if the weekly note cannot be retrieved or the Periodic Notes plugin is not available
+     */
+    @MCPTool(description: "Get the weekly periodic note")
+    func getWeeklyNote() async throws -> File {
+        try await repository.getPeriodicNote(period: "weekly")
+    }
+
+    /**
+     Retrieve the monthly periodic note.
+
+     Monthly notes are commonly used for monthly reviews, goal tracking, and progress summaries.
+     This tool requires the Periodic Notes plugin to be installed and configured in Obsidian.
+
+     - Returns: The File object representing the monthly periodic note
+     - Throws: An error if the monthly note cannot be retrieved or the Periodic Notes plugin is not available
+     */
+    @MCPTool(description: "Get the monthly periodic note")
+    func getMonthlyNote() async throws -> File {
+        try await repository.getPeriodicNote(period: "monthly")
+    }
+
+    /**
+     Retrieve the quarterly periodic note.
+
+     Quarterly notes are commonly used for quarterly OKRs, strategic reviews, and quarterly planning.
+     This tool requires the Periodic Notes plugin to be installed and configured in Obsidian.
+
+     - Returns: The File object representing the quarterly periodic note
+     - Throws: An error if the quarterly note cannot be retrieved or the Periodic Notes plugin is not available
+     */
+    @MCPTool(description: "Get the quarterly periodic note")
+    func getQuarterlyNote() async throws -> File {
+        try await repository.getPeriodicNote(period: "quarterly")
+    }
+
+    /**
+     Retrieve the yearly periodic note.
+
+     Yearly notes are commonly used for annual reviews, year-end summaries, and yearly goal setting.
+     This tool requires the Periodic Notes plugin to be installed and configured in Obsidian.
+
+     - Returns: The File object representing the yearly periodic note
+     - Throws: An error if the yearly note cannot be retrieved or the Periodic Notes plugin is not available
+     */
+    @MCPTool(description: "Get the yearly periodic note")
+    func getYearlyNote() async throws -> File {
+        try await repository.getPeriodicNote(period: "yearly")
+    }
+
+    /**
+     Create or update the daily periodic note with the given content.
+
+     This completely replaces the content of the daily note. Use appendToDailyNote() if you
+     want to add content without replacing existing content.
+
+     - Parameter content: The complete content to set for the daily note
+     - Returns: A success message
+     - Throws: An error if the daily note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update the daily periodic note")
+    func createOrUpdateDailyNote(content: String) async throws -> String {
+        try await repository.createOrUpdatePeriodicNote(period: "daily", content: content)
+        return "Successfully updated daily periodic note"
+    }
+
+    /**
+     Create or update the weekly periodic note with the given content.
+
+     This completely replaces the content of the weekly note. Use appendToWeeklyNote() if you
+     want to add content without replacing existing content.
+
+     - Parameter content: The complete content to set for the weekly note
+     - Returns: A success message
+     - Throws: An error if the weekly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update the weekly periodic note")
+    func createOrUpdateWeeklyNote(content: String) async throws -> String {
+        try await repository.createOrUpdatePeriodicNote(period: "weekly", content: content)
+        return "Successfully updated weekly periodic note"
+    }
+
+    /**
+     Create or update the monthly periodic note with the given content.
+
+     This completely replaces the content of the monthly note. Use appendToMonthlyNote() if you
+     want to add content without replacing existing content.
+
+     - Parameter content: The complete content to set for the monthly note
+     - Returns: A success message
+     - Throws: An error if the monthly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update the monthly periodic note")
+    func createOrUpdateMonthlyNote(content: String) async throws -> String {
+        try await repository.createOrUpdatePeriodicNote(period: "monthly", content: content)
+        return "Successfully updated monthly periodic note"
+    }
+
+    /**
+     Create or update the quarterly periodic note with the given content.
+
+     This completely replaces the content of the quarterly note. Use appendToQuarterlyNote() if you
+     want to add content without replacing existing content.
+
+     - Parameter content: The complete content to set for the quarterly note
+     - Returns: A success message
+     - Throws: An error if the quarterly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update the quarterly periodic note")
+    func createOrUpdateQuarterlyNote(content: String) async throws -> String {
+        try await repository.createOrUpdatePeriodicNote(period: "quarterly", content: content)
+        return "Successfully updated quarterly periodic note"
+    }
+
+    /**
+     Create or update the yearly periodic note with the given content.
+
+     This completely replaces the content of the yearly note. Use appendToYearlyNote() if you
+     want to add content without replacing existing content.
+
+     - Parameter content: The complete content to set for the yearly note
+     - Returns: A success message
+     - Throws: An error if the yearly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update the yearly periodic note")
+    func createOrUpdateYearlyNote(content: String) async throws -> String {
+        try await repository.createOrUpdatePeriodicNote(period: "yearly", content: content)
+        return "Successfully updated yearly periodic note"
+    }
+
+    /**
+     Append content to the existing daily periodic note.
+
+     This adds new content to the end of the existing daily note without replacing
+     existing content. Ideal for adding new entries to daily logs.
+
+     - Parameter content: The content to append to the existing daily note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the daily note
+     */
+    @MCPTool(description: "Append content to the daily periodic note")
+    func appendToDailyNote(content: String) async throws -> String {
+        try await repository.appendToPeriodicNote(period: "daily", content: content)
+        return "Successfully appended content to daily periodic note"
+    }
+
+    /**
+     Append content to the existing weekly periodic note.
+
+     This adds new content to the end of the existing weekly note without replacing
+     existing content. Ideal for adding new entries to weekly summaries.
+
+     - Parameter content: The content to append to the existing weekly note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the weekly note
+     */
+    @MCPTool(description: "Append content to the weekly periodic note")
+    func appendToWeeklyNote(content: String) async throws -> String {
+        try await repository.appendToPeriodicNote(period: "weekly", content: content)
+        return "Successfully appended content to weekly periodic note"
+    }
+
+    /**
+     Append content to the existing monthly periodic note.
+
+     This adds new content to the end of the existing monthly note without replacing
+     existing content. Ideal for adding new entries to monthly reviews.
+
+     - Parameter content: The content to append to the existing monthly note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the monthly note
+     */
+    @MCPTool(description: "Append content to the monthly periodic note")
+    func appendToMonthlyNote(content: String) async throws -> String {
+        try await repository.appendToPeriodicNote(period: "monthly", content: content)
+        return "Successfully appended content to monthly periodic note"
+    }
+
+    /**
+     Append content to the existing quarterly periodic note.
+
+     This adds new content to the end of the existing quarterly note without replacing
+     existing content. Ideal for adding new entries to quarterly reviews.
+
+     - Parameter content: The content to append to the existing quarterly note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the quarterly note
+     */
+    @MCPTool(description: "Append content to the quarterly periodic note")
+    func appendToQuarterlyNote(content: String) async throws -> String {
+        try await repository.appendToPeriodicNote(period: "quarterly", content: content)
+        return "Successfully appended content to quarterly periodic note"
+    }
+
+    /**
+     Append content to the existing yearly periodic note.
+
+     This adds new content to the end of the existing yearly note without replacing
+     existing content. Ideal for adding new entries to yearly summaries.
+
+     - Parameter content: The content to append to the existing yearly note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the yearly note
+     */
+    @MCPTool(description: "Append content to the yearly periodic note")
+    func appendToYearlyNote(content: String) async throws -> String {
+        try await repository.appendToPeriodicNote(period: "yearly", content: content)
+        return "Successfully appended content to yearly periodic note"
+    }
+
+    /**
+     Delete the daily periodic note.
+
+     This permanently removes the daily note file. Use with caution as this operation
+     cannot be undone.
+
+     - Returns: A success message
+     - Throws: An error if the daily note cannot be deleted
+     */
+    @MCPTool(description: "Delete the daily periodic note")
+    func deleteDailyNote() async throws -> String {
+        try await repository.deletePeriodicNote(period: "daily")
+        return "Successfully deleted daily periodic note"
+    }
+
+    /**
+     Delete the weekly periodic note.
+
+     This permanently removes the weekly note file. Use with caution as this operation
+     cannot be undone.
+
+     - Returns: A success message
+     - Throws: An error if the weekly note cannot be deleted
+     */
+    @MCPTool(description: "Delete the weekly periodic note")
+    func deleteWeeklyNote() async throws -> String {
+        try await repository.deletePeriodicNote(period: "weekly")
+        return "Successfully deleted weekly periodic note"
+    }
+
+    /**
+     Delete the monthly periodic note.
+
+     This permanently removes the monthly note file. Use with caution as this operation
+     cannot be undone.
+
+     - Returns: A success message
+     - Throws: An error if the monthly note cannot be deleted
+     */
+    @MCPTool(description: "Delete the monthly periodic note")
+    func deleteMonthlyNote() async throws -> String {
+        try await repository.deletePeriodicNote(period: "monthly")
+        return "Successfully deleted monthly periodic note"
+    }
+
+    /**
+     Delete the quarterly periodic note.
+
+     This permanently removes the quarterly note file. Use with caution as this operation
+     cannot be undone.
+
+     - Returns: A success message
+     - Throws: An error if the quarterly note cannot be deleted
+     */
+    @MCPTool(description: "Delete the quarterly periodic note")
+    func deleteQuarterlyNote() async throws -> String {
+        try await repository.deletePeriodicNote(period: "quarterly")
+        return "Successfully deleted quarterly periodic note"
+    }
+
+    /**
+     Delete the yearly periodic note.
+
+     This permanently removes the yearly note file. Use with caution as this operation
+     cannot be undone.
+
+     - Returns: A success message
+     - Throws: An error if the yearly note cannot be deleted
+     */
+    @MCPTool(description: "Delete the yearly periodic note")
+    func deleteYearlyNote() async throws -> String {
+        try await repository.deletePeriodicNote(period: "yearly")
+        return "Successfully deleted yearly periodic note"
+    }
+
     // MARK: - MCP Prompts
 
     /**

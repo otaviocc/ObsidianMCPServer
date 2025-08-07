@@ -497,4 +497,127 @@ struct ObsidianRequestFactoryTests {
             "It should URL encode spaces in target key"
         )
     }
+
+    // MARK: - Periodic Notes Tests
+
+    @Test("It should create get periodic note request")
+    func makeGetPeriodicNoteRequest() {
+        // Given
+        let period = "daily"
+
+        // When
+        let request = factory.makeGetPeriodicNoteRequest(period: period)
+
+        // Then
+        #expect(
+            request.path == "/periodic/daily/",
+            "It should use correct periodic note path"
+        )
+        #expect(
+            request.method == .get,
+            "It should use GET method"
+        )
+        #expect(
+            request.additionalHeaders?["Accept"] == "application/vnd.olrapi.note+json",
+            "It should set correct Accept header"
+        )
+    }
+
+    @Test("It should create periodic note request for different periods")
+    func makeGetPeriodicNoteRequestDifferentPeriods() {
+        // Test all periodic note periods
+        let periods = ["daily", "weekly", "monthly", "quarterly", "yearly"]
+
+        for period in periods {
+            // When
+            let request = factory.makeGetPeriodicNoteRequest(period: period)
+
+            // Then
+            #expect(
+                request.path == "/periodic/\(period)/",
+                "It should use correct path for \(period) period"
+            )
+        }
+    }
+
+    @Test("It should create update periodic note request")
+    func makeCreateOrUpdatePeriodicNoteRequest() {
+        // Given
+        let period = "weekly"
+        let content = "# Week 1\n\nGoals for this week..."
+
+        // When
+        let request = factory.makeCreateOrUpdatePeriodicNoteRequest(
+            period: period,
+            content: content
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/weekly/",
+            "It should use correct periodic note path"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set correct Content-Type header"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should set request body with content"
+        )
+    }
+
+    @Test("It should create append to periodic note request")
+    func makeAppendToPeriodicNoteRequest() {
+        // Given
+        let period = "monthly"
+        let content = "\n\n## New Achievement\n- Completed project X"
+
+        // When
+        let request = factory.makeAppendToPeriodicNoteRequest(
+            period: period,
+            content: content
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/monthly/",
+            "It should use correct periodic note path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set correct Content-Type header"
+        )
+        #expect(
+            request.body == content.data(using: .utf8),
+            "It should set request body with content"
+        )
+    }
+
+    @Test("It should create delete periodic note request")
+    func makeDeletePeriodicNoteRequest() {
+        // Given
+        let period = "quarterly"
+
+        // When
+        let request = factory.makeDeletePeriodicNoteRequest(period: period)
+
+        // Then
+        #expect(
+            request.path == "/periodic/quarterly/",
+            "It should use correct periodic note path"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+    }
 }
