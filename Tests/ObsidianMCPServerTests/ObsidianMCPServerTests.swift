@@ -1650,6 +1650,61 @@ struct ObsidianMCPServerTests {
         }
     }
 
+    @Test("It should proofread active note")
+    func proofreadActiveNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "This is an draft of my blog post that need some grammar fix's and improvement's."
+        mock.activeNoteToReturn = File(filename: "BlogPost.md", content: activeContent)
+
+        // When
+        let result = try await server.proofreadActiveNote()
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("BlogPost.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("updateActiveNote(content:"),
+            "It should include the MCP command to update the active note"
+        )
+        #expect(
+            result.contains("**After Proofreading:**"),
+            "It should include the action instructions section"
+        )
+    }
+
+    @Test("It should propagate errors for proofread active note")
+    func proofreadActiveNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.proofreadActiveNote()
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.getActiveNoteCallCount == 1,
+                "It should call getActiveNote once before failing"
+            )
+        }
+    }
+
     // MARK: - Bulk Operations Tests
 
     @Test("It should bulk apply tags from search")

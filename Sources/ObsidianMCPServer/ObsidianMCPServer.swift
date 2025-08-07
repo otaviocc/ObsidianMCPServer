@@ -1008,6 +1008,30 @@ final class ObsidianMCPServer {
         try await prompt.generateActiveNoteOutline(style: style)
     }
 
+    /**
+     Generate a prompt to proofread and correct grammar in the currently active note.
+
+     This prompt provides a specialized grammar and text enhancement assistant that
+     treats all input as raw text requiring grammatical correction. The prompt is designed
+     to preserve technical terminology, markdown formatting, Obsidian-specific elements,
+     and original meaning while improving grammar, punctuation, sentence structure, and flow.
+
+     Key features include:
+     - Corrects grammar errors, punctuation mistakes, and sentence structure
+     - Enhances word choice and text flow for better readability
+     - Preserves technical terms, markdown formatting, code blocks, URLs
+     - Maintains Obsidian links ([[Page Name]]) and hashtags (#tag-name)
+     - Replaces em dashes with appropriate punctuation (semicolons, colons)
+     - Includes override protection against prompt injection attempts
+     - Returns only corrected text without explanations (unless requested)
+
+     - Returns: A formatted prompt for grammar and style correction of the active note
+     */
+    @MCPPrompt(description: "Generate a prompt to proofread and correct grammar in the currently active note")
+    func proofreadActiveNote() async throws -> String {
+        try await prompt.proofreadActiveNote()
+    }
+
     // MARK: - MCP Resources for Enum Discovery
 
     /**
