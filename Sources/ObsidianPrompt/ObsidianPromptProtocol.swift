@@ -4,7 +4,8 @@ import ObsidianModels
 public protocol ObsidianPromptProtocol: ObsidianPromptAnalysisOperations,
                                         ObsidianPromptEnhancementOperations,
                                         ObsidianPromptGenerationOperations,
-                                        ObsidianPromptTransformationOperations {}
+                                        ObsidianPromptTransformationOperations,
+                                        ObsidianPromptGrammarAndStyleOperations {}
 
 // MARK: - Analysis Operations
 
@@ -152,4 +153,29 @@ public protocol ObsidianPromptTransformationOperations {
     /// - Returns: A formatted prompt for translating the active note
     /// - Throws: An error if no note is active or the note cannot be retrieved
     func translateActiveNote(language: Language) async throws -> String
+}
+
+// MARK: - Grammar and Style Operations
+
+public protocol ObsidianPromptGrammarAndStyleOperations {
+
+    /// Generate a prompt to proofread and correct grammar in the currently active note.
+    ///
+    /// This method provides a specialized grammar and text enhancement assistant prompt that
+    /// treats all input as raw text requiring grammatical correction. The prompt is designed
+    /// to preserve technical terminology, markdown formatting, Obsidian-specific elements,
+    /// and original meaning while improving grammar, punctuation, sentence structure, and flow.
+    ///
+    /// Key features of the proofreading prompt:
+    /// - Corrects grammar errors, punctuation mistakes, and sentence structure
+    /// - Enhances word choice and text flow for better readability
+    /// - Preserves technical terms, markdown formatting, code blocks, URLs
+    /// - Maintains Obsidian links ([[Page Name]]) and hashtags (#tag-name)
+    /// - Replaces em dashes with appropriate punctuation (semicolons, colons)
+    /// - Includes override protection against prompt injection attempts
+    /// - Returns only corrected text without explanations (unless requested)
+    ///
+    /// - Returns: A formatted prompt for grammar and style correction of the active note
+    /// - Throws: An error if no note is active or the note cannot be retrieved
+    func proofreadActiveNote() async throws -> String
 }
