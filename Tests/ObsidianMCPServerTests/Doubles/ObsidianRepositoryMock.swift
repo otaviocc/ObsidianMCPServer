@@ -443,6 +443,77 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
         return bulkOperationResultToReturn!
     }
+
+    // MARK: - Periodic Notes Operations
+
+    var getPeriodicNoteCalled: Bool = false
+    var getPeriodicNoteCallCount: Int = 0
+    var lastPeriodicNotePeriod: String?
+    var periodicNoteFileToReturn: File?
+
+    var createOrUpdatePeriodicNoteCalled: Bool = false
+    var createOrUpdatePeriodicNoteCallCount: Int = 0
+    var lastCreateOrUpdatePeriodicNotePeriod: String?
+    var lastCreateOrUpdatePeriodicNoteContent: String?
+
+    var appendToPeriodicNoteCalled: Bool = false
+    var appendToPeriodicNoteCallCount: Int = 0
+    var lastAppendToPeriodicNotePeriod: String?
+    var lastAppendToPeriodicNoteContent: String?
+
+    var deletePeriodicNoteCalled: Bool = false
+    var deletePeriodicNoteCallCount: Int = 0
+    var lastDeletePeriodicNotePeriod: String?
+
+    func getPeriodicNote(period: String) async throws -> File {
+        getPeriodicNoteCalled = true
+        getPeriodicNoteCallCount += 1
+        lastPeriodicNotePeriod = period
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return periodicNoteFileToReturn!
+    }
+
+    func createOrUpdatePeriodicNote(
+        period: String,
+        content: String
+    ) async throws {
+        createOrUpdatePeriodicNoteCalled = true
+        createOrUpdatePeriodicNoteCallCount += 1
+        lastCreateOrUpdatePeriodicNotePeriod = period
+        lastCreateOrUpdatePeriodicNoteContent = content
+
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+
+    func appendToPeriodicNote(
+        period: String,
+        content: String
+    ) async throws {
+        appendToPeriodicNoteCalled = true
+        appendToPeriodicNoteCallCount += 1
+        lastAppendToPeriodicNotePeriod = period
+        lastAppendToPeriodicNoteContent = content
+
+        if let error = errorToThrow {
+            throw error
+        }
+    }
+
+    func deletePeriodicNote(period: String) async throws {
+        deletePeriodicNoteCalled = true
+        deletePeriodicNoteCallCount += 1
+        lastDeletePeriodicNotePeriod = period
+
+        if let error = errorToThrow {
+            throw error
+        }
+    }
 }
 
 enum MockError: Error {

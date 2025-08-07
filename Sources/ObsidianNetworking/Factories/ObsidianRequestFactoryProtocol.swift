@@ -114,4 +114,42 @@ public protocol ObsidianRequestFactoryProtocol {
     func makeSearchVaultRequest(
         query: String
     ) -> NetworkRequest<VoidRequest, [SimpleSearchResponse]>
+
+    // MARK: - Periodic Notes Operations
+
+    /// Creates a network request to retrieve a periodic note for the specified period.
+    /// - Parameters:
+    ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
+    /// - Returns: A `NetworkRequest` that fetches the periodic note
+    func makeGetPeriodicNoteRequest(
+        period: String
+    ) -> NetworkRequest<VoidRequest, NoteJSONResponse>
+
+    /// Creates a network request to create or update a periodic note for the specified period.
+    /// - Parameters:
+    ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
+    ///   - content: The content to write to the periodic note
+    /// - Returns: A `NetworkRequest` that creates or updates the periodic note
+    func makeCreateOrUpdatePeriodicNoteRequest(
+        period: String,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to append content to a periodic note for the specified period.
+    /// - Parameters:
+    ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
+    ///   - content: The content to append to the periodic note
+    /// - Returns: A `NetworkRequest` that appends content to the periodic note
+    func makeAppendToPeriodicNoteRequest(
+        period: String,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to delete a periodic note for the specified period.
+    /// - Parameters:
+    ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
+    /// - Returns: A `NetworkRequest` that deletes the periodic note
+    func makeDeletePeriodicNoteRequest(
+        period: String
+    ) -> NetworkRequest<VoidRequest, VoidResponse>
 }

@@ -453,4 +453,51 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
     }
 }
 
+// MARK: - ObsidianRepositoryPeriodicOperations
+
+extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
+
+    public func getPeriodicNote(period: String) async throws -> File {
+        let request = requestFactory.makeGetPeriodicNoteRequest(period: period)
+        let response = try await client.run(request)
+
+        return .init(
+            filename: response.value.path,
+            content: response.value.content
+        )
+    }
+
+    public func createOrUpdatePeriodicNote(
+        period: String,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdatePeriodicNoteRequest(
+            period: period,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToPeriodicNote(
+        period: String,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeAppendToPeriodicNoteRequest(
+            period: period,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func deletePeriodicNote(period: String) async throws {
+        let request = requestFactory.makeDeletePeriodicNoteRequest(
+            period: period
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+}
+
 // swiftlint:enable file_length

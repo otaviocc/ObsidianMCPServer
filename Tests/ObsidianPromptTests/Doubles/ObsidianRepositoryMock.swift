@@ -176,5 +176,27 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     ) async throws -> BulkOperationResult {
         fatalError("Not implemented for prompt tests")
     }
+
+    func getPeriodicNote(period: String) async throws -> File {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func createOrUpdatePeriodicNote(
+        period: String,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToPeriodicNote(
+        period: String,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func deletePeriodicNote(period: String) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
     // swiftlint:enable unavailable_function
 }

@@ -2172,4 +2172,692 @@ struct ObsidianMCPServerTests {
             "It should identify as OutlineStyle enum"
         )
     }
+
+    // MARK: - Periodic Notes Get Operations Tests
+
+    @Test("It should get daily note")
+    func getDailyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(
+            filename: "2025-01-15.md",
+            content: "# Daily Note\n\n## Tasks\n- Complete daily review"
+        )
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getDailyNote()
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastPeriodicNotePeriod == "daily",
+            "It should request daily period"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get weekly note")
+    func getWeeklyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(
+            filename: "2025-W03.md",
+            content: "# Weekly Review\n\n## Goals\n- Complete sprint objectives"
+        )
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getWeeklyNote()
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastPeriodicNotePeriod == "weekly",
+            "It should request weekly period"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get monthly note")
+    func getMonthlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(
+            filename: "2025-01.md",
+            content: "# Monthly Summary\n\n## Key Metrics\n- Revenue: $100k"
+        )
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getMonthlyNote()
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastPeriodicNotePeriod == "monthly",
+            "It should request monthly period"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get quarterly note")
+    func getQuarterlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(
+            filename: "2025-Q1.md",
+            content: "# Q1 OKRs\n\n## Objectives\n1. Improve performance by 20%"
+        )
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getQuarterlyNote()
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastPeriodicNotePeriod == "quarterly",
+            "It should request quarterly period"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get yearly note")
+    func getYearlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(
+            filename: "2025.md",
+            content: "# 2025 Annual Review\n\n## Achievements\n- Company IPO successful"
+        )
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getYearlyNote()
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastPeriodicNotePeriod == "yearly",
+            "It should request yearly period"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should handle get periodic note errors")
+    func getPeriodicNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "test.md", content: "test content")
+        mock.periodicNoteFileToReturn = expectedFile
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.getDailyNote()
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.getPeriodicNoteCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    // MARK: - Periodic Notes Create/Update Operations Tests
+
+    @Test("It should create or update daily note")
+    func createOrUpdateDailyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "# Today's Tasks\n\n- Complete project review"
+
+        // When
+        let result = try await server.createOrUpdateDailyNote(content: content)
+
+        // Then
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNotePeriod == "daily",
+            "It should use daily period"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully updated daily periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should create or update weekly note")
+    func createOrUpdateWeeklyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "# Weekly Review\n\n## Accomplishments\n- Launched new feature"
+
+        // When
+        let result = try await server.createOrUpdateWeeklyNote(content: content)
+
+        // Then
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNotePeriod == "weekly",
+            "It should use weekly period"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully updated weekly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should create or update monthly note")
+    func createOrUpdateMonthlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "# Monthly Summary\n\n## Key Metrics\n- Revenue: $50k"
+
+        // When
+        let result = try await server.createOrUpdateMonthlyNote(content: content)
+
+        // Then
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNotePeriod == "monthly",
+            "It should use monthly period"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully updated monthly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should create or update quarterly note")
+    func createOrUpdateQuarterlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "# Q1 OKRs\n\n## Objectives\n1. Improve performance"
+
+        // When
+        let result = try await server.createOrUpdateQuarterlyNote(content: content)
+
+        // Then
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNotePeriod == "quarterly",
+            "It should use quarterly period"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully updated quarterly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should create or update yearly note")
+    func createOrUpdateYearlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "# 2024 Annual Review\n\n## Achievements\n- Company growth"
+
+        // When
+        let result = try await server.createOrUpdateYearlyNote(content: content)
+
+        // Then
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNotePeriod == "yearly",
+            "It should use yearly period"
+        )
+        #expect(
+            mock.lastCreateOrUpdatePeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully updated yearly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should handle create or update periodic note errors")
+    func createOrUpdatePeriodicNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.createOrUpdateFailed
+
+        // When/Then
+        do {
+            _ = try await server.createOrUpdateDailyNote(content: "test")
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.createOrUpdatePeriodicNoteCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    // MARK: - Periodic Notes Append Operations Tests
+
+    @Test("It should append to daily note")
+    func appendToDailyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "\n\n## Evening Reflection\n- Completed all tasks"
+
+        // When
+        let result = try await server.appendToDailyNote(content: content)
+
+        // Then
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNotePeriod == "daily",
+            "It should use daily period"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully appended content to daily periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should append to weekly note")
+    func appendToWeeklyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "\n\n## New Learning\n- Discovered better workflow"
+
+        // When
+        let result = try await server.appendToWeeklyNote(content: content)
+
+        // Then
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNotePeriod == "weekly",
+            "It should use weekly period"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully appended content to weekly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should append to monthly note")
+    func appendToMonthlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "\n\n## Additional Metric\n- Customer satisfaction: 95%"
+
+        // When
+        let result = try await server.appendToMonthlyNote(content: content)
+
+        // Then
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNotePeriod == "monthly",
+            "It should use monthly period"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully appended content to monthly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should append to quarterly note")
+    func appendToQuarterlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "\n\n## Risk Assessment\n- Market volatility concerns"
+
+        // When
+        let result = try await server.appendToQuarterlyNote(content: content)
+
+        // Then
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNotePeriod == "quarterly",
+            "It should use quarterly period"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully appended content to quarterly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should append to yearly note")
+    func appendToYearlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let content = "\n\n## Late Addition\n- Unexpected partnership deal"
+
+        // When
+        let result = try await server.appendToYearlyNote(content: content)
+
+        // Then
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNotePeriod == "yearly",
+            "It should use yearly period"
+        )
+        #expect(
+            mock.lastAppendToPeriodicNoteContent == content,
+            "It should pass the correct content"
+        )
+        #expect(
+            result.contains("Successfully appended content to yearly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should handle append to periodic note errors")
+    func appendToPeriodicNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.appendFailed
+
+        // When/Then
+        do {
+            _ = try await server.appendToDailyNote(content: "test")
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.appendToPeriodicNoteCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    // MARK: - Periodic Notes Delete Operations Tests
+
+    @Test("It should delete daily note")
+    func deleteDailyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteDailyNote()
+
+        // Then
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastDeletePeriodicNotePeriod == "daily",
+            "It should use daily period"
+        )
+        #expect(
+            result.contains("Successfully deleted daily periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should delete weekly note")
+    func deleteWeeklyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteWeeklyNote()
+
+        // Then
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastDeletePeriodicNotePeriod == "weekly",
+            "It should use weekly period"
+        )
+        #expect(
+            result.contains("Successfully deleted weekly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should delete monthly note")
+    func deleteMonthlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteMonthlyNote()
+
+        // Then
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastDeletePeriodicNotePeriod == "monthly",
+            "It should use monthly period"
+        )
+        #expect(
+            result.contains("Successfully deleted monthly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should delete quarterly note")
+    func deleteQuarterlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteQuarterlyNote()
+
+        // Then
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastDeletePeriodicNotePeriod == "quarterly",
+            "It should use quarterly period"
+        )
+        #expect(
+            result.contains("Successfully deleted quarterly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should delete yearly note")
+    func deleteYearlyNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteYearlyNote()
+
+        // Then
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
+        #expect(
+            mock.lastDeletePeriodicNotePeriod == "yearly",
+            "It should use yearly period"
+        )
+        #expect(
+            result.contains("Successfully deleted yearly periodic note"),
+            "It should return success message"
+        )
+    }
+
+    @Test("It should handle delete periodic note errors")
+    func deletePeriodicNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.deleteFailed
+
+        // When/Then
+        do {
+            _ = try await server.deleteDailyNote()
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.deletePeriodicNoteCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
+    // MARK: - Periodic Notes Integration Tests
+
+    @Test("It should handle multiple periodic note operations independently")
+    func multiplePeriodicNoteOperations() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let mockFile = File(filename: "test.md", content: "test content")
+        mock.periodicNoteFileToReturn = mockFile
+
+        // When
+        _ = try await server.getDailyNote()
+        _ = try await server.getWeeklyNote()
+        _ = try await server.createOrUpdateMonthlyNote(content: "test")
+        _ = try await server.appendToQuarterlyNote(content: "test")
+        _ = try await server.deleteYearlyNote()
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteCallCount == 2,
+            "It should call get method twice"
+        )
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call create/update method once"
+        )
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call append method once"
+        )
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call delete method once"
+        )
+    }
 }
