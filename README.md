@@ -6,29 +6,6 @@
 
 Connect your AI assistant to Obsidian! This Model Context Protocol (MCP) server enables Claude, Cursor, and other AI tools to read, write, search, and manage your Obsidian notes through the Local REST API.
 
-## ✨ What You Can Do
-
-🤖 **Ask your AI to:**
-- *"Show me all my notes about machine learning"* → Search your vault with relevance scores
-- *"Create a new meeting note with today's agenda"* → Generate structured notes
-- *"Add this insight to my research project"* → Append content to existing notes
-- *"Suggest tags for my current note"* → Auto-tag based on content analysis
-- *"Translate my notes to Spanish"* → Multi-language content transformation
-- *"Generate an outline of my research paper"* → Create structured summaries
-- *"What action items are in my meeting notes?"* → Extract tasks and deadlines
-
-🔍 **Smart Analysis & Generation**
-- **12 Focus Types**: Analyze notes for themes, action items, insights, grammar, and more
-- **Content Generation**: Create abstracts, outlines, and structured analysis
-- **Multi-Language**: Translate to 12+ languages with proper localization
-- **Style Transformation**: Rewrite in formal, casual, technical, ELI5, or creative styles
-
-📝 **Full Note Management**
-- Read and update any note in your vault
-- Manage frontmatter fields and arrays (tags, metadata)
-- Search across your entire knowledge base
-- Navigate and organize your vault structure
-
 ## 🚀 Quick Setup
 
 ### 1. Install Obsidian Plugin
@@ -86,71 +63,101 @@ Also replace `your-api-key-here` with your plugin's API key.
 
 ## 🛠️ Available Features
 
-### Core Operations
-- **Search**: `search(query)` - Find notes across your vault
-- **Active Note**: `getActiveNote()`, `updateActiveNote()`, `deleteActiveNote()`
-- **Any Note**: `getNote(filename)`, `createOrUpdateNote()`, `appendToNote()`, `deleteNote()`
-- **Browse**: `listDirectory()` - Navigate vault structure
-- **Frontmatter**: Set and append to metadata fields and arrays
-- **Bulk Operations**: Apply tags, update frontmatter across multiple notes matching search queries
-- **Periodic Notes**: Manage daily, weekly, monthly, quarterly, and yearly notes (requires Periodic Notes plugin)
+### Tools
 
-### Smart Analysis (12 Focus Types)
-- **General**: Comprehensive overview with themes and insights
-- **Summarize**: Clear, concise content summary
-- **Action Items**: Extract tasks, deadlines, and next steps
-- **Themes**: Identify main concepts and topics
-- **Grammar**: Writing improvements and style suggestions
-- **Keywords**: Extract terms for better organization
-- **Insights**: Key learnings and "aha moments"
-- **Connections**: Suggest links to other notes
-- **Structure**: Organization and flow improvements
-- **Questions**: Generate follow-up questions for deeper exploration
-- **Tone**: Analyze mood and emotional context
-- **Review**: Comprehensive strengths/weaknesses analysis
+| Name | Group | Description |
+|---|---|---|
+| `getServerInfo()` | Server | Get Obsidian server details |
+| `getActiveNote()` | Active Note | Get currently active note |
+| `updateActiveNote(content)` | Active Note | Replace active note content |
+| `deleteActiveNote()` | Active Note | Delete active note |
+| `setActiveNoteFrontmatterString(key, value)` | Active Note | Set frontmatter string field |
+| `appendToActiveNoteFrontmatterString(key, value)` | Active Note | Append to frontmatter string field |
+| `setActiveNoteFrontmatterArray(key, values)` | Active Note | Set frontmatter array field |
+| `appendToActiveNoteFrontmatterArray(key, values)` | Active Note | Append to frontmatter array field |
+| `getNote(filename)` | Vault Note | Get any note by filename |
+| `createOrUpdateNote(filename, content)` | Vault Note | Create or update a note |
+| `appendToNote(filename, content)` | Vault Note | Append content to a note |
+| `deleteNote(filename)` | Vault Note | Delete specific note |
+| `setNoteFrontmatterString(filename, key, value)` | Vault Note | Set frontmatter string field |
+| `appendToNoteFrontmatterString(filename, key, value)` | Vault Note | Append to frontmatter string field |
+| `setNoteFrontmatterArray(filename, key, values)` | Vault Note | Set frontmatter array field |
+| `appendToNoteFrontmatterArray(filename, key, values)` | Vault Note | Append to frontmatter array field |
+| `listDirectory(directory)` | Directory & Search | List vault contents |
+| `search(query)` | Directory & Search | Search entire vault |
+| `bulkApplyTagsFromSearch(query, tags)` | Bulk Operations | Apply tags to search matches |
+| `bulkReplaceFrontmatterStringFromSearch(query, key, value)` | Bulk Operations | Replace frontmatter string for matches |
+| `bulkReplaceFrontmatterArrayFromSearch(query, key, value)` | Bulk Operations | Replace frontmatter array for matches |
+| `bulkAppendToFrontmatterStringFromSearch(query, key, value)` | Bulk Operations | Append to frontmatter string for matches |
+| `bulkAppendToFrontmatterArrayFromSearch(query, key, value)` | Bulk Operations | Append to frontmatter array for matches |
+| `getDailyNote()` | Periodic Notes (current) | Get the daily note |
+| `getWeeklyNote()` | Periodic Notes (current) | Get the weekly note |
+| `getMonthlyNote()` | Periodic Notes (current) | Get the monthly note |
+| `getQuarterlyNote()` | Periodic Notes (current) | Get the quarterly note |
+| `getYearlyNote()` | Periodic Notes (current) | Get the yearly note |
+| `createOrUpdateDailyNote(content)` | Periodic Notes (current) | Create or replace daily note |
+| `createOrUpdateWeeklyNote(content)` | Periodic Notes (current) | Create or replace weekly note |
+| `createOrUpdateMonthlyNote(content)` | Periodic Notes (current) | Create or replace monthly note |
+| `createOrUpdateQuarterlyNote(content)` | Periodic Notes (current) | Create or replace quarterly note |
+| `createOrUpdateYearlyNote(content)` | Periodic Notes (current) | Create or replace yearly note |
+| `appendToDailyNote(content)` | Periodic Notes (current) | Append to daily note |
+| `appendToWeeklyNote(content)` | Periodic Notes (current) | Append to weekly note |
+| `appendToMonthlyNote(content)` | Periodic Notes (current) | Append to monthly note |
+| `appendToQuarterlyNote(content)` | Periodic Notes (current) | Append to quarterly note |
+| `appendToYearlyNote(content)` | Periodic Notes (current) | Append to yearly note |
+| `deleteDailyNote()` | Periodic Notes (current) | Delete daily note |
+| `deleteWeeklyNote()` | Periodic Notes (current) | Delete weekly note |
+| `deleteMonthlyNote()` | Periodic Notes (current) | Delete monthly note |
+| `deleteQuarterlyNote()` | Periodic Notes (current) | Delete quarterly note |
+| `deleteYearlyNote()` | Periodic Notes (current) | Delete yearly note |
+| `getDailyNoteForDate(year, month, day)` | Periodic Notes (date) | Get daily note for date |
+| `getWeeklyNoteForDate(year, month, day)` | Periodic Notes (date) | Get weekly note for date |
+| `getMonthlyNoteForDate(year, month, day)` | Periodic Notes (date) | Get monthly note for date |
+| `getQuarterlyNoteForDate(year, month, day)` | Periodic Notes (date) | Get quarterly note for date |
+| `getYearlyNoteForDate(year, month, day)` | Periodic Notes (date) | Get yearly note for date |
+| `deleteDailyNoteForDate(year, month, day)` | Periodic Notes (date) | Delete daily note for date |
+| `deleteWeeklyNoteForDate(year, month, day)` | Periodic Notes (date) | Delete weekly note for date |
+| `deleteMonthlyNoteForDate(year, month, day)` | Periodic Notes (date) | Delete monthly note for date |
+| `deleteQuarterlyNoteForDate(year, month, day)` | Periodic Notes (date) | Delete quarterly note for date |
+| `deleteYearlyNoteForDate(year, month, day)` | Periodic Notes (date) | Delete yearly note for date |
+| `appendToDailyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Append to daily note for date |
+| `appendToWeeklyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Append to weekly note for date |
+| `appendToMonthlyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Append to monthly note for date |
+| `appendToQuarterlyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Append to quarterly note for date |
+| `appendToYearlyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Append to yearly note for date |
+| `createOrUpdateDailyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Create/replace daily note for date |
+| `createOrUpdateWeeklyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Create/replace weekly note for date |
+| `createOrUpdateMonthlyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Create/replace monthly note for date |
+| `createOrUpdateQuarterlyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Create/replace quarterly note for date |
+| `createOrUpdateYearlyNoteForDate(year, month, day, content)` | Periodic Notes (date) | Create/replace yearly note for date |
 
-### Content Generation
-- **Abstracts**: Brief, standard, or detailed summaries
-- **Outlines**: Bullet points, numbered lists, or hierarchical format
-- **Follow-up Questions**: Generate thought-provoking questions
-- **Tag Suggestions**: Auto-suggest relevant tags
-- **Frontmatter**: Generate complete metadata structure
+### Prompts
 
-### Content Transformation
-- **Translation**: 12+ languages (Portuguese, Spanish, French, German, Italian, Japanese, Korean, Chinese, Russian, Arabic, Hindi, Dutch)
-- **Writing Styles**: Formal, informal, technical, scientific, emoji, ELI5, creative, professional, academic, conversational
+| Name | Group | Description |
+|---|---|---|
+| `analyzeNote(filename, focus)` | Analysis | Analyze an Obsidian note with focus types |
+| `analyzeActiveNote(focus)` | Analysis | Analyze the currently active note |
+| `generateFollowUpQuestions(filename, questionCount)` | Questions | Generate follow‑up questions |
+| `suggestTags(filename, maxTags)` | Metadata | Suggest relevant tags for a note |
+| `generateFrontmatter(filename)` | Metadata | Generate complete frontmatter structure |
+| `suggestActiveNoteTags(maxTags)` | Metadata | Tag suggestions for active note |
+| `extractMetadata(filename)` | Metadata | Extract structured metadata from content |
+| `rewriteActiveNote(style)` | Transformation | Rewrite active note in a style |
+| `translateActiveNote(language)` | Transformation | Translate active note to a language |
+| `generateActiveNoteAbstract(length)` | Generation | Generate abstract/summary |
+| `generateActiveNoteOutline(style)` | Generation | Generate structured outline |
+| `proofreadActiveNote()` | Proofreading | Proofread and correct grammar |
 
-## 💡 Example Workflows
+### Resources
 
-### Research Assistant
-```
-"Search for quantum computing notes" → "Create summary combining key points" → "Add references linking original notes"
-```
-
-### Meeting Management
-```
-"Get my active daily note" → "Add completed tasks to done section" → "Generate tomorrow's agenda"
-```
-
-### Content Organization
-```
-"Find untagged notes" → "Suggest appropriate tags" → "Update frontmatter automatically"
-```
-
-### Smart Analysis
-```
-"Analyze my research paper for key themes" → "Generate follow-up questions" → "Create detailed outline for presentation"
-```
-
-### Bulk Management
-```
-"Find all meeting notes" → "Add 'meeting' tag to all results" → "Update status field to 'reviewed'"
-```
-
-### Periodic Notes
-```
-"Get today's daily note" → "Add completed tasks from yesterday" → "Create tomorrow's agenda in weekly note"
-```
+| Name | Group | Description |
+|---|---|---|
+| `obsidian://enums` | Enum Discovery | List all available enum types |
+| `obsidian://enums/language` | Enum Discovery | Translation languages |
+| `obsidian://enums/writing-style` | Enum Discovery | Writing styles |
+| `obsidian://enums/analysis-focus` | Enum Discovery | Analysis focus types |
+| `obsidian://enums/abstract-length` | Enum Discovery | Summary lengths |
+| `obsidian://enums/outline-style` | Enum Discovery | Outline formats |
 
 ## 🔧 Requirements
 
@@ -176,115 +183,7 @@ Also replace `your-api-key-here` with your plugin's API key.
 - Ensure Swift 6.0+ is installed
 - Try `swift package clean` and rebuild
 
-## 📋 Complete Tool Reference
-
-<details>
-<summary>Click to expand full tool list</summary>
-
-### Server Information
-- `getServerInfo()` - Get Obsidian server details
-
-### Active Note Operations
-- `getActiveNote()` - Get currently active note
-- `updateActiveNote(content)` - Replace active note content
-- `deleteActiveNote()` - Delete active note
-- `setActiveNoteFrontmatterString(key, value)` - Set frontmatter field
-- `appendToActiveNoteFrontmatterString(key, value)` - Append to frontmatter field
-- `setActiveNoteFrontmatterArray(key, values)` - Set frontmatter array
-- `appendToActiveNoteFrontmatterArray(key, values)` - Append to frontmatter array
-
-### Vault Note Operations
-- `getNote(filename)` - Get any note by filename
-- `createOrUpdateNote(filename, content)` - Create or update note
-- `appendToNote(filename, content)` - Append to existing note
-- `deleteNote(filename)` - Delete specific note
-- `setNoteFrontmatterString(filename, key, value)` - Set frontmatter field
-- `appendToNoteFrontmatterString(filename, key, value)` - Append to frontmatter field
-- `setNoteFrontmatterArray(filename, key, values)` - Set frontmatter array
-- `appendToNoteFrontmatterArray(filename, key, values)` - Append to frontmatter array
-
-### Directory & Search
-- `listDirectory(directory)` - List vault contents
-- `search(query)` - Search entire vault
-
-### Bulk Operations
-- `bulkApplyTagsFromSearch(query, tags)` - Apply tags to all notes matching a search query
-- `bulkReplaceFrontmatterStringFromSearch(query, key, value)` - Replace frontmatter string field for all notes matching search
-- `bulkReplaceFrontmatterArrayFromSearch(query, key, value)` - Replace frontmatter array field for all notes matching search
-- `bulkAppendToFrontmatterStringFromSearch(query, key, value)` - Append to frontmatter string field for all notes matching search
-- `bulkAppendToFrontmatterArrayFromSearch(query, key, value)` - Append to frontmatter array field for all notes matching search
-
-### Periodic Notes Operations
-- `getDailyNote()` - Get the daily periodic note
-- `getWeeklyNote()` - Get the weekly periodic note
-- `getMonthlyNote()` - Get the monthly periodic note
-- `getQuarterlyNote()` - Get the quarterly periodic note
-- `getYearlyNote()` - Get the yearly periodic note
-- `createOrUpdateDailyNote(content)` - Create or update the daily periodic note
-- `createOrUpdateWeeklyNote(content)` - Create or update the weekly periodic note
-- `createOrUpdateMonthlyNote(content)` - Create or update the monthly periodic note
-- `createOrUpdateQuarterlyNote(content)` - Create or update the quarterly periodic note
-- `createOrUpdateYearlyNote(content)` - Create or update the yearly periodic note
-- `appendToDailyNote(content)` - Append content to the daily periodic note
-- `appendToWeeklyNote(content)` - Append content to the weekly periodic note
-- `appendToMonthlyNote(content)` - Append content to the monthly periodic note
-- `appendToQuarterlyNote(content)` - Append content to the quarterly periodic note
-- `appendToYearlyNote(content)` - Append content to the yearly periodic note
-- `deleteDailyNote()` - Delete the daily periodic note
-- `deleteWeeklyNote()` - Delete the weekly periodic note
-- `deleteMonthlyNote()` - Delete the monthly periodic note
-- `deleteQuarterlyNote()` - Delete the quarterly periodic note
-- `deleteYearlyNote()` - Delete the yearly periodic note
-
-### Analysis & Enhancement Prompts
-- `summarizeNote(filename, focus)` - Analyze with 12 focus types
-- `analyzeActiveNote(focus)` - Analyze current note
-- `generateFollowUpQuestions(filename, questionCount)` - Create exploration questions
-- `suggestTags(filename, maxTags)` - Auto-suggest tags
-- `generateFrontmatter(filename)` - Generate metadata structure
-- `suggestActiveNoteTags(maxTags)` - Tag suggestions for active note
-- `extractMetadata(filename)` - Extract structured data
-
-### Content Generation Prompts
-- `generateActiveNoteAbstract(length)` - Create summaries (brief/standard/detailed)
-- `generateActiveNoteOutline(style)` - Create outlines (bullets/numbered/hierarchical)
-
-### Content Transformation Prompts
-- `rewriteActiveNote(style)` - Transform writing style
-- `translateActiveNote(language)` - Translate to other languages
-
-### Enum Discovery (MCP Resources)
-- `obsidian://enums` - List all available enum types
-- `obsidian://enums/language` - Translation languages
-- `obsidian://enums/writing-style` - Writing styles
-- `obsidian://enums/analysis-focus` - Analysis focus types
-- `obsidian://enums/abstract-length` - Summary lengths
-- `obsidian://enums/outline-style` - Outline formats
-
-</details>
-
----
-
 ## 🏗️ Development
-
-<details>
-<summary>Technical implementation details</summary>
-
-### Project Structure
-```
-Sources/
-├── ObsidianMCPServer/          # Main MCP server
-├── ObsidianModels/             # Enum definitions
-├── ObsidianPrompt/             # Prompt generation
-├── ObsidianResource/           # Enum discovery
-├── ObsidianRepository/         # Data access
-└── ObsidianNetworking/         # HTTP client
-```
-
-### Key Dependencies
-- **[SwiftMCP](https://github.com/Cocoanetics/SwiftMCP)** - MCP implementation
-- **[MicroClient](https://github.com/otaviocc/MicroClient)** - HTTP networking
-- **ArgumentParser** - CLI interface
 
 ### Building & Testing
 ```bash
@@ -305,8 +204,6 @@ swift build -c release
 4. Ensure all tests pass: `swift test`
 5. Submit Pull Request
 
-</details>
-
 ## 📄 License
 
 MIT License - see [LICENSE](LICENSE) file for details.
@@ -317,7 +214,3 @@ MIT License - see [LICENSE](LICENSE) file for details.
 - [Obsidian Local REST API](https://github.com/coddingtonbear/obsidian-local-rest-api) plugin
 - [SwiftMCP](https://github.com/Cocoanetics/SwiftMCP) for MCP implementation
 - The Model Context Protocol community
-
----
-
-**Connect your AI to your knowledge base** 🧠✨
