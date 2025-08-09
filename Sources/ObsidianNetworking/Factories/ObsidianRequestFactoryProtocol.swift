@@ -152,4 +152,212 @@ public protocol ObsidianRequestFactoryProtocol {
     func makeDeletePeriodicNoteRequest(
         period: String
     ) -> NetworkRequest<VoidRequest, VoidResponse>
+
+    // MARK: - Date-Specific Periodic Notes Operations
+
+    // MARK: - DELETE Operations
+
+    /// Creates a network request to delete a daily periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Returns: A `NetworkRequest` that deletes the daily periodic note
+    func makeDeleteDailyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse>
+
+    /// Creates a network request to delete a weekly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Returns: A `NetworkRequest` that deletes the weekly periodic note
+    func makeDeleteWeeklyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse>
+
+    /// Creates a network request to delete a monthly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Returns: A `NetworkRequest` that deletes the monthly periodic note
+    func makeDeleteMonthlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse>
+
+    /// Creates a network request to delete a quarterly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Returns: A `NetworkRequest` that deletes the quarterly periodic note
+    func makeDeleteQuarterlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse>
+
+    /// Creates a network request to delete a yearly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Returns: A `NetworkRequest` that deletes the yearly periodic note
+    func makeDeleteYearlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse>
+
+    // MARK: - POST Operations (Append)
+
+    /// Creates a network request to append content to a daily periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the periodic note
+    /// - Returns: A `NetworkRequest` that appends content to the daily periodic note
+    func makeAppendToDailyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to append content to a weekly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the periodic note
+    /// - Returns: A `NetworkRequest` that appends content to the weekly periodic note
+    func makeAppendToWeeklyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to append content to a monthly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the periodic note
+    /// - Returns: A `NetworkRequest` that appends content to the monthly periodic note
+    func makeAppendToMonthlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to append content to a quarterly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the periodic note
+    /// - Returns: A `NetworkRequest` that appends content to the quarterly periodic note
+    func makeAppendToQuarterlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to append content to a yearly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the periodic note
+    /// - Returns: A `NetworkRequest` that appends content to the yearly periodic note
+    func makeAppendToYearlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    // MARK: - PUT Operations (Create/Update)
+
+    /// Creates a network request to create or update a daily periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to set for the periodic note
+    /// - Returns: A `NetworkRequest` that creates or updates the daily periodic note
+    func makeCreateOrUpdateDailyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to create or update a weekly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to set for the periodic note
+    /// - Returns: A `NetworkRequest` that creates or updates the weekly periodic note
+    func makeCreateOrUpdateWeeklyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to create or update a monthly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to set for the periodic note
+    /// - Returns: A `NetworkRequest` that creates or updates the monthly periodic note
+    func makeCreateOrUpdateMonthlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to create or update a quarterly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to set for the periodic note
+    /// - Returns: A `NetworkRequest` that creates or updates the quarterly periodic note
+    func makeCreateOrUpdateQuarterlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
+
+    /// Creates a network request to create or update a yearly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to set for the periodic note
+    /// - Returns: A `NetworkRequest` that creates or updates the yearly periodic note
+    func makeCreateOrUpdateYearlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse>
 }

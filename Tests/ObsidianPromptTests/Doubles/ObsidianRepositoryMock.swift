@@ -198,5 +198,135 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     func deletePeriodicNote(period: String) async throws {
         fatalError("Not implemented for prompt tests")
     }
+
+    func deleteDailyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func deleteWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func deleteMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func deleteQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func deleteYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToDailyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func appendToYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func createOrUpdateDailyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func createOrUpdateWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func createOrUpdateMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func createOrUpdateQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
+
+    func createOrUpdateYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        fatalError("Not implemented for prompt tests")
+    }
     // swiftlint:enable unavailable_function
 }

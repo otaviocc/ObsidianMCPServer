@@ -1,13 +1,16 @@
 import Foundation
 import ObsidianNetworking
 
+// swiftlint:disable file_length
+
 public protocol ObsidianRepositoryProtocol: ObsidianRepositoryServerOperations,
                                             ObsidianRepositoryActiveNoteOperations,
                                             ObsidianRepositoryVaultNoteOperations,
                                             ObsidianRepositoryVaultOperations,
                                             ObsidianRepositorySearchOperations,
                                             ObsidianRepositoryBulkOperations,
-                                            ObsidianRepositoryPeriodicOperations {}
+                                            ObsidianRepositoryPeriodicOperations,
+                                            ObsidianRepositoryDatePeriodicOperations {}
 
 // MARK: - Server Operations
 
@@ -282,3 +285,208 @@ public protocol ObsidianRepositoryPeriodicOperations {
     /// - Throws: An error if the periodic note cannot be deleted
     func deletePeriodicNote(period: String) async throws
 }
+
+public protocol ObsidianRepositoryDatePeriodicOperations {
+
+    /// Deletes the daily periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deleteDailyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
+
+    /// Deletes the weekly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deleteWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
+
+    /// Deletes the monthly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deleteMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
+
+    /// Deletes the quarterly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deleteQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
+
+    /// Deletes the yearly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deleteYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
+
+    /// Appends content to the daily periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the existing periodic note
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToDailyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Appends content to the weekly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the existing periodic note
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Appends content to the monthly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the existing periodic note
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Appends content to the quarterly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the existing periodic note
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Appends content to the yearly periodic note for the specified date.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The content to append to the existing periodic note
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Creates or updates the daily periodic note for the specified date with the given content.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The complete content to set for the periodic note
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdateDailyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Creates or updates the weekly periodic note for the specified date with the given content.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The complete content to set for the periodic note
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdateWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Creates or updates the monthly periodic note for the specified date with the given content.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The complete content to set for the periodic note
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdateMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Creates or updates the quarterly periodic note for the specified date with the given content.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The complete content to set for the periodic note
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdateQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+
+    /// Creates or updates the yearly periodic note for the specified date with the given content.
+    /// - Parameters:
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    ///   - content: The complete content to set for the periodic note
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdateYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws
+}
+
+// swiftlint:enable file_length

@@ -620,4 +620,328 @@ struct ObsidianRequestFactoryTests {
             "It should use DELETE method"
         )
     }
+
+    // MARK: - Date-Specific Periodic Notes Tests
+
+    @Test("It should create delete daily note request for a specific date")
+    func makeDeleteDailyNoteRequest() {
+        // When
+        let request = factory.makeDeleteDailyNoteRequest(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/daily/2024/1/15/",
+            "It should use correct path for daily delete by date"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+    }
+
+    @Test("It should create delete weekly note request for a specific date")
+    func makeDeleteWeeklyNoteRequest() {
+        // When
+        let request = factory.makeDeleteWeeklyNoteRequest(
+            year: 2024,
+            month: 2,
+            day: 3
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/weekly/2024/2/3/",
+            "It should use correct path for weekly delete by date"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+    }
+
+    @Test("It should create delete monthly note request for a specific date")
+    func makeDeleteMonthlyNoteRequest() {
+        // When
+        let request = factory.makeDeleteMonthlyNoteRequest(
+            year: 2024,
+            month: 3,
+            day: 20
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/monthly/2024/3/20/",
+            "It should use correct path for monthly delete by date"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+    }
+
+    @Test("It should create delete quarterly note request for a specific date")
+    func makeDeleteQuarterlyNoteRequest() {
+        // When
+        let request = factory.makeDeleteQuarterlyNoteRequest(
+            year: 2024,
+            month: 4,
+            day: 10
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/quarterly/2024/4/10/",
+            "It should use correct path for quarterly delete by date"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+    }
+
+    @Test("It should create delete yearly note request for a specific date")
+    func makeDeleteYearlyNoteRequest() {
+        // When
+        let request = factory.makeDeleteYearlyNoteRequest(
+            year: 2024,
+            month: 12,
+            day: 31
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/yearly/2024/12/31/",
+            "It should use correct path for yearly delete by date"
+        )
+        #expect(
+            request.method == .delete,
+            "It should use DELETE method"
+        )
+    }
+
+    @Test("It should create append to daily note request for a specific date")
+    func makeAppendToDailyNoteRequestByDate() {
+        // When
+        let request = factory.makeAppendToDailyNoteRequest(
+            year: 2024,
+            month: 1,
+            day: 15,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/daily/2024/1/15/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set Content-Type"
+        )
+    }
+
+    @Test("It should create append to monthly note request for a specific date")
+    func makeAppendToMonthlyNoteRequestByDate() {
+        // When
+        let request = factory.makeAppendToMonthlyNoteRequest(
+            year: 2024,
+            month: 3,
+            day: 20,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/monthly/2024/3/20/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method"
+        )
+    }
+
+    @Test("It should create create/update yearly note request for a specific date")
+    func makeCreateOrUpdateYearlyNoteRequestByDate() {
+        // When
+        let request = factory.makeCreateOrUpdateYearlyNoteRequest(
+            year: 2024,
+            month: 12,
+            day: 31,
+            content: "# Year"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/yearly/2024/12/31/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set Content-Type"
+        )
+    }
+
+    @Test("It should create append to weekly note request for a specific date")
+    func makeAppendToWeeklyNoteRequestByDate() {
+        // When
+        let request = factory.makeAppendToWeeklyNoteRequest(
+            year: 2024,
+            month: 2,
+            day: 3,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/weekly/2024/2/3/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method"
+        )
+    }
+
+    @Test("It should create append to quarterly note request for a specific date")
+    func makeAppendToQuarterlyNoteRequestByDate() {
+        // When
+        let request = factory.makeAppendToQuarterlyNoteRequest(
+            year: 2024,
+            month: 4,
+            day: 10,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/quarterly/2024/4/10/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method"
+        )
+    }
+
+    @Test("It should create append to yearly note request for a specific date")
+    func makeAppendToYearlyNoteRequestByDate() {
+        // When
+        let request = factory.makeAppendToYearlyNoteRequest(
+            year: 2024,
+            month: 12,
+            day: 31,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/yearly/2024/12/31/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .post,
+            "It should use POST method"
+        )
+    }
+
+    @Test("It should create create/update daily note request for a specific date")
+    func makeCreateOrUpdateDailyNoteRequestByDate() {
+        // When
+        let request = factory.makeCreateOrUpdateDailyNoteRequest(
+            year: 2024,
+            month: 1,
+            day: 15,
+            content: "# Daily"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/daily/2024/1/15/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method"
+        )
+        #expect(
+            request.additionalHeaders?["Content-Type"] == "text/markdown",
+            "It should set Content-Type"
+        )
+    }
+
+    @Test("It should create create/update weekly note request for a specific date")
+    func makeCreateOrUpdateWeeklyNoteRequestByDate() {
+        // When
+        let request = factory.makeCreateOrUpdateWeeklyNoteRequest(
+            year: 2024,
+            month: 2,
+            day: 3,
+            content: "# Weekly"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/weekly/2024/2/3/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method"
+        )
+    }
+
+    @Test("It should create create/update monthly note request for a specific date")
+    func makeCreateOrUpdateMonthlyNoteRequestByDate() {
+        // When
+        let request = factory.makeCreateOrUpdateMonthlyNoteRequest(
+            year: 2024,
+            month: 3,
+            day: 20,
+            content: "# Monthly"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/monthly/2024/3/20/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method"
+        )
+    }
+
+    @Test("It should create create/update quarterly note request for a specific date")
+    func makeCreateOrUpdateQuarterlyNoteRequestByDate() {
+        // When
+        let request = factory.makeCreateOrUpdateQuarterlyNoteRequest(
+            year: 2024,
+            month: 4,
+            day: 10,
+            content: "# Quarterly"
+        )
+
+        // Then
+        #expect(
+            request.path == "/periodic/quarterly/2024/4/10/",
+            "It should use correct path"
+        )
+        #expect(
+            request.method == .put,
+            "It should use PUT method"
+        )
+    }
 }

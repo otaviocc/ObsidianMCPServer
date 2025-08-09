@@ -1,6 +1,7 @@
 import Foundation
 import MicroClient
 
+// swiftlint:disable file_length type_body_length
 public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
 
     // MARK: - Life cycle
@@ -240,6 +241,223 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         )
     }
 
+    // MARK: - Date-Specific Periodic Notes Operations
+
+    public func makeDeleteDailyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
+            path: "/periodic/daily/\(year)/\(month)/\(day)/",
+            method: .delete
+        )
+    }
+
+    public func makeDeleteWeeklyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
+            path: "/periodic/weekly/\(year)/\(month)/\(day)/",
+            method: .delete
+        )
+    }
+
+    public func makeDeleteMonthlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
+            path: "/periodic/monthly/\(year)/\(month)/\(day)/",
+            method: .delete
+        )
+    }
+
+    public func makeDeleteQuarterlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
+            path: "/periodic/quarterly/\(year)/\(month)/\(day)/",
+            method: .delete
+        )
+    }
+
+    public func makeDeleteYearlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int
+    ) -> NetworkRequest<VoidRequest, VoidResponse> {
+        .init(
+            path: "/periodic/yearly/\(year)/\(month)/\(day)/",
+            method: .delete
+        )
+    }
+
+    public func makeAppendToDailyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/daily/\(year)/\(month)/\(day)/",
+            method: .post,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeAppendToWeeklyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/weekly/\(year)/\(month)/\(day)/",
+            method: .post,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeAppendToMonthlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/monthly/\(year)/\(month)/\(day)/",
+            method: .post,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeAppendToQuarterlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/quarterly/\(year)/\(month)/\(day)/",
+            method: .post,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeAppendToYearlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/yearly/\(year)/\(month)/\(day)/",
+            method: .post,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeCreateOrUpdateDailyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/daily/\(year)/\(month)/\(day)/",
+            method: .put,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeCreateOrUpdateWeeklyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/weekly/\(year)/\(month)/\(day)/",
+            method: .put,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeCreateOrUpdateMonthlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/monthly/\(year)/\(month)/\(day)/",
+            method: .put,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeCreateOrUpdateQuarterlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/quarterly/\(year)/\(month)/\(day)/",
+            method: .put,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
+    public func makeCreateOrUpdateYearlyNoteRequest(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) -> NetworkRequest<Data, VoidResponse> {
+        .init(
+            path: "/periodic/yearly/\(year)/\(month)/\(day)/",
+            method: .put,
+            body: content.data(using: .utf8),
+            additionalHeaders: [
+                "Content-Type": "text/markdown"
+            ]
+        )
+    }
+
     // MARK: - Private
 
     private func buildVaultPath(for filename: String) -> String {
@@ -262,3 +480,4 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         return "/" + directoryURL.path + "/"
     }
 }
+// swiftlint:enable file_length type_body_length

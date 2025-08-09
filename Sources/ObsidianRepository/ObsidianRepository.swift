@@ -500,4 +500,239 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
     }
 }
 
+// MARK: - ObsidianRepositoryDatePeriodicOperations
+
+extension ObsidianRepository: ObsidianRepositoryDatePeriodicOperations {
+
+    public func deleteDailyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeDeleteDailyNoteRequest(
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func deleteWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeDeleteWeeklyNoteRequest(
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func deleteMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeDeleteMonthlyNoteRequest(
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func deleteQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeDeleteQuarterlyNoteRequest(
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func deleteYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeDeleteYearlyNoteRequest(
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToDailyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeAppendToDailyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeAppendToWeeklyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeAppendToMonthlyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeAppendToQuarterlyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeAppendToYearlyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdateDailyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdateDailyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdateWeeklyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdateWeeklyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdateMonthlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdateMonthlyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdateQuarterlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdateQuarterlyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdateYearlyNote(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdateYearlyNoteRequest(
+            year: year,
+            month: month,
+            day: day,
+            content: content
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+}
+
 // swiftlint:enable file_length

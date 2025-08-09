@@ -2915,4 +2915,461 @@ struct ObsidianMCPServerTests {
             "It should call delete method once"
         )
     }
+
+    // MARK: - Date-Specific Periodic MCP Tool Tests
+
+    @Test("It should delete daily note for a specific date via MCP tool")
+    func deleteDailyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteDailyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            mock.deleteDailyNoteCallCount == 1,
+            "It should call repository delete daily by date once"
+        )
+        #expect(
+            mock.lastDeleteYear == 2024 && mock.lastDeleteMonth == 1 && mock.lastDeleteDay == 15,
+            "It should pass correct date"
+        )
+        #expect(
+            result.contains("2024-1-15"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should append to monthly note for a specific date via MCP tool")
+    func appendToMonthlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.appendToMonthlyNoteForDate(
+            year: 2024,
+            month: 3,
+            day: 20,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            mock.appendToMonthlyNoteCallCount == 1,
+            "It should call repository append monthly by date once"
+        )
+        #expect(
+            mock.lastAppendYear == 2024 && mock.lastAppendMonth == 3 && mock.lastAppendDay == 20,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastAppendContent == "Append",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-3-20"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should create or update yearly note for a specific date via MCP tool")
+    func createOrUpdateYearlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.createOrUpdateYearlyNoteForDate(
+            year: 2024,
+            month: 12,
+            day: 31,
+            content: "# Year"
+        )
+
+        // Then
+        #expect(
+            mock.createOrUpdateYearlyNoteCallCount == 1,
+            "It should call repository create/update yearly by date once"
+        )
+        #expect(
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 12 && mock.lastCreateOrUpdateDay == 31,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastCreateOrUpdateContent == "# Year",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-12-31"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should delete weekly note for a specific date via MCP tool")
+    func deleteWeeklyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteWeeklyNoteForDate(
+            year: 2024,
+            month: 2,
+            day: 3
+        )
+
+        // Then
+        #expect(
+            mock.deleteWeeklyNoteCallCount == 1,
+            "It should call repository delete weekly by date once"
+        )
+        #expect(
+            mock.lastDeleteYear == 2024 && mock.lastDeleteMonth == 2 && mock.lastDeleteDay == 3,
+            "It should pass correct date"
+        )
+        #expect(
+            result.contains("2024-2-3"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should delete monthly note for a specific date via MCP tool")
+    func deleteMonthlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteMonthlyNoteForDate(
+            year: 2024,
+            month: 3,
+            day: 20
+        )
+
+        // Then
+        #expect(
+            mock.deleteMonthlyNoteCallCount == 1,
+            "It should call repository delete monthly by date once"
+        )
+        #expect(
+            mock.lastDeleteYear == 2024 && mock.lastDeleteMonth == 3 && mock.lastDeleteDay == 20,
+            "It should pass correct date"
+        )
+        #expect(
+            result.contains("2024-3-20"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should delete quarterly note for a specific date via MCP tool")
+    func deleteQuarterlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteQuarterlyNoteForDate(
+            year: 2024,
+            month: 4,
+            day: 10
+        )
+
+        // Then
+        #expect(
+            mock.deleteQuarterlyNoteCallCount == 1,
+            "It should call repository delete quarterly by date once"
+        )
+        #expect(
+            mock.lastDeleteYear == 2024 && mock.lastDeleteMonth == 4 && mock.lastDeleteDay == 10,
+            "It should pass correct date"
+        )
+        #expect(
+            result.contains("2024-4-10"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should delete yearly note for a specific date via MCP tool")
+    func deleteYearlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.deleteYearlyNoteForDate(
+            year: 2024,
+            month: 12,
+            day: 31
+        )
+
+        // Then
+        #expect(
+            mock.deleteYearlyNoteCallCount == 1,
+            "It should call repository delete yearly by date once"
+        )
+        #expect(
+            mock.lastDeleteYear == 2024 && mock.lastDeleteMonth == 12 && mock.lastDeleteDay == 31,
+            "It should pass correct date"
+        )
+        #expect(
+            result.contains("2024-12-31"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should append to daily note for a specific date via MCP tool")
+    func appendToDailyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.appendToDailyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            mock.appendToDailyNoteCallCount == 1,
+            "It should call repository append daily by date once"
+        )
+        #expect(
+            mock.lastAppendYear == 2024 && mock.lastAppendMonth == 1 && mock.lastAppendDay == 15,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastAppendContent == "Append",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-1-15"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should append to weekly note for a specific date via MCP tool")
+    func appendToWeeklyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.appendToWeeklyNoteForDate(
+            year: 2024,
+            month: 2,
+            day: 3,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            mock.appendToWeeklyNoteCallCount == 1,
+            "It should call repository append weekly by date once"
+        )
+        #expect(
+            mock.lastAppendYear == 2024 && mock.lastAppendMonth == 2 && mock.lastAppendDay == 3,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastAppendContent == "Append",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-2-3"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should append to quarterly note for a specific date via MCP tool")
+    func appendToQuarterlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.appendToQuarterlyNoteForDate(
+            year: 2024,
+            month: 4,
+            day: 10,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            mock.appendToQuarterlyNoteCallCount == 1,
+            "It should call repository append quarterly by date once"
+        )
+        #expect(
+            mock.lastAppendYear == 2024 && mock.lastAppendMonth == 4 && mock.lastAppendDay == 10,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastAppendContent == "Append",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-4-10"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should append to yearly note for a specific date via MCP tool")
+    func appendToYearlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.appendToYearlyNoteForDate(
+            year: 2024,
+            month: 12,
+            day: 31,
+            content: "Append"
+        )
+
+        // Then
+        #expect(
+            mock.appendToYearlyNoteCallCount == 1,
+            "It should call repository append yearly by date once"
+        )
+        #expect(
+            mock.lastAppendYear == 2024 && mock.lastAppendMonth == 12 && mock.lastAppendDay == 31,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastAppendContent == "Append",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-12-31"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should create or update daily note for a specific date via MCP tool")
+    func createOrUpdateDailyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.createOrUpdateDailyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15,
+            content: "# Daily"
+        )
+
+        // Then
+        #expect(
+            mock.createOrUpdateDailyNoteCallCount == 1,
+            "It should call repository create/update daily by date once"
+        )
+        #expect(
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 1 && mock.lastCreateOrUpdateDay == 15,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastCreateOrUpdateContent == "# Daily",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-1-15"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should create or update weekly note for a specific date via MCP tool")
+    func createOrUpdateWeeklyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.createOrUpdateWeeklyNoteForDate(
+            year: 2024,
+            month: 2,
+            day: 3,
+            content: "# Weekly"
+        )
+
+        // Then
+        #expect(
+            mock.createOrUpdateWeeklyNoteCallCount == 1,
+            "It should call repository create/update weekly by date once"
+        )
+        #expect(
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 2 && mock.lastCreateOrUpdateDay == 3,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastCreateOrUpdateContent == "# Weekly",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-2-3"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should create or update monthly note for a specific date via MCP tool")
+    func createOrUpdateMonthlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.createOrUpdateMonthlyNoteForDate(
+            year: 2024,
+            month: 3,
+            day: 20,
+            content: "# Monthly"
+        )
+
+        // Then
+        #expect(
+            mock.createOrUpdateMonthlyNoteCallCount == 1,
+            "It should call repository create/update monthly by date once"
+        )
+        #expect(
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 3 && mock.lastCreateOrUpdateDay == 20,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastCreateOrUpdateContent == "# Monthly",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-3-20"),
+            "It should include date in success message"
+        )
+    }
+
+    @Test("It should create or update quarterly note for a specific date via MCP tool")
+    func createOrUpdateQuarterlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+
+        // When
+        let result = try await server.createOrUpdateQuarterlyNoteForDate(
+            year: 2024,
+            month: 4,
+            day: 10,
+            content: "# Quarterly"
+        )
+
+        // Then
+        #expect(
+            mock.createOrUpdateQuarterlyNoteCallCount == 1,
+            "It should call repository create/update quarterly by date once"
+        )
+        #expect(
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 4 && mock.lastCreateOrUpdateDay == 10,
+            "It should pass correct date"
+        )
+        #expect(
+            mock.lastCreateOrUpdateContent == "# Quarterly",
+            "It should pass correct content"
+        )
+        #expect(
+            result.contains("2024-4-10"),
+            "It should include date in success message"
+        )
+    }
 }

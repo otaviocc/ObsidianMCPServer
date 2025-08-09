@@ -830,6 +830,351 @@ final class ObsidianMCPServer {
         return "Successfully deleted yearly periodic note"
     }
 
+    /**
+     Delete a daily periodic note for a specific date.
+
+     This permanently removes the daily note file for the specified date. Use with caution
+     as this operation cannot be undone.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: A success message
+     - Throws: An error if the daily note cannot be deleted
+     */
+    @MCPTool(description: "Delete a daily periodic note for a specific date")
+    func deleteDailyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> String {
+        try await repository.deleteDailyNote(year: year, month: month, day: day)
+        return "Successfully deleted daily periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Delete a weekly periodic note for a specific date.
+
+     This permanently removes the weekly note file for the specified date. Use with caution
+     as this operation cannot be undone.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: A success message
+     - Throws: An error if the weekly note cannot be deleted
+     */
+    @MCPTool(description: "Delete a weekly periodic note for a specific date")
+    func deleteWeeklyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> String {
+        try await repository.deleteWeeklyNote(year: year, month: month, day: day)
+        return "Successfully deleted weekly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Delete a monthly periodic note for a specific date.
+
+     This permanently removes the monthly note file for the specified date. Use with caution
+     as this operation cannot be undone.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: A success message
+     - Throws: An error if the monthly note cannot be deleted
+     */
+    @MCPTool(description: "Delete a monthly periodic note for a specific date")
+    func deleteMonthlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> String {
+        try await repository.deleteMonthlyNote(year: year, month: month, day: day)
+        return "Successfully deleted monthly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Delete a quarterly periodic note for a specific date.
+
+     This permanently removes the quarterly note file for the specified date. Use with caution
+     as this operation cannot be undone.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: A success message
+     - Throws: An error if the quarterly note cannot be deleted
+     */
+    @MCPTool(description: "Delete a quarterly periodic note for a specific date")
+    func deleteQuarterlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> String {
+        try await repository.deleteQuarterlyNote(year: year, month: month, day: day)
+        return "Successfully deleted quarterly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Delete a yearly periodic note for a specific date.
+
+     This permanently removes the yearly note file for the specified date. Use with caution
+     as this operation cannot be undone.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: A success message
+     - Throws: An error if the yearly note cannot be deleted
+     */
+    @MCPTool(description: "Delete a yearly periodic note for a specific date")
+    func deleteYearlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> String {
+        try await repository.deleteYearlyNote(year: year, month: month, day: day)
+        return "Successfully deleted yearly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Append content to a daily periodic note for a specific date.
+
+     This adds new content to the end of the existing daily note for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The content to append to the existing periodic note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the daily note
+     */
+    @MCPTool(description: "Append content to a daily periodic note for a specific date")
+    func appendToDailyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.appendToDailyNote(year: year, month: month, day: day, content: content)
+        return "Successfully appended content to daily periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Append content to a weekly periodic note for a specific date.
+
+     This adds new content to the end of the existing weekly note for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The content to append to the existing periodic note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the weekly note
+     */
+    @MCPTool(description: "Append content to a weekly periodic note for a specific date")
+    func appendToWeeklyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.appendToWeeklyNote(year: year, month: month, day: day, content: content)
+        return "Successfully appended content to weekly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Append content to a monthly periodic note for a specific date.
+
+     This adds new content to the end of the existing monthly note for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The content to append to the existing periodic note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the monthly note
+     */
+    @MCPTool(description: "Append content to a monthly periodic note for a specific date")
+    func appendToMonthlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.appendToMonthlyNote(year: year, month: month, day: day, content: content)
+        return "Successfully appended content to monthly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Append content to a quarterly periodic note for a specific date.
+
+     This adds new content to the end of the existing quarterly note for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The content to append to the existing periodic note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the quarterly note
+     */
+    @MCPTool(description: "Append content to a quarterly periodic note for a specific date")
+    func appendToQuarterlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.appendToQuarterlyNote(year: year, month: month, day: day, content: content)
+        return "Successfully appended content to quarterly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Append content to a yearly periodic note for a specific date.
+
+     This adds new content to the end of the existing yearly note for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The content to append to the existing periodic note
+     - Returns: A success message
+     - Throws: An error if the content cannot be appended to the yearly note
+     */
+    @MCPTool(description: "Append content to a yearly periodic note for a specific date")
+    func appendToYearlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.appendToYearlyNote(year: year, month: month, day: day, content: content)
+        return "Successfully appended content to yearly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Create or update a daily periodic note for a specific date.
+
+     This replaces the entire content of the daily note for the specified date, creating the
+     note if it doesn't exist.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The complete content to set for the periodic note
+     - Returns: A success message
+     - Throws: An error if the daily note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update a daily periodic note for a specific date")
+    func createOrUpdateDailyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.createOrUpdateDailyNote(year: year, month: month, day: day, content: content)
+        return "Successfully created/updated daily periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Create or update a weekly periodic note for a specific date.
+
+     This replaces the entire content of the weekly note for the specified date, creating the
+     note if it doesn't exist.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The complete content to set for the periodic note
+     - Returns: A success message
+     - Throws: An error if the weekly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update a weekly periodic note for a specific date")
+    func createOrUpdateWeeklyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.createOrUpdateWeeklyNote(year: year, month: month, day: day, content: content)
+        return "Successfully created/updated weekly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Create or update a monthly periodic note for a specific date.
+
+     This replaces the entire content of the monthly note for the specified date, creating the
+     note if it doesn't exist.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The complete content to set for the periodic note
+     - Returns: A success message
+     - Throws: An error if the monthly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update a monthly periodic note for a specific date")
+    func createOrUpdateMonthlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.createOrUpdateMonthlyNote(year: year, month: month, day: day, content: content)
+        return "Successfully created/updated monthly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Create or update a quarterly periodic note for a specific date.
+
+     This replaces the entire content of the quarterly note for the specified date, creating the
+     note if it doesn't exist.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The complete content to set for the periodic note
+     - Returns: A success message
+     - Throws: An error if the quarterly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update a quarterly periodic note for a specific date")
+    func createOrUpdateQuarterlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.createOrUpdateQuarterlyNote(year: year, month: month, day: day, content: content)
+        return "Successfully created/updated quarterly periodic note for \(year)-\(month)-\(day)"
+    }
+
+    /**
+     Create or update a yearly periodic note for a specific date.
+
+     This replaces the entire content of the yearly note for the specified date, creating the
+     note if it doesn't exist.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Parameter content: The complete content to set for the periodic note
+     - Returns: A success message
+     - Throws: An error if the yearly note cannot be created or updated
+     */
+    @MCPTool(description: "Create or update a yearly periodic note for a specific date")
+    func createOrUpdateYearlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        content: String
+    ) async throws -> String {
+        try await repository.createOrUpdateYearlyNote(year: year, month: month, day: day, content: content)
+        return "Successfully created/updated yearly periodic note for \(year)-\(month)-\(day)"
+    }
+
     // MARK: - MCP Prompts
 
     /**
