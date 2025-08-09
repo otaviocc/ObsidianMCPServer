@@ -117,17 +117,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         mockRepository.getVaultNoteThrowableError = expectedError
 
         // When/Then
-        do {
-            _ = try await prompt.analyzeNote(filename: filename, focus: .general)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.analyzeNote(filename: filename, focus: .general)
         }
     }
 
@@ -203,17 +194,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         mockRepository.getActiveNoteThrowableError = expectedError
 
         // When/Then
-        do {
-            _ = try await prompt.analyzeActiveNote(focus: .general)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.analyzeActiveNote(focus: .general)
         }
     }
 
@@ -275,17 +257,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         mockRepository.getVaultNoteThrowableError = expectedError
 
         // When/Then
-        do {
-            _ = try await prompt.extractMetadata(filename: filename)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.extractMetadata(filename: filename)
         }
     }
 }

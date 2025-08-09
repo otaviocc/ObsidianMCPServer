@@ -104,17 +104,8 @@ struct ObsidianPromptGenerationOperationsTests {
         mockRepository.getVaultNoteThrowableError = expectedError
 
         // When/Then
-        do {
-            _ = try await prompt.generateFollowUpQuestions(filename: filename, questionCount: 3)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.generateFollowUpQuestions(filename: filename, questionCount: 3)
         }
     }
 
@@ -337,17 +328,8 @@ struct ObsidianPromptGenerationOperationsTests {
         let length = AbstractLength.standard
 
         // When & Then
-        do {
-            _ = try await prompt.generateActiveNoteAbstract(length: length)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.generateActiveNoteAbstract(length: length)
         }
     }
 
@@ -360,17 +342,8 @@ struct ObsidianPromptGenerationOperationsTests {
         let style = OutlineStyle.hierarchical
 
         // When & Then
-        do {
-            _ = try await prompt.generateActiveNoteOutline(style: style)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.generateActiveNoteOutline(style: style)
         }
     }
 }

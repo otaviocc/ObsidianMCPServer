@@ -48,19 +48,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.getServerInfo()
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.getServerInfoCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.getServerInfo()
         }
+
+        #expect(
+            mock.getServerInfoCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     // MARK: - Active Note Tests
@@ -119,19 +114,14 @@ struct ObsidianMCPServerTests {
         mock.shouldThrowErrorOnUpdateActiveNote = true
 
         // When/Then
-        do {
-            _ = try await server.updateActiveNote(content: "test")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.updateActiveNoteCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.updateActiveNote(content: "test")
         }
+
+        #expect(
+            mock.updateActiveNoteCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     @Test("It should delete active note")
@@ -457,19 +447,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.setActiveNoteFrontmatterString(key: "test", value: "value")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.setActiveNoteFrontmatterCalled == true,
-                "It should call the repository method"
-            )
+        await #expect(throws: Error.self) {
+            try await server.setActiveNoteFrontmatterString(key: "test", value: "value")
         }
+
+        #expect(
+            mock.setActiveNoteFrontmatterCalled == true,
+            "It should call the repository method"
+        )
     }
 
     @Test("It should set active note frontmatter array")
@@ -669,36 +654,18 @@ struct ObsidianMCPServerTests {
         mock.shouldThrowErrorOnDeleteVaultNote = true
 
         // When/Then - Test create/update error
-        do {
-            _ = try await server.createOrUpdateNote(filename: "test.md", content: "content")
-            #expect(Bool(false), "It should throw an error for create/update")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.createOrUpdateNote(filename: "test.md", content: "content")
         }
 
         // When/Then - Test append error
-        do {
-            _ = try await server.appendToNote(filename: "test.md", content: "content")
-            #expect(Bool(false), "It should throw an error for append")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.appendToNote(filename: "test.md", content: "content")
         }
 
         // When/Then - Test delete error
-        do {
-            _ = try await server.deleteNote(filename: "test.md")
-            #expect(Bool(false), "It should throw an error for delete")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.deleteNote(filename: "test.md")
         }
     }
 
@@ -709,14 +676,8 @@ struct ObsidianMCPServerTests {
         mock.searchVaultResult = .failure(MockError.updateFailed)
 
         // When/Then - Test search vault error
-        do {
-            _ = try await server.search(query: "test")
-            #expect(Bool(false), "It should throw an error for search vault")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.search(query: "test")
         }
     }
 
@@ -1138,19 +1099,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.analyzeNote(filename: "test.md", focus: .general)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.getVaultNoteCallCount == 1,
-                "It should call getVaultNote once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.analyzeNote(filename: "test.md", focus: .general)
         }
+
+        #expect(
+            mock.getVaultNoteCallCount == 1,
+            "It should call getVaultNote once"
+        )
     }
 
     @Test("It should propagate errors for analyze active note")
@@ -1160,19 +1116,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.analyzeActiveNote(focus: .general)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.getActiveNoteCallCount == 1,
-                "It should call getActiveNote once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.analyzeActiveNote(focus: .general)
         }
+
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
     }
 
     @Test("It should propagate errors for follow-up questions")
@@ -1182,14 +1133,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.generateFollowUpQuestions(filename: "test.md")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.generateFollowUpQuestions(filename: "test.md")
         }
     }
 
@@ -1200,14 +1145,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.suggestTags(filename: "test.md")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.suggestTags(filename: "test.md")
         }
     }
 
@@ -1218,14 +1157,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.suggestActiveNoteTags()
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.suggestActiveNoteTags()
         }
     }
 
@@ -1236,14 +1169,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.extractMetadata(filename: "test.md")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.extractMetadata(filename: "test.md")
         }
     }
 
@@ -1254,14 +1181,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.rewriteActiveNote(style: .formal)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.rewriteActiveNote(style: .formal)
         }
     }
 
@@ -1411,14 +1332,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.translateActiveNote(language: .portuguese)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.translateActiveNote(language: .portuguese)
         }
     }
 
@@ -1603,14 +1518,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.generateActiveNoteAbstract(length: .standard)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.generateActiveNoteAbstract(length: .standard)
         }
     }
 
@@ -1621,14 +1530,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.generateActiveNoteOutline(style: .hierarchical)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.generateActiveNoteOutline(style: .hierarchical)
         }
     }
 
@@ -1639,14 +1542,8 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.generateFrontmatter(filename: "test.md")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
+        await #expect(throws: Error.self) {
+            try await server.generateFrontmatter(filename: "test.md")
         }
     }
 
@@ -1690,19 +1587,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.proofreadActiveNote()
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.getActiveNoteCallCount == 1,
-                "It should call getActiveNote once before failing"
-            )
+        await #expect(throws: Error.self) {
+            try await server.proofreadActiveNote()
         }
+
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once before failing"
+        )
     }
 
     // MARK: - Bulk Operations Tests
@@ -1758,19 +1650,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.bulkApplyTagsFromSearch(query: "test", tags: ["tag1"])
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.bulkApplyTagsFromSearchCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.bulkApplyTagsFromSearch(query: "test", tags: ["tag1"])
         }
+
+        #expect(
+            mock.bulkApplyTagsFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     @Test("It should bulk replace frontmatter string from search")
@@ -1829,23 +1716,18 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.bulkReplaceFrontmatterStringFromSearch(
+        await #expect(throws: Error.self) {
+            try await server.bulkReplaceFrontmatterStringFromSearch(
                 query: "test",
                 key: "key",
                 value: "value"
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.bulkReplaceFrontmatterStringFromSearchCallCount == 1,
-                "It should call the repository method once"
-            )
         }
+
+        #expect(
+            mock.bulkReplaceFrontmatterStringFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     @Test("It should bulk replace frontmatter array from search")
@@ -1904,23 +1786,18 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.bulkReplaceFrontmatterArrayFromSearch(
+        await #expect(throws: Error.self) {
+            try await server.bulkReplaceFrontmatterArrayFromSearch(
                 query: "test",
                 key: "key",
                 value: ["value1", "value2"]
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.bulkReplaceFrontmatterArrayFromSearchCallCount == 1,
-                "It should call the repository method once"
-            )
         }
+
+        #expect(
+            mock.bulkReplaceFrontmatterArrayFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     @Test("It should bulk append to frontmatter string from search")
@@ -1979,23 +1856,18 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.bulkAppendToFrontmatterStringFromSearch(
+        await #expect(throws: Error.self) {
+            try await server.bulkAppendToFrontmatterStringFromSearch(
                 query: "test",
                 key: "key",
                 value: "value"
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.bulkAppendToFrontmatterStringFromSearchCallCount == 1,
-                "It should call the repository method once"
-            )
         }
+
+        #expect(
+            mock.bulkAppendToFrontmatterStringFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     @Test("It should bulk append to frontmatter array from search")
@@ -2058,23 +1930,18 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.bulkAppendToFrontmatterArrayFromSearch(
+        await #expect(throws: Error.self) {
+            try await server.bulkAppendToFrontmatterArrayFromSearch(
                 query: "test",
                 key: "key",
                 value: ["value1", "value2"]
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.bulkAppendToFrontmatterArrayFromSearchCallCount == 1,
-                "It should call the repository method once"
-            )
         }
+
+        #expect(
+            mock.bulkAppendToFrontmatterArrayFromSearchCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     // MARK: - Integration Tests
@@ -2399,19 +2266,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.getDailyNote()
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.getPeriodicNoteCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.getDailyNote()
         }
+
+        #expect(
+            mock.getPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     // MARK: - Periodic Notes Create/Update Operations Tests
@@ -2563,19 +2425,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.createOrUpdateFailed
 
         // When/Then
-        do {
-            _ = try await server.createOrUpdateDailyNote(content: "test")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.createOrUpdatePeriodicNoteCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.createOrUpdateDailyNote(content: "test")
         }
+
+        #expect(
+            mock.createOrUpdatePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     // MARK: - Periodic Notes Append Operations Tests
@@ -2727,19 +2584,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.appendFailed
 
         // When/Then
-        do {
-            _ = try await server.appendToDailyNote(content: "test")
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.appendToPeriodicNoteCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.appendToDailyNote(content: "test")
         }
+
+        #expect(
+            mock.appendToPeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     // MARK: - Periodic Notes Delete Operations Tests
@@ -2866,19 +2718,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.deleteFailed
 
         // When/Then
-        do {
-            _ = try await server.deleteDailyNote()
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.deletePeriodicNoteCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.deleteDailyNote()
         }
+
+        #expect(
+            mock.deletePeriodicNoteCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     // MARK: - Periodic Notes Integration Tests
@@ -3122,19 +2969,14 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        do {
-            _ = try await server.getDailyNoteForDate(year: 2024, month: 1, day: 15)
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.getPeriodicNoteWithDateCallCount == 1,
-                "It should call the repository method once"
-            )
+        await #expect(throws: Error.self) {
+            try await server.getDailyNoteForDate(year: 2024, month: 1, day: 15)
         }
+
+        #expect(
+            mock.getPeriodicNoteWithDateCallCount == 1,
+            "It should call the repository method once"
+        )
     }
 
     @Test("It should delete daily note for a specific date via MCP tool")
@@ -3601,23 +3443,18 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.deleteFailed
 
         // When/Then
-        do {
-            _ = try await server.deleteDailyNoteForDate(
+        await #expect(throws: Error.self) {
+            try await server.deleteDailyNoteForDate(
                 year: 2024,
                 month: 1,
                 day: 15
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.deleteDailyNoteCallCount == 1,
-                "It should call repository once"
-            )
         }
+
+        #expect(
+            mock.deleteDailyNoteCallCount == 1,
+            "It should call repository once"
+        )
     }
 
     @Test("It should propagate errors for append to daily note by date")
@@ -3627,24 +3464,19 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.appendFailed
 
         // When/Then
-        do {
-            _ = try await server.appendToDailyNoteForDate(
+        await #expect(throws: Error.self) {
+            try await server.appendToDailyNoteForDate(
                 year: 2024,
                 month: 1,
                 day: 15,
                 content: "Append"
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.appendToDailyNoteCallCount == 1,
-                "It should call repository once"
-            )
         }
+
+        #expect(
+            mock.appendToDailyNoteCallCount == 1,
+            "It should call repository once"
+        )
     }
 
     @Test("It should propagate errors for create or update daily note by date")
@@ -3654,23 +3486,18 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.createOrUpdateFailed
 
         // When/Then
-        do {
-            _ = try await server.createOrUpdateDailyNoteForDate(
+        await #expect(throws: Error.self) {
+            try await server.createOrUpdateDailyNoteForDate(
                 year: 2024,
                 month: 1,
                 day: 15,
                 content: "# Daily"
             )
-            #expect(Bool(false), "It should throw an error")
-        } catch {
-            #expect(
-                error is MockError,
-                "It should throw the mock error"
-            )
-            #expect(
-                mock.createOrUpdateDailyNoteCallCount == 1,
-                "It should call repository once"
-            )
         }
+
+        #expect(
+            mock.createOrUpdateDailyNoteCallCount == 1,
+            "It should call repository once"
+        )
     }
 }

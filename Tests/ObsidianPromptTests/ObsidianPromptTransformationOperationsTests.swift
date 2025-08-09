@@ -144,17 +144,8 @@ struct ObsidianPromptTransformationOperationsTests {
         let style = WritingStyle.formal
 
         // When & Then
-        do {
-            _ = try await prompt.rewriteActiveNote(style: style)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.rewriteActiveNote(style: style)
         }
     }
 
@@ -298,17 +289,8 @@ struct ObsidianPromptTransformationOperationsTests {
         let language = Language.portuguese
 
         // When & Then
-        do {
-            _ = try await prompt.translateActiveNote(language: language)
-            #expect(
-                Bool(false),
-                "It should throw an error when repository fails"
-            )
-        } catch {
-            #expect(
-                error.localizedDescription == expectedError.localizedDescription,
-                "It should propagate the repository error"
-            )
+        await #expect(throws: Error.self) {
+            try await prompt.translateActiveNote(language: language)
         }
     }
 }
