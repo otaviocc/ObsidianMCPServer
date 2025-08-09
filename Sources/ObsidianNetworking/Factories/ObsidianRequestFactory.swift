@@ -82,10 +82,8 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
     public func makeGetVaultFileRequest(
         filename: String
     ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
-        let filePath = makeVaultPath(for: filename)
-
-        return .init(
-            path: filePath,
+        .init(
+            path: filename.appendedToVaultPath(),
             method: .get,
             additionalHeaders: [
                 "Accept": "application/vnd.olrapi.note+json"
@@ -97,10 +95,8 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         filename: String,
         content: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        let filePath = makeVaultPath(for: filename)
-
-        return .init(
-            path: filePath,
+        .init(
+            path: filename.appendedToVaultPath(),
             method: .put,
             body: content.data(using: .utf8) ?? Data(),
             additionalHeaders: [
@@ -113,10 +109,8 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         filename: String,
         content: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        let filePath = makeVaultPath(for: filename)
-
-        return .init(
-            path: filePath,
+        .init(
+            path: filename.appendedToVaultPath(),
             method: .post,
             body: content.data(using: .utf8) ?? Data(),
             additionalHeaders: [
@@ -128,10 +122,8 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
     public func makeDeleteVaultFileRequest(
         filename: String
     ) -> NetworkRequest<VoidRequest, VoidResponse> {
-        let filePath = makeVaultPath(for: filename)
-
-        return .init(
-            path: filePath,
+        .init(
+            path: filename.appendedToVaultPath(),
             method: .delete
         )
     }
@@ -142,10 +134,8 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         operation: String,
         key: String
     ) -> NetworkRequest<Data, VoidResponse> {
-        let filePath = makeVaultPath(for: filename)
-
-        return .init(
-            path: filePath,
+        .init(
+            path: filename.appendedToVaultPath(),
             method: .patch,
             body: content.data(using: .utf8) ?? Data(),
             additionalHeaders: [
@@ -163,10 +153,8 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
     public func makeListVaultDirectoryRequest(
         directory: String
     ) -> NetworkRequest<VoidRequest, DirectoryListingResponse> {
-        let directoryPath = makeVaultDirectoryPath(for: directory)
-
-        return .init(
-            path: directoryPath,
+        .init(
+            path: directory.appendedAsDirectoryToVaultPath(),
             method: .get
         )
     }
@@ -197,9 +185,12 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         month: Int? = nil,
         day: Int? = nil
     ) -> NetworkRequest<VoidRequest, NoteJSONResponse> {
-        let path = makePeriodicNotePath(period: period, year: year, month: month, day: day)
-        return .init(
-            path: path,
+        .init(
+            path: period.appendingPeriodicPath(
+                year: year,
+                month: month,
+                day: day
+            ),
             method: .get,
             additionalHeaders: [
                 "Accept": "application/vnd.olrapi.note+json"
@@ -214,9 +205,12 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         month: Int? = nil,
         day: Int? = nil
     ) -> NetworkRequest<Data, VoidResponse> {
-        let path = makePeriodicNotePath(period: period, year: year, month: month, day: day)
-        return .init(
-            path: path,
+        .init(
+            path: period.appendingPeriodicPath(
+                year: year,
+                month: month,
+                day: day
+            ),
             method: .put,
             body: content.data(using: .utf8),
             additionalHeaders: [
@@ -232,9 +226,12 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         month: Int? = nil,
         day: Int? = nil
     ) -> NetworkRequest<Data, VoidResponse> {
-        let path = makePeriodicNotePath(period: period, year: year, month: month, day: day)
-        return .init(
-            path: path,
+        .init(
+            path: period.appendingPeriodicPath(
+                year: year,
+                month: month,
+                day: day
+            ),
             method: .post,
             body: content.data(using: .utf8),
             additionalHeaders: [
@@ -249,48 +246,13 @@ public struct ObsidianRequestFactory: ObsidianRequestFactoryProtocol {
         month: Int? = nil,
         day: Int? = nil
     ) -> NetworkRequest<VoidRequest, VoidResponse> {
-        let path = makePeriodicNotePath(period: period, year: year, month: month, day: day)
-        return .init(
-            path: path,
+        .init(
+            path: period.appendingPeriodicPath(
+                year: year,
+                month: month,
+                day: day
+            ),
             method: .delete
         )
-    }
-
-    // MARK: - Private Helper Methods
-
-    private func makePeriodicNotePath(
-        period: String,
-        year: Int?,
-        month: Int?,
-        day: Int?
-    ) -> String {
-        guard let year = year,
-              let month = month,
-              let day = day
-        else {
-            return "/periodic/\(period)/"
-        }
-
-        return "/periodic/\(period)/\(year)/\(String(format: "%02d", month))/\(String(format: "%02d", day))/"
-    }
-
-    private func makeVaultPath(for filename: String) -> String {
-        // swiftlint:disable:next force_unwrapping
-        let baseVaultURL = URL(string: "vault")!
-        let fileURL = baseVaultURL.appendingPathComponent(filename)
-
-        return "/" + fileURL.path
-    }
-
-    private func makeVaultDirectoryPath(for directory: String) -> String {
-        if directory.isEmpty {
-            return "/vault/"
-        }
-
-        // swiftlint:disable:next force_unwrapping
-        let baseVaultURL = URL(string: "vault")!
-        let directoryURL = baseVaultURL.appendingPathComponent(directory)
-
-        return "/" + directoryURL.path + "/"
     }
 }
