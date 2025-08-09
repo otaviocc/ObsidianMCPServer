@@ -2918,6 +2918,225 @@ struct ObsidianMCPServerTests {
 
     // MARK: - Date-Specific Periodic MCP Tool Tests
 
+    @Test("It should get daily note for a specific date via MCP tool")
+    func getDailyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "2024-01-15.md", content: "Daily note content")
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getDailyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteWithDateCallCount == 1,
+            "It should call repository get periodic note with date once"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDatePeriod == "daily",
+            "It should pass daily period"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDateYear == 2024 &&
+            mock.lastPeriodicNoteWithDateMonth == 1 &&
+            mock.lastPeriodicNoteWithDateDay == 15,
+            "It should pass correct date parameters"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get weekly note for a specific date via MCP tool")
+    func getWeeklyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "2024-W03.md", content: "Weekly note content")
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getWeeklyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteWithDateCallCount == 1,
+            "It should call repository get periodic note with date once"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDatePeriod == "weekly",
+            "It should pass weekly period"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDateYear == 2024 &&
+            mock.lastPeriodicNoteWithDateMonth == 1 &&
+            mock.lastPeriodicNoteWithDateDay == 15,
+            "It should pass correct date parameters"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get monthly note for a specific date via MCP tool")
+    func getMonthlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "2024-01.md", content: "Monthly note content")
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getMonthlyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteWithDateCallCount == 1,
+            "It should call repository get periodic note with date once"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDatePeriod == "monthly",
+            "It should pass monthly period"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDateYear == 2024 &&
+            mock.lastPeriodicNoteWithDateMonth == 1 &&
+            mock.lastPeriodicNoteWithDateDay == 15,
+            "It should pass correct date parameters"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get quarterly note for a specific date via MCP tool")
+    func getQuarterlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "2024-Q1.md", content: "Quarterly note content")
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getQuarterlyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteWithDateCallCount == 1,
+            "It should call repository get periodic note with date once"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDatePeriod == "quarterly",
+            "It should pass quarterly period"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDateYear == 2024 &&
+            mock.lastPeriodicNoteWithDateMonth == 1 &&
+            mock.lastPeriodicNoteWithDateDay == 15,
+            "It should pass correct date parameters"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should get yearly note for a specific date via MCP tool")
+    func getYearlyNoteForDateTool() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "2024.md", content: "Yearly note content")
+        mock.periodicNoteFileToReturn = expectedFile
+
+        // When
+        let result = try await server.getYearlyNoteForDate(
+            year: 2024,
+            month: 1,
+            day: 15
+        )
+
+        // Then
+        #expect(
+            mock.getPeriodicNoteWithDateCallCount == 1,
+            "It should call repository get periodic note with date once"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDatePeriod == "yearly",
+            "It should pass yearly period"
+        )
+        #expect(
+            mock.lastPeriodicNoteWithDateYear == 2024 &&
+            mock.lastPeriodicNoteWithDateMonth == 1 &&
+            mock.lastPeriodicNoteWithDateDay == 15,
+            "It should pass correct date parameters"
+        )
+        #expect(
+            result.filename == expectedFile.filename,
+            "It should return the expected filename"
+        )
+        #expect(
+            result.content == expectedFile.content,
+            "It should return the expected content"
+        )
+    }
+
+    @Test("It should propagate errors for get daily note by date")
+    func getDailyNoteForDateError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let expectedFile = File(filename: "2024-01-15.md", content: "Daily note content")
+        mock.periodicNoteFileToReturn = expectedFile
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        do {
+            _ = try await server.getDailyNoteForDate(year: 2024, month: 1, day: 15)
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.getPeriodicNoteWithDateCallCount == 1,
+                "It should call the repository method once"
+            )
+        }
+    }
+
     @Test("It should delete daily note for a specific date via MCP tool")
     func deleteDailyNoteForDateTool() async throws {
         // Given
@@ -3371,5 +3590,87 @@ struct ObsidianMCPServerTests {
             result.contains("2024-4-10"),
             "It should include date in success message"
         )
+    }
+
+    // MARK: - Date-Specific Daily Note Error Tests
+
+    @Test("It should propagate errors for delete daily note by date")
+    func deleteDailyNoteForDateError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.deleteFailed
+
+        // When/Then
+        do {
+            _ = try await server.deleteDailyNoteForDate(
+                year: 2024,
+                month: 1,
+                day: 15
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.deleteDailyNoteCallCount == 1,
+                "It should call repository once"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for append to daily note by date")
+    func appendToDailyNoteForDateError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.appendFailed
+
+        // When/Then
+        do {
+            _ = try await server.appendToDailyNoteForDate(
+                year: 2024,
+                month: 1,
+                day: 15,
+                content: "Append"
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.appendToDailyNoteCallCount == 1,
+                "It should call repository once"
+            )
+        }
+    }
+
+    @Test("It should propagate errors for create or update daily note by date")
+    func createOrUpdateDailyNoteForDateError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.createOrUpdateFailed
+
+        // When/Then
+        do {
+            _ = try await server.createOrUpdateDailyNoteForDate(
+                year: 2024,
+                month: 1,
+                day: 15,
+                content: "# Daily"
+            )
+            #expect(Bool(false), "It should throw an error")
+        } catch {
+            #expect(
+                error is MockError,
+                "It should throw the mock error"
+            )
+            #expect(
+                mock.createOrUpdateDailyNoteCallCount == 1,
+                "It should call repository once"
+            )
+        }
     }
 }

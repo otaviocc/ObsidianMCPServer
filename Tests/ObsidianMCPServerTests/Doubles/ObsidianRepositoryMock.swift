@@ -515,13 +515,26 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         }
     }
 
-    // MARK: - Date-Specific Periodic Notes Operations
+    // MARK: - Parametrized Periodic Notes Operations
 
+    // Additional properties for tracking date-specific calls
+    var getPeriodicNoteWithDateCalled: Bool = false
+    var getPeriodicNoteWithDateCallCount: Int = 0
+    var lastPeriodicNoteWithDatePeriod: String?
+    var lastPeriodicNoteWithDateYear: Int?
+    var lastPeriodicNoteWithDateMonth: Int?
+    var lastPeriodicNoteWithDateDay: Int?
+
+    // Properties for tracking specific period type calls (for test compatibility)
     var deleteDailyNoteCallCount: Int = 0
     var deleteWeeklyNoteCallCount: Int = 0
     var deleteMonthlyNoteCallCount: Int = 0
     var deleteQuarterlyNoteCallCount: Int = 0
     var deleteYearlyNoteCallCount: Int = 0
+
+    var lastDeleteYear: Int?
+    var lastDeleteMonth: Int?
+    var lastDeleteDay: Int?
 
     var appendToDailyNoteCallCount: Int = 0
     var appendToWeeklyNoteCallCount: Int = 0
@@ -529,251 +542,159 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     var appendToQuarterlyNoteCallCount: Int = 0
     var appendToYearlyNoteCallCount: Int = 0
 
+    var lastAppendYear: Int?
+    var lastAppendMonth: Int?
+    var lastAppendDay: Int?
+    var lastAppendContent: String?
+
     var createOrUpdateDailyNoteCallCount: Int = 0
     var createOrUpdateWeeklyNoteCallCount: Int = 0
     var createOrUpdateMonthlyNoteCallCount: Int = 0
     var createOrUpdateQuarterlyNoteCallCount: Int = 0
     var createOrUpdateYearlyNoteCallCount: Int = 0
 
-    var lastDeleteYear: Int?
-    var lastDeleteMonth: Int?
-    var lastDeleteDay: Int?
-
-    var lastAppendYear: Int?
-    var lastAppendMonth: Int?
-    var lastAppendDay: Int?
-    var lastAppendContent: String?
-
     var lastCreateOrUpdateYear: Int?
     var lastCreateOrUpdateMonth: Int?
     var lastCreateOrUpdateDay: Int?
     var lastCreateOrUpdateContent: String?
 
-    func deleteDailyNote(
+    var createOrUpdatePeriodicNoteWithDateCalled: Bool = false
+    var createOrUpdatePeriodicNoteWithDateCallCount: Int = 0
+    var lastCreateOrUpdatePeriodicNoteWithDatePeriod: String?
+    var lastCreateOrUpdatePeriodicNoteWithDateContent: String?
+    var lastCreateOrUpdatePeriodicNoteWithDateYear: Int?
+    var lastCreateOrUpdatePeriodicNoteWithDateMonth: Int?
+    var lastCreateOrUpdatePeriodicNoteWithDateDay: Int?
+
+    var appendToPeriodicNoteWithDateCalled: Bool = false
+    var appendToPeriodicNoteWithDateCallCount: Int = 0
+    var lastAppendToPeriodicNoteWithDatePeriod: String?
+    var lastAppendToPeriodicNoteWithDateContent: String?
+    var lastAppendToPeriodicNoteWithDateYear: Int?
+    var lastAppendToPeriodicNoteWithDateMonth: Int?
+    var lastAppendToPeriodicNoteWithDateDay: Int?
+
+    var deletePeriodicNoteWithDateCalled: Bool = false
+    var deletePeriodicNoteWithDateCallCount: Int = 0
+    var lastDeletePeriodicNoteWithDatePeriod: String?
+    var lastDeletePeriodicNoteWithDateYear: Int?
+    var lastDeletePeriodicNoteWithDateMonth: Int?
+    var lastDeletePeriodicNoteWithDateDay: Int?
+
+    func getPeriodicNote(
+        period: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        getPeriodicNoteWithDateCalled = true
+        getPeriodicNoteWithDateCallCount += 1
+        lastPeriodicNoteWithDatePeriod = period
+        lastPeriodicNoteWithDateYear = year
+        lastPeriodicNoteWithDateMonth = month
+        lastPeriodicNoteWithDateDay = day
+
+        if let error = errorToThrow {
+            throw error
+        }
+
+        return periodicNoteFileToReturn!
+    }
+
+    func createOrUpdatePeriodicNote(
+        period: String,
+        content: String,
         year: Int,
         month: Int,
         day: Int
     ) async throws {
-        deleteDailyNoteCallCount += 1
-        lastDeleteYear = year
-        lastDeleteMonth = month
-        lastDeleteDay = day
+        createOrUpdatePeriodicNoteWithDateCalled = true
+        createOrUpdatePeriodicNoteWithDateCallCount += 1
+        lastCreateOrUpdatePeriodicNoteWithDatePeriod = period
+        lastCreateOrUpdatePeriodicNoteWithDateContent = content
+        lastCreateOrUpdatePeriodicNoteWithDateYear = year
+        lastCreateOrUpdatePeriodicNoteWithDateMonth = month
+        lastCreateOrUpdatePeriodicNoteWithDateDay = day
+
+        lastCreateOrUpdateYear = year
+        lastCreateOrUpdateMonth = month
+        lastCreateOrUpdateDay = day
+        lastCreateOrUpdateContent = content
+
+        switch period.lowercased() {
+        case "daily": createOrUpdateDailyNoteCallCount += 1
+        case "weekly": createOrUpdateWeeklyNoteCallCount += 1
+        case "monthly": createOrUpdateMonthlyNoteCallCount += 1
+        case "quarterly": createOrUpdateQuarterlyNoteCallCount += 1
+        case "yearly": createOrUpdateYearlyNoteCallCount += 1
+        default: break
+        }
+
         if let error = errorToThrow {
             throw error
         }
     }
 
-    func deleteWeeklyNote(
+    func appendToPeriodicNote(
+        period: String,
+        content: String,
         year: Int,
         month: Int,
         day: Int
     ) async throws {
-        deleteWeeklyNoteCallCount += 1
-        lastDeleteYear = year
-        lastDeleteMonth = month
-        lastDeleteDay = day
+        appendToPeriodicNoteWithDateCalled = true
+        appendToPeriodicNoteWithDateCallCount += 1
+        lastAppendToPeriodicNoteWithDatePeriod = period
+        lastAppendToPeriodicNoteWithDateContent = content
+        lastAppendToPeriodicNoteWithDateYear = year
+        lastAppendToPeriodicNoteWithDateMonth = month
+        lastAppendToPeriodicNoteWithDateDay = day
+
+        lastAppendYear = year
+        lastAppendMonth = month
+        lastAppendDay = day
+        lastAppendContent = content
+
+        switch period.lowercased() {
+        case "daily": appendToDailyNoteCallCount += 1
+        case "weekly": appendToWeeklyNoteCallCount += 1
+        case "monthly": appendToMonthlyNoteCallCount += 1
+        case "quarterly": appendToQuarterlyNoteCallCount += 1
+        case "yearly": appendToYearlyNoteCallCount += 1
+        default: break
+        }
+
         if let error = errorToThrow {
             throw error
         }
     }
 
-    func deleteMonthlyNote(
+    func deletePeriodicNote(
+        period: String,
         year: Int,
         month: Int,
         day: Int
     ) async throws {
-        deleteMonthlyNoteCallCount += 1
+        deletePeriodicNoteWithDateCalled = true
+        deletePeriodicNoteWithDateCallCount += 1
+        lastDeletePeriodicNoteWithDatePeriod = period
+        lastDeletePeriodicNoteWithDateYear = year
+        lastDeletePeriodicNoteWithDateMonth = month
+        lastDeletePeriodicNoteWithDateDay = day
+
         lastDeleteYear = year
         lastDeleteMonth = month
         lastDeleteDay = day
-        if let error = errorToThrow {
-            throw error
-        }
-    }
 
-    func deleteQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int
-    ) async throws {
-        deleteQuarterlyNoteCallCount += 1
-        lastDeleteYear = year
-        lastDeleteMonth = month
-        lastDeleteDay = day
-        if let error = errorToThrow {
-            throw error
+        switch period.lowercased() {
+        case "daily": deleteDailyNoteCallCount += 1
+        case "weekly": deleteWeeklyNoteCallCount += 1
+        case "monthly": deleteMonthlyNoteCallCount += 1
+        case "quarterly": deleteQuarterlyNoteCallCount += 1
+        case "yearly": deleteYearlyNoteCallCount += 1
+        default: break
         }
-    }
 
-    func deleteYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int
-    ) async throws {
-        deleteYearlyNoteCallCount += 1
-        lastDeleteYear = year
-        lastDeleteMonth = month
-        lastDeleteDay = day
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func appendToDailyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        appendToDailyNoteCallCount += 1
-        lastAppendYear = year
-        lastAppendMonth = month
-        lastAppendDay = day
-        lastAppendContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func appendToWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        appendToWeeklyNoteCallCount += 1
-        lastAppendYear = year
-        lastAppendMonth = month
-        lastAppendDay = day
-        lastAppendContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func appendToMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        appendToMonthlyNoteCallCount += 1
-        lastAppendYear = year
-        lastAppendMonth = month
-        lastAppendDay = day
-        lastAppendContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func appendToQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        appendToQuarterlyNoteCallCount += 1
-        lastAppendYear = year
-        lastAppendMonth = month
-        lastAppendDay = day
-        lastAppendContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func appendToYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        appendToYearlyNoteCallCount += 1
-        lastAppendYear = year
-        lastAppendMonth = month
-        lastAppendDay = day
-        lastAppendContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func createOrUpdateDailyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        createOrUpdateDailyNoteCallCount += 1
-        lastCreateOrUpdateYear = year
-        lastCreateOrUpdateMonth = month
-        lastCreateOrUpdateDay = day
-        lastCreateOrUpdateContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func createOrUpdateWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        createOrUpdateWeeklyNoteCallCount += 1
-        lastCreateOrUpdateYear = year
-        lastCreateOrUpdateMonth = month
-        lastCreateOrUpdateDay = day
-        lastCreateOrUpdateContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func createOrUpdateMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        createOrUpdateMonthlyNoteCallCount += 1
-        lastCreateOrUpdateYear = year
-        lastCreateOrUpdateMonth = month
-        lastCreateOrUpdateDay = day
-        lastCreateOrUpdateContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func createOrUpdateQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        createOrUpdateQuarterlyNoteCallCount += 1
-        lastCreateOrUpdateYear = year
-        lastCreateOrUpdateMonth = month
-        lastCreateOrUpdateDay = day
-        lastCreateOrUpdateContent = content
-        if let error = errorToThrow {
-            throw error
-        }
-    }
-
-    func createOrUpdateYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        createOrUpdateYearlyNoteCallCount += 1
-        lastCreateOrUpdateYear = year
-        lastCreateOrUpdateMonth = month
-        lastCreateOrUpdateDay = day
-        lastCreateOrUpdateContent = content
         if let error = errorToThrow {
             throw error
         }

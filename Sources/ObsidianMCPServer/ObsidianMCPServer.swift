@@ -831,6 +831,131 @@ final class ObsidianMCPServer {
     }
 
     /**
+     Get a daily periodic note for a specific date.
+
+     This retrieves the daily note file for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: The File object representing the daily periodic note
+     - Throws: An error if the daily note cannot be retrieved
+     */
+    @MCPTool(description: "Get a daily periodic note for a specific date")
+    func getDailyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        try await repository.getPeriodicNote(
+            period: "daily",
+            year: year,
+            month: month,
+            day: day
+        )
+    }
+
+    /**
+     Get a weekly periodic note for a specific date.
+
+     This retrieves the weekly note file for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: The File object representing the weekly periodic note
+     - Throws: An error if the weekly note cannot be retrieved
+     */
+    @MCPTool(description: "Get a weekly periodic note for a specific date")
+    func getWeeklyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        try await repository.getPeriodicNote(
+            period: "weekly",
+            year: year,
+            month: month,
+            day: day
+        )
+    }
+
+    /**
+     Get a monthly periodic note for a specific date.
+
+     This retrieves the monthly note file for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: The File object representing the monthly periodic note
+     - Throws: An error if the monthly note cannot be retrieved
+     */
+    @MCPTool(description: "Get a monthly periodic note for a specific date")
+    func getMonthlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        try await repository.getPeriodicNote(
+            period: "monthly",
+            year: year,
+            month: month,
+            day: day
+        )
+    }
+
+    /**
+     Get a quarterly periodic note for a specific date.
+
+     This retrieves the quarterly note file for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: The File object representing the quarterly periodic note
+     - Throws: An error if the quarterly note cannot be retrieved
+     */
+    @MCPTool(description: "Get a quarterly periodic note for a specific date")
+    func getQuarterlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        try await repository.getPeriodicNote(
+            period: "quarterly",
+            year: year,
+            month: month,
+            day: day
+        )
+    }
+
+    /**
+     Get a yearly periodic note for a specific date.
+
+     This retrieves the yearly note file for the specified date.
+
+     - Parameter year: The year (e.g., 2024)
+     - Parameter month: The month (1-12)
+     - Parameter day: The day (1-31)
+     - Returns: The File object representing the yearly periodic note
+     - Throws: An error if the yearly note cannot be retrieved
+     */
+    @MCPTool(description: "Get a yearly periodic note for a specific date")
+    func getYearlyNoteForDate(
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        try await repository.getPeriodicNote(
+            period: "yearly",
+            year: year,
+            month: month,
+            day: day
+        )
+    }
+
+    /**
      Delete a daily periodic note for a specific date.
 
      This permanently removes the daily note file for the specified date. Use with caution
@@ -848,7 +973,12 @@ final class ObsidianMCPServer {
         month: Int,
         day: Int
     ) async throws -> String {
-        try await repository.deleteDailyNote(year: year, month: month, day: day)
+        try await repository.deletePeriodicNote(
+            period: "daily",
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully deleted daily periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -870,7 +1000,12 @@ final class ObsidianMCPServer {
         month: Int,
         day: Int
     ) async throws -> String {
-        try await repository.deleteWeeklyNote(year: year, month: month, day: day)
+        try await repository.deletePeriodicNote(
+            period: "weekly",
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully deleted weekly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -892,7 +1027,12 @@ final class ObsidianMCPServer {
         month: Int,
         day: Int
     ) async throws -> String {
-        try await repository.deleteMonthlyNote(year: year, month: month, day: day)
+        try await repository.deletePeriodicNote(
+            period: "monthly",
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully deleted monthly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -914,7 +1054,12 @@ final class ObsidianMCPServer {
         month: Int,
         day: Int
     ) async throws -> String {
-        try await repository.deleteQuarterlyNote(year: year, month: month, day: day)
+        try await repository.deletePeriodicNote(
+            period: "quarterly",
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully deleted quarterly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -936,7 +1081,12 @@ final class ObsidianMCPServer {
         month: Int,
         day: Int
     ) async throws -> String {
-        try await repository.deleteYearlyNote(year: year, month: month, day: day)
+        try await repository.deletePeriodicNote(
+            period: "yearly",
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully deleted yearly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -959,7 +1109,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.appendToDailyNote(year: year, month: month, day: day, content: content)
+        try await repository.appendToPeriodicNote(
+            period: "daily",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully appended content to daily periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -982,7 +1138,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.appendToWeeklyNote(year: year, month: month, day: day, content: content)
+        try await repository.appendToPeriodicNote(
+            period: "weekly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully appended content to weekly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1005,7 +1167,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.appendToMonthlyNote(year: year, month: month, day: day, content: content)
+        try await repository.appendToPeriodicNote(
+            period: "monthly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully appended content to monthly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1028,7 +1196,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.appendToQuarterlyNote(year: year, month: month, day: day, content: content)
+        try await repository.appendToPeriodicNote(
+            period: "quarterly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully appended content to quarterly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1051,7 +1225,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.appendToYearlyNote(year: year, month: month, day: day, content: content)
+        try await repository.appendToPeriodicNote(
+            period: "yearly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully appended content to yearly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1075,7 +1255,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.createOrUpdateDailyNote(year: year, month: month, day: day, content: content)
+        try await repository.createOrUpdatePeriodicNote(
+            period: "daily",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully created/updated daily periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1099,7 +1285,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.createOrUpdateWeeklyNote(year: year, month: month, day: day, content: content)
+        try await repository.createOrUpdatePeriodicNote(
+            period: "weekly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully created/updated weekly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1123,7 +1315,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.createOrUpdateMonthlyNote(year: year, month: month, day: day, content: content)
+        try await repository.createOrUpdatePeriodicNote(
+            period: "monthly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully created/updated monthly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1147,7 +1345,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.createOrUpdateQuarterlyNote(year: year, month: month, day: day, content: content)
+        try await repository.createOrUpdatePeriodicNote(
+            period: "quarterly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully created/updated quarterly periodic note for \(year)-\(month)-\(day)"
     }
 
@@ -1171,7 +1375,13 @@ final class ObsidianMCPServer {
         day: Int,
         content: String
     ) async throws -> String {
-        try await repository.createOrUpdateYearlyNote(year: year, month: month, day: day, content: content)
+        try await repository.createOrUpdatePeriodicNote(
+            period: "yearly",
+            content: content,
+            year: year,
+            month: month,
+            day: day
+        )
         return "Successfully created/updated yearly periodic note for \(year)-\(month)-\(day)"
     }
 

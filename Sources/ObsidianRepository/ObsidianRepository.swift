@@ -458,10 +458,33 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
 extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
 
     public func getPeriodicNote(period: String) async throws -> File {
-        let request = requestFactory.makeGetPeriodicNoteRequest(period: period)
+        let request = requestFactory.makeGetPeriodicNoteRequest(
+            period: period,
+            year: nil,
+            month: nil,
+            day: nil
+        )
         let response = try await client.run(request)
+        return File(
+            filename: response.value.path,
+            content: response.value.content
+        )
+    }
 
-        return .init(
+    public func getPeriodicNote(
+        period: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        let request = requestFactory.makeGetPeriodicNoteRequest(
+            period: period,
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        return File(
             filename: response.value.path,
             content: response.value.content
         )
@@ -473,7 +496,28 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
     ) async throws {
         let request = requestFactory.makeCreateOrUpdatePeriodicNoteRequest(
             period: period,
-            content: content
+            content: content,
+            year: nil,
+            month: nil,
+            day: nil
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdatePeriodicNote(
+        period: String,
+        content: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdatePeriodicNoteRequest(
+            period: period,
+            content: content,
+            year: year,
+            month: month,
+            day: day
         )
         let response = try await client.run(request)
         try response.validate()
@@ -485,7 +529,28 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
     ) async throws {
         let request = requestFactory.makeAppendToPeriodicNoteRequest(
             period: period,
-            content: content
+            content: content,
+            year: nil,
+            month: nil,
+            day: nil
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToPeriodicNote(
+        period: String,
+        content: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeAppendToPeriodicNoteRequest(
+            period: period,
+            content: content,
+            year: year,
+            month: month,
+            day: day
         )
         let response = try await client.run(request)
         try response.validate()
@@ -493,242 +558,26 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
 
     public func deletePeriodicNote(period: String) async throws {
         let request = requestFactory.makeDeletePeriodicNoteRequest(
-            period: period
+            period: period,
+            year: nil,
+            month: nil,
+            day: nil
         )
         let response = try await client.run(request)
         try response.validate()
     }
-}
 
-// MARK: - ObsidianRepositoryDatePeriodicOperations
-
-extension ObsidianRepository: ObsidianRepositoryDatePeriodicOperations {
-
-    public func deleteDailyNote(
+    public func deletePeriodicNote(
+        period: String,
         year: Int,
         month: Int,
         day: Int
     ) async throws {
-        let request = requestFactory.makeDeleteDailyNoteRequest(
+        let request = requestFactory.makeDeletePeriodicNoteRequest(
+            period: period,
             year: year,
             month: month,
             day: day
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func deleteWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int
-    ) async throws {
-        let request = requestFactory.makeDeleteWeeklyNoteRequest(
-            year: year,
-            month: month,
-            day: day
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func deleteMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int
-    ) async throws {
-        let request = requestFactory.makeDeleteMonthlyNoteRequest(
-            year: year,
-            month: month,
-            day: day
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func deleteQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int
-    ) async throws {
-        let request = requestFactory.makeDeleteQuarterlyNoteRequest(
-            year: year,
-            month: month,
-            day: day
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func deleteYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int
-    ) async throws {
-        let request = requestFactory.makeDeleteYearlyNoteRequest(
-            year: year,
-            month: month,
-            day: day
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func appendToDailyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeAppendToDailyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func appendToWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeAppendToWeeklyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func appendToMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeAppendToMonthlyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func appendToQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeAppendToQuarterlyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func appendToYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeAppendToYearlyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func createOrUpdateDailyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeCreateOrUpdateDailyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func createOrUpdateWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeCreateOrUpdateWeeklyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func createOrUpdateMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeCreateOrUpdateMonthlyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func createOrUpdateQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeCreateOrUpdateQuarterlyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
-        )
-        let response = try await client.run(request)
-        try response.validate()
-    }
-
-    public func createOrUpdateYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
-    ) async throws {
-        let request = requestFactory.makeCreateOrUpdateYearlyNoteRequest(
-            year: year,
-            month: month,
-            day: day,
-            content: content
         )
         let response = try await client.run(request)
         try response.validate()
