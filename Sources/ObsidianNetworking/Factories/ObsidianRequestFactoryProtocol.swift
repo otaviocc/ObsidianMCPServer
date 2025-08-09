@@ -120,36 +120,60 @@ public protocol ObsidianRequestFactoryProtocol {
     /// Creates a network request to retrieve a periodic note for the specified period.
     /// - Parameters:
     ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
+    ///   - year: Optional year for date-specific periodic note
+    ///   - month: Optional month for date-specific periodic note
+    ///   - day: Optional day for date-specific periodic note
     /// - Returns: A `NetworkRequest` that fetches the periodic note
     func makeGetPeriodicNoteRequest(
-        period: String
+        period: String,
+        year: Int?,
+        month: Int?,
+        day: Int?
     ) -> NetworkRequest<VoidRequest, NoteJSONResponse>
 
     /// Creates a network request to create or update a periodic note for the specified period.
     /// - Parameters:
     ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
     ///   - content: The content to write to the periodic note
+    ///   - year: Optional year for date-specific periodic note
+    ///   - month: Optional month for date-specific periodic note
+    ///   - day: Optional day for date-specific periodic note
     /// - Returns: A `NetworkRequest` that creates or updates the periodic note
     func makeCreateOrUpdatePeriodicNoteRequest(
         period: String,
-        content: String
+        content: String,
+        year: Int?,
+        month: Int?,
+        day: Int?
     ) -> NetworkRequest<Data, VoidResponse>
 
     /// Creates a network request to append content to a periodic note for the specified period.
     /// - Parameters:
     ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
     ///   - content: The content to append to the periodic note
+    ///   - year: Optional year for date-specific periodic note
+    ///   - month: Optional month for date-specific periodic note
+    ///   - day: Optional day for date-specific periodic note
     /// - Returns: A `NetworkRequest` that appends content to the periodic note
     func makeAppendToPeriodicNoteRequest(
         period: String,
-        content: String
+        content: String,
+        year: Int?,
+        month: Int?,
+        day: Int?
     ) -> NetworkRequest<Data, VoidResponse>
 
     /// Creates a network request to delete a periodic note for the specified period.
     /// - Parameters:
     ///   - period: The periodic note period (daily, weekly, monthly, quarterly, yearly)
+    ///   - year: Optional year for date-specific periodic note
+    ///   - month: Optional month for date-specific periodic note
+    ///   - day: Optional day for date-specific periodic note
     /// - Returns: A `NetworkRequest` that deletes the periodic note
     func makeDeletePeriodicNoteRequest(
-        period: String
+        period: String,
+        year: Int?,
+        month: Int?,
+        day: Int?
     ) -> NetworkRequest<VoidRequest, VoidResponse>
 }

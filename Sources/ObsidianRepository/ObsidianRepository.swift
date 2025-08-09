@@ -458,10 +458,33 @@ extension ObsidianRepository: ObsidianRepositoryBulkOperations {
 extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
 
     public func getPeriodicNote(period: String) async throws -> File {
-        let request = requestFactory.makeGetPeriodicNoteRequest(period: period)
+        let request = requestFactory.makeGetPeriodicNoteRequest(
+            period: period,
+            year: nil,
+            month: nil,
+            day: nil
+        )
         let response = try await client.run(request)
+        return File(
+            filename: response.value.path,
+            content: response.value.content
+        )
+    }
 
-        return .init(
+    public func getPeriodicNote(
+        period: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File {
+        let request = requestFactory.makeGetPeriodicNoteRequest(
+            period: period,
+            year: year,
+            month: month,
+            day: day
+        )
+        let response = try await client.run(request)
+        return File(
             filename: response.value.path,
             content: response.value.content
         )
@@ -473,7 +496,28 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
     ) async throws {
         let request = requestFactory.makeCreateOrUpdatePeriodicNoteRequest(
             period: period,
-            content: content
+            content: content,
+            year: nil,
+            month: nil,
+            day: nil
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func createOrUpdatePeriodicNote(
+        period: String,
+        content: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeCreateOrUpdatePeriodicNoteRequest(
+            period: period,
+            content: content,
+            year: year,
+            month: month,
+            day: day
         )
         let response = try await client.run(request)
         try response.validate()
@@ -485,7 +529,28 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
     ) async throws {
         let request = requestFactory.makeAppendToPeriodicNoteRequest(
             period: period,
-            content: content
+            content: content,
+            year: nil,
+            month: nil,
+            day: nil
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func appendToPeriodicNote(
+        period: String,
+        content: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeAppendToPeriodicNoteRequest(
+            period: period,
+            content: content,
+            year: year,
+            month: month,
+            day: day
         )
         let response = try await client.run(request)
         try response.validate()
@@ -493,7 +558,26 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
 
     public func deletePeriodicNote(period: String) async throws {
         let request = requestFactory.makeDeletePeriodicNoteRequest(
-            period: period
+            period: period,
+            year: nil,
+            month: nil,
+            day: nil
+        )
+        let response = try await client.run(request)
+        try response.validate()
+    }
+
+    public func deletePeriodicNote(
+        period: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws {
+        let request = requestFactory.makeDeletePeriodicNoteRequest(
+            period: period,
+            year: year,
+            month: month,
+            day: day
         )
         let response = try await client.run(request)
         try response.validate()

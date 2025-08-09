@@ -256,6 +256,21 @@ public protocol ObsidianRepositoryPeriodicOperations {
     /// - Throws: An error if the periodic note cannot be retrieved or doesn't exist
     func getPeriodicNote(period: String) async throws -> File
 
+    /// Retrieves the periodic note for the specified time period and date.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note (daily, weekly, monthly, quarterly, yearly)
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Returns: The File object representing the periodic note
+    /// - Throws: An error if the periodic note cannot be retrieved or doesn't exist
+    func getPeriodicNote(
+        period: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws -> File
+
     /// Creates or updates the periodic note for the specified time period with the given content.
     /// - Parameters:
     ///   - period: The time period for the periodic note
@@ -264,6 +279,22 @@ public protocol ObsidianRepositoryPeriodicOperations {
     func createOrUpdatePeriodicNote(
         period: String,
         content: String
+    ) async throws
+
+    /// Creates or updates the periodic note for the specified time period and date with the given content.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note
+    ///   - content: The complete content to set for the periodic note
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be created or updated
+    func createOrUpdatePeriodicNote(
+        period: String,
+        content: String,
+        year: Int,
+        month: Int,
+        day: Int
     ) async throws
 
     /// Appends content to the existing periodic note for the specified time period.
@@ -276,9 +307,39 @@ public protocol ObsidianRepositoryPeriodicOperations {
         content: String
     ) async throws
 
+    /// Appends content to the existing periodic note for the specified time period and date.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note
+    ///   - content: The content to append to the existing periodic note
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the content cannot be appended to the periodic note
+    func appendToPeriodicNote(
+        period: String,
+        content: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
+
     /// Deletes the periodic note for the specified time period.
     /// - Parameters:
     ///   - period: The time period for the periodic note to delete
     /// - Throws: An error if the periodic note cannot be deleted
     func deletePeriodicNote(period: String) async throws
+
+    /// Deletes the periodic note for the specified time period and date.
+    /// - Parameters:
+    ///   - period: The time period for the periodic note to delete
+    ///   - year: The year (e.g., 2024)
+    ///   - month: The month (1-12)
+    ///   - day: The day (1-31)
+    /// - Throws: An error if the periodic note cannot be deleted
+    func deletePeriodicNote(
+        period: String,
+        year: Int,
+        month: Int,
+        day: Int
+    ) async throws
 }

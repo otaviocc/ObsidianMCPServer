@@ -303,7 +303,7 @@ struct ObsidianRequestFactoryTests {
 
         // Then
         #expect(
-            request.path == "/vault",
+            request.path == "/vault/",
             "It should handle empty filename correctly"
         )
     }
