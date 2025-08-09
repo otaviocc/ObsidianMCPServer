@@ -117,7 +117,7 @@ struct ObsidianPromptAnalysisOperationsTests {
         mockRepository.getVaultNoteThrowableError = expectedError
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.analyzeNote(filename: filename, focus: .general)
         }
     }
@@ -194,7 +194,7 @@ struct ObsidianPromptAnalysisOperationsTests {
         mockRepository.getActiveNoteThrowableError = expectedError
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.analyzeActiveNote(focus: .general)
         }
     }
@@ -257,7 +257,7 @@ struct ObsidianPromptAnalysisOperationsTests {
         mockRepository.getVaultNoteThrowableError = expectedError
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.extractMetadata(filename: filename)
         }
     }

@@ -104,7 +104,7 @@ struct ObsidianPromptGenerationOperationsTests {
         mockRepository.getVaultNoteThrowableError = expectedError
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.generateFollowUpQuestions(filename: filename, questionCount: 3)
         }
     }
@@ -328,7 +328,7 @@ struct ObsidianPromptGenerationOperationsTests {
         let length = AbstractLength.standard
 
         // When & Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.generateActiveNoteAbstract(length: length)
         }
     }
@@ -342,7 +342,7 @@ struct ObsidianPromptGenerationOperationsTests {
         let style = OutlineStyle.hierarchical
 
         // When & Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.generateActiveNoteOutline(style: style)
         }
     }

@@ -48,7 +48,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.getServerInfo()
         }
 
@@ -114,7 +114,7 @@ struct ObsidianMCPServerTests {
         mock.shouldThrowErrorOnUpdateActiveNote = true
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.updateActiveNote(content: "test")
         }
 
@@ -447,7 +447,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.setActiveNoteFrontmatterString(key: "test", value: "value")
         }
 
@@ -654,17 +654,17 @@ struct ObsidianMCPServerTests {
         mock.shouldThrowErrorOnDeleteVaultNote = true
 
         // When/Then - Test create/update error
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.createOrUpdateFailed) {
             try await server.createOrUpdateNote(filename: "test.md", content: "content")
         }
 
         // When/Then - Test append error
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.appendFailed) {
             try await server.appendToNote(filename: "test.md", content: "content")
         }
 
         // When/Then - Test delete error
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.deleteFailed) {
             try await server.deleteNote(filename: "test.md")
         }
     }
@@ -676,7 +676,7 @@ struct ObsidianMCPServerTests {
         mock.searchVaultResult = .failure(MockError.updateFailed)
 
         // When/Then - Test search vault error
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.search(query: "test")
         }
     }
@@ -1099,7 +1099,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.analyzeNote(filename: "test.md", focus: .general)
         }
 
@@ -1116,7 +1116,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.analyzeActiveNote(focus: .general)
         }
 
@@ -1133,7 +1133,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.generateFollowUpQuestions(filename: "test.md")
         }
     }
@@ -1145,7 +1145,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.suggestTags(filename: "test.md")
         }
     }
@@ -1157,7 +1157,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.suggestActiveNoteTags()
         }
     }
@@ -1169,7 +1169,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.extractMetadata(filename: "test.md")
         }
     }
@@ -1181,7 +1181,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.rewriteActiveNote(style: .formal)
         }
     }
@@ -1332,7 +1332,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.translateActiveNote(language: .portuguese)
         }
     }
@@ -1518,7 +1518,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.generateActiveNoteAbstract(length: .standard)
         }
     }
@@ -1530,7 +1530,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.generateActiveNoteOutline(style: .hierarchical)
         }
     }
@@ -1542,7 +1542,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.generateFrontmatter(filename: "test.md")
         }
     }
@@ -1587,7 +1587,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.proofreadActiveNote()
         }
 
@@ -1650,7 +1650,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.bulkApplyTagsFromSearch(query: "test", tags: ["tag1"])
         }
 
@@ -1716,7 +1716,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.bulkReplaceFrontmatterStringFromSearch(
                 query: "test",
                 key: "key",
@@ -1786,7 +1786,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.bulkReplaceFrontmatterArrayFromSearch(
                 query: "test",
                 key: "key",
@@ -1856,7 +1856,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.bulkAppendToFrontmatterStringFromSearch(
                 query: "test",
                 key: "key",
@@ -1930,7 +1930,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.bulkAppendToFrontmatterArrayFromSearch(
                 query: "test",
                 key: "key",
@@ -2266,7 +2266,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.getDailyNote()
         }
 
@@ -2425,7 +2425,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.createOrUpdateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.createOrUpdateFailed) {
             try await server.createOrUpdateDailyNote(content: "test")
         }
 
@@ -2584,7 +2584,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.appendFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.appendFailed) {
             try await server.appendToDailyNote(content: "test")
         }
 
@@ -2718,7 +2718,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.deleteFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.deleteFailed) {
             try await server.deleteDailyNote()
         }
 
@@ -2969,7 +2969,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.updateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.updateFailed) {
             try await server.getDailyNoteForDate(year: 2024, month: 1, day: 15)
         }
 
@@ -3443,7 +3443,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.deleteFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.deleteFailed) {
             try await server.deleteDailyNoteForDate(
                 year: 2024,
                 month: 1,
@@ -3464,7 +3464,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.appendFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.appendFailed) {
             try await server.appendToDailyNoteForDate(
                 year: 2024,
                 month: 1,
@@ -3486,7 +3486,7 @@ struct ObsidianMCPServerTests {
         mock.errorToThrow = MockError.createOrUpdateFailed
 
         // When/Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: MockError.createOrUpdateFailed) {
             try await server.createOrUpdateDailyNoteForDate(
                 year: 2024,
                 month: 1,

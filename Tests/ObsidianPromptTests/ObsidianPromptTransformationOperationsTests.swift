@@ -144,7 +144,7 @@ struct ObsidianPromptTransformationOperationsTests {
         let style = WritingStyle.formal
 
         // When & Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.rewriteActiveNote(style: style)
         }
     }
@@ -289,7 +289,7 @@ struct ObsidianPromptTransformationOperationsTests {
         let language = Language.portuguese
 
         // When & Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.translateActiveNote(language: language)
         }
     }

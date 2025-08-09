@@ -213,7 +213,7 @@ struct ObsidianPromptGrammarAndStyleOperationsTests {
         mockRepository.getActiveNoteThrowableError = expectedError
 
         // When & Then
-        await #expect(throws: Error.self) {
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
             try await prompt.proofreadActiveNote()
         }
     }
