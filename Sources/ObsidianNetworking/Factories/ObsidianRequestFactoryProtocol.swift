@@ -155,8 +155,6 @@ public protocol ObsidianRequestFactoryProtocol {
 
     // MARK: - Date-Specific Periodic Notes Operations
 
-    // MARK: - DELETE Operations
-
     /// Creates a network request to delete a daily periodic note for the specified date.
     /// - Parameters:
     ///   - year: The year (e.g., 2024)
@@ -216,8 +214,6 @@ public protocol ObsidianRequestFactoryProtocol {
         month: Int,
         day: Int
     ) -> NetworkRequest<VoidRequest, VoidResponse>
-
-    // MARK: - POST Operations (Append)
 
     /// Creates a network request to append content to a daily periodic note for the specified date.
     /// - Parameters:
@@ -288,8 +284,6 @@ public protocol ObsidianRequestFactoryProtocol {
         day: Int,
         content: String
     ) -> NetworkRequest<Data, VoidResponse>
-
-    // MARK: - PUT Operations (Create/Update)
 
     /// Creates a network request to create or update a daily periodic note for the specified date.
     /// - Parameters:
