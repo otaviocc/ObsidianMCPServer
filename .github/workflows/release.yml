@@ -124,6 +124,41 @@ jobs:
           echo "signed=false" >> $GITHUB_OUTPUT
         fi
 
+    - name: Notarize Binary (if signed and notarization secrets available)
+      id: notarize
+      run: |
+        if [ "${{ steps.codesign.outputs.signed }}" == "true" ] && [ -n "${{ secrets.APPLE_ID }}" ] && [ -n "${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}" ] && [ -n "${{ secrets.APPLE_TEAM_ID }}" ]; then
+          echo "All notarization secrets available, proceeding with notarization..."
+
+          # Create zip for notarization
+          cd .build/universal
+          ditto -c -k --keepParent ${{ env.PRODUCT_NAME }} ../../notarization.zip
+          cd ../..
+
+          echo "Submitting binary for notarization..."
+          xcrun notarytool submit notarization.zip \
+            --apple-id "${{ secrets.APPLE_ID }}" \
+            --password "${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}" \
+            --team-id "${{ secrets.APPLE_TEAM_ID }}" \
+            --wait \
+            --timeout 30m \
+            --verbose
+
+          if [ $? -eq 0 ]; then
+            echo "notarized=true" >> $GITHUB_OUTPUT
+            echo "✅ Notarization successful!"
+          else
+            echo "notarized=false" >> $GITHUB_OUTPUT
+            echo "❌ Notarization failed, but continuing with signed binary..."
+          fi
+
+          # Clean up notarization zip
+          rm -f notarization.zip
+        else
+          echo "Skipping notarization - either binary not signed or notarization secrets not available"
+          echo "notarized=false" >> $GITHUB_OUTPUT
+        fi
+
     - name: Create Archive
       run: |
         cd .build/universal
@@ -169,7 +204,13 @@ jobs:
         EOF
 
         if [ "${{ steps.codesign.outputs.signed }}" == "true" ]; then
-          echo "✅ This binary is **code signed** with a valid Apple Developer ID certificate." >> release_notes.md
+          if [ "${{ steps.notarize.outputs.notarized }}" == "true" ]; then
+            echo "✅ This binary is **code signed and notarized** with a valid Apple Developer ID certificate." >> release_notes.md
+            echo "It should run without security warnings on macOS." >> release_notes.md
+          else
+            echo "✅ This binary is **code signed** with a valid Apple Developer ID certificate." >> release_notes.md
+            echo "⚠️ Notarization was not completed - you may see a security warning on first run." >> release_notes.md
+          fi
         else
           cat >> release_notes.md << 'EOF'
         ⚠️ This binary is **not code signed**. On first run, you may need to:
@@ -192,10 +233,10 @@ jobs:
 
         **SHA256 Checksum**: See attached `.sha256` file
 
-        ```bash
+        \`\`\`bash
         # Verify checksum
         shasum -a 256 -c ${{ env.ARCHIVE_NAME }}.sha256
-        ```
+        \`\`\`
         EOF
 
         echo "Generated release notes"
