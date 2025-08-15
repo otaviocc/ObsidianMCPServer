@@ -7,12 +7,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Building and Testing
 - **Build development**: `swift build`
 - **Build release**: `swift build -c release`
-- **Run tests**: `swift test` (190+ test cases across all modules)
+- **Run tests**: `swift test` (280+ test cases across all modules)
 - **Clean build**: `swift package clean`
 - **Lint code**: SwiftLint is integrated via build plugins and runs automatically during builds
 
 ### Installation Options
 - **From source**: `swift build -c release` (executable at `.build/release/ObsidianMCPServer`)
+- **Via Homebrew**: `brew tap otaviocc/mcp && brew install obsidian-mcp-server` (executable at `/opt/homebrew/bin/obsidian-mcp-server`)
 - **Via Mint**: `mint install otaviocc/ObsidianMCPServer` (executable at `$HOME/.mint/bin/ObsidianMCPServer`)
 
 ### Runtime Configuration
