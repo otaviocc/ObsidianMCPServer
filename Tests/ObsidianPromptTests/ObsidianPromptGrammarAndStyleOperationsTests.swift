@@ -4,8 +4,8 @@ import Testing
 
 @testable import ObsidianPrompt
 
-@Suite("ObsidianPrompt Grammar and Style Operations Tests")
-struct ObsidianPromptGrammarAndStyleOperationsTests {
+@Suite
+struct `ObsidianPrompt Grammar and Style Operations Tests` {
 
     // MARK: - Test Helper
 
@@ -15,8 +15,8 @@ struct ObsidianPromptGrammarAndStyleOperationsTests {
         return (prompt, mockRepository)
     }
 
-    @Test("It should proofread active note")
-    func proofreadActiveNote() async throws {
+    @Test
+    func `It should proofread active note`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -205,8 +205,8 @@ struct ObsidianPromptGrammarAndStyleOperationsTests {
         )
     }
 
-    @Test("It should propagate errors for proofread active note")
-    func propagateErrorsForProofreadActiveNote() async throws {
+    @Test
+    func `It should propagate errors for proofread active note`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError

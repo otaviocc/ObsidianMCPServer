@@ -76,8 +76,8 @@ Each module has comprehensive test coverage with:
 This project uses **Apple's Swift Testing framework** (`import Testing`) with the following conventions:
 
 #### Test Structure and Organization
-- Tests are organized using `@Suite("Suite Name")` to group related test cases
-- Use descriptive test names with `@Test("It should...")` following the pattern: "It should [expected behavior]"
+- Tests are organized using `@Suite` to group related test cases
+- Use descriptive test names with `@Test` following the pattern: "It should [expected behavior]"
 - Test method names should be descriptive without the `test` prefix (not required in Swift Testing framework)
 - Follow **Given/When/Then** structure within test methods for clarity
 
@@ -88,11 +88,11 @@ This project uses **Apple's Swift Testing framework** (`import Testing`) with th
 
 #### Example Test Structure
 ```swift
-@Suite("Component Tests")
-struct ComponentTests {
+@Suite
+struct `Component Tests` {
     
-    @Test("It should perform expected behavior")
-    func performExpectedBehavior() async throws {
+    @Test
+    func `It should perform expected behavior`() async throws {
         // Given
         let input = setupTestData()
         

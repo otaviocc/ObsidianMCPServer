@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("ObsidianRepository Bulk Operations Tests")
-struct ObsidianRepositoryBulkOperationsTests {
+@Suite
+struct `ObsidianRepository Bulk Operations Tests` {
 
-    @Test("It should apply tags to all files from search results")
-    func bulkApplyTagsFromSearchSuccess() async throws {
+    @Test
+    func `It should apply tags to all files from search results`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -60,8 +60,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle partial failures when applying tags")
-    func bulkApplyTagsFromSearchPartialFailure() async throws {
+    @Test
+    func `It should handle partial failures when applying tags`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -111,8 +111,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle partial failures when replacing frontmatter string")
-    func bulkReplaceFrontmatterStringFromSearchPartialFailure() async throws {
+    @Test
+    func `It should handle partial failures when replacing frontmatter string`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -170,8 +170,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should replace frontmatter string field for all files from search results")
-    func bulkReplaceFrontmatterStringFromSearchSuccess() async throws {
+    @Test
+    func `It should replace frontmatter string field for all files from search results`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -218,8 +218,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle partial failures when replacing frontmatter array")
-    func bulkReplaceFrontmatterArrayFromSearchPartialFailure() async throws {
+    @Test
+    func `It should handle partial failures when replacing frontmatter array`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -270,8 +270,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should replace frontmatter array field for all files from search results")
-    func bulkReplaceFrontmatterArrayFromSearchSuccess() async throws {
+    @Test
+    func `It should replace frontmatter array field for all files from search results`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -318,8 +318,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle partial failures when appending to frontmatter string")
-    func bulkAppendToFrontmatterStringFromSearchPartialFailure() async throws {
+    @Test
+    func `It should handle partial failures when appending to frontmatter string`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -377,8 +377,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should append to frontmatter string field for all files from search results")
-    func bulkAppendToFrontmatterStringFromSearchSuccess() async throws {
+    @Test
+    func `It should append to frontmatter string field for all files from search results`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -422,8 +422,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle partial failures when appending to frontmatter array")
-    func bulkAppendToFrontmatterArrayFromSearchPartialFailure() async throws {
+    @Test
+    func `It should handle partial failures when appending to frontmatter array`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -474,8 +474,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should append to frontmatter array field for all files from search results")
-    func bulkAppendToFrontmatterArrayFromSearchSuccess() async throws {
+    @Test
+    func `It should append to frontmatter array field for all files from search results`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -519,8 +519,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle empty search results gracefully")
-    func bulkOperationsWithEmptySearchResults() async throws {
+    @Test
+    func `It should handle empty search results gracefully`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -557,8 +557,8 @@ struct ObsidianRepositoryBulkOperationsTests {
         )
     }
 
-    @Test("It should handle search operation failure")
-    func bulkOperationsWithSearchFailure() async throws {
+    @Test
+    func `It should handle search operation failure`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

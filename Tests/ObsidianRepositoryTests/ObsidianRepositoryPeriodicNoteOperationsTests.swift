@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("ObsidianRepository Periodic Note Operations Tests")
-struct ObsidianRepositoryPeriodicNoteOperationsTests {
+@Suite
+struct `ObsidianRepository Periodic Note Operations Tests` {
 
-    @Test("It should get periodic note and return mapped File")
-    func getPeriodicNote() async throws {
+    @Test
+    func `It should get periodic note and return mapped File`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -42,8 +42,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should get periodic note for different periods")
-    func getPeriodicNoteForDifferentPeriods() async throws {
+    @Test
+    func `It should get periodic note for different periods`() async throws {
         let periods = ["daily", "weekly", "monthly", "quarterly", "yearly"]
 
         for period in periods {
@@ -71,8 +71,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         }
     }
 
-    @Test("It should create or update periodic note")
-    func createOrUpdatePeriodicNote() async throws {
+    @Test
+    func `It should create or update periodic note`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -97,8 +97,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should append to periodic note")
-    func appendToPeriodicNote() async throws {
+    @Test
+    func `It should append to periodic note`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -123,8 +123,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should delete periodic note")
-    func deletePeriodicNote() async throws {
+    @Test
+    func `It should delete periodic note`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -151,8 +151,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
 
     // MARK: - Date-Specific Periodic Note Operations Tests
 
-    @Test("It should get periodic note for specific date")
-    func getPeriodicNoteForDate() async throws {
+    @Test
+    func `It should get periodic note for specific date`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -193,8 +193,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should create or update periodic note for specific date")
-    func createOrUpdatePeriodicNoteForDate() async throws {
+    @Test
+    func `It should create or update periodic note for specific date`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -225,8 +225,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should append to periodic note for specific date")
-    func appendToPeriodicNoteForDate() async throws {
+    @Test
+    func `It should append to periodic note for specific date`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -257,8 +257,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should delete periodic note for specific date")
-    func deletePeriodicNoteForDate() async throws {
+    @Test
+    func `It should delete periodic note for specific date`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -288,8 +288,8 @@ struct ObsidianRepositoryPeriodicNoteOperationsTests {
         )
     }
 
-    @Test("It should handle get periodic note errors for specific date")
-    func getPeriodicNoteForDateError() async throws {
+    @Test
+    func `It should handle get periodic note errors for specific date`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

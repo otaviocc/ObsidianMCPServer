@@ -3,11 +3,11 @@ import Testing
 
 @testable import ObsidianModels
 
-@Suite("OutlineStyle Tests")
-struct OutlineStyleTests {
+@Suite
+struct `OutlineStyle Tests` {
 
-    @Test("It should have all OutlineStyle cases with descriptions")
-    func outlineStyleCases() {
+    @Test
+    func `It should have all OutlineStyle cases with descriptions`() {
         #expect(
             OutlineStyle.bullets.description == "Bullet point format",
             "It should have correct description for bullets outline style"

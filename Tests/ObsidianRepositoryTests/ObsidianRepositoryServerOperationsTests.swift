@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("ObsidianRepository Server Operations Tests")
-struct ObsidianRepositoryServerOperationsTests {
+@Suite
+struct `ObsidianRepository Server Operations Tests` {
 
-    @Test("It should get server info and return mapped ServerInformation")
-    func getServerInfo() async throws {
+    @Test
+    func `It should get server info and return mapped ServerInformation`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

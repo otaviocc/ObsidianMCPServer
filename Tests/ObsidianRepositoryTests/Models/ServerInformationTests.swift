@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("ServerInformation Model Tests")
-struct ServerInformationTests {
+@Suite
+struct `ServerInformation Model Tests` {
 
-    @Test("It should create ServerInformation model correctly")
-    func serverInformationModel() throws {
+    @Test
+    func `It should create ServerInformation model correctly`() throws {
         // Given/When
         let serverInfo = ServerInformation(service: "obsidian-api", version: "1.0.0")
 
@@ -21,8 +21,8 @@ struct ServerInformationTests {
         )
     }
 
-    @Test("It should handle empty service name")
-    func emptyServiceName() throws {
+    @Test
+    func `It should handle empty service name`() throws {
         // Given/When
         let serverInfo = ServerInformation(service: "", version: "1.0.0")
 
@@ -37,8 +37,8 @@ struct ServerInformationTests {
         )
     }
 
-    @Test("It should handle empty version")
-    func emptyVersion() throws {
+    @Test
+    func `It should handle empty version`() throws {
         // Given/When
         let serverInfo = ServerInformation(service: "obsidian-api", version: "")
 

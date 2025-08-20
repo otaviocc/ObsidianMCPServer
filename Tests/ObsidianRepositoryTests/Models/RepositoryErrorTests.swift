@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("RepositoryError Tests")
-struct RepositoryErrorTests {
+@Suite
+struct `RepositoryError Tests` {
 
-    @Test("It should provide correct error description for operation failed")
-    func repositoryErrorOperationFailed() throws {
+    @Test
+    func `It should provide correct error description for operation failed`() throws {
         // Given
         let statusCode = 404
         let message = "Not Found"
@@ -21,8 +21,8 @@ struct RepositoryErrorTests {
         )
     }
 
-    @Test("It should provide correct error description for operation failed with different status code")
-    func repositoryErrorOperationFailedDifferentStatusCode() throws {
+    @Test
+    func `It should provide correct error description for operation failed with different status code`() throws {
         // Given
         let statusCode = 500
         let message = "Internal Server Error"
@@ -37,8 +37,8 @@ struct RepositoryErrorTests {
         )
     }
 
-    @Test("It should provide correct error description for invalid response")
-    func repositoryErrorInvalidResponse() throws {
+    @Test
+    func `It should provide correct error description for invalid response`() throws {
         // Given/When
         let error = RepositoryError.invalidResponse
 

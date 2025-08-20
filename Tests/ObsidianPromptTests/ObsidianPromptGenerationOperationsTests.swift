@@ -4,8 +4,8 @@ import Testing
 
 @testable import ObsidianPrompt
 
-@Suite("ObsidianPrompt Generation Operations Tests")
-struct ObsidianPromptGenerationOperationsTests {
+@Suite
+struct `ObsidianPrompt Generation Operations Tests` {
 
     // MARK: - Test Helper
 
@@ -15,8 +15,8 @@ struct ObsidianPromptGenerationOperationsTests {
         return (prompt, mockRepository)
     }
 
-    @Test("It should generate follow-up questions with default count")
-    func generateFollowUpQuestionsWithDefaultCount() async throws {
+    @Test
+    func `It should generate follow-up questions with default count`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "research-note.md"
@@ -67,8 +67,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should generate follow-up questions with custom count")
-    func generateFollowUpQuestionsWithCustomCount() async throws {
+    @Test
+    func `It should generate follow-up questions with custom count`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "philosophy.md"
@@ -95,8 +95,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should propagate errors for follow-up questions")
-    func generateFollowUpQuestionsWithRepositoryError() async {
+    @Test
+    func `It should propagate errors for follow-up questions`() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "missing.md"
@@ -109,8 +109,8 @@ struct ObsidianPromptGenerationOperationsTests {
         }
     }
 
-    @Test("It should generate active note abstract with standard length")
-    func generateActiveNoteAbstractStandard() async throws {
+    @Test
+    func `It should generate active note abstract with standard length`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -154,8 +154,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should generate active note abstract with brief length")
-    func generateActiveNoteAbstractBrief() async throws {
+    @Test
+    func `It should generate active note abstract with brief length`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -187,8 +187,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should generate active note abstract with detailed length")
-    func generateActiveNoteAbstractDetailed() async throws {
+    @Test
+    func `It should generate active note abstract with detailed length`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -216,8 +216,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should generate active note outline with hierarchical style")
-    func generateActiveNoteOutlineHierarchical() async throws {
+    @Test
+    func `It should generate active note outline with hierarchical style`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -261,8 +261,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should generate active note outline with bullets style")
-    func generateActiveNoteOutlineBullets() async throws {
+    @Test
+    func `It should generate active note outline with bullets style`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -290,8 +290,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should generate active note outline with numbered style")
-    func generateActiveNoteOutlineNumbered() async throws {
+    @Test
+    func `It should generate active note outline with numbered style`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -319,8 +319,8 @@ struct ObsidianPromptGenerationOperationsTests {
         )
     }
 
-    @Test("It should propagate errors for generate active note abstract")
-    func propagateErrorsForGenerateActiveNoteAbstract() async throws {
+    @Test
+    func `It should propagate errors for generate active note abstract`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError
@@ -333,8 +333,8 @@ struct ObsidianPromptGenerationOperationsTests {
         }
     }
 
-    @Test("It should propagate errors for generate active note outline")
-    func propagateErrorsForGenerateActiveNoteOutline() async throws {
+    @Test
+    func `It should propagate errors for generate active note outline`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError

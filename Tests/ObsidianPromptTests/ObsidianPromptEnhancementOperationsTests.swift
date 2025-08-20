@@ -4,8 +4,8 @@ import Testing
 
 @testable import ObsidianPrompt
 
-@Suite("ObsidianPrompt Enhancement Operations Tests")
-struct ObsidianPromptEnhancementOperationsTests {
+@Suite
+struct `ObsidianPrompt Enhancement Operations Tests` {
 
     // MARK: - Test Helper
 
@@ -15,8 +15,8 @@ struct ObsidianPromptEnhancementOperationsTests {
         return (prompt, mockRepository)
     }
 
-    @Test("It should suggest tags with default count")
-    func suggestTagsWithDefaultCount() async throws {
+    @Test
+    func `It should suggest tags with default count`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "tech-article.md"
@@ -60,8 +60,8 @@ struct ObsidianPromptEnhancementOperationsTests {
         )
     }
 
-    @Test("It should suggest tags with custom count")
-    func suggestTagsWithCustomCount() async throws {
+    @Test
+    func `It should suggest tags with custom count`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "meeting-notes.md"
@@ -85,8 +85,8 @@ struct ObsidianPromptEnhancementOperationsTests {
         )
     }
 
-    @Test("It should generate complete frontmatter structure")
-    func generateFrontmatter() async throws {
+    @Test
+    func `It should generate complete frontmatter structure`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "project-proposal.md"
@@ -134,8 +134,8 @@ struct ObsidianPromptEnhancementOperationsTests {
         )
     }
 
-    @Test("It should suggest active note tags with default count")
-    func suggestActiveNoteTagsWithDefaultCount() async throws {
+    @Test
+    func `It should suggest active note tags with default count`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -174,8 +174,8 @@ struct ObsidianPromptEnhancementOperationsTests {
         )
     }
 
-    @Test("It should suggest active note tags with custom count")
-    func suggestActiveNoteTagsWithCustomCount() async throws {
+    @Test
+    func `It should suggest active note tags with custom count`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(

@@ -3,11 +3,11 @@ import Testing
 
 @testable import ObsidianModels
 
-@Suite("Language Tests")
-struct LanguageTests {
+@Suite
+struct `Language Tests` {
 
-    @Test("It should have all Language cases with descriptions")
-    func languageCases() {
+    @Test
+    func `It should have all Language cases with descriptions`() {
         #expect(
             Language.portuguese.description == "Portuguese (Português)",
             "It should have correct description for Portuguese language"

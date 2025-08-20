@@ -4,8 +4,8 @@ import Testing
 
 @testable import ObsidianResource
 
-@Suite("ObsidianResource Tests")
-struct ObsidianResourceTests {
+@Suite
+struct `ObsidianResource Tests` {
 
     // MARK: - Helper Methods
 
@@ -15,8 +15,8 @@ struct ObsidianResourceTests {
 
     // MARK: - Tests
 
-    @Test("It should list all enum types with resource URIs")
-    func listEnumTypes() async throws {
+    @Test
+    func `It should list all enum types with resource URIs`() async throws {
         // Given
         let resource = makeResource()
 
@@ -58,8 +58,8 @@ struct ObsidianResourceTests {
         )
     }
 
-    @Test("It should return Language enum details")
-    func getLanguageEnum() async throws {
+    @Test
+    func `It should return Language enum details`() async throws {
         // Given
         let resource = makeResource()
 
@@ -85,8 +85,8 @@ struct ObsidianResourceTests {
         )
     }
 
-    @Test("It should return WritingStyle enum details")
-    func getWritingStyleEnum() async throws {
+    @Test
+    func `It should return WritingStyle enum details`() async throws {
         // Given
         let resource = makeResource()
 
@@ -108,8 +108,8 @@ struct ObsidianResourceTests {
         )
     }
 
-    @Test("It should return AnalysisFocus enum details")
-    func getAnalysisFocusEnum() async throws {
+    @Test
+    func `It should return AnalysisFocus enum details`() async throws {
         // Given
         let resource = makeResource()
 
@@ -135,8 +135,8 @@ struct ObsidianResourceTests {
         )
     }
 
-    @Test("It should return AbstractLength enum details")
-    func getAbstractLengthEnum() async throws {
+    @Test
+    func `It should return AbstractLength enum details`() async throws {
         // Given
         let resource = makeResource()
 
@@ -166,8 +166,8 @@ struct ObsidianResourceTests {
         )
     }
 
-    @Test("It should return OutlineStyle enum details")
-    func getOutlineStyleEnum() async throws {
+    @Test
+    func `It should return OutlineStyle enum details`() async throws {
         // Given
         let resource = makeResource()
 

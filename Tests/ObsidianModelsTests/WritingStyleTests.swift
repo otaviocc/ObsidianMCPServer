@@ -3,11 +3,11 @@ import Testing
 
 @testable import ObsidianModels
 
-@Suite("WritingStyle Tests")
-struct WritingStyleTests {
+@Suite
+struct `WritingStyle Tests` {
 
-    @Test("It should have all WritingStyle cases with descriptions")
-    func writingStyleCases() {
+    @Test
+    func `It should have all WritingStyle cases with descriptions`() {
         #expect(
             WritingStyle.formal.description == "Formal and professional tone",
             "It should have correct description for formal writing style"

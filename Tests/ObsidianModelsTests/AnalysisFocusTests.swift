@@ -3,11 +3,11 @@ import Testing
 
 @testable import ObsidianModels
 
-@Suite("AnalysisFocus Tests")
-struct AnalysisFocusTests {
+@Suite
+struct `AnalysisFocus Tests` {
 
-    @Test("It should have all AnalysisFocus cases with descriptions")
-    func analysisFocusCases() {
+    @Test
+    func `It should have all AnalysisFocus cases with descriptions`() {
         #expect(
             AnalysisFocus.general.description == "Comprehensive analysis including summary, themes, and actionable insights",
             "It should have correct description for general analysis focus"

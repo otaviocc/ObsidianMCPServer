@@ -3,13 +3,13 @@ import Testing
 
 @testable import ObsidianMCPServer
 
-@Suite("ThreadSafeBox Tests")
-struct ThreadSafeBoxTests {
+@Suite
+struct `ThreadSafeBox Tests` {
 
     // MARK: - Initialization Tests
 
-    @Test("It should initialize with value")
-    func initialization() {
+    @Test
+    func `It should initialize with value`() {
         // Given/When
         let box = ThreadSafeBox(42)
         // Then
@@ -28,8 +28,8 @@ struct ThreadSafeBoxTests {
 
     // MARK: - Value Access Tests
 
-    @Test("It should get value")
-    func valueGetter() {
+    @Test
+    func `It should get value`() {
         // Given
         let box = ThreadSafeBox(100)
 
@@ -40,8 +40,8 @@ struct ThreadSafeBoxTests {
         #expect(retrievedValue == 100)
     }
 
-    @Test("It should set value")
-    func setValue() {
+    @Test
+    func `It should set value`() {
         // Given
         let box = ThreadSafeBox(0)
 
@@ -60,8 +60,8 @@ struct ThreadSafeBoxTests {
 
     // MARK: - Modify Tests
 
-    @Test("It should modify with return value")
-    func modifyWithReturn() {
+    @Test
+    func `It should modify with return value`() {
         // Given
         let box = ThreadSafeBox(10)
 
@@ -76,8 +76,8 @@ struct ThreadSafeBoxTests {
         #expect(box.value == 15)
     }
 
-    @Test("It should modify without return value")
-    func modifyWithoutReturn() {
+    @Test
+    func `It should modify without return value`() {
         // Given
         let box = ThreadSafeBox([1, 2, 3])
 
@@ -91,8 +91,8 @@ struct ThreadSafeBoxTests {
         #expect(box.value == [1, 2, 3, 4, 5])
     }
 
-    @Test("It should modify with complex transformation")
-    func complexModify() {
+    @Test
+    func `It should modify with complex transformation`() {
         struct Counter {
             var count: Int
             var name: String
@@ -118,8 +118,8 @@ struct ThreadSafeBoxTests {
 
     // MARK: - WithValue Tests
 
-    @Test("It should access value with withValue")
-    func withValue() {
+    @Test
+    func `It should access value with withValue`() {
         // Given
         let box = ThreadSafeBox("Hello World")
 
@@ -137,8 +137,8 @@ struct ThreadSafeBoxTests {
         #expect(box.value == "Hello World")
     }
 
-    @Test("It should perform withValue with complex operations")
-    func withValueComplexOperations() {
+    @Test
+    func `It should perform withValue with complex operations`() {
         // Given
         let box = ThreadSafeBox([1, 2, 3, 4, 5])
 
@@ -162,8 +162,8 @@ struct ThreadSafeBoxTests {
 
     // MARK: - Swap Tests
 
-    @Test("It should swap values")
-    func swap() {
+    @Test
+    func `It should swap values`() {
         // Given
         let box = ThreadSafeBox(100)
 
@@ -175,8 +175,8 @@ struct ThreadSafeBoxTests {
         #expect(box.value == 200)
     }
 
-    @Test("It should swap with different types")
-    func swapWithDifferentTypes() {
+    @Test
+    func `It should swap with different types`() {
         // Given
         let stringBox = ThreadSafeBox("original")
 

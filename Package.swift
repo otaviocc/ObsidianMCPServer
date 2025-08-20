@@ -1,5 +1,5 @@
 // MARK: - Package.swift Configuration
-// swift-tools-version:6.0
+// swift-tools-version:6.2
 
 import PackageDescription
 

@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("File Model Tests")
-struct FileTests {
+@Suite
+struct `File Model Tests` {
 
-    @Test("It should create File model correctly")
-    func fileModel() throws {
+    @Test
+    func `It should create File model correctly`() throws {
         // Given/When
         let file = File(filename: "test-note.md", content: "# Test\nContent")
 
@@ -21,8 +21,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle empty filename")
-    func emptyFileName() throws {
+    @Test
+    func `It should handle empty filename`() throws {
         // Given/When
         let file = File(filename: "", content: "Content")
 
@@ -37,8 +37,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle empty content")
-    func emptyContent() throws {
+    @Test
+    func `It should handle empty content`() throws {
         // Given/When
         let file = File(filename: "empty.md", content: "")
 
@@ -53,8 +53,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle special characters in filename")
-    func specialCharactersInFilename() throws {
+    @Test
+    func `It should handle special characters in filename`() throws {
         // Given/When
         let file = File(filename: "file with spaces & symbols!.md", content: "Content")
 
@@ -69,8 +69,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle Unicode content")
-    func unicodeContent() throws {
+    @Test
+    func `It should handle Unicode content`() throws {
         // Given/When
         let file = File(
             filename: "unicode.md",
@@ -88,8 +88,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle very long content")
-    func longContent() throws {
+    @Test
+    func `It should handle very long content`() throws {
         // Given
         let longContent = String(repeating: "A", count: 10000)
 
@@ -107,8 +107,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle file with only whitespace content")
-    func whitespaceContent() throws {
+    @Test
+    func `It should handle file with only whitespace content`() throws {
         // Given/When
         let file = File(filename: "whitespace.md", content: "   \n\t\r  ")
 
@@ -123,8 +123,8 @@ struct FileTests {
         )
     }
 
-    @Test("It should handle filename with path separators")
-    func filenameWithPaths() throws {
+    @Test
+    func `It should handle filename with path separators`() throws {
         // Given/When
         let file = File(filename: "folder/subfolder/note.md", content: "Content")
 

@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("ObsidianRepository Vault Operations Tests")
-struct ObsidianRepositoryVaultOperationsTests {
+@Suite
+struct `ObsidianRepository Vault Operations Tests` {
 
-    @Test("It should list vault directory and return file paths")
-    func listVaultDirectory() async throws {
+    @Test
+    func `It should list vault directory and return file paths`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

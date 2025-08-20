@@ -4,8 +4,8 @@ import Testing
 
 @testable import ObsidianPrompt
 
-@Suite("ObsidianPrompt Analysis Operations Tests")
-struct ObsidianPromptAnalysisOperationsTests {
+@Suite
+struct `ObsidianPrompt Analysis Operations Tests` {
 
     // MARK: - Test Helper
 
@@ -15,8 +15,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         return (prompt, mockRepository)
     }
 
-    @Test("It should analyze note with general focus")
-    func analyzeNoteWithGeneralFocus() async throws {
+    @Test
+    func `It should analyze note with general focus`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "test-note.md"
@@ -52,8 +52,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         )
     }
 
-    @Test("It should analyze note with action items focus")
-    func analyzeNoteWithActionItemsFocus() async throws {
+    @Test
+    func `It should analyze note with action items focus`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "tasks.md"
@@ -80,8 +80,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         )
     }
 
-    @Test("It should analyze note with tone focus")
-    func analyzeNoteWithToneFocus() async throws {
+    @Test
+    func `It should analyze note with tone focus`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "journal.md"
@@ -108,8 +108,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         )
     }
 
-    @Test("It should propagate repository errors")
-    func analyzeNoteWithRepositoryError() async {
+    @Test
+    func `It should propagate repository errors`() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "non-existent.md"
@@ -122,8 +122,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         }
     }
 
-    @Test("It should analyze active note with general focus")
-    func analyzeActiveNoteWithGeneralFocus() async throws {
+    @Test
+    func `It should analyze active note with general focus`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -158,8 +158,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         )
     }
 
-    @Test("It should analyze active note with action items focus")
-    func analyzeActiveNoteWithActionItemsFocus() async throws {
+    @Test
+    func `It should analyze active note with action items focus`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let activeNote = File(
@@ -186,8 +186,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         )
     }
 
-    @Test("It should propagate active note repository errors")
-    func analyzeActiveNoteWithRepositoryError() async {
+    @Test
+    func `It should propagate active note repository errors`() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let expectedError = ObsidianRepositoryMock.MockError.someMockError
@@ -199,8 +199,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         }
     }
 
-    @Test("It should extract metadata from note content")
-    func extractMetadata() async throws {
+    @Test
+    func `It should extract metadata from note content`() async throws {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "meeting-minutes.md"
@@ -248,8 +248,8 @@ struct ObsidianPromptAnalysisOperationsTests {
         )
     }
 
-    @Test("It should propagate errors for extract metadata")
-    func extractMetadataWithRepositoryError() async {
+    @Test
+    func `It should propagate errors for extract metadata`() async {
         // Given
         let (prompt, mockRepository) = makePromptWithMock()
         let filename = "missing-file.md"

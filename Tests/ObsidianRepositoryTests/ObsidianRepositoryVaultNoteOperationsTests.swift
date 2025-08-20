@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("ObsidianRepository Vault Note Operations Tests")
-struct ObsidianRepositoryVaultNoteOperationsTests {
+@Suite
+struct `ObsidianRepository Vault Note Operations Tests` {
 
-    @Test("It should get vault note and return mapped File")
-    func getVaultNote() async throws {
+    @Test
+    func `It should get vault note and return mapped File`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -43,8 +43,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should create or update vault note")
-    func createOrUpdateVaultNote() async throws {
+    @Test
+    func `It should create or update vault note`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -70,8 +70,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should append to vault note")
-    func appendToVaultNote() async throws {
+    @Test
+    func `It should append to vault note`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -97,8 +97,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should delete vault note")
-    func deleteVaultNote() async throws {
+    @Test
+    func `It should delete vault note`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -124,8 +124,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should set vault note frontmatter field")
-    func setVaultNoteFrontmatterStringField() async throws {
+    @Test
+    func `It should set vault note frontmatter field`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -155,8 +155,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should append to vault note frontmatter field")
-    func appendToVaultNoteFrontmatterStringField() async throws {
+    @Test
+    func `It should append to vault note frontmatter field`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -186,8 +186,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should set vault note frontmatter array field")
-    func setVaultNoteFrontmatterArrayField() async throws {
+    @Test
+    func `It should set vault note frontmatter array field`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)
@@ -217,8 +217,8 @@ struct ObsidianRepositoryVaultNoteOperationsTests {
         )
     }
 
-    @Test("It should append to vault note frontmatter array field")
-    func appendToVaultNoteFrontmatterArrayField() async throws {
+    @Test
+    func `It should append to vault note frontmatter array field`() async throws {
         // Given
         let mockClient = NetworkClientMother.makeMockNetworkClient()
         let repository = ObsidianRepository(client: mockClient)

@@ -3,11 +3,11 @@ import Testing
 
 @testable import ObsidianModels
 
-@Suite("AbstractLength Tests")
-struct AbstractLengthTests {
+@Suite
+struct `AbstractLength Tests` {
 
-    @Test("It should have all AbstractLength cases with descriptions")
-    func abstractLengthCases() {
+    @Test
+    func `It should have all AbstractLength cases with descriptions`() {
         #expect(
             AbstractLength.brief.description == "Brief summary (1-2 sentences)",
             "It should have correct description for brief abstract length"

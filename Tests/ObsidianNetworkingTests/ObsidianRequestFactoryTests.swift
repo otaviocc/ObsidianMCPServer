@@ -3,15 +3,15 @@ import Testing
 
 @testable import ObsidianNetworking
 
-@Suite("ObsidianRequestFactory Tests")
-struct ObsidianRequestFactoryTests {
+@Suite
+struct `ObsidianRequestFactory Tests` {
 
     let factory = ObsidianRequestFactory()
 
     // MARK: - Server Info Tests
 
-    @Test("It should create server info request")
-    func makeServerInfoRequest() {
+    @Test
+    func `It should create server info request`() {
         // When
         let request = factory.makeServerInfoRequest()
 
@@ -28,8 +28,8 @@ struct ObsidianRequestFactoryTests {
 
     // MARK: - Active File Tests
 
-    @Test("It should create get active file request")
-    func makeGetActiveFileRequest() {
+    @Test
+    func `It should create get active file request`() {
         // When
         let request = factory.makeGetActiveFileRequest()
 
@@ -48,8 +48,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create get active file JSON request")
-    func makeGetActiveFileJsonRequest() {
+    @Test
+    func `It should create get active file JSON request`() {
         // When
         let request = factory.makeGetActiveFileJsonRequest()
 
@@ -68,8 +68,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create update active file request")
-    func makeUpdateActiveFileRequest() {
+    @Test
+    func `It should create update active file request`() {
         // Given
         let content = "# Updated Note Content\nThis is the new content."
 
@@ -91,8 +91,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create delete active file request")
-    func makeDeleteActiveFileRequest() {
+    @Test
+    func `It should create delete active file request`() {
         // When
         let request = factory.makeDeleteActiveFileRequest()
 
@@ -107,8 +107,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create set active frontmatter request with replace operation")
-    func makeSetActiveFrontmatterRequestReplace() {
+    @Test
+    func `It should create set active frontmatter request with replace operation`() {
         // Given
         let content = "important"
         let operation = "replace"
@@ -143,8 +143,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create set active frontmatter request with append operation")
-    func makeSetActiveFrontmatterRequestAppend() {
+    @Test
+    func `It should create set active frontmatter request with append operation`() {
         // Given
         let content = "project"
         let operation = "append"
@@ -171,8 +171,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create set active frontmatter request with special characters")
-    func makeSetActiveFrontmatterRequestWithSpecialCharacters() {
+    @Test
+    func `It should create set active frontmatter request with special characters`() {
         // Given
         let content = "test value"
         let operation = "replace"
@@ -197,8 +197,8 @@ struct ObsidianRequestFactoryTests {
 
     // MARK: - Vault File Tests
 
-    @Test("It should create get vault file request")
-    func makeGetVaultFileRequest() {
+    @Test
+    func `It should create get vault file request`() {
         // Given
         let filename = "notes/project.md"
 
@@ -220,8 +220,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create or update vault file request")
-    func makeCreateOrUpdateVaultFileRequest() {
+    @Test
+    func `It should create or update vault file request`() {
         // Given
         let filename = "new-note.md"
         let content = "# New Note\n\nThis is a new note."
@@ -247,8 +247,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create append to vault file request")
-    func makeAppendToVaultFileRequest() {
+    @Test
+    func `It should create append to vault file request`() {
         // Given
         let filename = "existing-note.md"
         let content = "\n\n## Additional Section\n\nAppended content."
@@ -274,8 +274,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create delete vault file request")
-    func makeDeleteVaultFileRequest() {
+    @Test
+    func `It should create delete vault file request`() {
         // Given
         let filename = "old/deprecated.md"
 
@@ -293,8 +293,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should handle empty filename for vault operations")
-    func makeGetVaultFileRequestEmptyFilename() {
+    @Test
+    func `It should handle empty filename for vault operations`() {
         // Given
         let filename = ""
 
@@ -308,8 +308,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should handle special characters in vault filename")
-    func makeGetVaultFileRequestSpecialCharacters() {
+    @Test
+    func `It should handle special characters in vault filename`() {
         // Given
         let filename = "folder with spaces/file & name.md"
 
@@ -323,8 +323,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create set vault frontmatter request")
-    func makeSetVaultFrontmatterRequest() {
+    @Test
+    func `It should create set vault frontmatter request`() {
         // Given
         let filename = "note.md"
         let content = "completed"
@@ -361,8 +361,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create append vault frontmatter request")
-    func makeAppendVaultFrontmatterRequest() {
+    @Test
+    func `It should create append vault frontmatter request`() {
         // Given
         let filename = "research.md"
         let content = "literature-review"
@@ -386,8 +386,8 @@ struct ObsidianRequestFactoryTests {
 
     // MARK: - Directory Listing Tests
 
-    @Test("It should create list vault directory request for root")
-    func makeListVaultDirectoryRequestRoot() {
+    @Test
+    func `It should create list vault directory request for root`() {
         // Given
         let directory = ""
 
@@ -405,8 +405,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create list vault directory request for subdirectory")
-    func makeListVaultDirectoryRequestSubdirectory() {
+    @Test
+    func `It should create list vault directory request for subdirectory`() {
         // Given
         let directory = "projects/obsidian"
 
@@ -426,8 +426,8 @@ struct ObsidianRequestFactoryTests {
 
     // MARK: - Search Tests
 
-    @Test("It should create search vault request")
-    func makeSearchVaultRequest() {
+    @Test
+    func `It should create search vault request`() {
         // Given
         let query = "test query"
 
@@ -459,8 +459,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create search vault request with special characters")
-    func makeSearchVaultRequestSpecialCharacters() {
+    @Test
+    func `It should create search vault request with special characters`() {
         // Given
         let query = "regex.*pattern & test"
 
@@ -478,8 +478,8 @@ struct ObsidianRequestFactoryTests {
 
     // MARK: - URL Encoding Tests
 
-    @Test("It should URL encode frontmatter target key")
-    func urlEncodeFrontmatterTarget() {
+    @Test
+    func `It should URL encode frontmatter target key`() {
         // Given
         let key = "field with spaces & symbols!"
 
@@ -500,8 +500,8 @@ struct ObsidianRequestFactoryTests {
 
     // MARK: - Periodic Notes Tests
 
-    @Test("It should create get periodic note request")
-    func makeGetPeriodicNoteRequest() {
+    @Test
+    func `It should create get periodic note request`() {
         // Given
         let period = "daily"
 
@@ -523,8 +523,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create periodic note request for different periods")
-    func makeGetPeriodicNoteRequestDifferentPeriods() {
+    @Test
+    func `It should create periodic note request for different periods`() {
         // Test all periodic note periods
         let periods = ["daily", "weekly", "monthly", "quarterly", "yearly"]
 
@@ -540,8 +540,8 @@ struct ObsidianRequestFactoryTests {
         }
     }
 
-    @Test("It should create update periodic note request")
-    func makeCreateOrUpdatePeriodicNoteRequest() {
+    @Test
+    func `It should create update periodic note request`() {
         // Given
         let period = "weekly"
         let content = "# Week 1\n\nGoals for this week..."
@@ -571,8 +571,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create append to periodic note request")
-    func makeAppendToPeriodicNoteRequest() {
+    @Test
+    func `It should create append to periodic note request`() {
         // Given
         let period = "monthly"
         let content = "\n\n## New Achievement\n- Completed project X"
@@ -602,8 +602,8 @@ struct ObsidianRequestFactoryTests {
         )
     }
 
-    @Test("It should create delete periodic note request")
-    func makeDeletePeriodicNoteRequest() {
+    @Test
+    func `It should create delete periodic note request`() {
         // Given
         let period = "quarterly"
 

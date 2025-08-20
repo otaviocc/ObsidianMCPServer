@@ -2,11 +2,11 @@ import Testing
 
 @testable import ObsidianRepository
 
-@Suite("SearchResult Model Tests")
-struct SearchResultTests {
+@Suite
+struct `SearchResult Model Tests` {
 
-    @Test("It should create SearchResult model correctly")
-    func searchResultModel() throws {
+    @Test
+    func `It should create SearchResult model correctly`() throws {
         // Given/When
         let searchResult = SearchResult(path: "notes/test.md", score: 0.85)
 
@@ -21,8 +21,8 @@ struct SearchResultTests {
         )
     }
 
-    @Test("It should handle zero search score")
-    func zeroSearchScore() throws {
+    @Test
+    func `It should handle zero search score`() throws {
         // Given/When
         let searchResult = SearchResult(path: "low-relevance.md", score: 0.0)
 
@@ -37,8 +37,8 @@ struct SearchResultTests {
         )
     }
 
-    @Test("It should handle maximum search score")
-    func maxSearchScore() throws {
+    @Test
+    func `It should handle maximum search score`() throws {
         // Given/When
         let searchResult = SearchResult(path: "perfect-match.md", score: 1.0)
 
@@ -53,8 +53,8 @@ struct SearchResultTests {
         )
     }
 
-    @Test("It should handle negative search score")
-    func negativeSearchScore() throws {
+    @Test
+    func `It should handle negative search score`() throws {
         // Given/When
         let searchResult = SearchResult(path: "negative.md", score: -0.5)
 
@@ -69,8 +69,8 @@ struct SearchResultTests {
         )
     }
 
-    @Test("It should handle very high search score")
-    func veryHighSearchScore() throws {
+    @Test
+    func `It should handle very high search score`() throws {
         // Given/When
         let searchResult = SearchResult(path: "high.md", score: 999.99)
 
@@ -85,8 +85,8 @@ struct SearchResultTests {
         )
     }
 
-    @Test("It should handle search path with directories")
-    func searchPathWithDirectories() throws {
+    @Test
+    func `It should handle search path with directories`() throws {
         // Given/When
         let searchResult = SearchResult(path: "deep/nested/folders/note.md", score: 0.75)
 
