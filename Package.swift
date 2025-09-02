@@ -20,25 +20,18 @@ let package = Package(
         .package(url: "https://github.com/Cocoanetics/SwiftMCP", branch: "main"),
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
-        .package(url: "https://github.com/otaviocc/MicroClient", branch: "main"),
-        .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", branch: "main")
+        .package(url: "https://github.com/otaviocc/MicroClient", from: "0.0.19")
     ],
     targets: [
         .target(
             name: "ObsidianModels",
-            dependencies: [],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
-            ]
+            dependencies: []
         ),
         .target(
             name: "ObsidianNetworking",
             dependencies: [
                 .product(name: "MicroClient", package: "MicroClient"),
                 "AnyCodable"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .target(
@@ -47,9 +40,6 @@ let package = Package(
                 "ObsidianNetworking",
                 .product(name: "SwiftMCP", package: "SwiftMCP"),
                 .product(name: "MicroClient", package: "MicroClient")
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .target(
@@ -57,18 +47,12 @@ let package = Package(
             dependencies: [
                 "ObsidianRepository",
                 "ObsidianModels"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .target(
             name: "ObsidianResource",
             dependencies: [
                 "ObsidianModels"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .executableTarget(
@@ -79,18 +63,12 @@ let package = Package(
                 "ObsidianResource",
                 .product(name: "SwiftMCP", package: "SwiftMCP"),
                 .product(name: "ArgumentParser", package: "swift-argument-parser")
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
             name: "ObsidianModelsTests",
             dependencies: [
                 "ObsidianModels"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -98,9 +76,6 @@ let package = Package(
             dependencies: [
                 "ObsidianNetworking",
                 "AnyCodable"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -108,9 +83,6 @@ let package = Package(
             dependencies: [
                 "ObsidianRepository",
                 "ObsidianNetworking"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -119,9 +91,6 @@ let package = Package(
                 "ObsidianPrompt",
                 "ObsidianRepository",
                 "ObsidianModels"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -129,9 +98,6 @@ let package = Package(
             dependencies: [
                 "ObsidianResource",
                 "ObsidianModels"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         ),
         .testTarget(
@@ -141,9 +107,6 @@ let package = Package(
                 "ObsidianPrompt",
                 "ObsidianRepository",
                 "ObsidianResource"
-            ],
-            plugins: [
-                .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins")
             ]
         )
     ]

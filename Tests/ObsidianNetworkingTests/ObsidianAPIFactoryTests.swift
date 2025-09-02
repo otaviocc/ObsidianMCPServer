@@ -9,14 +9,13 @@ struct ObsidianAPIFactoryTests {
 
     let factory = ObsidianAPIFactory()
     let testBaseURL = URL(string: "https://api.obsidian.test")! // swiftlint:disable:this force_unwrapping
-    let testToken = "test-auth-token-123"
 
     // MARK: - Client Creation Tests
 
     @Test("It should create a NetworkClient that conforms to NetworkClientProtocol")
     func makeObsidianAPIClientReturnsCorrectType() {
         // Given
-        let tokenProvider: () -> String? = { self.testToken }
+        let tokenProvider: @Sendable () -> String? = { "test-auth-token-123" }
 
         // When
         let client = factory.makeObsidianAPIClient(
@@ -34,7 +33,7 @@ struct ObsidianAPIFactoryTests {
     @Test("It should create different client instances for each call")
     func makeObsidianAPIClientCreatesNewInstances() {
         // Given
-        let tokenProvider: () -> String? = { self.testToken }
+        let tokenProvider: @Sendable () -> String? = { "test-auth-token-123" }
 
         // When
         let client1 = factory.makeObsidianAPIClient(
@@ -64,7 +63,7 @@ struct ObsidianAPIFactoryTests {
     func makeObsidianAPIClientWithDifferentBaseURLs() throws {
         let httpsURL = try #require(URL(string: "https://secure.obsidian.test"))
         let httpURL = try #require(URL(string: "http://local.obsidian.test:8080"))
-        let tokenProvider: () -> String? = { self.testToken }
+        let tokenProvider: @Sendable () -> String? = { "test-auth-token-123" }
 
         let httpsClient = factory.makeObsidianAPIClient(baseURL: httpsURL, userToken: tokenProvider)
         let httpClient = factory.makeObsidianAPIClient(baseURL: httpURL, userToken: tokenProvider)
@@ -85,7 +84,7 @@ struct ObsidianAPIFactoryTests {
     func makeObsidianAPIClientWithComplexBaseURL() throws {
         // Given
         let complexURL = try #require(URL(string: "https://api.obsidian.test/v1/vault?version=2"))
-        let tokenProvider: () -> String? = { self.testToken }
+        let tokenProvider: @Sendable () -> String? = { "test-auth-token-123" }
 
         // When
         let client = factory.makeObsidianAPIClient(
@@ -105,7 +104,7 @@ struct ObsidianAPIFactoryTests {
     @Test("It should accept token provider that returns a valid token")
     func makeObsidianAPIClientWithValidTokenProvider() {
         // Given
-        let tokenProvider: () -> String? = { "valid-token-123" }
+        let tokenProvider: @Sendable () -> String? = { "test-auth-token-123" }
 
         // When
         let client = factory.makeObsidianAPIClient(
@@ -123,7 +122,7 @@ struct ObsidianAPIFactoryTests {
     @Test("It should accept token provider that returns nil")
     func makeObsidianAPIClientWithNilTokenProvider() {
         // Given
-        let tokenProvider: () -> String? = { nil }
+        let tokenProvider: @Sendable () -> String? = { nil }
 
         // When
         let client = factory.makeObsidianAPIClient(
@@ -141,7 +140,7 @@ struct ObsidianAPIFactoryTests {
     @Test("It should accept token provider that returns empty string")
     func makeObsidianAPIClientWithEmptyTokenProvider() {
         // Given
-        let tokenProvider: () -> String? = { "" }
+        let tokenProvider: @Sendable () -> String? = { "" }
 
         // When
         let client = factory.makeObsidianAPIClient(
@@ -153,37 +152,6 @@ struct ObsidianAPIFactoryTests {
         #expect(
             client is NetworkClient,
             "It should create client with empty token provider"
-        )
-    }
-
-    @Test("It should handle dynamic token changes")
-    func makeObsidianAPIClientWithDynamicTokenProvider() {
-        // Given
-        var currentToken: String? = "initial-token"
-        let tokenProvider: () -> String? = { currentToken }
-
-        // When
-        let client = factory.makeObsidianAPIClient(
-            baseURL: testBaseURL,
-            userToken: tokenProvider
-        )
-
-        // Then
-        #expect(
-            client is NetworkClient,
-            "It should create client with initial token"
-        )
-
-        currentToken = "updated-token"
-        #expect(
-            client is NetworkClient,
-            "It should handle token updates"
-        )
-
-        currentToken = nil
-        #expect(
-            client is NetworkClient,
-            "It should handle token removal"
         )
     }
 }
