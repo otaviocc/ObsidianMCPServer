@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SimpleSearchResponse: Decodable {
+public struct SimpleSearchResponse: Decodable, Sendable {
 
     // MARK: - Properties
 

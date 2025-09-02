@@ -11,6 +11,6 @@ public protocol ObsidianAPIFactoryProtocol {
     /// - Returns: A `NetworkClientProtocol` instance configured for Obsidian API communication
     func makeObsidianAPIClient(
         baseURL: URL,
-        userToken: @escaping () -> String?
+        userToken: @escaping @Sendable () async -> String?
     ) -> NetworkClientProtocol
 }

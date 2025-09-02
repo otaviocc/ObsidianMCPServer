@@ -20,7 +20,7 @@ let package = Package(
         .package(url: "https://github.com/Cocoanetics/SwiftMCP", branch: "main"),
         .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.0.0"),
-        .package(url: "https://github.com/otaviocc/MicroClient", branch: "main"),
+        .package(url: "https://github.com/otaviocc/MicroClient", from: "0.0.18"),
         .package(url: "https://github.com/SimplyDanny/SwiftLintPlugins", branch: "main")
     ],
     targets: [

@@ -3,7 +3,7 @@ import Foundation
 import MicroClient
 import ObsidianNetworking
 
-final class NetworkClientMock: NetworkClientProtocol {
+final class NetworkClientMock: NetworkClientProtocol, @unchecked Sendable {
 
     // MARK: - Nested types
 
@@ -17,7 +17,6 @@ final class NetworkClientMock: NetworkClientProtocol {
     private(set) var lastRequestPath: String?
     private(set) var lastRequestMethod: HTTPMethod?
     private(set) var stubbedNetworkResponse: Any?
-    private(set) var stubbedStatus: NetworkClientStatus?
     private(set) var stubbedNetworkResponses: [Any] = []
 
     // MARK: - Life cycle
@@ -48,21 +47,11 @@ final class NetworkClientMock: NetworkClientProtocol {
 
         throw NetworkClientMockError.stubMissingForRun
     }
-
-    func statusPublisher() -> AnyPublisher<NetworkClientStatus, Never> {
-        Just(stubbedStatus ?? .idle).eraseToAnyPublisher()
-    }
 }
 
 extension NetworkClientMock {
 
     // MARK: - Stubs
-
-    func stubStatus(
-        toReturn status: NetworkClientStatus
-    ) {
-        stubbedStatus = status
-    }
 
     func stubNetworkResponse<ResponseModel: Decodable>(
         toReturn networkResponse: NetworkResponse<ResponseModel>

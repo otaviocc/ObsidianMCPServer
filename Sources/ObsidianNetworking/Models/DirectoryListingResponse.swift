@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DirectoryListingResponse: Decodable {
+public struct DirectoryListingResponse: Decodable, Sendable {
 
     // MARK: - Properties
 

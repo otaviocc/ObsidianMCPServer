@@ -11,7 +11,7 @@ public struct ObsidianAPIFactory: ObsidianAPIFactoryProtocol {
 
     public func makeObsidianAPIClient(
         baseURL: URL,
-        userToken: @escaping () -> String?
+        userToken: @escaping @Sendable () async -> String?
     ) -> NetworkClientProtocol {
         let delegate = InsecureURLSessionDelegate()
 
@@ -25,12 +25,11 @@ public struct ObsidianAPIFactory: ObsidianAPIFactoryProtocol {
             session: session,
             defaultDecoder: JSONDecoder(),
             defaultEncoder: JSONEncoder(),
-            baseURL: baseURL
-        )
-
-        configuration.interceptor = { request in
+            baseURL: baseURL,
+            interceptor: nil
+        ) { request in
             var modifiedRequest = request
-            if let token = userToken() {
+            if let token = await userToken() {
                 modifiedRequest.setValue(
                     "Bearer \(token)",
                     forHTTPHeaderField: "Authorization"

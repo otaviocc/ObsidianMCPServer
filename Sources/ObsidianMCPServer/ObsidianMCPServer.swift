@@ -37,7 +37,7 @@ final class ObsidianMCPServer {
 
     init(
         baseURL: URL,
-        userToken: @escaping () -> String? = { nil },
+        userToken: @escaping @Sendable () async -> String? = { nil },
         apiFactory: ObsidianAPIFactoryProtocol = ObsidianAPIFactory(),
         requestFactory: ObsidianRequestFactoryProtocol = ObsidianRequestFactory()
     ) {

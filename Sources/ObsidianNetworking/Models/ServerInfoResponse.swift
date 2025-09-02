@@ -1,15 +1,15 @@
 import Foundation
 
-public struct ServerInfoResponse: Decodable {
+public struct ServerInfoResponse: Decodable, Sendable {
 
     // MARK: - Nested types
 
-    public struct Versions: Decodable {
+    public struct Versions: Decodable, Sendable {
         public let obsidian: String
         public let `self`: String
     }
 
-    public struct Manifest: Decodable {
+    public struct Manifest: Decodable, Sendable {
         public let id: String
         public let name: String
         public let version: String
@@ -21,7 +21,7 @@ public struct ServerInfoResponse: Decodable {
         public let dir: String
     }
 
-    public struct CertificateInfo: Decodable {
+    public struct CertificateInfo: Decodable, Sendable {
         public let validityDays: Double
         public let regenerateRecommended: Bool
     }
