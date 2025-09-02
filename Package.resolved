@@ -1,5 +1,5 @@
 {
-  "originHash" : "33140d466a0f1c2dcb570403a1cf13251c5bf9a0d34481cb6a694587d685d627",
+  "originHash" : "2506563bf6c67befc1c8e54e56a6731dca76a7420ef038145fc47723d6f25c90",
   "pins" : [
     {
       "identity" : "anycodable",
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/otaviocc/MicroClient",
       "state" : {
-        "revision" : "20ace585f7793f1e2de58f39721b7c9ca9dd6e40",
-        "version" : "0.0.18"
+        "revision" : "6389ecea054b1841eedef527882a4df7ae9f4ba2",
+        "version" : "0.0.19"
       }
     },
     {
@@ -107,15 +107,6 @@
       "state" : {
         "revision" : "41daa93a5d229e1548ec86ab527ce4783ca84dda",
         "version" : "1.6.0"
-      }
-    },
-    {
-      "identity" : "swiftlintplugins",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SimplyDanny/SwiftLintPlugins",
-      "state" : {
-        "revision" : "634ada2eee7eac4ca79bf1fc8943ddc91408eb06",
-        "version" : "0.60.0"
       }
     },
     {
