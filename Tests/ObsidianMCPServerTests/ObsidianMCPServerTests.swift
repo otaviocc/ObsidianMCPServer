@@ -3538,4 +3538,61 @@ struct ObsidianMCPServerTests {
             "It should call repository once"
         )
     }
+
+    @Test("It should add sections to active note")
+    func addSectionsToActiveNote() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        let activeContent = "# Project Update\n\nWe completed the authentication system this week."
+        mock.activeNoteToReturn = File(filename: "ProjectUpdate.md", content: activeContent)
+
+        // When
+        let result = try await server.addSectionsToActiveNote()
+
+        // Then
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("ProjectUpdate.md"),
+            "It should include the active note filename in the prompt"
+        )
+        #expect(
+            result.contains(activeContent),
+            "It should include the active note content in the prompt"
+        )
+        #expect(
+            result.contains("suggest sections to add"),
+            "It should include section suggestion instructions"
+        )
+        #expect(
+            result.contains("Preserve ALL existing content"),
+            "It should emphasize content preservation"
+        )
+        #expect(
+            result.contains("Next Steps/Actions"),
+            "It should include section type examples"
+        )
+        #expect(
+            result.contains("updateActiveNote(content:"),
+            "It should include the MCP command for updating"
+        )
+    }
+
+    @Test("It should propagate errors for add sections to active note")
+    func addSectionsToActiveNoteError() async throws {
+        // Given
+        let (server, mock) = makeServerWithMock()
+        mock.errorToThrow = MockError.updateFailed
+
+        // When/Then
+        await #expect(throws: MockError.updateFailed) {
+            try await server.addSectionsToActiveNote()
+        }
+        #expect(
+            mock.getActiveNoteCallCount == 1,
+            "It should call getActiveNote once before failing"
+        )
+    }
 }

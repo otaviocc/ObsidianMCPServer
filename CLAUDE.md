@@ -9,7 +9,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Build release**: `swift build -c release`
 - **Run tests**: `swift test` (280+ test cases across all modules)
 - **Clean build**: `swift package clean`
-- **Lint code**: SwiftLint is integrated via build plugins and runs automatically during builds
 
 ### Installation Options
 - **From source**: `swift build -c release` (executable at `.build/release/ObsidianMCPServer`)
@@ -38,7 +37,6 @@ This is a **Swift-based Model Context Protocol (MCP) server** that bridges AI to
 - **MicroClient**: HTTP networking client
 - **ArgumentParser**: CLI interface
 - **AnyCodable**: JSON handling utilities
-- **SwiftLintPlugins**: Code quality enforcement
 
 ### MCP Integration Pattern
 The server uses the `@MCPServer`, `@MCPTool`, `@MCPPrompt`, and `@MCPResource` attributes to expose functionality:
@@ -167,6 +165,3 @@ This pattern enables tests to:
 - Extension-based feature grouping (e.g., `ObsidianRepository` split across multiple extensions)
 - Consistent factory pattern for dependency injection
 - Clear separation between domain models and network DTOs
-
-### SwiftLint Integration
-All targets include SwiftLintBuildToolPlugin for consistent code style enforcement during builds.

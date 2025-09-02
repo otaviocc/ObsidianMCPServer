@@ -1562,6 +1562,28 @@ final class ObsidianMCPServer {
     }
 
     /**
+     Analyze the currently active note and suggest sections to add for better organization.
+
+     This prompt examines the active note's content and structure to identify opportunities
+     for adding sections that would improve organization, readability, and completeness.
+     The prompt preserves existing content while suggesting where sections could be inserted.
+
+     The suggested sections might include:
+     - Summary/Overview for longer notes
+     - Table of Contents for complex topics
+     - Key Takeaways and Next Steps
+     - Related Notes and Resources
+     - Questions for further investigation
+     - Examples and case studies
+
+     - Returns: A formatted prompt with section suggestions and MCP command to update the note
+     */
+    @MCPPrompt(description: "Analyze the currently active note and suggest sections to add for better organization")
+    func addSectionsToActiveNote() async throws -> String {
+        try await prompt.addSectionsToActiveNote()
+    }
+
+    /**
      Generate a prompt to proofread and correct grammar in the currently active note.
 
      This prompt provides a specialized grammar and text enhancement assistant that
