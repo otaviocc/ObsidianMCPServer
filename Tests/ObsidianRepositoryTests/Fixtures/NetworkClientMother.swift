@@ -10,7 +10,8 @@ enum NetworkClientMother {
             session: URLSession.shared,
             defaultDecoder: JSONDecoder(),
             defaultEncoder: JSONEncoder(),
-            baseURL: URL(string: "https://test.com")!
+            baseURL: URL(string: "https://test.com")!,
+            interceptors: []
         )
 
         return NetworkClientMock(configuration: configuration)
