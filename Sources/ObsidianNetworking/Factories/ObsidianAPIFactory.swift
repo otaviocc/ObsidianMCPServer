@@ -26,17 +26,12 @@ public struct ObsidianAPIFactory: ObsidianAPIFactoryProtocol {
             defaultDecoder: JSONDecoder(),
             defaultEncoder: JSONEncoder(),
             baseURL: baseURL,
-            interceptor: nil
-        ) { request in
-            var modifiedRequest = request
-            if let token = await userToken() {
-                modifiedRequest.setValue(
-                    "Bearer \(token)",
-                    forHTTPHeaderField: "Authorization"
+            interceptors: [
+                BearerAuthorizationInterceptor(
+                    tokenProvider: userToken
                 )
-            }
-            return modifiedRequest
-        }
+            ]
+        )
 
         return NetworkClient(configuration: configuration)
     }
