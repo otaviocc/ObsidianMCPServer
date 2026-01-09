@@ -55,7 +55,7 @@ final class InsecureURLSessionDelegate: NSObject, URLSessionDelegate {
     ///   - completionHandler: A closure that your handler must call, providing information about how to handle
     ///     the challenge.
     func urlSession(
-        _ session: URLSession,
+        _: URLSession,
         didReceive challenge: URLAuthenticationChallenge,
         completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void
     ) {

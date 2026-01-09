@@ -1,6 +1,7 @@
 import Foundation
 
 public enum WritingStyle: String, CaseIterable, Sendable {
+
     case formal
     case informal
     case technical

@@ -45,18 +45,18 @@ final class ObsidianMCPServer {
             baseURL: baseURL,
             userToken: userToken
         )
-        self.repository = ObsidianRepository(
+        repository = ObsidianRepository(
             client: client,
             requestFactory: requestFactory
         )
-        self.prompt = ObsidianPrompt(repository: self.repository)
-        self.resource = ObsidianResource()
+        prompt = ObsidianPrompt(repository: repository)
+        resource = ObsidianResource()
     }
 
     init(repository: ObsidianRepositoryProtocol) {
         self.repository = repository
-        self.prompt = ObsidianPrompt(repository: repository)
-        self.resource = ObsidianResource()
+        prompt = ObsidianPrompt(repository: repository)
+        resource = ObsidianResource()
     }
 
     // MARK: - MCP Tools
@@ -1587,13 +1587,46 @@ final class ObsidianMCPServer {
         try await prompt.proofreadActiveNote()
     }
 
+    /**
+     Generate a prompt to integrate calendar events into the Obsidian daily note.
+
+     This prompt provides an intelligent assistant that retrieves today's calendar events
+     and updates the daily note with a structured agenda section. The prompt guides the
+     process of fetching events from calendar integrations (such as Google Calendar MCP),
+     formatting them in Obsidian TODO syntax, and updating the daily note while preserving
+     existing content.
+
+     Key features include:
+     - Retrieves calendar events using available calendar MCP tools
+     - Formats events with time ranges in 24-hour format (e.g., 09:00 - 10:00)
+     - Creates or updates "Meetings" section in the daily note
+     - Sorts events chronologically by start time
+     - Handles special event types:
+       - All-day events: Placed at top with calendar emoji (🗓️)
+       - Cancelled events: Marked with dash `- [-]`
+       - Tentative events: Marked with warning indicator (⚠️)
+       - Recurring events: Marked with recurrence indicator (🔄)
+     - Includes enhanced details when available:
+       - Location with location emoji (📍)
+       - Attendees as Obsidian links ([[Name]])
+       - Meeting URLs as markdown links
+     - Preserves all existing daily note content
+     - Provides error handling for missing calendar data or failed access
+
+     - Returns: A formatted prompt for calendar event integration into the daily note
+     */
+    @MCPPrompt(description: "Update Daily Note with Calendar Agenda")
+    func updateDailyNoteWithCalendarAgenda() async throws -> String {
+        try await prompt.updateDailyNoteWithAgenda()
+    }
+
     // MARK: - MCP Resources for Enum Discovery
 
     /**
      Lists all available enum types that are used as parameters in prompt methods.
 
      This resource allows MCP clients to discover what enum types are available,
-     enabling better user interfaces with dropdowns, autocomplete, and documentation.
+     enabling better user interfaces with drop-down, autocomplete, and documentation.
      Each enum type can then be accessed individually through their specific URI endpoints.
 
      - Returns: JSON string containing available enum types and their descriptions

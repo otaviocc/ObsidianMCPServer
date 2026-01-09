@@ -7,9 +7,9 @@ extension String {
         month: Int? = nil,
         day: Int? = nil
     ) -> String {
-        guard let year = year,
-              let month = month,
-              let day = day
+        guard let year,
+              let month,
+              let day
         else {
             return "/periodic/\(self)/"
         }

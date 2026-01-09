@@ -6,6 +6,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     // MARK: - Nested type
 
     enum MockError: Error {
+
         case someMockError
     }
 
@@ -47,39 +48,39 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // swiftlint:disable unavailable_function
     func getPeriodicNote(
-        period: String,
-        year: Int,
-        month: Int,
-        day: Int
+        period _: String,
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws -> File {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdatePeriodicNote(
-        period: String,
-        content: String,
-        year: Int,
-        month: Int,
-        day: Int
+        period _: String,
+        content _: String,
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToPeriodicNote(
-        period: String,
-        content: String,
-        year: Int,
-        month: Int,
-        day: Int
+        period _: String,
+        content _: String,
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func deletePeriodicNote(
-        period: String,
-        year: Int,
-        month: Int,
-        day: Int
+        period _: String,
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
@@ -88,7 +89,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
         fatalError("Not implemented for prompt tests")
     }
 
-    func updateActiveNote(content: String) async throws {
+    func updateActiveNote(content _: String) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
@@ -97,272 +98,272 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     }
 
     func setActiveNoteFrontmatterStringField(
-        key: String,
-        value: String
+        key _: String,
+        value _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func setActiveNoteFrontmatterArrayField(
-        key: String,
-        value: [String]
+        key _: String,
+        value _: [String]
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToActiveNoteFrontmatterStringField(
-        key: String,
-        value: String
+        key _: String,
+        value _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToActiveNoteFrontmatterArrayField(
-        key: String,
-        value: [String]
+        key _: String,
+        value _: [String]
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
-    func createOrUpdateVaultNote(file: File) async throws {
+    func createOrUpdateVaultNote(file _: File) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
-    func appendToVaultNote(file: File) async throws {
+    func appendToVaultNote(file _: File) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
-    func deleteVaultNote(filename: String) async throws {
+    func deleteVaultNote(filename _: String) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func setVaultNoteFrontmatterStringField(
-        filename: String,
-        key: String,
-        value: String
+        filename _: String,
+        key _: String,
+        value _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func setVaultNoteFrontmatterArrayField(
-        filename: String,
-        key: String,
-        value: [String]
+        filename _: String,
+        key _: String,
+        value _: [String]
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToVaultNoteFrontmatterStringField(
-        filename: String,
-        key: String,
-        value: String
+        filename _: String,
+        key _: String,
+        value _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToVaultNoteFrontmatterArrayField(
-        filename: String,
-        key: String,
-        value: [String]
+        filename _: String,
+        key _: String,
+        value _: [String]
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
-    func listVaultDirectory(directory: String) async throws -> [String] {
+    func listVaultDirectory(directory _: String) async throws -> [String] {
         fatalError("Not implemented for prompt tests")
     }
 
-    func searchVault(query: String) async throws -> [SearchResult] {
+    func searchVault(query _: String) async throws -> [SearchResult] {
         fatalError("Not implemented for prompt tests")
     }
 
     func bulkApplyTagsFromSearch(
-        query: String,
-        tags: [String]
+        query _: String,
+        tags _: [String]
     ) async throws -> BulkOperationResult {
         fatalError("Not implemented for prompt tests")
     }
 
     func bulkReplaceFrontmatterStringFromSearch(
-        query: String,
-        key: String,
-        value: String
+        query _: String,
+        key _: String,
+        value _: String
     ) async throws -> BulkOperationResult {
         fatalError("Not implemented for prompt tests")
     }
 
     func bulkReplaceFrontmatterArrayFromSearch(
-        query: String,
-        key: String,
-        value: [String]
+        query _: String,
+        key _: String,
+        value _: [String]
     ) async throws -> BulkOperationResult {
         fatalError("Not implemented for prompt tests")
     }
 
     func bulkAppendToFrontmatterStringFromSearch(
-        query: String,
-        key: String,
-        value: String
+        query _: String,
+        key _: String,
+        value _: String
     ) async throws -> BulkOperationResult {
         fatalError("Not implemented for prompt tests")
     }
 
     func bulkAppendToFrontmatterArrayFromSearch(
-        query: String,
-        key: String,
-        value: [String]
+        query _: String,
+        key _: String,
+        value _: [String]
     ) async throws -> BulkOperationResult {
         fatalError("Not implemented for prompt tests")
     }
 
-    func getPeriodicNote(period: String) async throws -> File {
+    func getPeriodicNote(period _: String) async throws -> File {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdatePeriodicNote(
-        period: String,
-        content: String
+        period _: String,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToPeriodicNote(
-        period: String,
-        content: String
+        period _: String,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
-    func deletePeriodicNote(period: String) async throws {
+    func deletePeriodicNote(period _: String) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func deleteDailyNote(
-        year: Int,
-        month: Int,
-        day: Int
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func deleteWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func deleteMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func deleteQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func deleteYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int
+        year _: Int,
+        month _: Int,
+        day _: Int
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToDailyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func appendToYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdateDailyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdateWeeklyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdateMonthlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdateQuarterlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
 
     func createOrUpdateYearlyNote(
-        year: Int,
-        month: Int,
-        day: Int,
-        content: String
+        year _: Int,
+        month _: Int,
+        day _: Int,
+        content _: String
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }

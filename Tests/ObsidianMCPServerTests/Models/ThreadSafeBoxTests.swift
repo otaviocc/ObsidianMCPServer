@@ -1,6 +1,5 @@
 import Foundation
 import Testing
-
 @testable import ObsidianMCPServer
 
 @Suite("ThreadSafeBox Tests")
@@ -94,6 +93,7 @@ struct ThreadSafeBoxTests {
     @Test("It should modify with complex transformation")
     func complexModify() {
         struct Counter {
+
             var count: Int
             var name: String
         }

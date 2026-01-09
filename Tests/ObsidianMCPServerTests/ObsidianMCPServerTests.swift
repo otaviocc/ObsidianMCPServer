@@ -2,7 +2,6 @@ import Foundation
 import ObsidianPrompt
 import ObsidianRepository
 import Testing
-
 @testable import ObsidianMCPServer
 
 @Suite("ObsidianMCPServer Tests")
@@ -415,7 +414,11 @@ struct ObsidianMCPServerTests {
         let testValue = "literature-review"
 
         // When
-        let result = try await server.appendToNoteFrontmatterString(filename: testFilename, key: testKey, value: testValue)
+        let result = try await server.appendToNoteFrontmatterString(
+            filename: testFilename,
+            key: testKey,
+            value: testValue
+        )
 
         // Then
         #expect(
@@ -558,7 +561,11 @@ struct ObsidianMCPServerTests {
         let testValues = ["review", "published", "peer-reviewed"]
 
         // When
-        let result = try await server.appendToNoteFrontmatterArray(filename: testFilename, key: testKey, values: testValues)
+        let result = try await server.appendToNoteFrontmatterArray(
+            filename: testFilename,
+            key: testKey,
+            values: testValues
+        )
 
         // Then
         #expect(
@@ -1594,6 +1601,33 @@ struct ObsidianMCPServerTests {
         #expect(
             mock.getActiveNoteCallCount == 1,
             "It should call getActiveNote once before failing"
+        )
+    }
+
+    @Test("It should update daily note with calendar agenda")
+    func updateDailyNoteWithCalendarAgenda() async throws {
+        // Given
+        let (server, _) = makeServerWithMock()
+
+        // When
+        let result = try await server.updateDailyNoteWithCalendarAgenda()
+
+        // Then
+        #expect(
+            result.contains("# Update Daily Note with Calendar Agenda"),
+            "It should include the main heading"
+        )
+        #expect(
+            result.contains("integrates calendar events into Obsidian daily notes"),
+            "It should include the objective description"
+        )
+        #expect(
+            result.contains("createOrUpdateDailyNote"),
+            "It should mention the createOrUpdateDailyNote MCP tool"
+        )
+        #expect(
+            result.contains("## Meetings"),
+            "It should include meetings section example"
         )
     }
 
@@ -2790,8 +2824,8 @@ struct ObsidianMCPServerTests {
         )
         #expect(
             mock.lastPeriodicNoteWithDateYear == 2024 &&
-            mock.lastPeriodicNoteWithDateMonth == 1 &&
-            mock.lastPeriodicNoteWithDateDay == 15,
+                mock.lastPeriodicNoteWithDateMonth == 1 &&
+                mock.lastPeriodicNoteWithDateDay == 15,
             "It should pass correct date parameters"
         )
         #expect(
@@ -2829,8 +2863,8 @@ struct ObsidianMCPServerTests {
         )
         #expect(
             mock.lastPeriodicNoteWithDateYear == 2024 &&
-            mock.lastPeriodicNoteWithDateMonth == 1 &&
-            mock.lastPeriodicNoteWithDateDay == 15,
+                mock.lastPeriodicNoteWithDateMonth == 1 &&
+                mock.lastPeriodicNoteWithDateDay == 15,
             "It should pass correct date parameters"
         )
         #expect(
@@ -2868,8 +2902,8 @@ struct ObsidianMCPServerTests {
         )
         #expect(
             mock.lastPeriodicNoteWithDateYear == 2024 &&
-            mock.lastPeriodicNoteWithDateMonth == 1 &&
-            mock.lastPeriodicNoteWithDateDay == 15,
+                mock.lastPeriodicNoteWithDateMonth == 1 &&
+                mock.lastPeriodicNoteWithDateDay == 15,
             "It should pass correct date parameters"
         )
         #expect(
@@ -2907,8 +2941,8 @@ struct ObsidianMCPServerTests {
         )
         #expect(
             mock.lastPeriodicNoteWithDateYear == 2024 &&
-            mock.lastPeriodicNoteWithDateMonth == 1 &&
-            mock.lastPeriodicNoteWithDateDay == 15,
+                mock.lastPeriodicNoteWithDateMonth == 1 &&
+                mock.lastPeriodicNoteWithDateDay == 15,
             "It should pass correct date parameters"
         )
         #expect(
@@ -2946,8 +2980,8 @@ struct ObsidianMCPServerTests {
         )
         #expect(
             mock.lastPeriodicNoteWithDateYear == 2024 &&
-            mock.lastPeriodicNoteWithDateMonth == 1 &&
-            mock.lastPeriodicNoteWithDateDay == 15,
+                mock.lastPeriodicNoteWithDateMonth == 1 &&
+                mock.lastPeriodicNoteWithDateDay == 15,
             "It should pass correct date parameters"
         )
         #expect(
@@ -3057,7 +3091,8 @@ struct ObsidianMCPServerTests {
             "It should call repository create/update yearly by date once"
         )
         #expect(
-            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 12 && mock.lastCreateOrUpdateDay == 31,
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 12 && mock
+                .lastCreateOrUpdateDay == 31,
             "It should pass correct date"
         )
         #expect(
@@ -3325,7 +3360,8 @@ struct ObsidianMCPServerTests {
             "It should call repository create/update daily by date once"
         )
         #expect(
-            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 1 && mock.lastCreateOrUpdateDay == 15,
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 1 && mock
+                .lastCreateOrUpdateDay == 15,
             "It should pass correct date"
         )
         #expect(
@@ -3389,7 +3425,8 @@ struct ObsidianMCPServerTests {
             "It should call repository create/update monthly by date once"
         )
         #expect(
-            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 3 && mock.lastCreateOrUpdateDay == 20,
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 3 && mock
+                .lastCreateOrUpdateDay == 20,
             "It should pass correct date"
         )
         #expect(
@@ -3421,7 +3458,8 @@ struct ObsidianMCPServerTests {
             "It should call repository create/update quarterly by date once"
         )
         #expect(
-            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 4 && mock.lastCreateOrUpdateDay == 10,
+            mock.lastCreateOrUpdateYear == 2024 && mock.lastCreateOrUpdateMonth == 4 && mock
+                .lastCreateOrUpdateDay == 10,
             "It should pass correct date"
         )
         #expect(

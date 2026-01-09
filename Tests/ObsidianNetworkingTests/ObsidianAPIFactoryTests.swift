@@ -1,7 +1,6 @@
 import Foundation
 import MicroClient
 import Testing
-
 @testable import ObsidianNetworking
 
 @Suite("ObsidianAPIFactory Tests")
@@ -48,7 +47,8 @@ struct ObsidianAPIFactoryTests {
 
         // Then
         guard let networkClient1 = client1 as? NetworkClient,
-              let networkClient2 = client2 as? NetworkClient else {
+              let networkClient2 = client2 as? NetworkClient
+        else {
             Issue.record("Clients should be NetworkClient instances")
             return
         }
@@ -69,7 +69,8 @@ struct ObsidianAPIFactoryTests {
         let httpClient = factory.makeObsidianAPIClient(baseURL: httpURL, userToken: tokenProvider)
 
         guard let httpsNetworkClient = httpsClient as? NetworkClient,
-              let httpNetworkClient = httpClient as? NetworkClient else {
+              let httpNetworkClient = httpClient as? NetworkClient
+        else {
             Issue.record("Clients should be NetworkClient instances")
             return
         }

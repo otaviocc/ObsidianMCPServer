@@ -1,7 +1,6 @@
 import ObsidianModels
 import ObsidianRepository
 import Testing
-
 @testable import ObsidianPrompt
 
 @Suite("ObsidianPrompt Analysis Operations Tests")

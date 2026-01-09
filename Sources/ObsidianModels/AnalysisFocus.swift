@@ -1,18 +1,19 @@
 import Foundation
 
 public enum AnalysisFocus: String, CaseIterable, Sendable {
-    case general = "general"
-    case summarize = "summarize"
-    case themes = "themes"
+
+    case general
+    case summarize
+    case themes
     case actionItems = "action-items"
-    case connections = "connections"
-    case tone = "tone"
-    case grammar = "grammar"
-    case structure = "structure"
-    case questions = "questions"
-    case keywords = "keywords"
-    case insights = "insights"
-    case review = "review"
+    case connections
+    case tone
+    case grammar
+    case structure
+    case questions
+    case keywords
+    case insights
+    case review
 
     public var description: String {
         switch self {

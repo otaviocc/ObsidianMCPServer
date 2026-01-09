@@ -2,10 +2,11 @@ import Foundation
 import ObsidianModels
 
 public protocol ObsidianPromptProtocol: ObsidianPromptAnalysisOperations,
-                                        ObsidianPromptEnhancementOperations,
-                                        ObsidianPromptGenerationOperations,
-                                        ObsidianPromptTransformationOperations,
-                                        ObsidianPromptGrammarAndStyleOperations {}
+    ObsidianPromptEnhancementOperations,
+    ObsidianPromptGenerationOperations,
+    ObsidianPromptTransformationOperations,
+    ObsidianPromptGrammarAndStyleOperations,
+    ObsidianPromptUpdateOperations {}
 
 // MARK: - Analysis Operations
 
@@ -178,4 +179,29 @@ public protocol ObsidianPromptGrammarAndStyleOperations {
     /// - Returns: A formatted prompt for grammar and style correction of the active note
     /// - Throws: An error if no note is active or the note cannot be retrieved
     func proofreadActiveNote() async throws -> String
+}
+
+// MARK: - Update Operations
+
+public protocol ObsidianPromptUpdateOperations {
+
+    /// Generate a prompt to integrate calendar events into the Obsidian daily note.
+    ///
+    /// This prompt provides an intelligent assistant that retrieves today's calendar events
+    /// and updates the daily note with a structured agenda section. The prompt guides the
+    /// process of fetching events from calendar integrations, formatting them in Obsidian
+    /// TODO syntax, and updating the daily note while preserving existing content.
+    ///
+    /// Key features of the calendar integration prompt:
+    /// - Retrieves calendar events using available calendar MCP tools
+    /// - Formats events with time ranges in 24-hour format
+    /// - Creates or updates "Meetings" section in the daily note
+    /// - Sorts events chronologically by start time
+    /// - Handles all-day, cancelled, tentative, and recurring events
+    /// - Includes location, attendees, and meeting links when available
+    /// - Preserves all existing daily note content
+    ///
+    /// - Returns: A formatted prompt for calendar event integration into the daily note
+    /// - Throws: An error if the prompt cannot be generated
+    func updateDailyNoteWithAgenda() async throws -> String
 }

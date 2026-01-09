@@ -1,6 +1,7 @@
 import Foundation
 
 public enum AbstractLength: String, CaseIterable, Sendable {
+
     case brief
     case standard
     case detailed

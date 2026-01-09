@@ -1,5 +1,4 @@
 import Testing
-
 @testable import ObsidianRepository
 
 @Suite("ObsidianRepository Server Operations Tests")

@@ -7,7 +7,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
 
-    var serverInfoToReturn: ServerInformation = ServerInformation(service: "mock-obsidian-api", version: "1.0.0")
+    var serverInfoToReturn: ServerInformation = .init(service: "mock-obsidian-api", version: "1.0.0")
     var errorToThrow: Error?
 
     // Custom return values for prompts
@@ -137,7 +137,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     private var searchVaultResultComputed: Result<[SearchResult], Error> {
         // If searchVaultResult was explicitly set, use it, otherwise fall back to default behavior
-        if case .success(let results) = searchVaultResult, !results.isEmpty {
+        if case let .success(results) = searchVaultResult, !results.isEmpty {
             return searchVaultResult
         }
         if case .failure = searchVaultResult {
@@ -446,23 +446,23 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Periodic Notes Operations
 
-    var getPeriodicNoteCalled: Bool = false
-    var getPeriodicNoteCallCount: Int = 0
+    var getPeriodicNoteCalled = false
+    var getPeriodicNoteCallCount = 0
     var lastPeriodicNotePeriod: String?
     var periodicNoteFileToReturn: File?
 
-    var createOrUpdatePeriodicNoteCalled: Bool = false
-    var createOrUpdatePeriodicNoteCallCount: Int = 0
+    var createOrUpdatePeriodicNoteCalled = false
+    var createOrUpdatePeriodicNoteCallCount = 0
     var lastCreateOrUpdatePeriodicNotePeriod: String?
     var lastCreateOrUpdatePeriodicNoteContent: String?
 
-    var appendToPeriodicNoteCalled: Bool = false
-    var appendToPeriodicNoteCallCount: Int = 0
+    var appendToPeriodicNoteCalled = false
+    var appendToPeriodicNoteCallCount = 0
     var lastAppendToPeriodicNotePeriod: String?
     var lastAppendToPeriodicNoteContent: String?
 
-    var deletePeriodicNoteCalled: Bool = false
-    var deletePeriodicNoteCallCount: Int = 0
+    var deletePeriodicNoteCalled = false
+    var deletePeriodicNoteCallCount = 0
     var lastDeletePeriodicNotePeriod: String?
 
     func getPeriodicNote(period: String) async throws -> File {
@@ -518,64 +518,64 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     // MARK: - Parametrized Periodic Notes Operations
 
     // Additional properties for tracking date-specific calls
-    var getPeriodicNoteWithDateCalled: Bool = false
-    var getPeriodicNoteWithDateCallCount: Int = 0
+    var getPeriodicNoteWithDateCalled = false
+    var getPeriodicNoteWithDateCallCount = 0
     var lastPeriodicNoteWithDatePeriod: String?
     var lastPeriodicNoteWithDateYear: Int?
     var lastPeriodicNoteWithDateMonth: Int?
     var lastPeriodicNoteWithDateDay: Int?
 
     // Properties for tracking specific period type calls (for test compatibility)
-    var deleteDailyNoteCallCount: Int = 0
-    var deleteWeeklyNoteCallCount: Int = 0
-    var deleteMonthlyNoteCallCount: Int = 0
-    var deleteQuarterlyNoteCallCount: Int = 0
-    var deleteYearlyNoteCallCount: Int = 0
+    var deleteDailyNoteCallCount = 0
+    var deleteWeeklyNoteCallCount = 0
+    var deleteMonthlyNoteCallCount = 0
+    var deleteQuarterlyNoteCallCount = 0
+    var deleteYearlyNoteCallCount = 0
 
     var lastDeleteYear: Int?
     var lastDeleteMonth: Int?
     var lastDeleteDay: Int?
 
-    var appendToDailyNoteCallCount: Int = 0
-    var appendToWeeklyNoteCallCount: Int = 0
-    var appendToMonthlyNoteCallCount: Int = 0
-    var appendToQuarterlyNoteCallCount: Int = 0
-    var appendToYearlyNoteCallCount: Int = 0
+    var appendToDailyNoteCallCount = 0
+    var appendToWeeklyNoteCallCount = 0
+    var appendToMonthlyNoteCallCount = 0
+    var appendToQuarterlyNoteCallCount = 0
+    var appendToYearlyNoteCallCount = 0
 
     var lastAppendYear: Int?
     var lastAppendMonth: Int?
     var lastAppendDay: Int?
     var lastAppendContent: String?
 
-    var createOrUpdateDailyNoteCallCount: Int = 0
-    var createOrUpdateWeeklyNoteCallCount: Int = 0
-    var createOrUpdateMonthlyNoteCallCount: Int = 0
-    var createOrUpdateQuarterlyNoteCallCount: Int = 0
-    var createOrUpdateYearlyNoteCallCount: Int = 0
+    var createOrUpdateDailyNoteCallCount = 0
+    var createOrUpdateWeeklyNoteCallCount = 0
+    var createOrUpdateMonthlyNoteCallCount = 0
+    var createOrUpdateQuarterlyNoteCallCount = 0
+    var createOrUpdateYearlyNoteCallCount = 0
 
     var lastCreateOrUpdateYear: Int?
     var lastCreateOrUpdateMonth: Int?
     var lastCreateOrUpdateDay: Int?
     var lastCreateOrUpdateContent: String?
 
-    var createOrUpdatePeriodicNoteWithDateCalled: Bool = false
-    var createOrUpdatePeriodicNoteWithDateCallCount: Int = 0
+    var createOrUpdatePeriodicNoteWithDateCalled = false
+    var createOrUpdatePeriodicNoteWithDateCallCount = 0
     var lastCreateOrUpdatePeriodicNoteWithDatePeriod: String?
     var lastCreateOrUpdatePeriodicNoteWithDateContent: String?
     var lastCreateOrUpdatePeriodicNoteWithDateYear: Int?
     var lastCreateOrUpdatePeriodicNoteWithDateMonth: Int?
     var lastCreateOrUpdatePeriodicNoteWithDateDay: Int?
 
-    var appendToPeriodicNoteWithDateCalled: Bool = false
-    var appendToPeriodicNoteWithDateCallCount: Int = 0
+    var appendToPeriodicNoteWithDateCalled = false
+    var appendToPeriodicNoteWithDateCallCount = 0
     var lastAppendToPeriodicNoteWithDatePeriod: String?
     var lastAppendToPeriodicNoteWithDateContent: String?
     var lastAppendToPeriodicNoteWithDateYear: Int?
     var lastAppendToPeriodicNoteWithDateMonth: Int?
     var lastAppendToPeriodicNoteWithDateDay: Int?
 
-    var deletePeriodicNoteWithDateCalled: Bool = false
-    var deletePeriodicNoteWithDateCallCount: Int = 0
+    var deletePeriodicNoteWithDateCalled = false
+    var deletePeriodicNoteWithDateCallCount = 0
     var lastDeletePeriodicNoteWithDatePeriod: String?
     var lastDeletePeriodicNoteWithDateYear: Int?
     var lastDeletePeriodicNoteWithDateMonth: Int?
@@ -702,6 +702,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 }
 
 enum MockError: Error {
+
     case updateFailed
     case deleteFailed
     case patchFailed

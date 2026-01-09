@@ -1,6 +1,7 @@
 import Foundation
 
 public enum Language: String, CaseIterable, Sendable {
+
     case spanish = "es"
     case french = "fr"
     case german = "de"

@@ -5,11 +5,13 @@ public struct ServerInfoResponse: Decodable, Sendable {
     // MARK: - Nested types
 
     public struct Versions: Decodable, Sendable {
+
         public let obsidian: String
         public let `self`: String
     }
 
     public struct Manifest: Decodable, Sendable {
+
         public let id: String
         public let name: String
         public let version: String
@@ -22,6 +24,7 @@ public struct ServerInfoResponse: Decodable, Sendable {
     }
 
     public struct CertificateInfo: Decodable, Sendable {
+
         public let validityDays: Double
         public let regenerateRecommended: Bool
     }
