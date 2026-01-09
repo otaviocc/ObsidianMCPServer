@@ -6,8 +6,6 @@ import ObsidianRepository
 import ObsidianResource
 import SwiftMCP
 
-// swiftlint:disable file_length type_body_length
-
 /**
  An Obsidian MCP Server for accessing Obsidian vault operations via REST API.
 
@@ -1701,5 +1699,3 @@ final class ObsidianMCPServer {
         try await resource.getOutlineStyleEnum()
     }
 }
-
-// swiftlint:enable file_length type_body_length

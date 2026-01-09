@@ -32,7 +32,6 @@ public enum AnalysisFocus: String, CaseIterable, Sendable {
         }
     }
 
-    // swiftlint:disable line_length
     public var instructions: String {
         switch self {
         case .general: "Provide a comprehensive analysis including summary, themes, and actionable insights."
@@ -49,5 +48,4 @@ public enum AnalysisFocus: String, CaseIterable, Sendable {
         case .review: "Provide a comprehensive review including strengths, weaknesses, and suggestions for improvement."
         }
     }
-    // swiftlint:enable line_length
 }

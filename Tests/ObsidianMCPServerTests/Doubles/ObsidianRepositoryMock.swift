@@ -1,8 +1,6 @@
 import Foundation
 @testable import ObsidianRepository
 
-// swiftlint:disable force_unwrapping
-
 final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -709,5 +707,3 @@ enum MockError: Error {
     case createOrUpdateFailed
     case appendFailed
 }
-
-// swiftlint:enable force_unwrapping
