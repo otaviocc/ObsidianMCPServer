@@ -14,7 +14,7 @@ final class ThreadSafeBox<T>: @unchecked Sendable {
     // MARK: - Life cycle
 
     init(_ initialValue: T) {
-        self._value = initialValue
+        _value = initialValue
     }
 
     // MARK: - Public

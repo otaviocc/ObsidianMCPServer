@@ -2,8 +2,6 @@ import Foundation
 import MicroClient
 import ObsidianNetworking
 
-// swiftlint:disable file_length
-
 public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -65,8 +63,8 @@ extension ObsidianRepository: ObsidianRepositoryActiveNoteOperations {
         key: String,
         value: String
     ) async throws {
-        let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: try value.toJSONString(),
+        let request = try requestFactory.makeSetActiveFrontmatterRequest(
+            content: value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -78,8 +76,8 @@ extension ObsidianRepository: ObsidianRepositoryActiveNoteOperations {
         key: String,
         value: [String]
     ) async throws {
-        let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: try value.toJSONString(),
+        let request = try requestFactory.makeSetActiveFrontmatterRequest(
+            content: value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -91,8 +89,8 @@ extension ObsidianRepository: ObsidianRepositoryActiveNoteOperations {
         key: String,
         value: String
     ) async throws {
-        let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: try value.toJSONString(),
+        let request = try requestFactory.makeSetActiveFrontmatterRequest(
+            content: value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -104,8 +102,8 @@ extension ObsidianRepository: ObsidianRepositoryActiveNoteOperations {
         key: String,
         value: [String]
     ) async throws {
-        let request = requestFactory.makeSetActiveFrontmatterRequest(
-            content: try value.toJSONString(),
+        let request = try requestFactory.makeSetActiveFrontmatterRequest(
+            content: value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -154,9 +152,9 @@ extension ObsidianRepository: ObsidianRepositoryVaultNoteOperations {
         key: String,
         value: String
     ) async throws {
-        let request = requestFactory.makeSetVaultFrontmatterRequest(
+        let request = try requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: try value.toJSONString(),
+            content: value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -169,9 +167,9 @@ extension ObsidianRepository: ObsidianRepositoryVaultNoteOperations {
         key: String,
         value: [String]
     ) async throws {
-        let request = requestFactory.makeSetVaultFrontmatterRequest(
+        let request = try requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: try value.toJSONString(),
+            content: value.toJSONString(),
             operation: "replace",
             key: key
         )
@@ -184,9 +182,9 @@ extension ObsidianRepository: ObsidianRepositoryVaultNoteOperations {
         key: String,
         value: String
     ) async throws {
-        let request = requestFactory.makeSetVaultFrontmatterRequest(
+        let request = try requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: try value.toJSONString(),
+            content: value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -199,9 +197,9 @@ extension ObsidianRepository: ObsidianRepositoryVaultNoteOperations {
         key: String,
         value: [String]
     ) async throws {
-        let request = requestFactory.makeSetVaultFrontmatterRequest(
+        let request = try requestFactory.makeSetVaultFrontmatterRequest(
             filename: filename,
-            content: try value.toJSONString(),
+            content: value.toJSONString(),
             operation: "append",
             key: key
         )
@@ -269,7 +267,7 @@ extension ObsidianRepository: ObsidianRepositorySearchOperations {
         let searchResponse = try await client.run(request).value
 
         return searchResponse.map { response in
-                .init(path: response.filename, score: response.score)
+            .init(path: response.filename, score: response.score)
         }
     }
 }
@@ -583,5 +581,3 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
         try response.validate()
     }
 }
-
-// swiftlint:enable file_length

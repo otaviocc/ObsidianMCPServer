@@ -1,6 +1,5 @@
 import MicroClient
 import Testing
-
 @testable import ObsidianNetworking
 
 @Suite("ObsidianRequestFactory Tests")
@@ -493,7 +492,7 @@ struct ObsidianRequestFactoryTests {
         // Then
         #expect(
             request.additionalHeaders?["Target"]?.contains("%20") == true ||
-            request.additionalHeaders?["Target"]?.contains("+") == true,
+                request.additionalHeaders?["Target"]?.contains("+") == true,
             "It should URL encode spaces in target key"
         )
     }

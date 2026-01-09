@@ -12,7 +12,7 @@ enum RepositoryError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .operationFailed(let statusCode, let message): "Repository operation failed (\(statusCode)): \(message)"
+        case let .operationFailed(statusCode, message): "Repository operation failed (\(statusCode)): \(message)"
         case .invalidResponse: "Invalid repository response"
         }
     }

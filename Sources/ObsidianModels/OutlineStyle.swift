@@ -1,6 +1,7 @@
 import Foundation
 
 public enum OutlineStyle: String, CaseIterable, Sendable {
+
     case bullets
     case numbered
     case hierarchical

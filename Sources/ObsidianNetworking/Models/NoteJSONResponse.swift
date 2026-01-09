@@ -6,6 +6,7 @@ public struct NoteJSONResponse: Decodable, Sendable {
     // MARK: - Nested types
 
     public struct FileStat: Decodable, Sendable {
+
         public let ctime: Double
         public let mtime: Double
         public let size: Int

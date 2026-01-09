@@ -1,7 +1,6 @@
 import Foundation
 import ObsidianModels
 import Testing
-
 @testable import ObsidianResource
 
 @Suite("ObsidianResource Tests")

@@ -2,12 +2,12 @@ import Foundation
 import ObsidianNetworking
 
 public protocol ObsidianRepositoryProtocol: ObsidianRepositoryServerOperations,
-                                            ObsidianRepositoryActiveNoteOperations,
-                                            ObsidianRepositoryVaultNoteOperations,
-                                            ObsidianRepositoryVaultOperations,
-                                            ObsidianRepositorySearchOperations,
-                                            ObsidianRepositoryBulkOperations,
-                                            ObsidianRepositoryPeriodicOperations {}
+    ObsidianRepositoryActiveNoteOperations,
+    ObsidianRepositoryVaultNoteOperations,
+    ObsidianRepositoryVaultOperations,
+    ObsidianRepositorySearchOperations,
+    ObsidianRepositoryBulkOperations,
+    ObsidianRepositoryPeriodicOperations {}
 
 // MARK: - Server Operations
 

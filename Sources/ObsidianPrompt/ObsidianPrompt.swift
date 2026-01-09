@@ -2,8 +2,6 @@ import Foundation
 import ObsidianModels
 import ObsidianRepository
 
-// swiftlint:disable file_length
-
 public final class ObsidianPrompt: ObsidianPromptProtocol {
 
     // MARK: - Properties
@@ -76,7 +74,6 @@ extension ObsidianPrompt: ObsidianPromptAnalysisOperations {
         return prompt
     }
 
-    // swiftlint:disable line_length function_body_length
     public func extractMetadata(filename: String) async throws -> String {
         let noteContent = try await repository.getVaultNote(filename: filename)
 
@@ -145,29 +142,30 @@ extension ObsidianPrompt: ObsidianPromptAnalysisOperations {
         1. **Field**: attendees
            **Value**: ["[[John Smith]]", "[[Sarah Wilson]]", "[[Mike Chen]]"]
            **Reasoning**: People mentioned as meeting participants, formatted as Obsidian links
-           **Command**: `setNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "attendees", values: ["[[John Smith]]", "[[Sarah Wilson]]", "[[Mike Chen]]"])`
+           **Command**: `setNoteFrontmatterArray(filename: "\(noteContent
+            .filename)", key: "attendees", values: ["[[John Smith]]", "[[Sarah Wilson]]", "[[Mike Chen]]"])`
 
         2. **Field**: author
            **Value**: "[[John Smith]]"
            **Reasoning**: Person identified as the author or note creator, formatted as Obsidian link
-           **Command**: `setNoteFrontmatterString(filename: "\(noteContent.filename)", key: "author", value: "[[John Smith]]")`
+           **Command**: `setNoteFrontmatterString(filename: "\(noteContent
+            .filename)", key: "author", value: "[[John Smith]]")`
 
         3. **Field**: due_date
            **Value**: "2024-02-15"
            **Reasoning**: Deadline mentioned for project completion
-           **Command**: `setNoteFrontmatterString(filename: "\(noteContent.filename)", key: "due_date", value: "2024-02-15")`
+           **Command**: `setNoteFrontmatterString(filename: "\(noteContent
+            .filename)", key: "due_date", value: "2024-02-15")`
         """
 
         return prompt
     }
-    // swiftlint:enable line_length function_body_length
 }
 
 // MARK: - ObsidianPromptEnhancementOperations
 
 extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
 
-    // swiftlint:disable line_length
     public func suggestTags(
         filename: String,
         maxTags: Int = 8
@@ -211,13 +209,13 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
         **MCP Commands to Apply Tags:**
         ```
         appendToNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "tags", values: ["tag-name"])
-        appendToNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "tags", values: ["tag-name", "another-tag"])
+        appendToNoteFrontmatterArray(filename: "\(noteContent
+            .filename)", key: "tags", values: ["tag-name", "another-tag"])
         ```
         """
 
         return prompt
     }
-    // swiftlint:enable line_length
 
     public func suggestActiveNoteTags(maxTags: Int = 8) async throws -> String {
         let activeNote = try await repository.getActiveNote()
@@ -270,7 +268,6 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
         return prompt
     }
 
-    // swiftlint:disable line_length function_body_length
     public func generateFrontmatter(filename: String) async throws -> String {
         let noteContent = try await repository.getVaultNote(filename: filename)
 
@@ -334,21 +331,20 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
         **MCP Commands:**
         ```
         setNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "tags", values: ["tag1", "tag2", "tag3"])
-        setNoteFrontmatterArray(filename: "\(noteContent.filename)", key: "attendees", values: ["[[John Smith]]", "[[Sarah Wilson]]"])
+        setNoteFrontmatterArray(filename: "\(noteContent
+            .filename)", key: "attendees", values: ["[[John Smith]]", "[[Sarah Wilson]]"])
         setNoteFrontmatterString(filename: "\(noteContent.filename)", key: "author", value: "[[John Smith]]")
         ```
         """
 
         return prompt
     }
-    // swiftlint:enable line_length function_body_length
 }
 
 // MARK: - ObsidianPromptGenerationOperations
 
 extension ObsidianPrompt: ObsidianPromptGenerationOperations {
 
-    // swiftlint:disable line_length
     public func generateFollowUpQuestions(
         filename: String,
         questionCount: Int = 5
@@ -356,7 +352,9 @@ extension ObsidianPrompt: ObsidianPromptGenerationOperations {
         let noteContent = try await repository.getVaultNote(filename: filename)
 
         let prompt = """
-        Based on the following Obsidian note content, generate \(questionCount) thought-provoking follow-up questions that encourage deeper thinking and exploration of the topics discussed.
+        Based on the following Obsidian note content, generate \(
+            questionCount
+        ) thought-provoking follow-up questions that encourage deeper thinking and exploration of the topics discussed.
 
         **Note:** \(noteContent.filename)
 
@@ -380,7 +378,6 @@ extension ObsidianPrompt: ObsidianPromptGenerationOperations {
 
         return prompt
     }
-    // swiftlint:enable line_length
 
     public func generateActiveNoteAbstract(length: AbstractLength = .standard) async throws -> String {
         let activeNote = try await repository.getActiveNote()
@@ -530,14 +527,14 @@ extension ObsidianPrompt: ObsidianPromptTransformationOperations {
         return prompt
     }
 
-    // swiftlint:disable function_body_length line_length
     public func translateActiveNote(language: Language) async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
         let prompt = """
         # Translate Note Content: \(language.description)
 
-        You are an expert translator. Please translate the provided note content to \(language.description) while preserving all formatting and structure.
+        You are an expert translator. Please translate the provided note content to \(language
+            .description) while preserving all formatting and structure.
 
         (Note: Content from the currently active note in Obsidian is included below)
 
@@ -604,14 +601,12 @@ extension ObsidianPrompt: ObsidianPromptTransformationOperations {
 
         return prompt
     }
-    // swiftlint:enable function_body_length line_length
 }
 
 // MARK: - ObsidianPromptGrammarAndStyleOperations
 
 extension ObsidianPrompt: ObsidianPromptGrammarAndStyleOperations {
 
-    // swiftlint:disable function_body_length line_length
     public func proofreadActiveNote() async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
@@ -680,7 +675,93 @@ extension ObsidianPrompt: ObsidianPromptGrammarAndStyleOperations {
 
         return prompt
     }
-    // swiftlint:enable function_body_length line_length
 }
 
-// swiftlint:enable file_length
+// MARK: - ObsidianPromptUpdateOperations
+
+extension ObsidianPrompt: ObsidianPromptUpdateOperations {
+
+    public func updateDailyNoteWithAgenda() async throws -> String {
+        let prompt = """
+        **CRITICAL TOOL REQUIREMENT**: 
+        When updating daily notes, you MUST use `createOrUpdateDailyNote` from the Obsidian MCP.
+        NEVER use `updateActiveNote` for this task, even if a daily note is currently open.
+        This ensures the correct note is targeted by date, not by editor state.
+
+        # Update Daily Note with Calendar Agenda
+
+        You are an intelligent assistant that integrates calendar events into Obsidian daily notes.
+
+        **Objective**: Retrieve today's calendar events and update the daily note with a structured agenda section.
+
+        **Process Flow**:
+        1. **Retrieve Calendar Events**: Use available calendar integration tools (Google Calendar MCP, native integrations, etc.) to fetch today's events
+        2. **Analyze Events**: Parse event details including title, start time, end time, location, and attendees
+        3. **Format for Obsidian**: Convert events into Obsidian-compatible TODO format
+        4. **Update Daily Note**: Use the `createOrUpdateDailyNote` MCP tool to add/update the agenda section
+
+        **Calendar Data to Extract**:
+        - Event title/summary
+        - Start time (in local timezone)
+        - End time (in local timezone)
+        - Location (if available)
+        - Attendees (if available)
+        - Event status (confirmed, tentative, cancelled)
+
+        **Formatting Instructions**:
+
+        1. **Section Placement**: 
+           - Look for an existing "## Meetings" or "## Agenda" section in the daily note
+           - If not found, create a "## Meetings" section
+           - Place it in an appropriate location within the note structure
+
+        2. **Event Format**:
+           - Use Obsidian TODO syntax: `- [ ] **HH:MM - HH:MM** Event Title`
+           - Time format: 24-hour format (e.g., 09:00, 14:30)
+           - Include time range for each event
+           - Sort events chronologically by start time
+
+        3. **Enhanced Event Details** (if available):
+           - Add location as inline metadata: `- [ ] **09:00 - 09:15** Standup 📍 Room 204`
+           - Add attendees using Obsidian links: `- [ ] **10:00 - 11:00** Design Meeting with [[John Smith]], [[Sarah Wilson]]`
+           - Add event link if available: `- [ ] **12:00 - 13:00** [Brown Bag Session](meeting-url)`
+
+        4. **Special Cases**:
+           - All-day events: Place at the top without time range: `- [ ] 🗓️ Team Offsite`
+           - Cancelled events: Make the event with a dash: `- [-] **10:00 - 11:00** Cancelled Meeting`
+           - Tentative events: Add indicator: `- [ ] **14:00 - 15:00** Client Call ⚠️ (Tentative)`
+           - Recurring events: Include recurrence indicator if relevant: `- [ ] **09:00 - 09:15** Daily Standup 🔄`
+
+        **Meetings Section Example**:
+
+        ## Meetings
+        - [ ] 🗓️ Team Planning Day
+        - [ ] **09:00 - 09:15** Daily Standup 🔄
+        - [ ] **10:00 - 11:00** Design Review with [[Alice Chen]], [[Bob Martinez]] 📍 Conference Room A
+        - [ ] **12:00 - 13:00** [Brown Bag Session: API Design](https://meet.google.com/abc-defg-hij)
+        - [ ] **14:00 - 15:00** Client Sync ⚠️ (Tentative)
+        - [ ] **16:00 - 17:00** 1:1 with [[Manager Name]] 📍 Virtual
+
+        **Error Handling**:
+        - If no calendar events found: Add note "No meetings scheduled for today" under Meetings section
+        - If calendar access fails: Inform user and suggest checking calendar integration
+        - If daily note doesn't exist: Create it with the Meetings section
+
+        **MCP Tools to Use**:
+        1. Calendar MCP tools (e.g., `list_gcal_events` for Google Calendar)
+        2. `createOrUpdateDailyNote(content: "updated_content_here")` to update the note
+
+        **Important Notes**:
+        - Preserve all existing content in the daily note
+        - Only update/replace the Meetings section
+        - Maintain proper markdown formatting
+        - Use consistent spacing and indentation
+        - Respect user's timezone settings
+
+        **Execution**:
+        Now retrieve today's calendar events and update the daily note accordingly.
+        """
+
+        return prompt
+    }
+}

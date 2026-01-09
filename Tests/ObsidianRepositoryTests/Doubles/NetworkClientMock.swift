@@ -8,6 +8,7 @@ final class NetworkClientMock: NetworkClientProtocol, @unchecked Sendable {
     // MARK: - Nested types
 
     enum NetworkClientMockError: Error {
+
         case stubMissingForRun
     }
 
@@ -21,12 +22,14 @@ final class NetworkClientMock: NetworkClientProtocol, @unchecked Sendable {
 
     // MARK: - Life cycle
 
-    init(configuration: NetworkConfiguration) {}
+    init(configuration _: NetworkConfiguration) {}
+
+    init() {}
 
     // MARK: - Public
 
-    func run<RequestModel, ResponseModel>(
-        _ networkRequest: NetworkRequest<RequestModel, ResponseModel>
+    func run<ResponseModel>(
+        _ networkRequest: NetworkRequest<some Any, ResponseModel>
     ) async throws -> NetworkResponse<ResponseModel> {
         runCallCount += 1
         lastRequestPath = networkRequest.path
@@ -53,20 +56,20 @@ extension NetworkClientMock {
 
     // MARK: - Stubs
 
-    func stubNetworkResponse<ResponseModel: Decodable>(
-        toReturn networkResponse: NetworkResponse<ResponseModel>
+    func stubNetworkResponse(
+        toReturn networkResponse: NetworkResponse<some Decodable>
     ) {
         stubbedNetworkResponse = networkResponse
     }
 
-    func stubNetworkResponses<ResponseModel: Decodable>(
-        toReturn networkResponses: [NetworkResponse<ResponseModel>]
+    func stubNetworkResponses(
+        toReturn networkResponses: [NetworkResponse<some Decodable>]
     ) {
         stubbedNetworkResponses = networkResponses
     }
 
-    func addNetworkResponse<ResponseModel: Decodable>(
-        toReturn networkResponse: NetworkResponse<ResponseModel>
+    func addNetworkResponse(
+        toReturn networkResponse: NetworkResponse<some Decodable>
     ) {
         stubbedNetworkResponses.append(networkResponse)
     }

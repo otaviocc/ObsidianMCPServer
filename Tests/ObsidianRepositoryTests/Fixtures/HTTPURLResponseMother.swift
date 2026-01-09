@@ -1,7 +1,5 @@
 import Foundation
 
-// swiftlint:disable force_unwrapping
-
 enum HTTPURLResponseMother {
 
     static func makeHTTPURLResponse(
@@ -16,5 +14,3 @@ enum HTTPURLResponseMother {
         )!
     }
 }
-
-// swiftlint:enable force_unwrapping
