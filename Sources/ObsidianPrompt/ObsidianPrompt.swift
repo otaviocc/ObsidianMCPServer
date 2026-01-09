@@ -339,6 +339,91 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
 
         return prompt
     }
+
+    public func addSectionsToActiveNote() async throws -> String {
+        let activeNote = try await repository.getActiveNote()
+
+        let prompt = """
+        Analyze the provided note content and suggest sections to add that would improve organization and completeness, without changing the existing content.
+
+        (Note: Content from the currently active note in Obsidian is included below)
+
+        **Note File:** \(activeNote.filename)
+
+        **Note Content:**
+        \(activeNote.content)
+
+        **Instructions:**
+        1. Analyze the current structure and content of the note
+        2. Identify opportunities for adding helpful sections that would improve organization
+        3. Preserve ALL existing content exactly as it appears
+        4. Only suggest where to INSERT new sections, not modify existing text
+        5. Consider sections that would enhance readability, navigation, and completeness
+        6. Provide the complete updated note content with suggested sections added
+
+        **Types of Sections to Consider:**
+        - **Summary/Overview**: Brief overview at the beginning for longer notes
+        - **Table of Contents**: For notes with multiple main topics
+        - **Key Takeaways**: Highlight main points or lessons learned
+        - **Next Steps/Actions**: Action items or follow-up tasks
+        - **Related Notes**: Links to connected notes or topics
+        - **Resources/References**: External links, sources, or citations
+        - **Questions/Investigation**: Areas needing further research
+        - **Examples/Case Studies**: Concrete examples to illustrate concepts
+        - **Conclusion/Wrap-up**: Summary section for comprehensive notes
+        - **Definitions/Glossary**: Key terms and their meanings
+        - **Timeline/Chronology**: Sequence of events or processes
+        - **Pros and Cons**: Analysis sections for decision-making notes
+
+        **Section Format Guidelines:**
+        - Use appropriate markdown heading levels (##, ###, etc.)
+        - Add sections in logical locations within the content flow
+        - Keep section headings clear and descriptive
+        - Add brief placeholder content where helpful to show the section's purpose
+        - Use consistent formatting with the existing note style
+
+        **Output Requirements:**
+        1. **Analysis**: Brief explanation of what sections would be beneficial and why
+        2. **Updated Content**: The complete note content with suggested sections inserted
+        3. **MCP Command**: How to update the active note with the enhanced content
+
+        **Example Enhancement:**
+        If the original note has:
+        ```
+        # My Project
+        This project focuses on improving team communication.
+        We discussed several approaches during the meeting.
+        ```
+
+        Enhanced version might include:
+        ```
+        # My Project
+
+        ## Overview
+        This project focuses on improving team communication.
+
+        ## Meeting Discussion
+        We discussed several approaches during the meeting.
+
+        ## Next Steps
+        - [ ] Follow up on discussed approaches
+        - [ ] Schedule implementation timeline
+
+        ## Related Notes
+        - [[Team Communication Best Practices]]
+        - [[Project Planning Template]]
+        ```
+
+        **MCP Command to Update Active Note:**
+        ```
+        updateActiveNote(content: "your_complete_updated_content_here")
+        ```
+
+        Replace "your_complete_updated_content_here" with the full enhanced note content including all original content plus the suggested sections.
+        """
+
+        return prompt
+    }
 }
 
 // MARK: - ObsidianPromptGenerationOperations

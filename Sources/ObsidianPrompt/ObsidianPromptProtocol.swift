@@ -87,6 +87,16 @@ public protocol ObsidianPromptEnhancementOperations {
     /// - Returns: A formatted prompt with complete frontmatter suggestions
     /// - Throws: An error if the note cannot be retrieved or the prompt cannot be generated
     func generateFrontmatter(filename: String) async throws -> String
+
+    /// Analyze the currently active note and suggest sections to add for better organization.
+    ///
+    /// This method examines the active note's content and structure to identify opportunities
+    /// for adding sections that would improve organization, readability, and completeness.
+    /// The prompt preserves existing content while suggesting where sections could be inserted.
+    ///
+    /// - Returns: A formatted prompt with section suggestions and MCP command to update the note
+    /// - Throws: An error if no note is active or the note cannot be retrieved
+    func addSectionsToActiveNote() async throws -> String
 }
 
 // MARK: - Generation Operations

@@ -196,4 +196,73 @@ struct ObsidianPromptEnhancementOperationsTests {
             "It should include the active note filename"
         )
     }
+
+    @Test("It should add sections to active note")
+    func addSectionsToActiveNote() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let activeNote = File(
+            filename: "project-update.md",
+            content: "# Project Alpha Update\nWe made significant progress this week on the user authentication system."
+        )
+        mockRepository.getActiveNoteReturnValue = activeNote
+
+        // When
+        let result = try await prompt.addSectionsToActiveNote()
+
+        // Then
+        #expect(
+            mockRepository.getActiveNoteCallsCount == 1,
+            "It should call getActiveNote once"
+        )
+        #expect(
+            result.contains("project-update.md"),
+            "It should include the active note filename"
+        )
+        #expect(
+            result.contains("Content from the currently active note"),
+            "It should mention it's the active note content"
+        )
+        #expect(
+            result.contains("Project Alpha Update"),
+            "It should include the note content"
+        )
+        #expect(
+            result.contains("suggest sections to add"),
+            "It should mention section suggestions"
+        )
+        #expect(
+            result.contains("Preserve ALL existing content"),
+            "It should emphasize content preservation"
+        )
+        #expect(
+            result.contains("Next Steps/Actions"),
+            "It should include section type suggestions"
+        )
+        #expect(
+            result.contains("Related Notes"),
+            "It should include related notes section"
+        )
+        #expect(
+            result.contains("updateActiveNote(content:"),
+            "It should include MCP command for updating"
+        )
+        #expect(
+            result.contains("## Overview") && result.contains("## Next Steps"),
+            "It should include example section formatting"
+        )
+    }
+
+    @Test("It should propagate errors for add sections to active note")
+    func propagateErrorsForAddSectionsToActiveNote() async throws {
+        // Given
+        let (prompt, mockRepository) = makePromptWithMock()
+        let expectedError = ObsidianRepositoryMock.MockError.someMockError
+        mockRepository.getActiveNoteThrowableError = expectedError
+
+        // When & Then
+        await #expect(throws: ObsidianRepositoryMock.MockError.someMockError) {
+            try await prompt.addSectionsToActiveNote()
+        }
+    }
 }
