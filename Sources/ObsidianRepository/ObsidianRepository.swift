@@ -2,6 +2,8 @@ import Foundation
 import MicroClient
 import ObsidianNetworking
 
+// swiftlint:disable file_length
+
 public final class ObsidianRepository: ObsidianRepositoryProtocol {
 
     // MARK: - Properties
@@ -581,3 +583,5 @@ extension ObsidianRepository: ObsidianRepositoryPeriodicOperations {
         try response.validate()
     }
 }
+
+// swiftlint:enable file_length

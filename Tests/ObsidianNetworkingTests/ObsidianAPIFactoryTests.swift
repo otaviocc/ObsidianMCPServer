@@ -7,7 +7,7 @@ import Testing
 struct ObsidianAPIFactoryTests {
 
     let factory = ObsidianAPIFactory()
-    let testBaseURL = URL(string: "https://api.obsidian.test")!
+    let testBaseURL = URL(string: "https://api.obsidian.test")! // swiftlint:disable:this force_unwrapping
 
     // MARK: - Client Creation Tests
 
