@@ -2,6 +2,8 @@ import Foundation
 import ObsidianModels
 import ObsidianRepository
 
+// swiftlint:disable file_length
+
 public final class ObsidianPrompt: ObsidianPromptProtocol {
 
     // MARK: - Properties
@@ -74,6 +76,7 @@ extension ObsidianPrompt: ObsidianPromptAnalysisOperations {
         return prompt
     }
 
+    // swiftlint:disable line_length function_body_length
     public func extractMetadata(filename: String) async throws -> String {
         let noteContent = try await repository.getVaultNote(filename: filename)
 
@@ -160,6 +163,7 @@ extension ObsidianPrompt: ObsidianPromptAnalysisOperations {
 
         return prompt
     }
+    // swiftlint:enable line_length function_body_length
 }
 
 // MARK: - ObsidianPromptEnhancementOperations
@@ -268,6 +272,7 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
         return prompt
     }
 
+    // swiftlint:disable line_length function_body_length
     public func generateFrontmatter(filename: String) async throws -> String {
         let noteContent = try await repository.getVaultNote(filename: filename)
 
@@ -340,6 +345,9 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
         return prompt
     }
 
+    // swiftlint:enable line_length function_body_length
+
+    // swiftlint:disable line_length function_body_length
     public func addSectionsToActiveNote() async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
@@ -424,6 +432,7 @@ extension ObsidianPrompt: ObsidianPromptEnhancementOperations {
 
         return prompt
     }
+    // swiftlint:enable line_length function_body_length
 }
 
 // MARK: - ObsidianPromptGenerationOperations
@@ -612,6 +621,7 @@ extension ObsidianPrompt: ObsidianPromptTransformationOperations {
         return prompt
     }
 
+    // swiftlint:disable function_body_length
     public func translateActiveNote(language: Language) async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
@@ -686,12 +696,14 @@ extension ObsidianPrompt: ObsidianPromptTransformationOperations {
 
         return prompt
     }
+    // swiftlint:enable function_body_length
 }
 
 // MARK: - ObsidianPromptGrammarAndStyleOperations
 
 extension ObsidianPrompt: ObsidianPromptGrammarAndStyleOperations {
 
+    // swiftlint:disable function_body_length line_length
     public func proofreadActiveNote() async throws -> String {
         let activeNote = try await repository.getActiveNote()
 
@@ -760,15 +772,17 @@ extension ObsidianPrompt: ObsidianPromptGrammarAndStyleOperations {
 
         return prompt
     }
+    // swiftlint:enable function_body_length line_length
 }
 
 // MARK: - ObsidianPromptUpdateOperations
 
 extension ObsidianPrompt: ObsidianPromptUpdateOperations {
 
+    // swiftlint:disable function_body_length line_length
     public func updateDailyNoteWithAgenda() async throws -> String {
         let prompt = """
-        **CRITICAL TOOL REQUIREMENT**: 
+        **CRITICAL TOOL REQUIREMENT**:
         When updating daily notes, you MUST use `createOrUpdateDailyNote` from the Obsidian MCP.
         NEVER use `updateActiveNote` for this task, even if a daily note is currently open.
         This ensures the correct note is targeted by date, not by editor state.
@@ -795,7 +809,7 @@ extension ObsidianPrompt: ObsidianPromptUpdateOperations {
 
         **Formatting Instructions**:
 
-        1. **Section Placement**: 
+        1. **Section Placement**:
            - Look for an existing "## Meetings" or "## Agenda" section in the daily note
            - If not found, create a "## Meetings" section
            - Place it in an appropriate location within the note structure
@@ -849,4 +863,7 @@ extension ObsidianPrompt: ObsidianPromptUpdateOperations {
 
         return prompt
     }
+    // swiftlint:enable function_body_length line_length
 }
+
+// swiftlint:enable file_length

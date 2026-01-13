@@ -6,6 +6,8 @@ import ObsidianRepository
 import ObsidianResource
 import SwiftMCP
 
+// swiftlint:disable file_length type_body_length
+
 /**
  An Obsidian MCP Server for accessing Obsidian vault operations via REST API.
 
@@ -1613,7 +1615,7 @@ final class ObsidianMCPServer {
      This prompt provides an intelligent assistant that retrieves today's calendar events
      and updates the daily note with a structured agenda section. The prompt guides the
      process of fetching events from calendar integrations (such as Google Calendar MCP),
-     formatting them in Obsidian TODO syntax, and updating the daily note while preserving
+     formatting them in Obsidian task syntax, and updating the daily note while preserving
      existing content.
 
      Key features include:
@@ -1721,3 +1723,5 @@ final class ObsidianMCPServer {
         try await resource.getOutlineStyleEnum()
     }
 }
+
+// swiftlint:enable file_length type_body_length

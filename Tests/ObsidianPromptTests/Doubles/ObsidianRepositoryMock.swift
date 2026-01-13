@@ -46,6 +46,7 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
 
     // MARK: - Unused Protocol Methods
 
+    // swiftlint:disable unavailable_function
     func getPeriodicNote(
         period _: String,
         year _: Int,
@@ -366,4 +367,5 @@ final class ObsidianRepositoryMock: ObsidianRepositoryProtocol {
     ) async throws {
         fatalError("Not implemented for prompt tests")
     }
+    // swiftlint:enable unavailable_function
 }

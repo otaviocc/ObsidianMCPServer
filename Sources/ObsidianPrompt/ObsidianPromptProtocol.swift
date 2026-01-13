@@ -200,7 +200,7 @@ public protocol ObsidianPromptUpdateOperations {
     /// This prompt provides an intelligent assistant that retrieves today's calendar events
     /// and updates the daily note with a structured agenda section. The prompt guides the
     /// process of fetching events from calendar integrations, formatting them in Obsidian
-    /// TODO syntax, and updating the daily note while preserving existing content.
+    /// task syntax, and updating the daily note while preserving existing content.
     ///
     /// Key features of the calendar integration prompt:
     /// - Retrieves calendar events using available calendar MCP tools

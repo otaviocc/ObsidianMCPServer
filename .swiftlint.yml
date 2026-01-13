@@ -1,3 +1,8 @@
+disabled_rules:
+  - vertical_parameter_alignment_on_call  # Conflicts with SwiftFormat's --wrap-arguments before-first
+  - trailing_comma  # SwiftFormat handles this with --trailing-commas never
+  - sorted_imports  # SwiftFormat handles this with --import-grouping testable-last
+
 opt_in_rules:
   - array_init
   - block_based_kvo
@@ -39,7 +44,6 @@ opt_in_rules:
   - redundant_nil_coalescing
   - single_test_class
   - sorted_first_last
-  - sorted_imports
   - static_operator
   - strong_iboutlet
   - switch_case_alignment
@@ -47,7 +51,6 @@ opt_in_rules:
   - unavailable_function
   - unneeded_parentheses_in_closure_argument
   - unused_control_flow_label
-  - vertical_parameter_alignment_on_call
   - vertical_whitespace_closing_braces
   - xct_specific_matcher
   - xctfail_message
@@ -58,3 +61,11 @@ private_outlet:
 
 multiline_parameters:
   allows_single_line: false
+
+excluded:
+  - .build
+  - DerivedData
+  - Pods
+  - Carthage
+  - .git
+  - node_modules

@@ -1,6 +1,8 @@
 import Foundation
 import MicroClient
 
+// swiftlint:disable force_unwrapping
+
 enum NetworkClientMother {
 
     static func makeMockNetworkClient() -> NetworkClientMock {
@@ -15,3 +17,5 @@ enum NetworkClientMother {
         return NetworkClientMock(configuration: configuration)
     }
 }
+
+// swiftlint:enable force_unwrapping
