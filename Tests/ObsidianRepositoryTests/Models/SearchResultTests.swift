@@ -1,3 +1,25 @@
+// MIT License
+//
+// Copyright (c) 2026 Otávio C.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 import Testing
 @testable import ObsidianRepository
 
@@ -5,7 +27,7 @@ import Testing
 struct SearchResultTests {
 
     @Test("It should create SearchResult model correctly")
-    func searchResultModel() throws {
+    func searchResultModel() {
         // Given/When
         let searchResult = SearchResult(path: "notes/test.md", score: 0.85)
 
@@ -21,7 +43,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle zero search score")
-    func zeroSearchScore() throws {
+    func zeroSearchScore() {
         // Given/When
         let searchResult = SearchResult(path: "low-relevance.md", score: 0.0)
 
@@ -37,7 +59,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle maximum search score")
-    func maxSearchScore() throws {
+    func maxSearchScore() {
         // Given/When
         let searchResult = SearchResult(path: "perfect-match.md", score: 1.0)
 
@@ -53,7 +75,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle negative search score")
-    func negativeSearchScore() throws {
+    func negativeSearchScore() {
         // Given/When
         let searchResult = SearchResult(path: "negative.md", score: -0.5)
 
@@ -69,7 +91,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle very high search score")
-    func veryHighSearchScore() throws {
+    func veryHighSearchScore() {
         // Given/When
         let searchResult = SearchResult(path: "high.md", score: 999.99)
 
@@ -85,7 +107,7 @@ struct SearchResultTests {
     }
 
     @Test("It should handle search path with directories")
-    func searchPathWithDirectories() throws {
+    func searchPathWithDirectories() {
         // Given/When
         let searchResult = SearchResult(path: "deep/nested/folders/note.md", score: 0.75)
 
