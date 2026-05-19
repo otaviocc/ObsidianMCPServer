@@ -94,3 +94,7 @@
 --enable preferKeyPath
 --enable sortSwitchCases
 --enable blankLinesBetweenImports
+
+# MARK: - Testing
+--test-case-name-format "preserve"
+--suite-name-format "preserve"
