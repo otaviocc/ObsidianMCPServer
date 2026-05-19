@@ -3,20 +3,25 @@ name: SwiftFormat
 on:
   pull_request:
     branches: [ main ]
-  push:
-    branches: [ main ]
 
 jobs:
   swiftformat:
-    name: SwiftFormat
-    runs-on: macos-latest
+    name: Code Formatting Check
+    runs-on: macos-26
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Install SwiftFormat
-      run: brew install swiftformat
+      - name: Update Homebrew
+        run: |
+          brew update
+          brew doctor || true
 
-    - name: Run SwiftFormat
-      run: swiftformat --lint .
+      - name: Install SwiftFormat (latest in homebrew/core)
+        run: |
+          brew install swiftformat || brew upgrade swiftformat
+          swiftformat --version
+
+      - name: Check code formatting
+        run: swiftformat --lint .
